@@ -1,0 +1,4 @@
+[build]
+# Bundled DuckDB test binaries are large; serial linking keeps local and CI
+# memory use predictable on small runners.
+jobs = 1

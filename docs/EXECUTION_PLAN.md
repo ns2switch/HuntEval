@@ -290,6 +290,8 @@ Raw counts and applicability are always preserved. The first result does not fab
 
 ### PR-05 — Managed DuckDB worker
 
+**Implementation status:** Completed on 2026-08-06.
+
 1. **Objective:** Execute constrained read-only queries over the public fixture in a separate worker process.
 2. **Files and crates affected:** `hunteval-duckdb` library and worker binary, runner worker adapter, SQL policy fixtures.
 3. **Public types and contracts:** `SqlRequest`, `SqlParameters`, `SqlPolicy`, `QueryLimits`, `ToolResult`, `ToolError`, `DuckDbWorker`, and `ManagedTool` trait owned by the runner-facing boundary.

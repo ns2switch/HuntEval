@@ -21,7 +21,9 @@ A future diagnostic layer will use observable run traces to identify systematic 
 
 ## Implementation status
 
-The repository currently contains the PR-01 bootstrap: a secure Rust workspace, infrastructure-independent domain primitives, a CLI skeleton, common schema definitions, and automated architecture, dependency, source-size, formatting, lint, documentation, and test gates. It does not yet execute episodes or evaluate deployments. The implementation sequence and current milestone status are maintained in `docs/EXECUTION_PLAN.md`.
+The repository is implemented through PR-05. It contains infrastructure-independent domain contracts, a bounded JSONL protocol with deterministic replay, a reproducible synthetic AWS episode with physically separated ground truth, a validated episode loader, and a managed DuckDB worker. The worker runs constrained, parameterized, read-only SQL in a separate process with AST validation and time, memory, row, and output limits.
+
+The complete deployment runner, scoring engine, benchmark command, and end-to-end vertical slice remain future milestones. The implementation sequence and current status are maintained in `docs/EXECUTION_PLAN.md`.
 
 ## Development
 
@@ -39,6 +41,12 @@ cargo deny check
 ```
 
 See `CONTRIBUTING.md` for security, Clean Architecture, readability, and review requirements.
+
+Regenerate the canonical AWS fixture with:
+
+```bash
+cargo run -p hunteval-fixture-tool -- generate datasets/aws/aws-iam-001
+```
 
 ## Explicitly out of scope for the initial release
 
