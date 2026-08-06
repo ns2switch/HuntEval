@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hunteval.dev/schemas/v0.3/common.schema.json",
+  "title": "HuntEval common contract primitives",
+  "$defs": {
+    "contract_version": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)$",
+      "examples": ["0.3", "1.0"]
+    },
+    "identifier": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$",
+      "examples": ["run-001", "agent:identity-specialist"]
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[A-Fa-f0-9]{64}$",
+      "examples": ["a729294e84f70580056376922eb39682295983845b00ad2f6a5d2408e07939ba"]
+    },
+    "utc_timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "Z$",
+      "examples": ["2026-08-06T18:00:00Z"]
+    }
+  }
+}

@@ -242,6 +242,8 @@ Raw counts and applicability are always preserved. The first result does not fab
 
 ### PR-01 — Bootstrap the Rust workspace and contract primitives
 
+**Implementation status:** Completed on 2026-08-06.
+
 1. **Objective:** Create the smallest compiling workspace, CI, policy files, domain primitives, and CLI skeleton.
 2. **Files and crates affected:** root `Cargo.toml`, `Cargo.lock`, `rust-toolchain.toml`, `deny.toml`, CI configuration, contribution/security policy files, architecture and source-size check scripts, `crates/hunteval-domain`, `crates/hunteval-cli`, and `schemas/v0.3/`.
 3. **Public types and contracts:** opaque IDs, UTC timestamp wrapper, schema/protocol versions, SHA-256 digest, `HuntEvalError`, and `hunteval --version`.

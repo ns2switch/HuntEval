@@ -19,6 +19,27 @@ A future diagnostic layer will use observable run traces to identify systematic 
 - Configurable scoring profiles and statistical deployment comparison.
 - Optional RAG for knowledge supplied by the hunt author and, later, for querying HuntEval-generated reports.
 
+## Implementation status
+
+The repository currently contains the PR-01 bootstrap: a secure Rust workspace, infrastructure-independent domain primitives, a CLI skeleton, common schema definitions, and automated architecture, dependency, source-size, formatting, lint, documentation, and test gates. It does not yet execute episodes or evaluate deployments. The implementation sequence and current milestone status are maintained in `docs/EXECUTION_PLAN.md`.
+
+## Development
+
+The workspace uses stable Rust. Verify the bootstrap with:
+
+```bash
+cargo run -p hunteval-cli -- --version
+cargo fmt --check
+cargo clippy --workspace --all-targets --all-features -- -D warnings
+cargo test --workspace
+RUSTDOCFLAGS="-D warnings" cargo doc --workspace --no-deps
+cargo deny check
+./scripts/check-dependency-direction.sh
+./scripts/check-source-size.sh
+```
+
+See `CONTRIBUTING.md` for security, Clean Architecture, readability, and review requirements.
+
 ## Explicitly out of scope for the initial release
 
 - Self-RAG as the primary object of evaluation.
