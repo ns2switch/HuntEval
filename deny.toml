@@ -8,6 +8,7 @@ wildcards = "deny"
 [licenses]
 allow = [
     "Apache-2.0",
+    "CC0-1.0",
     "MIT",
     "Unicode-3.0",
 ]

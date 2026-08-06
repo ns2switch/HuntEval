@@ -278,6 +278,8 @@ Raw counts and applicability are always preserved. The first result does not fab
 
 ### PR-04 — Deterministic AWS fixture and episode loader
 
+**Implementation status:** Completed on 2026-08-06.
+
 1. **Objective:** Generate and validate one synthetic AWS identity episode with benign noise and physically separate private truth.
 2. **Files and crates affected:** `datasets/aws/aws-iam-001/`, a deterministic fixture generator under `tools/`, runner episode loader and hasher, fixture documentation.
 3. **Public types and contracts:** `EpisodePackage`, `PublicEpisodePackage`, `ArtifactDigest`, `FixtureSeed`, and loader validation errors.

@@ -1,0 +1,15 @@
+{
+  "schema_version": "0.3",
+  "episode_id": "aws-iam-001",
+  "malicious_event_ids": ["evt-0004", "evt-0005", "evt-0006"],
+  "malicious_entity_ids": [
+    "arn:aws:iam::111122223333:user/alex",
+    "arn:aws:iam::444455556666:role/CrossAccountAdmin"
+  ],
+  "expected_attack_path": ["evt-0004", "evt-0005", "evt-0006"],
+  "expected_attack_techniques": ["T1078", "T1098"],
+  "acceptable_conclusions": [
+    "The alex identity attached an administrative policy and assumed the cross-account administrative role."
+  ],
+  "minimum_evidence_items": 1
+}

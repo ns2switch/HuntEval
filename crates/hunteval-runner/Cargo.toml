@@ -1,0 +1,22 @@
+[package]
+name = "hunteval-runner"
+description = "Trusted orchestration and episode loading for HuntEval"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[dependencies]
+hunteval-domain = { path = "../hunteval-domain", version = "0.1.0" }
+serde.workspace = true
+serde_json.workspace = true
+serde_yaml_ng.workspace = true
+thiserror.workspace = true
+
+[dev-dependencies]
+serde_yaml_ng.workspace = true
+tempfile = "3.25"
+
+[lints]
+workspace = true
