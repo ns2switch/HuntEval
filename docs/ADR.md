@@ -193,3 +193,51 @@ Accuracy-first, cost-aware, and resilience-first use cases require different wei
 **Status:** Accepted.
 
 Documentation, source comments, prompts, examples, schemas, CLI messages, and reports must use English to support an international open-source community.
+
+## ADR-033 — Define a bidirectional JSONL session with runner-authoritative event ordering
+
+**Status:** Accepted.
+
+The runner starts each session with `run_started`, including the public episode descriptor, resolved limits, seed, and supported protocol range. The deployment selects one supported version in `register_deployment`; the runner replies with `registration_accepted` before accepting scored actions. Runner responses identify the deployment message that caused them. The runner assigns authoritative trajectory timestamps and sequence numbers. Deployment timestamps are untrusted metadata and do not determine ordering or budgets. Input is bounded to one UTF-8 JSON object per line, and premature EOF produces a structured process failure.
+
+## ADR-034 — Use separate public and private episode roots and fail closed on isolation
+
+**Status:** Accepted.
+
+An episode package has physically distinct `public` and `private` roots. Only the public root may be exposed read-only to a deployment process. Private paths, ground-truth references, and private hashes are never serialized into deployment-visible messages, environment variables, logs, or resolved public artifacts. The trusted evaluator loads ground truth after the deployment boundary has been established. The MVP supports a documented Linux isolation backend and refuses scored execution when its filesystem or network guarantees cannot be established.
+
+## ADR-035 — Hash exact trajectory bytes and require deterministic replay equivalence
+
+**Status:** Accepted.
+
+The runner serializes each trajectory event once as compact JSONL. Every event after the first contains the SHA-256 of the exact preceding line bytes, including its newline. The run manifest records the SHA-256 of the complete trajectory file. Replay validates framing, sequence continuity, hash links, causal references, and state transitions without external providers, then re-runs deterministic evaluators. Fields declared operationally nondeterministic are excluded from semantic result equivalence but remain protected by artifact hashes.
+
+## ADR-036 — Use a deny-by-default SQL subset with parser and engine enforcement
+
+**Status:** Accepted.
+
+Managed SQL must contain exactly one parsed read-only query. An AST allowlist admits only the explicitly tested relational subset and registered tables/functions. Mutation, DDL, multi-statement input, external scans, filesystem or network functions, extension operations, secrets, and unregistered catalogs are rejected before execution. DuckDB also runs in a separate resource-limited worker with external access disabled. Parser/engine grammar mismatches fail closed; syntax is enabled only with positive and bypass tests.
+
+## ADR-037 — Represent metric applicability explicitly and make missing-value scoring a profile policy
+
+**Status:** Accepted.
+
+Every raw metric records its value or `null`, applicability reason, direction, range, numerator, and denominator where applicable. Episodes explicitly declare whether an empty ground-truth set represents a benign scored case. Scoring profiles choose `reject`, `renormalize`, or `zero` for non-applicable dimensions; the policy is versioned with the weights. A result must never silently coerce missing resilience or reproducibility into a successful score.
+
+## ADR-038 — Treat listed seeds as repetitions and require paired comparison cells
+
+**Status:** Accepted.
+
+A benchmark run cell is deployment × episode × listed seed × declared configuration. The seed list defines the repetitions. If a legacy `repetitions` field is present, it must equal the number of unique listed seeds or validation fails. Pairwise comparisons match deployments by episode, seed, and configuration; missing or failed cells are reported and are not silently replaced.
+
+## ADR-039 — Generate fixtures reproducibly with pinned Parquet canonicalization
+
+**Status:** Accepted.
+
+Synthetic fixtures are generated from versioned source definitions and explicit seeds. Generators pin relevant dependencies, sort rows and stable identifiers deterministically, fix schemas and timestamp encodings, and suppress or normalize writer metadata that would vary between runs. Regeneration must produce byte-identical public and private artifacts, and official fixtures record generator, source, and output hashes.
+
+## ADR-040 — Distinguish trusted, measured, and self-reported resource usage
+
+**Status:** Accepted.
+
+Duration, process status, managed tool calls, rows, messages, and artifact sizes are measured by HuntEval. Token counts and provider cost are trusted only when obtained from a configured verifiable adapter; otherwise they are labeled self-reported or unavailable. Reports and scoring profiles preserve this provenance and cannot apply a hard cost or token constraint to an unverifiable value without marking the run non-comparable.

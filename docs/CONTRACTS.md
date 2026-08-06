@@ -10,7 +10,7 @@ Every protocol message includes:
 - `timestamp`;
 - `type`.
 
-Backward-incompatible changes increment the major protocol version. New optional fields may increment the minor version. Unknown optional fields must be ignored; unknown message types must produce a structured protocol error.
+Backward-incompatible changes increment the major protocol version. New optional fields may increment the minor version. Unknown optional fields must be ignored; unknown message types must produce a structured protocol error. A session has a configured maximum UTF-8 line size; oversized, non-UTF-8, non-object, or multi-value lines are rejected before payload deserialization.
 
 ## 2. Common envelope
 
@@ -24,6 +24,55 @@ Backward-incompatible changes increment the major protocol version. New optional
 }
 ```
 
+Runner messages may also include `caused_by_message_id`. The runner assigns the timestamp and append-only sequence of scored trajectory events. A deployment-supplied timestamp is retained only as untrusted protocol metadata and never controls ordering, duration, timeout, or budget calculations.
+
+### 2.1 Session lifecycle
+
+The runner initiates the bidirectional session:
+
+```json
+{
+  "protocol_version": "0.3",
+  "type": "run_started",
+  "message_id": "msg-runner-001",
+  "run_id": "run-001",
+  "timestamp": "2026-08-06T18:00:00Z",
+  "supported_protocol": {"minimum": "0.3", "maximum": "0.3"},
+  "episode": {
+    "id": "aws-iam-001",
+    "objective": "Identify the compromised principal and reconstruct the escalation path.",
+    "tables": ["aws_cloudtrail", "aws_iam_inventory"]
+  },
+  "limits": {
+    "max_agents": 8,
+    "max_tool_calls": 40,
+    "max_messages": 100,
+    "max_duration_seconds": 900
+  },
+  "seed": 11
+}
+```
+
+The deployment must respond with exactly one `register_deployment`. After validation, the runner sends:
+
+```json
+{
+  "protocol_version": "0.3",
+  "type": "registration_accepted",
+  "message_id": "msg-runner-002",
+  "run_id": "run-001",
+  "timestamp": "2026-08-06T18:00:01Z",
+  "caused_by_message_id": "msg-001",
+  "selected_protocol_version": "0.3",
+  "remaining_budgets": {
+    "tool_calls": 40,
+    "messages": 99
+  }
+}
+```
+
+Scored actions are invalid before `registration_accepted`. Every runner response correlates to its causal deployment message when one exists. A session ends with `run_terminated`. EOF, process exit, or timeout before normal termination creates a structured terminal failure event and a normalized incomplete result.
+
 ## 3. Deployment registration
 
 ```json
@@ -33,6 +82,7 @@ Backward-incompatible changes increment the major protocol version. New optional
   "message_id": "msg-001",
   "run_id": "run-001",
   "timestamp": "2026-08-06T18:00:00Z",
+  "selected_protocol_version": "0.3",
   "deployment": {
     "id": "supervisor-specialists-v1",
     "architecture": "hierarchical",
@@ -181,6 +231,7 @@ Tool results are created by HuntEval, not the deployment.
   "message_id": "msg-031",
   "run_id": "run-001",
   "timestamp": "2026-08-06T18:00:11Z",
+  "caused_by_message_id": "msg-030",
   "action_id": "action-074",
   "tool": "duckdb_sql",
   "status": "success",
@@ -411,16 +462,29 @@ knowledge:
 limits:
   max_agents: 8
   max_parallel_agents: 4
+  max_parallel_tool_calls: 2
+  max_outstanding_tasks: 16
+  max_delegation_depth: 4
   max_tool_calls: 40
   max_sql_queries: 25
+  max_retrieved_documents: 0
   max_messages: 100
   max_duration_seconds: 900
   max_tokens: 150000
+  max_estimated_cost: null
 fault_profile: none
-ground_truth_ref: private/ground-truth.json
 ```
 
-The `ground_truth_ref` is resolved by the trusted runner and is never included in the deployment-visible resolved manifest.
+The public manifest is stored under `public/manifest.yaml`. A trusted package index, which is never exposed to the deployment, binds the physically separate roots:
+
+```yaml
+schema_version: "0.3"
+episode_id: aws-iam-001
+public_root: public
+private_ground_truth: private/ground-truth.json
+```
+
+The runner resolves both roots without following unexpected symlinks. Private paths, ground-truth references, private hashes, and private labels are never included in the deployment-visible descriptor, environment, logs, or resolved public manifest. Scored execution fails closed when the configured isolation backend cannot enforce this boundary.
 
 ## 18. Result contract
 
@@ -431,16 +495,35 @@ The `ground_truth_ref` is resolved by the trusted runner and is never included i
   "episode_id": "aws-iam-001",
   "deployment_id": "supervisor-specialists-v1",
   "status": "completed",
+  "raw_metrics": {
+    "event_precision": {
+      "value": 1.0,
+      "applicability": "applicable",
+      "direction": "higher_is_better",
+      "range": {"minimum": 0.0, "maximum": 1.0},
+      "numerator": 3,
+      "denominator": 3
+    },
+    "reproducibility": {
+      "value": null,
+      "applicability": "requires_repeated_runs",
+      "direction": "higher_is_better",
+      "range": {"minimum": 0.0, "maximum": 1.0},
+      "numerator": null,
+      "denominator": null
+    }
+  },
   "metric_vector": {
     "investigation_quality": 0.84,
     "evidence_quality": 0.79,
     "coordination_quality": 0.71,
-    "resilience": 0.88,
+    "resilience": null,
     "efficiency": 0.62,
     "reproducibility": null
   },
-  "aggregate_scores": {
-    "accuracy-first@1.0.0": 0.792
+  "aggregate_scores": {},
+  "aggregate_score_omissions": {
+    "accuracy-first@1.0.0": "required_dimension_not_applicable"
   },
   "constraint_violations": [],
   "resource_usage": {
@@ -450,7 +533,11 @@ The `ground_truth_ref` is resolved by the trusted runner and is never included i
     "messages": 31,
     "input_tokens": 42000,
     "output_tokens": 9100,
-    "estimated_cost": 1.42
+    "estimated_cost": {
+      "value": 1.42,
+      "provenance": "verified_adapter",
+      "currency": "USD"
+    }
   },
   "artifacts": {
     "trajectory": "trajectory.jsonl",
@@ -459,6 +546,8 @@ The `ground_truth_ref` is resolved by the trusted runner and is never included i
   }
 }
 ```
+
+Runner-observed resource fields are `measured`. Provider-dependent values such as tokens and monetary cost explicitly use provenance `verified_adapter`, `self_reported`, or `unavailable`. A scoring constraint cannot treat a self-reported or unavailable value as verified; the run must instead be marked non-comparable for that constraint.
 
 ## 19. Protocol errors
 

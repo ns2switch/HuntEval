@@ -12,6 +12,8 @@ constraints:
   max_false_positive_rate: 0.20
   no_ground_truth_leakage: true
   no_critical_policy_violation: true
+non_applicable:
+  dimension_policy: reject
 ranking:
   confidence_level: 0.95
-  inconclusive_when_intervals_overlap: true
+  inconclusive_when_paired_difference_includes_zero: true

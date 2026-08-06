@@ -127,6 +127,23 @@ Efficiency metrics should be normalized against benchmark-defined caps or refere
 
 Reproducibility is calculated across repetitions, not within a single run.
 
+### 2.7 Normative MVP metric contracts
+
+Every stored raw metric includes `value`, `applicability`, `direction`, `range`, and its numerator and denominator when the metric is a ratio. `value` is `null` when the applicability reason is not `applicable`. Implementations must not replace `null` with zero or one outside an explicit scoring-profile policy.
+
+| Metric | Range | Direction | Numerator | Denominator | Required edge behavior |
+|---|---:|---|---|---|---|
+| event precision | `[0,1]` | higher is better | submitted malicious event IDs present in truth | unique submitted malicious event IDs | empty submission with non-empty truth is `0`; both empty is `1` only when the episode declares a benign scored case, otherwise not applicable |
+| event recall | `[0,1]` | higher is better | submitted malicious event IDs present in truth | unique ground-truth malicious event IDs | empty submission with non-empty truth is `0`; empty truth is not applicable unless the episode declares a benign scored case |
+| entity precision | `[0,1]` | higher is better | submitted malicious entity IDs present in truth | unique submitted malicious entity IDs | same empty-set policy as event precision |
+| entity recall | `[0,1]` | higher is better | submitted malicious entity IDs present in truth | unique ground-truth malicious entity IDs | same empty-set policy as event recall |
+| evidence grounding rate | `[0,1]` | higher is better | evidence items whose action and event references all validate | submitted evidence items | zero evidence is `0` when findings were submitted; otherwise not applicable |
+| provenance validity | `{0,1}` | higher is better | one when all submitted provenance validates, otherwise zero | one completed or incomplete run | any missing, future, cross-run, forged, or wrong-owner reference produces `0` |
+| task completion rate | `[0,1]` | higher is better | completed tasks | created tasks excluding explicitly superseded cancellations | zero denominator is not applicable |
+| tool-call utilization | `[0,1]` | lower is better | managed tool calls used | configured tool-call cap | zero cap and zero use is not applicable; use above the cap is a budget violation and the raw ratio is clamped only for dimension normalization |
+
+Event and entity inputs are treated as sets after identifier validation, so duplicate submitted identifiers do not increase the numerator or denominator. Raw duplicate counts remain available as diagnostics. Attack-path, timeline, conclusion, semantic coordination, resilience, cost-normalized efficiency, and reproducibility metrics are deferred until their individual contracts define the same fields and tests.
+
 ## 3. Dimension scores
 
 Each dimension score lies in `[0, 1]`. The scoring profile defines metric normalization and weights within a dimension.
@@ -165,6 +182,8 @@ constraints:
   max_false_positive_rate: 0.20
   no_ground_truth_leakage: true
   no_critical_policy_violation: true
+non_applicable:
+  dimension_policy: reject
 ```
 
 Aggregate score:
@@ -192,6 +211,8 @@ A comparison consists of:
 ```text
 deployment x episode x seed x configuration
 ```
+
+The ordered list of unique seeds defines the repetitions. A legacy `repetitions` field may be accepted only when it equals the number of listed seeds; otherwise manifest validation fails. Seeds are paired across deployments for the same episode and declared configuration. Missing and failed cells remain visible and are never imputed silently.
 
 Example:
 
@@ -243,7 +264,7 @@ Recommended order:
 
 1. Remove or flag deployments that violate disqualifying constraints.
 2. Rank remaining deployments by the selected aggregate profile.
-3. Use confidence intervals and pairwise tests to group statistically indistinguishable deployments.
+3. Use confidence intervals for paired differences and pairwise tests to group statistically indistinguishable deployments; overlap of separate marginal confidence intervals is not a decision rule.
 4. Present cost and latency as explicit trade-offs.
 5. Show per-provider and per-scenario-family rankings.
 

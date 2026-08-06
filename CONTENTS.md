@@ -6,6 +6,7 @@ All project documentation, examples, and Codex prompts in this package are writt
 - `README.md`
 - `docs/ADR.md`
 - `docs/CONTRACTS.md`
+- `docs/EXECUTION_PLAN.md`
 - `docs/IMPLEMENTATION_PLAN.md`
 - `docs/METRICS_AND_RANKING.md`
 - `docs/PROMPT_OPTIMIZATION.md`

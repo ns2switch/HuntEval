@@ -37,6 +37,7 @@ A future diagnostic layer will use observable run traces to identify systematic 
 - `docs/PROMPT_OPTIMIZATION.md`: failure diagnosis and prompt improvement workflow.
 - `docs/THREAT_MODEL.md`: threats against the framework and evaluated deployments.
 - `docs/IMPLEMENTATION_PLAN.md`: milestones and acceptance criteria.
+- `docs/EXECUTION_PLAN.md`: executable pull-request sequence, contracts, tests, and quality gates.
 - `docs/ROADMAP.md`: evolution from the MVP to assisted optimization.
 - `AGENTS.md`: permanent development-agent instructions.
 

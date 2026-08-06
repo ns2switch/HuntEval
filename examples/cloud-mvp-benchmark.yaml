@@ -12,7 +12,6 @@ episodes:
   - gcp-iam-001
   - gcp-iam-002
   - gcp-iam-003
-repetitions: 5
 seeds: [11, 23, 37, 41, 53]
 scoring_profile: accuracy-first@1.0.0
 constraints:
