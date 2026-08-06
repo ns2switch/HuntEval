@@ -1,0 +1,21 @@
+schema_version: "0.3"
+id: cloud-multiagent-mvp
+version: 0.3.0
+description: Initial benchmark for comparing multi-agent cloud threat-hunting deployments.
+episodes:
+  - aws-iam-001
+  - aws-iam-002
+  - aws-iam-003
+  - azure-identity-001
+  - azure-identity-002
+  - azure-identity-003
+  - gcp-iam-001
+  - gcp-iam-002
+  - gcp-iam-003
+repetitions: 5
+seeds: [11, 23, 37, 41, 53]
+scoring_profile: accuracy-first@1.0.0
+constraints:
+  equivalent_budgets: true
+  hidden_ground_truth: true
+  managed_tools_only: true
