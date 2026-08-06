@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hunteval.dev/schemas/v0.3/ground-truth.schema.json",
+  "title": "HuntEval private ground truth",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "episode_id", "malicious_event_ids", "malicious_entity_ids", "expected_attack_path", "expected_attack_techniques", "acceptable_conclusions", "minimum_evidence_items"],
+  "properties": {
+    "schema_version": {"$ref": "common.schema.json#/$defs/contract_version"},
+    "episode_id": {"$ref": "common.schema.json#/$defs/identifier"},
+    "malicious_event_ids": {"type": "array", "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/identifier"}},
+    "malicious_entity_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "expected_attack_path": {"type": "array", "items": {"$ref": "common.schema.json#/$defs/identifier"}},
+    "expected_attack_techniques": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "acceptable_conclusions": {"type": "array", "items": {"type": "string", "minLength": 1}},
+    "minimum_evidence_items": {"type": "integer", "minimum": 0}
+  }
+}

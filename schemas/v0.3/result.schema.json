@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hunteval.dev/schemas/v0.3/result.schema.json",
+  "title": "HuntEval normalized run result",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "run_id", "episode_id", "deployment_id", "status", "raw_metrics", "metric_vector", "aggregate_scores", "aggregate_score_omissions", "constraint_violations", "resource_usage", "artifacts"],
+  "properties": {
+    "schema_version": {"$ref": "common.schema.json#/$defs/contract_version"},
+    "run_id": {"$ref": "common.schema.json#/$defs/identifier"},
+    "episode_id": {"$ref": "common.schema.json#/$defs/identifier"},
+    "deployment_id": {"$ref": "common.schema.json#/$defs/identifier"},
+    "status": {"enum": ["completed", "incomplete", "failed", "budget_exceeded", "policy_violation"]},
+    "raw_metrics": {"type": "object"},
+    "metric_vector": {"type": "object"},
+    "aggregate_scores": {"type": "object"},
+    "aggregate_score_omissions": {"type": "object"},
+    "constraint_violations": {"type": "array"},
+    "resource_usage": {"type": "object"},
+    "artifacts": {"type": "object"}
+  }
+}

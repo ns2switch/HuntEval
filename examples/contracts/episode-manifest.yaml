@@ -1,0 +1,30 @@
+schema_version: "0.3"
+id: aws-iam-001
+title: Cross-account privilege escalation
+provider: aws
+category: identity_and_access
+objective:
+  primary: Identify the compromised principal and reconstruct the escalation path.
+  secondary:
+    - Identify impacted resources.
+telemetry:
+  tables:
+    - name: aws_cloudtrail
+      path: telemetry/cloudtrail.parquet
+knowledge:
+  documents: []
+limits:
+  max_agents: 2
+  max_parallel_agents: 2
+  max_parallel_tool_calls: 1
+  max_outstanding_tasks: 8
+  max_delegation_depth: 2
+  max_tool_calls: 10
+  max_sql_queries: 8
+  max_retrieved_documents: 0
+  max_messages: 40
+  max_duration_seconds: 120
+  max_tokens: 20000
+  max_estimated_cost: null
+fault_profile: null
+benign_evaluation: false

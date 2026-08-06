@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hunteval.dev/schemas/v0.3/submission.schema.json",
+  "title": "HuntEval final submission",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["status", "summary", "finding_ids", "malicious_event_ids", "malicious_entity_ids", "attack_path", "attack_techniques", "confidence"],
+  "properties": {
+    "status": {"enum": ["confirmed_malicious_activity", "suspicious_activity", "no_malicious_activity", "inconclusive"]},
+    "summary": {"type": "string", "minLength": 1},
+    "finding_ids": {"type": "array", "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/identifier"}},
+    "malicious_event_ids": {"type": "array", "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/identifier"}},
+    "malicious_entity_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "attack_path": {"type": "array", "items": {"$ref": "common.schema.json#/$defs/identifier"}},
+    "attack_techniques": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+    "limitations": {"type": "array", "items": {"type": "string"}}
+  }
+}

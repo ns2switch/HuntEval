@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hunteval.dev/schemas/v0.3/episode-manifest.schema.json",
+  "title": "HuntEval public episode manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "id", "title", "provider", "category", "objective", "telemetry", "limits", "fault_profile"],
+  "properties": {
+    "schema_version": {"$ref": "common.schema.json#/$defs/contract_version"},
+    "id": {"$ref": "common.schema.json#/$defs/identifier"},
+    "title": {"type": "string", "minLength": 1},
+    "provider": {"enum": ["aws", "azure", "gcp"]},
+    "category": {"type": "string", "minLength": 1},
+    "objective": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["primary"],
+      "properties": {
+        "primary": {"type": "string", "minLength": 1},
+        "secondary": {"type": "array", "items": {"type": "string", "minLength": 1}}
+      }
+    },
+    "telemetry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["tables"],
+      "properties": {
+        "tables": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["name", "path"],
+            "properties": {
+              "name": {"type": "string", "minLength": 1},
+              "path": {"type": "string", "minLength": 1}
+            }
+          }
+        }
+      }
+    },
+    "knowledge": {"type": "object"},
+    "limits": {"type": "object"},
+    "fault_profile": {"type": ["string", "null"]},
+    "benign_evaluation": {"type": "boolean"}
+  }
+}

@@ -254,6 +254,8 @@ Raw counts and applicability are always preserved. The first result does not fab
 
 ### PR-02 — Episode, deployment, and result contracts
 
+**Implementation status:** Completed on 2026-08-06.
+
 1. **Objective:** Implement versioned authored and normalized contracts before process execution.
 2. **Files and crates affected:** domain modules `episode`, `deployment`, `evidence`, `result`, `metrics`; corresponding schemas; canonical examples and negative fixtures.
 3. **Public types and contracts:** `EpisodeManifest`, `EpisodeLimits`, `GroundTruth`, `DeploymentRegistration`, `AgentRegistration`, `Evidence`, `Finding`, `FinalSubmission`, `RunResult`, and `MetricValue` with applicability.

@@ -1,0 +1,10 @@
+{
+  "schema_version": "0.3",
+  "episode_id": "aws-iam-001",
+  "malicious_event_ids": ["evt-0012", "evt-0019"],
+  "malicious_entity_ids": ["principal:suspected", "role:admin"],
+  "expected_attack_path": ["evt-0012", "evt-0019"],
+  "expected_attack_techniques": ["T1078"],
+  "acceptable_conclusions": ["Cross-account privilege escalation"],
+  "minimum_evidence_items": 1
+}

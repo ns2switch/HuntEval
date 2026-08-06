@@ -1,0 +1,49 @@
+{
+  "schema_version": "0.3",
+  "run_id": "run-001",
+  "episode_id": "aws-iam-001",
+  "deployment_id": "two-agent-scripted",
+  "status": "completed",
+  "raw_metrics": {
+    "event_precision": {
+      "value": 1.0,
+      "applicability": "applicable",
+      "direction": "higher_is_better",
+      "range": {"minimum": 0.0, "maximum": 1.0},
+      "numerator": 2,
+      "denominator": 2
+    }
+  },
+  "metric_vector": {
+    "investigation_quality": 1.0,
+    "evidence_quality": null,
+    "coordination_quality": null,
+    "resilience": null,
+    "efficiency": null,
+    "reproducibility": null
+  },
+  "aggregate_scores": {},
+  "aggregate_score_omissions": {
+    "accuracy-first@1.0.0": "required_dimension_not_applicable"
+  },
+  "constraint_violations": [],
+  "resource_usage": {
+    "duration_ms": 100,
+    "tool_calls": 1,
+    "sql_queries": 1,
+    "messages": 4,
+    "input_tokens": null,
+    "output_tokens": null,
+    "token_provenance": "unavailable",
+    "estimated_cost": {
+      "value": null,
+      "provenance": "unavailable",
+      "currency": null
+    }
+  },
+  "artifacts": {
+    "trajectory": "trajectory.jsonl",
+    "submission": "submission.json",
+    "metrics": "metrics.json"
+  }
+}
