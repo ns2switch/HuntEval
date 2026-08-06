@@ -2,6 +2,7 @@
 members = [
     "crates/hunteval-cli",
     "crates/hunteval-domain",
+    "crates/hunteval-protocol",
 ]
 resolver = "2"
 

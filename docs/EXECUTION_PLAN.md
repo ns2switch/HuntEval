@@ -266,6 +266,8 @@ Raw counts and applicability are always preserved. The first result does not fab
 
 ### PR-03 — JSONL protocol session and deterministic replay state
 
+**Implementation status:** Completed on 2026-08-06.
+
 1. **Objective:** Implement bounded framing, handshake, registration, task delegation, evidence, finding, submission, and replay without launching a real deployment.
 2. **Files and crates affected:** `hunteval-protocol`; domain `task` and `trajectory` modules; protocol and trajectory schemas; conformance fixtures.
 3. **Public types and contracts:** `Envelope<T>`, `DeploymentMessage`, `RunnerMessage`, `ProtocolSession`, `TrajectoryEvent`, `ReplayState`, state-transition APIs, and stable protocol error codes.

@@ -1,0 +1,208 @@
+[
+  {
+    "protocol_version": "0.3",
+    "message_id": "runner-001",
+    "run_id": "run-001",
+    "timestamp": "2026-08-06T18:00:00Z",
+    "type": "run_started",
+    "supported_minimum": "0.3",
+    "supported_maximum": "0.3",
+    "episode_id": "aws-iam-001",
+    "objective": "Identify the compromised principal.",
+    "tables": ["aws_cloudtrail"],
+    "limits": {
+      "max_agents": 2,
+      "max_parallel_agents": 2,
+      "max_parallel_tool_calls": 1,
+      "max_outstanding_tasks": 8,
+      "max_delegation_depth": 2,
+      "max_tool_calls": 10,
+      "max_sql_queries": 8,
+      "max_retrieved_documents": 0,
+      "max_messages": 40,
+      "max_duration_seconds": 120,
+      "max_tokens": 20000,
+      "max_estimated_cost": null
+    },
+    "seed": 11
+  },
+  {
+    "protocol_version": "0.3",
+    "message_id": "deployment-001",
+    "run_id": "run-001",
+    "timestamp": "2026-08-06T18:00:01Z",
+    "type": "register_deployment",
+    "selected_protocol_version": "0.3",
+    "deployment": {
+      "id": "two-agent-scripted",
+      "architecture": "supervisor_worker",
+      "version": "0.1.0",
+      "agents": [
+        {
+          "id": "supervisor",
+          "role": "orchestrator",
+          "capabilities": ["delegation", "synthesis"],
+          "prompt_version": "1.0.0",
+          "prompt_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+          "model": "scripted/reference",
+          "model_parameters": {}
+        },
+        {
+          "id": "investigator",
+          "role": "investigator",
+          "capabilities": ["iam_analysis", "sql_query"],
+          "prompt_version": "1.0.0",
+          "prompt_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+          "model": "scripted/reference",
+          "model_parameters": {}
+        }
+      ]
+    }
+  },
+  {
+    "protocol_version": "0.3",
+    "message_id": "runner-002",
+    "run_id": "run-001",
+    "timestamp": "2026-08-06T18:00:02Z",
+    "caused_by_message_id": "deployment-001",
+    "type": "registration_accepted",
+    "selected_protocol_version": "0.3"
+  },
+  {
+    "protocol_version": "0.3",
+    "message_id": "deployment-002",
+    "run_id": "run-001",
+    "timestamp": "2026-08-06T18:00:03Z",
+    "type": "task_created",
+    "agent_id": "supervisor",
+    "task": {
+      "id": "task-001",
+      "objective": "Find suspicious role assumptions.",
+      "priority": "high",
+      "dependencies": [],
+      "required_capabilities": ["iam_analysis"],
+      "parent_task_id": null
+    }
+  },
+  {
+    "protocol_version": "0.3",
+    "message_id": "deployment-003",
+    "run_id": "run-001",
+    "timestamp": "2026-08-06T18:00:04Z",
+    "type": "task_delegated",
+    "agent_id": "supervisor",
+    "task_id": "task-001",
+    "target_agent_id": "investigator",
+    "reason_code": "capability_match"
+  },
+  {
+    "protocol_version": "0.3",
+    "message_id": "deployment-004",
+    "run_id": "run-001",
+    "timestamp": "2026-08-06T18:00:05Z",
+    "type": "task_started",
+    "agent_id": "investigator",
+    "task_id": "task-001"
+  },
+  {
+    "protocol_version": "0.3",
+    "message_id": "deployment-005",
+    "run_id": "run-001",
+    "timestamp": "2026-08-06T18:00:06Z",
+    "type": "tool_request",
+    "agent_id": "investigator",
+    "task_id": "task-001",
+    "action_id": "action-001",
+    "tool": "duckdb_sql",
+    "purpose": "Find role assumptions.",
+    "arguments": {"query": "SELECT event_id FROM aws_cloudtrail"}
+  },
+  {
+    "protocol_version": "0.3",
+    "message_id": "runner-003",
+    "run_id": "run-001",
+    "timestamp": "2026-08-06T18:00:07Z",
+    "caused_by_message_id": "deployment-005",
+    "type": "tool_result",
+    "action_id": "action-001",
+    "tool": "duckdb_sql",
+    "outcome": "success",
+    "event_ids": ["evt-0012", "evt-0019"],
+    "result": {"row_count": 2}
+  },
+  {
+    "protocol_version": "0.3",
+    "message_id": "deployment-006",
+    "run_id": "run-001",
+    "timestamp": "2026-08-06T18:00:08Z",
+    "type": "evidence_shared",
+    "agent_id": "investigator",
+    "task_id": "task-001",
+    "evidence": {
+      "id": "evidence-001",
+      "summary": "The principal assumed an administrative role.",
+      "source_action_ids": ["action-001"],
+      "event_ids": ["evt-0012", "evt-0019"],
+      "entity_ids": ["principal:suspected"],
+      "time_range": null,
+      "confidence": 0.9
+    }
+  },
+  {
+    "protocol_version": "0.3",
+    "message_id": "deployment-007",
+    "run_id": "run-001",
+    "timestamp": "2026-08-06T18:00:09Z",
+    "type": "finding_proposed",
+    "agent_id": "investigator",
+    "task_id": "task-001",
+    "finding": {
+      "id": "finding-001",
+      "title": "Suspicious administrative role assumption",
+      "severity": "high",
+      "evidence_ids": ["evidence-001"],
+      "event_ids": ["evt-0012", "evt-0019"],
+      "entity_ids": ["principal:suspected"],
+      "attack_techniques": ["T1078"],
+      "benign_alternatives": ["Approved emergency access"],
+      "confidence": 0.9
+    }
+  },
+  {
+    "protocol_version": "0.3",
+    "message_id": "deployment-008",
+    "run_id": "run-001",
+    "timestamp": "2026-08-06T18:00:10Z",
+    "type": "task_completed",
+    "agent_id": "investigator",
+    "task_id": "task-001"
+  },
+  {
+    "protocol_version": "0.3",
+    "message_id": "deployment-009",
+    "run_id": "run-001",
+    "timestamp": "2026-08-06T18:00:11Z",
+    "type": "final_submission",
+    "agent_id": "supervisor",
+    "submission": {
+      "status": "confirmed_malicious_activity",
+      "summary": "A compromised principal assumed an administrative role.",
+      "finding_ids": ["finding-001"],
+      "malicious_event_ids": ["evt-0012", "evt-0019"],
+      "malicious_entity_ids": ["principal:suspected"],
+      "attack_path": ["evt-0012", "evt-0019"],
+      "attack_techniques": ["T1078"],
+      "confidence": 0.9,
+      "limitations": []
+    }
+  },
+  {
+    "protocol_version": "0.3",
+    "message_id": "runner-004",
+    "run_id": "run-001",
+    "timestamp": "2026-08-06T18:00:12Z",
+    "caused_by_message_id": "deployment-009",
+    "type": "run_terminated",
+    "status": "completed"
+  }
+]

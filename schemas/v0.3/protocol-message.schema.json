@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hunteval.dev/schemas/v0.3/protocol-message.schema.json",
+  "title": "HuntEval JSONL protocol message",
+  "type": "object",
+  "required": ["protocol_version", "message_id", "run_id", "timestamp", "type"],
+  "properties": {
+    "protocol_version": {"$ref": "common.schema.json#/$defs/contract_version"},
+    "message_id": {"$ref": "common.schema.json#/$defs/identifier"},
+    "run_id": {"$ref": "common.schema.json#/$defs/identifier"},
+    "timestamp": {"$ref": "common.schema.json#/$defs/utc_timestamp"},
+    "caused_by_message_id": {"$ref": "common.schema.json#/$defs/identifier"},
+    "type": {
+      "enum": [
+        "run_started",
+        "register_deployment",
+        "registration_accepted",
+        "task_created",
+        "task_delegated",
+        "task_started",
+        "task_completed",
+        "task_failed",
+        "task_reassigned",
+        "task_cancelled",
+        "tool_request",
+        "tool_result",
+        "evidence_shared",
+        "finding_proposed",
+        "final_submission",
+        "protocol_error",
+        "run_terminated"
+      ]
+    }
+  }
+}

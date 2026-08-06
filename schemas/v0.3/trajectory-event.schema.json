@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hunteval.dev/schemas/v0.3/trajectory-event.schema.json",
+  "title": "HuntEval stored trajectory event",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "sequence", "previous_event_sha256", "envelope"],
+  "properties": {
+    "schema_version": {"$ref": "common.schema.json#/$defs/contract_version"},
+    "sequence": {"type": "integer", "minimum": 1},
+    "previous_event_sha256": {
+      "oneOf": [
+        {"$ref": "common.schema.json#/$defs/sha256"},
+        {"type": "null"}
+      ]
+    },
+    "envelope": {"$ref": "protocol-message.schema.json"}
+  }
+}

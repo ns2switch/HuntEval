@@ -11,6 +11,7 @@ mod evidence;
 mod id;
 mod metrics;
 mod result;
+mod task;
 mod timestamp;
 mod version;
 
@@ -33,5 +34,6 @@ pub use result::{
     ArtifactReferences, ConstraintViolation, MetricVector, ResourceProvenance, ResourceUsage,
     RunResult, RunStatus, SourcedCost,
 };
+pub use task::{TaskPriority, TaskRecord, TaskSpec, TaskState};
 pub use timestamp::{TimestampError, UtcTimestamp};
 pub use version::{ContractVersion, ProtocolVersion, SchemaVersion, VersionParseError};
