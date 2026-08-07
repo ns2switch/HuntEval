@@ -90,6 +90,7 @@ cargo run -p hunteval-fixture-tool -- generate datasets/aws/aws-iam-001
 - `docs/EXECUTION_PLAN.md`: executable pull-request sequence, contracts, tests, and quality gates.
 - `docs/ROADMAP.md`: prioritized post-MVP releases, dependencies, and exit criteria through v1.0.
 - `docs/BENCHMARK_CLI.md`: benchmark execution, recovery, comparison, output, and exit-code reference.
+- `docs/USE_CASE_CLOUD_DEPLOYMENT_COMPARISON.md`: end-to-end example comparing two deployments over the 36-cell cloud MVP matrix.
 - `docs/R2_IMPLEMENTATION_PLAN.md`: canonical delivery status, dependency order, implementation steps, and acceptance gates through R2-18.
 - `AGENTS.md`: permanent development-agent instructions.
 
