@@ -147,7 +147,6 @@ pub struct ScoringProfile {
     pub id: String,
     pub missing_metric_policy: MissingMetricPolicy,
     pub metrics: BTreeMap<String, MetricSelection>,
-    #[serde(default)]
     pub constraints: Vec<ScoringConstraint>,
 }
 

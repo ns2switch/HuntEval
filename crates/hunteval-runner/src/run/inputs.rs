@@ -1,6 +1,7 @@
 use std::{
     collections::BTreeMap,
     fs,
+    io::Read,
     path::{Component, Path, PathBuf},
 };
 
@@ -10,6 +11,8 @@ use serde::Deserialize;
 use thiserror::Error;
 
 use crate::{EpisodeLoadError, EpisodePackage, hash_file};
+
+const MAX_SCORING_PROFILE_BYTES: u64 = 1024 * 1024;
 
 #[derive(Debug, Deserialize)]
 #[serde(deny_unknown_fields)]
@@ -81,7 +84,7 @@ impl ResolvedRunInputs {
             Some(path) => resolve_override(path)?,
             None => resolve_regular(deployment_root, &deployment.process.executable)?,
         };
-        let scoring_bytes = read_regular(scoring_profile)?;
+        let scoring_bytes = read_scoring_profile(scoring_profile)?;
         let scoring_profile = parse_scoring_profile(&scoring_bytes)?;
         let schema_bytes = read_regular(schema_contract)?;
         let environment = deployment
@@ -139,7 +142,7 @@ impl ResolvedRunInputs {
 
 /// Loads and explicitly normalizes a v0.3 or v0.4 scoring profile.
 pub fn load_scoring_profile(path: &Path) -> Result<ScoringProfile, RunInputError> {
-    parse_scoring_profile(&read_regular(path)?)
+    parse_scoring_profile(&read_scoring_profile(path)?)
 }
 
 fn parse_scoring_profile(bytes: &[u8]) -> Result<ScoringProfile, RunInputError> {
@@ -187,6 +190,25 @@ fn read_regular(path: &Path) -> Result<Vec<u8>, RunInputError> {
         return Err(RunInputError::UnsafePath);
     }
     fs::read(path).map_err(RunInputError::Io)
+}
+
+fn read_scoring_profile(path: &Path) -> Result<Vec<u8>, RunInputError> {
+    let metadata = fs::symlink_metadata(path).map_err(RunInputError::Io)?;
+    if metadata.file_type().is_symlink() || !metadata.is_file() {
+        return Err(RunInputError::UnsafePath);
+    }
+    if metadata.len() > MAX_SCORING_PROFILE_BYTES {
+        return Err(RunInputError::InvalidScoringProfile);
+    }
+    let file = fs::File::open(path).map_err(RunInputError::Io)?;
+    let mut bytes = Vec::with_capacity(metadata.len() as usize);
+    file.take(MAX_SCORING_PROFILE_BYTES + 1)
+        .read_to_end(&mut bytes)
+        .map_err(RunInputError::Io)?;
+    if bytes.len() as u64 > MAX_SCORING_PROFILE_BYTES {
+        return Err(RunInputError::InvalidScoringProfile);
+    }
+    Ok(bytes)
 }
 
 fn resolve_regular(root: &Path, relative: &str) -> Result<PathBuf, RunInputError> {

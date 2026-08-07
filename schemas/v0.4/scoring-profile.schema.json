@@ -13,20 +13,35 @@
       "type": "object",
       "minProperties": 1,
       "maxProperties": 64,
-      "propertyNames": {
-        "enum": [
-          "event_precision", "event_recall", "entity_precision", "entity_recall",
-          "evidence_grounding", "provenance_validity", "task_completion",
-          "tool_call_utilization", "resilience", "graceful_degradation",
-          "attack_path_precision", "attack_path_recall", "timeline_precision",
-          "timeline_recall", "conclusion_correctness", "technique_precision",
-          "technique_recall", "evidence_event_coverage", "evidence_entity_coverage",
-          "evidence_sufficiency", "duplicate_tool_work", "useful_communication",
-          "measured_duration_utilization", "verified_cost_utilization",
-          "submission_stability", "metric_stability"
-        ]
-      },
-      "additionalProperties": {"$ref": "#/$defs/metric_selection"}
+      "additionalProperties": false,
+      "properties": {
+        "event_precision": {"$ref": "#/$defs/metric_selection_v03"},
+        "event_recall": {"$ref": "#/$defs/metric_selection_v03"},
+        "entity_precision": {"$ref": "#/$defs/metric_selection_v03"},
+        "entity_recall": {"$ref": "#/$defs/metric_selection_v03"},
+        "evidence_grounding": {"$ref": "#/$defs/metric_selection_v03"},
+        "provenance_validity": {"$ref": "#/$defs/metric_selection_v03"},
+        "task_completion": {"$ref": "#/$defs/metric_selection_v03"},
+        "tool_call_utilization": {"$ref": "#/$defs/metric_selection_v03"},
+        "resilience": {"$ref": "#/$defs/metric_selection_v03"},
+        "graceful_degradation": {"$ref": "#/$defs/metric_selection_v03"},
+        "attack_path_precision": {"$ref": "#/$defs/metric_selection_v04"},
+        "attack_path_recall": {"$ref": "#/$defs/metric_selection_v04"},
+        "timeline_precision": {"$ref": "#/$defs/metric_selection_v04"},
+        "timeline_recall": {"$ref": "#/$defs/metric_selection_v04"},
+        "conclusion_correctness": {"$ref": "#/$defs/metric_selection_v04"},
+        "technique_precision": {"$ref": "#/$defs/metric_selection_v04"},
+        "technique_recall": {"$ref": "#/$defs/metric_selection_v04"},
+        "evidence_event_coverage": {"$ref": "#/$defs/metric_selection_v04"},
+        "evidence_entity_coverage": {"$ref": "#/$defs/metric_selection_v04"},
+        "evidence_sufficiency": {"$ref": "#/$defs/metric_selection_v04"},
+        "duplicate_tool_work": {"$ref": "#/$defs/metric_selection_v04"},
+        "useful_communication": {"$ref": "#/$defs/metric_selection_v04"},
+        "measured_duration_utilization": {"$ref": "#/$defs/metric_selection_v04"},
+        "verified_cost_utilization": {"$ref": "#/$defs/metric_selection_v04"},
+        "submission_stability": {"$ref": "#/$defs/metric_selection_v04"},
+        "metric_stability": {"$ref": "#/$defs/metric_selection_v04"}
+      }
     },
     "constraints": {
       "type": "array",
@@ -38,36 +53,22 @@
     }
   },
   "$defs": {
-    "metric_name": {
-      "type": "string",
-      "enum": [
-        "event_precision", "event_recall", "entity_precision", "entity_recall",
-        "evidence_grounding", "provenance_validity", "task_completion",
-        "tool_call_utilization", "resilience", "graceful_degradation",
-        "attack_path_precision", "attack_path_recall", "timeline_precision",
-        "timeline_recall", "conclusion_correctness", "technique_precision",
-        "technique_recall", "evidence_event_coverage", "evidence_entity_coverage",
-        "evidence_sufficiency", "duplicate_tool_work", "useful_communication",
-        "measured_duration_utilization", "verified_cost_utilization",
-        "submission_stability", "metric_stability"
-      ]
-    },
-    "metric_selection": {
+    "metric_selection_v03": {
       "type": "object",
       "additionalProperties": false,
       "required": ["version", "weight"],
       "properties": {
-        "version": {"enum": ["0.3", "0.4"]},
+        "version": {"const": "0.3"},
         "weight": {"type": "number", "minimum": 0, "maximum": 1}
       }
     },
-    "metric_reference": {
+    "metric_selection_v04": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["name", "version"],
+      "required": ["version", "weight"],
       "properties": {
-        "name": {"$ref": "#/$defs/metric_name"},
-        "version": {"enum": ["0.3", "0.4"]}
+        "version": {"const": "0.4"},
+        "weight": {"type": "number", "minimum": 0, "maximum": 1}
       }
     },
     "observed_constraint": {
@@ -87,11 +88,94 @@
       "properties": {
         "kind": {"const": "metric_threshold"},
         "code": {"type": "string", "pattern": "^[a-z0-9_]{1,128}$"},
-        "metric": {"$ref": "#/$defs/metric_reference"},
+        "metric": {"type": "object"},
         "comparison": {"enum": ["minimum", "maximum"]},
         "threshold": {"type": "number", "minimum": 0, "maximum": 1},
         "disqualifying": {"type": "boolean"},
         "required_resource_provenance": {"enum": ["none", "measured", "verified_adapter"]}
+      },
+      "oneOf": [
+        {
+          "properties": {
+            "metric": {"$ref": "#/$defs/non_resource_metric_reference"},
+            "required_resource_provenance": {"const": "none"}
+          }
+        },
+        {
+          "properties": {
+            "metric": {"$ref": "#/$defs/measured_metric_reference"},
+            "required_resource_provenance": {"const": "measured"}
+          }
+        },
+        {
+          "properties": {
+            "metric": {"$ref": "#/$defs/verified_metric_reference"},
+            "required_resource_provenance": {"const": "verified_adapter"}
+          }
+        }
+      ]
+    },
+    "non_resource_metric_reference": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["name", "version"],
+          "properties": {
+            "name": {"enum": [
+              "event_precision", "event_recall", "entity_precision", "entity_recall",
+              "evidence_grounding", "provenance_validity", "task_completion",
+              "resilience", "graceful_degradation"
+            ]},
+            "version": {"const": "0.3"}
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["name", "version"],
+          "properties": {
+            "name": {"enum": [
+              "attack_path_precision", "attack_path_recall", "timeline_precision",
+              "timeline_recall", "conclusion_correctness", "technique_precision",
+              "technique_recall", "evidence_event_coverage", "evidence_entity_coverage",
+              "evidence_sufficiency", "duplicate_tool_work", "useful_communication",
+              "submission_stability", "metric_stability"
+            ]},
+            "version": {"const": "0.4"}
+          }
+        }
+      ]
+    },
+    "measured_metric_reference": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["name", "version"],
+          "properties": {
+            "name": {"const": "tool_call_utilization"},
+            "version": {"const": "0.3"}
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["name", "version"],
+          "properties": {
+            "name": {"const": "measured_duration_utilization"},
+            "version": {"const": "0.4"}
+          }
+        }
+      ]
+    },
+    "verified_metric_reference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "version"],
+      "properties": {
+        "name": {"const": "verified_cost_utilization"},
+        "version": {"const": "0.4"}
       }
     }
   }

@@ -163,7 +163,7 @@ metrics:
 constraints: []
 ```
 
-The missing-value policy is one of `reject`, `renormalize`, or `zero`. Missing resilience, graceful degradation, submission stability, metric stability, reproducibility, or verified cost cannot be renormalized away: `reject` and `renormalize` produce no aggregate, while `zero` applies an explicit worst contribution.
+The missing-value policy is one of `reject`, `renormalize`, or `zero`. Missing resilience, graceful degradation, submission stability, metric stability, or verified cost cannot be renormalized away: `reject` and `renormalize` produce no aggregate, while `zero` applies an explicit worst contribution. Reproducibility is represented by the exact `submission_stability` and `metric_stability` contracts rather than a generic selectable metric.
 
 ## 4. Aggregate profiles
 

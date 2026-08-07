@@ -63,6 +63,11 @@ pub(super) fn validate_profile(profile: &ScoringProfile) -> Result<(), ProfileEr
         || profile.id.len() > 128
         || !profile
             .id
+            .as_bytes()
+            .first()
+            .is_some_and(u8::is_ascii_alphanumeric)
+        || !profile
+            .id
             .bytes()
             .all(|byte| byte.is_ascii_alphanumeric() || matches!(byte, b'.' | b'_' | b':' | b'-'))
         || profile.metrics.is_empty()

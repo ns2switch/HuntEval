@@ -60,6 +60,35 @@ fn profile_compatibility_rejects_unknown_versions_and_metrics()
     Ok(())
 }
 
+#[test]
+fn profile_loader_rejects_oversized_files_and_symlinks() -> Result<(), Box<dyn std::error::Error>> {
+    let temporary = tempfile::tempdir()?;
+    let oversized = temporary.path().join("oversized.yaml");
+    fs::write(&oversized, vec![b' '; 1024 * 1024 + 1])?;
+    assert!(matches!(
+        load_scoring_profile(&oversized),
+        Err(RunInputError::InvalidScoringProfile)
+    ));
+
+    #[cfg(unix)]
+    {
+        use std::os::unix::fs::symlink;
+
+        let target = temporary.path().join("target.yaml");
+        fs::write(
+            &target,
+            "schema_version: '0.4'\nid: valid\nmissing_metric_policy: reject\nmetrics:\n  event_recall: {version: '0.3', weight: 1.0}\nconstraints: []\n",
+        )?;
+        let link = temporary.path().join("profile.yaml");
+        symlink(target, &link)?;
+        assert!(matches!(
+            load_scoring_profile(&link),
+            Err(RunInputError::UnsafePath)
+        ));
+    }
+    Ok(())
+}
+
 fn workspace_root() -> Result<PathBuf, io::Error> {
     PathBuf::from(env!("CARGO_MANIFEST_DIR"))
         .parent()

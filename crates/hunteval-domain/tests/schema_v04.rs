@@ -194,6 +194,52 @@ fn public_v04_contracts_reject_private_and_unknown_fields() -> Result<(), Box<dy
     let mut profile = yaml_example("examples/contracts/v0.4/scoring-profile.yaml")?;
     profile["constraints"][0]["required_resource_provenance"] = Value::Null;
     assert!(validate(&schemas, "v0.4", "scoring-profile.schema.json", &profile).is_err());
+
+    let canonical_profile = yaml_example("examples/contracts/v0.4/scoring-profile.yaml")?;
+
+    let mut wrong_metric_version = canonical_profile.clone();
+    wrong_metric_version["metrics"]["event_recall"]["version"] = Value::String("0.4".into());
+    assert!(
+        validate(
+            &schemas,
+            "v0.4",
+            "scoring-profile.schema.json",
+            &wrong_metric_version
+        )
+        .is_err()
+    );
+
+    let mut weakened_provenance = canonical_profile.clone();
+    weakened_provenance["constraints"][0]["required_resource_provenance"] =
+        Value::String("none".into());
+    assert!(
+        validate(
+            &schemas,
+            "v0.4",
+            "scoring-profile.schema.json",
+            &weakened_provenance
+        )
+        .is_err()
+    );
+
+    let mut missing_constraints = canonical_profile.clone();
+    missing_constraints
+        .as_object_mut()
+        .ok_or("profile example is not an object")?
+        .remove("constraints");
+    assert!(
+        validate(
+            &schemas,
+            "v0.4",
+            "scoring-profile.schema.json",
+            &missing_constraints
+        )
+        .is_err()
+    );
+
+    let mut invalid_id = canonical_profile;
+    invalid_id["id"] = Value::String("-invalid".into());
+    assert!(validate(&schemas, "v0.4", "scoring-profile.schema.json", &invalid_id).is_err());
     Ok(())
 }
 

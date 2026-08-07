@@ -84,7 +84,6 @@ fn record_missing(
         name,
         "resilience"
             | "graceful_degradation"
-            | "reproducibility"
             | "submission_stability"
             | "metric_stability"
             | "verified_cost_utilization"

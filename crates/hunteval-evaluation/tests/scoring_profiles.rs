@@ -1,4 +1,8 @@
-use std::collections::{BTreeMap, BTreeSet};
+use std::{
+    collections::{BTreeMap, BTreeSet},
+    fs,
+    path::PathBuf,
+};
 
 use hunteval_domain::{
     Applicability, MetricDirection, MetricRange, MetricValue, ResourceProvenance, SchemaVersion,
@@ -43,26 +47,47 @@ fn scoring_profiles_apply_every_missing_value_policy() -> Result<(), Box<dyn std
 #[test]
 fn scoring_profiles_never_renormalize_missing_protected_metrics()
 -> Result<(), Box<dyn std::error::Error>> {
-    let profile = ScoringProfile {
-        schema_version: V04,
-        id: "cost-aware".into(),
-        missing_metric_policy: MissingMetricPolicy::Renormalize,
-        metrics: BTreeMap::from([
-            ("event_recall".into(), selection(V03, 0.5)),
-            ("verified_cost_utilization".into(), selection(V04, 0.5)),
-        ]),
-        constraints: Vec::new(),
-    };
-    let metrics = MetricVector(BTreeMap::from([(
-        "event_recall".into(),
-        metric(Some(1.0), MetricDirection::HigherIsBetter),
-    )]));
-    assert_eq!(score_profile(&metrics, &profile)?.value, None);
+    for (name, version) in [
+        ("resilience", V03),
+        ("graceful_degradation", V03),
+        ("verified_cost_utilization", V04),
+        ("submission_stability", V04),
+        ("metric_stability", V04),
+    ] {
+        let profile = ScoringProfile {
+            schema_version: V04,
+            id: "protected-metric".into(),
+            missing_metric_policy: MissingMetricPolicy::Renormalize,
+            metrics: BTreeMap::from([
+                ("event_recall".into(), selection(V03, 0.5)),
+                (name.into(), selection(version, 0.5)),
+            ]),
+            constraints: Vec::new(),
+        };
+        let metrics = MetricVector(BTreeMap::from([(
+            "event_recall".into(),
+            metric(Some(1.0), MetricDirection::HigherIsBetter),
+        )]));
+        assert_eq!(score_profile(&metrics, &profile)?.value, None, "{name}");
 
-    let mut zero = profile;
-    zero.missing_metric_policy = MissingMetricPolicy::Zero;
-    assert_eq!(score_profile(&metrics, &zero)?.value, Some(0.5));
+        let mut zero = profile;
+        zero.missing_metric_policy = MissingMetricPolicy::Zero;
+        assert_eq!(score_profile(&metrics, &zero)?.value, Some(0.5), "{name}");
+    }
     Ok(())
+}
+
+#[test]
+fn scoring_profiles_require_schema_aligned_ids_and_constraint_field() {
+    let missing_constraints = b"schema_version: '0.4'\nid: valid\nmissing_metric_policy: reject\nmetrics:\n  event_recall: {version: '0.3', weight: 1.0}\n";
+    assert!(serde_yaml_ng::from_slice::<ScoringProfileArtifact>(missing_constraints).is_err());
+
+    let mut invalid_id = profile(MissingMetricPolicy::Reject);
+    invalid_id.id = "-invalid".into();
+    assert_eq!(
+        score_profile(&MetricVector::default(), &invalid_id),
+        Err(ProfileError::InvalidProfile)
+    );
 }
 
 #[test]
@@ -166,6 +191,62 @@ fn scoring_profiles_require_verified_cost_for_hard_constraints()
 }
 
 #[test]
+fn scoring_profiles_enforce_every_registered_resource_requirement()
+-> Result<(), Box<dyn std::error::Error>> {
+    for (name, version, requirement) in [
+        (
+            "tool_call_utilization",
+            V03,
+            ResourceProvenanceRequirement::Measured,
+        ),
+        (
+            "measured_duration_utilization",
+            V04,
+            ResourceProvenanceRequirement::Measured,
+        ),
+        (
+            "verified_cost_utilization",
+            V04,
+            ResourceProvenanceRequirement::VerifiedAdapter,
+        ),
+    ] {
+        let profile = threshold_profile(name, version, requirement);
+        let metrics = MetricVector(BTreeMap::from([(
+            name.into(),
+            metric(Some(0.4), MetricDirection::LowerIsBetter),
+        )]));
+        let observed = BTreeSet::new();
+        let missing = BTreeMap::new();
+        let evaluations = evaluate_constraints(
+            ConstraintInput {
+                observed_violations: &observed,
+                metrics: &metrics,
+                resource_provenance: &missing,
+            },
+            &profile,
+        )?;
+        assert_eq!(evaluations[0].status, ConstraintStatus::Unverifiable);
+
+        let actual = match requirement {
+            ResourceProvenanceRequirement::Measured => ResourceProvenance::Measured,
+            ResourceProvenanceRequirement::VerifiedAdapter => ResourceProvenance::VerifiedAdapter,
+            ResourceProvenanceRequirement::None => unreachable!(),
+        };
+        let provenance = BTreeMap::from([(name.into(), actual)]);
+        let evaluations = evaluate_constraints(
+            ConstraintInput {
+                observed_violations: &observed,
+                metrics: &metrics,
+                resource_provenance: &provenance,
+            },
+            &profile,
+        )?;
+        assert_eq!(evaluations[0].status, ConstraintStatus::Satisfied);
+    }
+    Ok(())
+}
+
+#[test]
 fn scoring_profiles_mark_disqualifying_observed_constraints()
 -> Result<(), Box<dyn std::error::Error>> {
     let mut profile = profile(MissingMetricPolicy::Reject);
@@ -244,6 +325,44 @@ fn scoring_profiles_registry_is_unique_and_controls_lower_is_better_normalizatio
     Ok(())
 }
 
+#[test]
+fn scoring_profile_schema_metric_selections_match_the_registry()
+-> Result<(), Box<dyn std::error::Error>> {
+    let manifest_dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
+    let root = manifest_dir
+        .parent()
+        .and_then(std::path::Path::parent)
+        .ok_or("evaluation crate is not inside the workspace")?;
+    let schema: serde_json::Value = serde_json::from_slice(&fs::read(
+        root.join("schemas/v0.4/scoring-profile.schema.json"),
+    )?)?;
+    let selections = schema["properties"]["metrics"]["properties"]
+        .as_object()
+        .ok_or("scoring profile metric properties are missing")?;
+    let schema_names = selections
+        .keys()
+        .map(String::as_str)
+        .collect::<BTreeSet<_>>();
+    let registry_names = metric_contracts()
+        .iter()
+        .map(|contract| contract.name)
+        .collect::<BTreeSet<_>>();
+    assert_eq!(schema_names, registry_names);
+
+    for contract in metric_contracts() {
+        let reference = selections[contract.name]["$ref"]
+            .as_str()
+            .ok_or("metric selection reference is missing")?;
+        let expected = match (contract.version.major(), contract.version.minor()) {
+            (0, 3) => "#/$defs/metric_selection_v03",
+            (0, 4) => "#/$defs/metric_selection_v04",
+            _ => return Err("registry contains an unsupported schema version".into()),
+        };
+        assert_eq!(reference, expected, "{}", contract.name);
+    }
+    Ok(())
+}
+
 fn profile(policy: MissingMetricPolicy) -> ScoringProfile {
     ScoringProfile {
         schema_version: V04,
@@ -273,6 +392,30 @@ fn cost_constraint_profile(required: ResourceProvenanceRequirement) -> ScoringPr
             threshold: 0.5,
             disqualifying: true,
             required_resource_provenance: required,
+        }],
+    }
+}
+
+fn threshold_profile(
+    name: &str,
+    version: SchemaVersion,
+    requirement: ResourceProvenanceRequirement,
+) -> ScoringProfile {
+    ScoringProfile {
+        schema_version: V04,
+        id: "resource-threshold".into(),
+        missing_metric_policy: MissingMetricPolicy::Reject,
+        metrics: BTreeMap::from([("event_recall".into(), selection(V03, 1.0))]),
+        constraints: vec![ScoringConstraint::MetricThreshold {
+            code: "maximum_resource".into(),
+            metric: MetricReference {
+                name: name.into(),
+                version,
+            },
+            comparison: ThresholdComparison::Maximum,
+            threshold: 0.5,
+            disqualifying: true,
+            required_resource_provenance: requirement,
         }],
     }
 }
