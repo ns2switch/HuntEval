@@ -398,6 +398,8 @@ Raw counts and applicability are always preserved. The first result does not fab
 
 ### PR-14 — Optional local knowledge retrieval
 
+**Implementation status:** Completed on 2026-08-07.
+
 1. **Objective:** Add author-provided retrieval without making it a benchmark requirement.
 2. **Files and crates affected:** new `hunteval-knowledge` crate, managed-tool adapter, document schema, injection fixtures.
 3. **Public types and contracts:** `KnowledgeManifest`, `DocumentId`, `RetrievalRequest`, `RetrievalResult`, `Citation`, and local index adapter trait.

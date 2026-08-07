@@ -9,6 +9,7 @@ mod budget;
 mod episode_loader;
 mod faults;
 mod hashing;
+mod knowledge;
 mod managed_tool;
 mod orchestrator;
 mod policy;
@@ -24,6 +25,7 @@ pub use episode_loader::{ArtifactDigests, EpisodeLoadError, EpisodePackage, Publ
 pub use faults::FaultController;
 pub use hashing::{HashingError, hash_file};
 pub use hunteval_reporting::ReportFormat;
+pub use knowledge::{KnowledgeController, KnowledgeControllerError};
 pub use managed_tool::{ManagedTool, ManagedToolError};
 pub use orchestrator::{OrchestratorError, RunConfig, RunOrchestrator, RunTerminalStatus};
 pub use policy::{IsolationPolicy, PolicyError};

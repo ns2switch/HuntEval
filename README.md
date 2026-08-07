@@ -21,9 +21,9 @@ A future diagnostic layer will use observable run traces to identify systematic 
 
 ## Implementation status
 
-The repository is implemented through PR-13. Normalized run results can now be rendered as deterministic JSON or portable static HTML. Reports label incomplete runs, cite their source metrics and artifacts, escape untrusted text, contain no active scripts, and are written atomically.
+The repository is implemented through PR-14. Optional local knowledge retrieval is disabled by default, has no network path, remains confined to a validated corpus root, rejects symlink and traversal escapes, and enforces query, document, and output budgets. Retrieved documents are explicitly marked as untrusted and carry exact citations.
 
-Optional local knowledge retrieval and controlled diagnostic experiments remain future milestones. The implementation sequence and current status are maintained in `docs/EXECUTION_PLAN.md`.
+Deterministic failure diagnosis and controlled improvement experiments remain the final planned milestone. The implementation sequence and current status are maintained in `docs/EXECUTION_PLAN.md`.
 
 ## Quick start
 
