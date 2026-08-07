@@ -2,7 +2,11 @@ use std::collections::BTreeSet;
 
 use serde::{Deserialize, Serialize};
 
-use crate::{ContractValidationError, EpisodeId, EventId, SchemaVersion};
+use crate::{ContractValidationError, EpisodeId, SchemaVersion};
+
+mod ground_truth;
+
+pub use ground_truth::{ExpectedTimelineWindow, GroundTruth};
 
 /// Cloud provider represented by an episode.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
@@ -151,25 +155,6 @@ impl EpisodeLimits {
         }
         Ok(())
     }
-}
-
-/// Trusted evaluator-only ground truth loaded from the private episode root.
-#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct GroundTruth {
-    pub schema_version: SchemaVersion,
-    pub episode_id: EpisodeId,
-    #[serde(default)]
-    pub malicious_event_ids: BTreeSet<EventId>,
-    #[serde(default)]
-    pub malicious_entity_ids: BTreeSet<String>,
-    #[serde(default)]
-    pub expected_attack_path: Vec<EventId>,
-    #[serde(default)]
-    pub expected_attack_techniques: BTreeSet<String>,
-    #[serde(default)]
-    pub acceptable_conclusions: Vec<String>,
-    pub minimum_evidence_items: u32,
 }
 
 fn require_text(value: &str, field: &'static str) -> Result<(), ContractValidationError> {

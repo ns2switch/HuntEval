@@ -6,6 +6,14 @@ use thiserror::Error;
 use super::types::{ObservedToolOutcome, TrustedRunInput};
 
 pub(super) fn validate_input(input: &TrustedRunInput) -> Result<(), TrustedViewError> {
+    input
+        .ground_truth
+        .validate()
+        .map_err(|_| TrustedViewError::InvalidGroundTruth)?;
+    input
+        .submission
+        .validate()
+        .map_err(|_| TrustedViewError::InvalidSubmission)?;
     if input.observed.run_id != input.provenance.run_id {
         return Err(TrustedViewError::CrossRunReference);
     }
@@ -13,6 +21,9 @@ pub(super) fn validate_input(input: &TrustedRunInput) -> Result<(), TrustedViewE
         return Err(TrustedViewError::EpisodeMismatch);
     }
     if input.submission != input.terminal_submission {
+        return Err(TrustedViewError::SubmissionMismatch);
+    }
+    if input.observed.timeline != input.submission.timeline {
         return Err(TrustedViewError::SubmissionMismatch);
     }
     if input.observed.actions.len() as u64 > input.tool_call_limit {
@@ -118,15 +129,18 @@ fn validate_submission(input: &TrustedRunInput) -> Result<(), TrustedViewError> 
 }
 
 fn validate_timeline_references(input: &TrustedRunInput) -> Result<(), TrustedViewError> {
-    for entry in &input.observed.timeline {
+    for entry in input.observed.timeline.iter().flatten() {
         if !input
             .submission
             .malicious_event_ids
             .contains(&entry.event_id)
-            || !entry
-                .evidence_ids
-                .iter()
-                .all(|id| input.observed.evidence.contains_key(id))
+            || !entry.evidence_ids.iter().all(|id| {
+                input
+                    .observed
+                    .evidence
+                    .get(id)
+                    .is_some_and(|evidence| evidence.evidence.event_ids.contains(&entry.event_id))
+            })
         {
             return Err(TrustedViewError::InvalidTimelineReference);
         }
@@ -136,6 +150,10 @@ fn validate_timeline_references(input: &TrustedRunInput) -> Result<(), TrustedVi
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Error)]
 pub enum TrustedViewError {
+    #[error("trusted view ground truth is invalid")]
+    InvalidGroundTruth,
+    #[error("trusted view submission is invalid")]
+    InvalidSubmission,
     #[error("trusted view contains a cross-run reference")]
     CrossRunReference,
     #[error("trusted view episode does not match ground truth")]

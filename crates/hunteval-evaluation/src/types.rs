@@ -1,6 +1,9 @@
 use std::collections::{BTreeMap, BTreeSet};
 
-use hunteval_domain::{EventId, MetricDirection, MetricValue, SchemaVersion};
+use hunteval_domain::{
+    EventId, ExpectedTimelineWindow, MetricDirection, MetricValue, SchemaVersion, SubmissionStatus,
+    TimelineEntry,
+};
 use serde::{Deserialize, Serialize};
 
 /// Trusted normalized values required by the deterministic evaluator.
@@ -10,6 +13,14 @@ pub struct EvaluationInput {
     pub submitted_events: BTreeSet<EventId>,
     pub truth_entities: BTreeSet<String>,
     pub submitted_entities: BTreeSet<String>,
+    pub expected_attack_path: Vec<EventId>,
+    pub submitted_attack_path: Vec<EventId>,
+    pub expected_timeline_windows: Option<Vec<ExpectedTimelineWindow>>,
+    pub submitted_timeline: Option<Vec<TimelineEntry>>,
+    pub acceptable_submission_statuses: Option<BTreeSet<SubmissionStatus>>,
+    pub submitted_status: SubmissionStatus,
+    pub expected_attack_techniques: BTreeSet<String>,
+    pub submitted_attack_techniques: BTreeSet<String>,
     pub benign_scored_episode: bool,
     pub evidence_items: u64,
     pub grounded_evidence_items: u64,

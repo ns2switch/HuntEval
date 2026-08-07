@@ -200,6 +200,7 @@ impl ReplayProjection {
         let submission = self
             .submission
             .ok_or(StoredEvaluationError::InvalidProjection)?;
+        let timeline = submission.timeline.clone();
         Ok((
             ObservedRun {
                 run_id: self.expected_run_id,
@@ -209,7 +210,7 @@ impl ReplayProjection {
                 evidence: self.evidence,
                 findings: self.findings,
                 messages: self.messages,
-                timeline: Vec::new(),
+                timeline,
             },
             submission,
         ))

@@ -75,7 +75,7 @@ pub struct Evidence {
 impl Evidence {
     /// Validates locally decidable evidence requirements.
     pub fn validate(&self) -> Result<(), ContractValidationError> {
-        if self.summary.trim().is_empty() {
+        if self.summary.trim().is_empty() || self.summary.len() > 16_384 {
             return Err(ContractValidationError::new(
                 "evidence.summary",
                 "summary must not be empty",
@@ -144,7 +144,7 @@ impl Finding {
 }
 
 /// High-level conclusion submitted by the deployment.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub enum SubmissionStatus {
     ConfirmedMaliciousActivity,
@@ -167,6 +167,8 @@ pub struct FinalSubmission {
     pub confidence: Confidence,
     #[serde(default)]
     pub limitations: Vec<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub timeline: Option<Vec<TimelineEntry>>,
 }
 
 impl FinalSubmission {
@@ -188,6 +190,94 @@ impl FinalSubmission {
                 "malicious submissions require a finding",
             ));
         }
+        if self.finding_ids.len() > 10_000
+            || self.malicious_event_ids.len() > 100_000
+            || self.malicious_entity_ids.len() > 100_000
+            || self.attack_path.len() > 100_000
+            || self.attack_techniques.len() > 10_000
+            || self.limitations.len() > 1_024
+            || self.limitations.iter().any(|value| value.len() > 4_096)
+            || self
+                .attack_techniques
+                .iter()
+                .any(|value| value.is_empty() || value.len() > 128)
+        {
+            return Err(ContractValidationError::new(
+                "submission",
+                "submission collection or text limit exceeded",
+            ));
+        }
+        if self
+            .timeline
+            .as_ref()
+            .is_some_and(|timeline| timeline.len() > 100_000)
+        {
+            return Err(ContractValidationError::new(
+                "submission.timeline",
+                "timeline entry limit exceeded",
+            ));
+        }
+        let mut timeline_events = BTreeSet::new();
+        for entry in self.timeline.iter().flatten() {
+            entry.validate()?;
+            if !timeline_events.insert(&entry.event_id) {
+                return Err(ContractValidationError::new(
+                    "submission.timeline.event_id",
+                    "event identifiers must be unique",
+                ));
+            }
+        }
         Ok(())
+    }
+}
+
+/// One deployment-submitted, evidence-linked timeline observation.
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct TimelineEntry {
+    pub event_id: EventId,
+    pub observed_at: UtcTimestamp,
+    pub summary: String,
+    pub evidence_ids: BTreeSet<EvidenceId>,
+}
+
+impl TimelineEntry {
+    /// Validates locally decidable timeline fields.
+    pub fn validate(&self) -> Result<(), ContractValidationError> {
+        if self.summary.trim().is_empty()
+            || self.summary.len() > 4_096
+            || self.evidence_ids.len() > 1_024
+        {
+            return Err(ContractValidationError::new(
+                "submission.timeline.summary",
+                "summary must not be empty",
+            ));
+        }
+        Ok(())
+    }
+}
+
+/// Versioned artifact adapter for the standalone v0.4 submission contract.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct FinalSubmissionArtifact {
+    pub schema_version: crate::SchemaVersion,
+    #[serde(flatten)]
+    pub submission: FinalSubmission,
+}
+
+impl FinalSubmissionArtifact {
+    /// Normalizes a validated v0.4 artifact into the current in-memory contract.
+    pub fn into_submission(self) -> Result<FinalSubmission, ContractValidationError> {
+        if self.schema_version != crate::SchemaVersion::new(0, 4)
+            || self.submission.timeline.is_none()
+        {
+            return Err(ContractValidationError::new(
+                "submission.schema_version",
+                "a v0.4 submission with a timeline field is required",
+            ));
+        }
+        self.submission.validate()?;
+        Ok(self.submission)
     }
 }

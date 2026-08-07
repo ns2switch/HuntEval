@@ -6,7 +6,7 @@ use std::{
 use hunteval_domain::{
     ActionId, AgentId, EpisodeId, EventId, Evidence, EvidenceId, FinalSubmission, Finding,
     FindingId, GroundTruth, MessageId, RunId, Sha256Digest, TaskId, TaskSpec, TaskState,
-    UtcTimestamp,
+    TimelineEntry,
 };
 use serde::Serialize;
 
@@ -76,14 +76,7 @@ pub struct ObservedMessage {
     pub message: String,
 }
 
-#[derive(Debug, Clone, PartialEq, Eq, Serialize)]
-#[serde(deny_unknown_fields)]
-pub struct SubmittedTimelineEntry {
-    pub event_id: EventId,
-    pub observed_at: UtcTimestamp,
-    pub summary: String,
-    pub evidence_ids: BTreeSet<EvidenceId>,
-}
+pub type SubmittedTimelineEntry = TimelineEntry;
 
 /// Deployment-safe replay projection. It deliberately has no ground-truth field.
 #[derive(Debug, Clone, PartialEq, Serialize)]
@@ -96,7 +89,7 @@ pub struct ObservedRun {
     pub evidence: BTreeMap<EvidenceId, ObservedEvidence>,
     pub findings: BTreeMap<FindingId, ObservedFinding>,
     pub messages: Vec<ObservedMessage>,
-    pub timeline: Vec<SubmittedTimelineEntry>,
+    pub timeline: Option<Vec<SubmittedTimelineEntry>>,
 }
 
 #[derive(Clone, PartialEq, Eq, Serialize)]
@@ -219,6 +212,17 @@ impl TrustedRunView {
             submitted_events: self.submission.malicious_event_ids.clone(),
             truth_entities: self.ground_truth.malicious_entity_ids.clone(),
             submitted_entities: self.submission.malicious_entity_ids.clone(),
+            expected_attack_path: self.ground_truth.expected_attack_path.clone(),
+            submitted_attack_path: self.submission.attack_path.clone(),
+            expected_timeline_windows: self.ground_truth.expected_timeline_windows.clone(),
+            submitted_timeline: self.submission.timeline.clone(),
+            acceptable_submission_statuses: self
+                .ground_truth
+                .acceptable_submission_statuses
+                .clone(),
+            submitted_status: self.submission.status,
+            expected_attack_techniques: self.ground_truth.expected_attack_techniques.clone(),
+            submitted_attack_techniques: self.submission.attack_techniques.clone(),
             benign_scored_episode: self.benign_scored_episode,
             evidence_items: self.observed.evidence.len() as u64,
             grounded_evidence_items: self.observed.evidence.len() as u64,

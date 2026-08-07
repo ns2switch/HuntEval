@@ -53,7 +53,7 @@ impl EpisodePackage {
         let package_bytes = fs::read(&package_path).map_err(EpisodeLoadError::Io)?;
         let package: PackageIndex = serde_yaml_ng::from_slice(&package_bytes)
             .map_err(|_| EpisodeLoadError::InvalidPackageIndex)?;
-        if package.schema_version != SchemaVersion::new(0, 3) {
+        if !supported_schema(package.schema_version) {
             return Err(EpisodeLoadError::UnsupportedSchema);
         }
 
@@ -72,17 +72,22 @@ impl EpisodePackage {
         manifest
             .validate()
             .map_err(|_| EpisodeLoadError::InvalidPublicManifest)?;
-        if manifest.id != package.episode_id {
+        if manifest.id != package.episode_id || manifest.schema_version != package.schema_version {
             return Err(EpisodeLoadError::EpisodeIdMismatch);
         }
 
         let ground_truth_bytes = fs::read(&ground_truth_path).map_err(EpisodeLoadError::Io)?;
         let ground_truth: GroundTruth = serde_json::from_slice(&ground_truth_bytes)
             .map_err(|_| EpisodeLoadError::InvalidGroundTruth)?;
-        if ground_truth.schema_version != SchemaVersion::new(0, 3) {
+        if !supported_schema(ground_truth.schema_version) {
             return Err(EpisodeLoadError::UnsupportedSchema);
         }
-        if ground_truth.episode_id != package.episode_id {
+        ground_truth
+            .validate()
+            .map_err(|_| EpisodeLoadError::InvalidGroundTruth)?;
+        if ground_truth.episode_id != package.episode_id
+            || ground_truth.schema_version != package.schema_version
+        {
             return Err(EpisodeLoadError::EpisodeIdMismatch);
         }
 
@@ -141,6 +146,10 @@ impl EpisodePackage {
     pub const fn digests(&self) -> &ArtifactDigests {
         &self.digests
     }
+}
+
+const fn supported_schema(version: SchemaVersion) -> bool {
+    version.major() == 0 && matches!(version.minor(), 3 | 4)
 }
 
 fn resolve_existing(root: &Path, relative: &str) -> Result<PathBuf, EpisodeLoadError> {

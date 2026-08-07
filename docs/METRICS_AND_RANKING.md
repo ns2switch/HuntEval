@@ -21,9 +21,9 @@ Core metrics:
 - malicious event F1;
 - malicious entity precision;
 - malicious entity recall;
-- attack-path accuracy;
-- timeline accuracy;
-- ATT&CK technique coverage;
+- attack-path precision and recall;
+- timeline precision and recall;
+- ATT&CK technique precision and recall;
 - conclusion correctness;
 - false-positive rate;
 - false-negative rate.
@@ -143,7 +143,7 @@ Every stored raw metric includes `value`, `applicability`, `direction`, `range`,
 | tool-call utilization | `[0,1]` | lower is better | managed tool calls used | configured tool-call cap | zero cap and zero use is not applicable; use above the cap is a budget violation and the raw ratio is clamped only for dimension normalization |
 | graceful degradation | `[0,1]` | higher is better | paired fault-run quality, capped at baseline quality | paired baseline-run quality | a zero baseline denominator is not applicable; non-finite or out-of-range inputs are rejected; runs must share episode, seed, and configuration except for the declared fault profile |
 
-Event and entity inputs are treated as sets after identifier validation, so duplicate submitted identifiers do not increase the numerator or denominator. Raw duplicate counts remain available as diagnostics. A run without a paired fault run records resilience as `null` with `requires_fault_pair` applicability. Attack-path, timeline, conclusion, semantic coordination, cost-normalized efficiency, and reproducibility metrics are deferred until their individual contracts define the same fields and tests.
+Event and entity inputs are treated as sets after identifier validation, so duplicate submitted identifiers do not increase the numerator or denominator. Raw duplicate counts remain available as diagnostics. A run without a paired fault run records resilience as `null` with `requires_fault_pair` applicability. Attack-path, timeline, structured-conclusion, and technique contracts are implemented by R2-08. Semantic coordination, cost-normalized efficiency, and reproducibility remain deferred to their owning milestones.
 
 ## 3. Dimension scores
 
@@ -158,7 +158,8 @@ investigation_quality:
     event_precision: 0.20
     entity_recall: 0.15
     entity_precision: 0.10
-    attack_path_accuracy: 0.15
+    attack_path_precision: 0.075
+    attack_path_recall: 0.075
     conclusion_correctness: 0.10
 ```
 
@@ -358,8 +359,18 @@ The following applicability reasons are reserved for the `0.4` metrics:
 - `requires_comparable_cells`;
 - `requires_fault_pair`.
 
-Structured timeline entries preserve submitted order, event identity, observable time, and evidence references. Expected timeline windows remain evaluator-only. A `0.3` artifact adapted into `0.4` does not gain a timeline or acceptable status set; its dependent metrics remain `null` with the corresponding applicability reason.
+Structured timeline entries preserve submitted order, event identity, observable time, and evidence references. Expected timeline windows remain evaluator-only. A `0.3` artifact adapted into `0.4` does not gain a timeline or acceptable status set; its dependent metrics remain `null` with the corresponding applicability reason. Attack-path precision and recall use exact longest-common-subsequence matching; the implementation fails closed before an unbounded quadratic comparison. Timeline matching is one-to-one by event identifier with inclusive UTC windows. Conclusion correctness compares only the structured status. Technique precision and recall accept exact ATT&CK technique or sub-technique identifiers and reject unsupported forms.
+
+| R2-08 metric | Range / direction | Numerator / denominator and normalization | Applicability and tested edges |
+|---|---|---|---|
+| `attack_path_precision` | `[0,1]`, higher | exact LCS length / submitted path length | empty submitted path against non-empty truth is `0`; exact, partial, reordered, duplicate, empty, and benign fixtures |
+| `attack_path_recall` | `[0,1]`, higher | exact LCS length / expected path length | empty expected path is `not_required`, except two empty benign paths score `1`; bounded matching-pair expansion fails closed |
+| `timeline_precision` | `[0,1]`, higher | distinct submitted entries inside their event's inclusive expected UTC window / submitted entries | `timeline_not_submitted` and `timeline_truth_unavailable` remain distinct; boundary, outside-window, duplicate, empty, and malformed-time fixtures |
+| `timeline_recall` | `[0,1]`, higher | one-to-one matched expected windows / expected windows | zero expected entries is `not_required`, except an explicitly empty benign pair scores `1` |
+| `conclusion_correctness` | `{0,1}`, higher | exact submitted structured status membership / one episode | `acceptable_statuses_unavailable` for v0.3; matching, non-matching, empty-invalid, and unavailable fixtures; summary text is ignored |
+| `technique_precision` | `[0,1]`, higher | exact submitted ATT&CK technique intersection / submitted techniques | set semantics, benign empty behavior, sub-technique support, and unsupported-identifier rejection |
+| `technique_recall` | `[0,1]`, higher | exact submitted ATT&CK technique intersection / expected techniques | empty expected set follows event-recall applicability; exact and partial fixtures |
 
 Comparison and report claims must retain typed source references. Statistical summaries cite comparison IDs and contributing cell IDs; run metric claims cite metric pointers and, where applicable, trajectory sequences. A renderer cannot turn an uncited diagnostic statement into a benchmark conclusion.
 
-Before attack-path, timeline, conclusion, evidence-completeness, duplicate-work, useful-communication, efficiency, or stability metrics enter a scoring profile, their owning change must add a normative table row defining range, direction, numerator, denominator, normalization, applicability, edge cases, positive fixtures, and negative fixtures.
+Before evidence-completeness, duplicate-work, useful-communication, efficiency, or stability metrics enter a scoring profile, their owning change must add a normative table row defining range, direction, numerator, denominator, normalization, applicability, edge cases, positive fixtures, and negative fixtures. R2-08 supplies those contracts and fixtures for attack path, timeline, structured conclusion, and techniques; R2-11 owns their scoring-profile weights and compatibility policy.

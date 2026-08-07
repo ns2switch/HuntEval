@@ -1,6 +1,6 @@
 use std::collections::BTreeSet;
 
-use hunteval_domain::EventId;
+use hunteval_domain::{EventId, SubmissionStatus};
 use hunteval_evaluation::{DeterministicEvaluator, EvaluationInput, Evaluator};
 
 fn event(value: &str) -> Result<EventId, Box<dyn std::error::Error>> {
@@ -13,6 +13,14 @@ fn input() -> EvaluationInput {
         submitted_events: BTreeSet::new(),
         truth_entities: BTreeSet::new(),
         submitted_entities: BTreeSet::new(),
+        expected_attack_path: Vec::new(),
+        submitted_attack_path: Vec::new(),
+        expected_timeline_windows: None,
+        submitted_timeline: None,
+        acceptable_submission_statuses: None,
+        submitted_status: SubmissionStatus::Inconclusive,
+        expected_attack_techniques: BTreeSet::new(),
+        submitted_attack_techniques: BTreeSet::new(),
         benign_scored_episode: false,
         evidence_items: 0,
         grounded_evidence_items: 0,

@@ -145,6 +145,17 @@ fn evaluate(
         submitted_events: submission.malicious_event_ids.clone(),
         truth_entities: package.ground_truth().malicious_entity_ids.clone(),
         submitted_entities: submission.malicious_entity_ids.clone(),
+        expected_attack_path: package.ground_truth().expected_attack_path.clone(),
+        submitted_attack_path: submission.attack_path.clone(),
+        expected_timeline_windows: package.ground_truth().expected_timeline_windows.clone(),
+        submitted_timeline: submission.timeline.clone(),
+        acceptable_submission_statuses: package
+            .ground_truth()
+            .acceptable_submission_statuses
+            .clone(),
+        submitted_status: submission.status,
+        expected_attack_techniques: package.ground_truth().expected_attack_techniques.clone(),
+        submitted_attack_techniques: submission.attack_techniques.clone(),
         benign_scored_episode: package.public().manifest.benign_evaluation,
         evidence_items: evidence,
         grounded_evidence_items: evidence,

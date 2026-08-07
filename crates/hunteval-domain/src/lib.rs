@@ -24,12 +24,13 @@ pub use benchmark::{
 pub use deployment::{AgentRegistration, DeploymentArchitecture, DeploymentRegistration};
 pub use digest::{DigestParseError, Sha256Digest};
 pub use episode::{
-    EpisodeLimits, EpisodeManifest, EpisodeObjective, GroundTruth, KnowledgeConfig, Provider,
-    TelemetryConfig, TelemetryTable,
+    EpisodeLimits, EpisodeManifest, EpisodeObjective, ExpectedTimelineWindow, GroundTruth,
+    KnowledgeConfig, Provider, TelemetryConfig, TelemetryTable,
 };
 pub use error::{ContractValidationError, DomainError};
 pub use evidence::{
-    Confidence, Evidence, FinalSubmission, Finding, FindingSeverity, SubmissionStatus, TimeRange,
+    Confidence, Evidence, FinalSubmission, FinalSubmissionArtifact, Finding, FindingSeverity,
+    SubmissionStatus, TimeRange, TimelineEntry,
 };
 pub use id::{
     ActionId, AgentId, BenchmarkAttemptId, BenchmarkId, DeploymentId, EpisodeId, EventId,

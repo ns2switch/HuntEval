@@ -183,6 +183,7 @@ fn complete_successful_hunt<R: BufRead, W: Write>(
                 attack_techniques,
                 confidence: Confidence::new(0.9)?,
                 limitations: Vec::new(),
+                timeline: None,
             },
         },
     )?;
@@ -218,6 +219,7 @@ fn complete_failed_hunt<R: BufRead, W: Write>(
                 attack_techniques: BTreeSet::new(),
                 confidence: Confidence::new(0.0)?,
                 limitations: vec!["Managed tool result was unavailable.".to_owned()],
+                timeline: None,
             },
         },
     )?;

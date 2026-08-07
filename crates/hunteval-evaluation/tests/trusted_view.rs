@@ -156,6 +156,7 @@ fn valid_input() -> Result<TrustedRunInput, Box<dyn std::error::Error>> {
         attack_techniques: BTreeSet::from(["T1078".to_owned()]),
         confidence: Confidence::new(0.9)?,
         limitations: Vec::new(),
+        timeline: None,
     };
     let observed = ObservedRun {
         run_id: run_id.clone(),
@@ -191,7 +192,7 @@ fn valid_input() -> Result<TrustedRunInput, Box<dyn std::error::Error>> {
             },
         )]),
         messages: Vec::new(),
-        timeline: Vec::new(),
+        timeline: None,
     };
     let ground_truth = GroundTruth {
         schema_version: SchemaVersion::new(0, 3),
@@ -201,6 +202,8 @@ fn valid_input() -> Result<TrustedRunInput, Box<dyn std::error::Error>> {
         expected_attack_path: Vec::new(),
         expected_attack_techniques: BTreeSet::new(),
         acceptable_conclusions: Vec::new(),
+        acceptable_submission_statuses: None,
+        expected_timeline_windows: None,
         minimum_evidence_items: 1,
     };
     Ok(TrustedRunInput {

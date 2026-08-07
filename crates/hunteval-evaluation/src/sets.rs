@@ -49,7 +49,7 @@ pub(crate) fn counted(numerator: u64, denominator: u64, direction: MetricDirecti
     }
 }
 
-fn ratio(numerator: u64, denominator: u64, direction: MetricDirection) -> MetricValue {
+pub(crate) fn ratio(numerator: u64, denominator: u64, direction: MetricDirection) -> MetricValue {
     MetricValue {
         value: Some(numerator as f64 / denominator as f64),
         applicability: Applicability::Applicable,
@@ -60,7 +60,7 @@ fn ratio(numerator: u64, denominator: u64, direction: MetricDirection) -> Metric
     }
 }
 
-fn unavailable(applicability: Applicability, direction: MetricDirection) -> MetricValue {
+pub(crate) fn unavailable(applicability: Applicability, direction: MetricDirection) -> MetricValue {
     MetricValue {
         value: None,
         applicability,
@@ -71,7 +71,7 @@ fn unavailable(applicability: Applicability, direction: MetricDirection) -> Metr
     }
 }
 
-const fn unit_range() -> MetricRange {
+pub(crate) const fn unit_range() -> MetricRange {
     MetricRange {
         minimum: 0.0,
         maximum: 1.0,

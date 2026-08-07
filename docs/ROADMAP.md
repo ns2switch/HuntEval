@@ -23,8 +23,8 @@ The repository currently provides:
 
 Several of these are intentionally narrow foundations. The most important completeness gaps are:
 
-- the R2.1 CLI executes, resumes, inspects, and compares the complete local matrix; trusted-view replay and the remaining evaluation contracts are now the next benchmark-completeness dependency;
-- event, entity, evidence, task, utilization, and graceful-degradation metrics exist, while attack-path, timeline, conclusion, semantic coordination, efficiency, and cross-run reproducibility metrics remain incomplete;
+- the R2.1 CLI executes, resumes, inspects, and compares the complete local matrix; trusted-view replay and R2-08 investigation metrics are complete, while evidence and coordination metrics are the next benchmark-completeness dependency;
+- event, entity, evidence, task, utilization, graceful-degradation, attack-path, timeline, structured-conclusion, and technique metrics exist, while semantic coordination, efficiency, and cross-run reproducibility metrics remain incomplete;
 - static run reports exist, but benchmark reports, timelines, coordination views, agent attribution, and artifact hashes are not yet complete;
 - diagnosis and experiment safety contracts exist, but artifact registries, end-to-end validation workflows, and broader evidence-backed classification remain incomplete;
 - the GitHub workflow runs the quality gates, but it still needs a shared local/CI entrypoint, hardened merge policy, bounded artifacts, and release automation.

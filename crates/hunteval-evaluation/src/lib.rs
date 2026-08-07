@@ -4,6 +4,7 @@ mod diagnosis;
 mod evaluator;
 mod experiments;
 mod input;
+mod metrics;
 mod profile;
 mod sets;
 mod types;

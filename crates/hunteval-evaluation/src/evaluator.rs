@@ -5,6 +5,7 @@ use thiserror::Error;
 
 use crate::{
     EvaluationInput, MetricVector,
+    metrics::evaluate_investigation,
     sets::{counted, precision, recall},
 };
 
@@ -27,6 +28,7 @@ impl Evaluator for DeterministicEvaluator {
                 input.benign_scored_episode,
             ),
         );
+        evaluate_investigation(input, &mut metrics)?;
         metrics.insert(
             "event_recall".into(),
             recall(
@@ -140,4 +142,12 @@ pub enum EvaluationError {
     InvalidCount(&'static str),
     #[error("tool-call usage exceeds the trusted limit")]
     ToolBudgetViolation,
+    #[error("attack paths exceed the bounded exact comparison size")]
+    AttackPathComparisonTooLarge,
+    #[error("timeline contains duplicate event identifiers")]
+    DuplicateTimelineEvent,
+    #[error("acceptable submission statuses cannot be empty")]
+    EmptyAcceptableStatuses,
+    #[error("unsupported ATT&CK technique identifier {0}")]
+    UnsupportedTechniqueIdentifier(String),
 }

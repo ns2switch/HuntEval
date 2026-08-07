@@ -1,7 +1,7 @@
 use std::{fs, path::Path};
 
 use hunteval_domain::{AgentId, FinalSubmission, GroundTruth, RunId, Sha256Digest};
-use hunteval_evaluation::TrustedViewError;
+use hunteval_evaluation::{DeterministicEvaluator, Evaluator, TrustedViewError};
 use hunteval_protocol::{ProtocolEnvelope, ProtocolPayload, TrajectoryRecorder};
 use hunteval_runner::{StoredEvaluationError, StoredEvaluationHashes, load_trusted_run_view};
 
@@ -27,6 +27,11 @@ fn evaluation_input_reduces_verified_stored_artifacts_deterministically()
     assert_eq!(first.evaluation_input().grounded_evidence_items, 1);
     assert_eq!(first.evaluation_input().valid_provenance_references, 1);
     assert_eq!(first.provenance().trajectory_event_count, 13);
+    let metrics = DeterministicEvaluator.evaluate(&first.evaluation_input())?;
+    assert_eq!(metrics.0["attack_path_precision"].value, Some(1.0));
+    assert_eq!(metrics.0["technique_precision"].value, Some(1.0));
+    assert_eq!(metrics.0["timeline_precision"].value, None);
+    assert_eq!(metrics.0["conclusion_correctness"].value, None);
     Ok(())
 }
 

@@ -596,6 +596,8 @@ Schema `0.4` is additive to the persisted `0.3` contracts. A reader advertises t
 
 A `0.3` final submission adapted to `0.4` has no structured timeline. Its timeline-dependent metrics use `value: null` and `applicability: timeline_not_submitted`; implementations must not derive timeline entries from the summary. A `0.3` ground-truth artifact has no expected timeline windows or structured acceptable statuses, so the corresponding metrics are likewise not applicable.
 
+The in-memory compatibility adapter preserves those missing fields as `None`. A v0.4 ground-truth artifact must provide a non-empty set of acceptable submission statuses and an explicit expected-window array. A standalone v0.4 submission must provide an explicit timeline array, which may be empty. Adapters reject unknown versions, reversed or duplicate expected windows, duplicate submitted event IDs, malformed UTC timestamps, and unknown fields. Normalization never rewrites the source artifact.
+
 All `0.4` JSON objects use `additionalProperties: false` at trust boundaries. Optional values represent declared absence; unknown fields are not treated as optional compatibility extensions.
 
 ## 22. Authored benchmark manifest
