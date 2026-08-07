@@ -1,0 +1,21 @@
+{
+  "schema_version": "0.4",
+  "cell_id": "cell:79ee961ffd3c7a6f2e6eebf656a022048674f0cf23375a8c6b6dac0786383ff6",
+  "key": {
+    "benchmark_id": "cloud-r2",
+    "deployment": {
+      "id": "single-agent-scripted",
+      "configuration_sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    "episode": {
+      "id": "aws-iam-001",
+      "package_sha256": "1111111111111111111111111111111111111111111111111111111111111111"
+    },
+    "seed": 11,
+    "scoring_profile": {
+      "id": "balanced:1.0.0",
+      "sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+    },
+    "fault_profile": null
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "schema_version": "0.4",
+  "comparison_id": "comparison-001",
+  "status": "eligible",
+  "cell_ids": [
+    "cell:79ee961ffd3c7a6f2e6eebf656a022048674f0cf23375a8c6b6dac0786383ff6",
+    "cell:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+  ],
+  "reasons": []
+}

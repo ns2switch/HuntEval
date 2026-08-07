@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hunteval.dev/schemas/v0.4/ground-truth.schema.json",
+  "title": "HuntEval private ground truth v0.4",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "episode_id", "malicious_event_ids", "malicious_entity_ids", "expected_attack_path", "expected_attack_techniques", "acceptable_conclusions", "acceptable_submission_statuses", "expected_timeline_windows", "minimum_evidence_items"],
+  "properties": {
+    "schema_version": {"const": "0.4"},
+    "episode_id": {"$ref": "common.schema.json#/$defs/identifier"},
+    "malicious_event_ids": {"type": "array", "maxItems": 100000, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/identifier"}},
+    "malicious_entity_ids": {"type": "array", "maxItems": 100000, "uniqueItems": true, "items": {"type": "string", "minLength": 1, "maxLength": 4096}},
+    "expected_attack_path": {"type": "array", "maxItems": 100000, "items": {"$ref": "common.schema.json#/$defs/identifier"}},
+    "expected_attack_techniques": {"type": "array", "maxItems": 10000, "uniqueItems": true, "items": {"type": "string", "minLength": 1, "maxLength": 128}},
+    "acceptable_conclusions": {"type": "array", "minItems": 1, "maxItems": 1024, "uniqueItems": true, "items": {"type": "string", "minLength": 1, "maxLength": 4096}},
+    "acceptable_submission_statuses": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 4,
+      "uniqueItems": true,
+      "items": {"enum": ["confirmed_malicious_activity", "suspicious_activity", "no_malicious_activity", "inconclusive"]}
+    },
+    "expected_timeline_windows": {
+      "type": "array",
+      "maxItems": 100000,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["event_id", "earliest", "latest"],
+        "properties": {
+          "event_id": {"$ref": "common.schema.json#/$defs/identifier"},
+          "earliest": {"$ref": "common.schema.json#/$defs/utc_timestamp"},
+          "latest": {"$ref": "common.schema.json#/$defs/utc_timestamp"}
+        }
+      }
+    },
+    "minimum_evidence_items": {"type": "integer", "minimum": 0, "maximum": 100000}
+  }
+}

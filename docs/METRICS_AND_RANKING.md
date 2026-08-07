@@ -340,3 +340,26 @@ Statistical status:
 - conclusive improvement over single-agent-v1;
 - inconclusive difference from supervisor-specialists-v2.
 ```
+
+## 14. Schema 0.4 evaluation boundary
+
+Schema `0.4` introduces the structured inputs required by the remaining metric contracts without enabling those metrics implicitly. Evaluation consumes only a trusted normalized view produced after protocol replay, provenance validation, submission validation, artifact verification, and evaluator-only ground-truth loading. Metric modules do not parse files, execute queries, or inspect free-form summaries for hidden labels.
+
+Run-level metrics consume one validated run and its private evaluation view. Benchmark-level metrics consume explicitly eligible cells and paired repetitions. A run-level result cannot claim stability, reproducibility, or comparative efficiency by itself.
+
+The following applicability reasons are reserved for the `0.4` metrics:
+
+- `timeline_not_submitted`;
+- `timeline_truth_unavailable`;
+- `acceptable_statuses_unavailable`;
+- `insufficient_evidence_requirements`;
+- `requires_repeated_runs`;
+- `requires_verified_resource_usage`;
+- `requires_comparable_cells`;
+- `requires_fault_pair`.
+
+Structured timeline entries preserve submitted order, event identity, observable time, and evidence references. Expected timeline windows remain evaluator-only. A `0.3` artifact adapted into `0.4` does not gain a timeline or acceptable status set; its dependent metrics remain `null` with the corresponding applicability reason.
+
+Comparison and report claims must retain typed source references. Statistical summaries cite comparison IDs and contributing cell IDs; run metric claims cite metric pointers and, where applicable, trajectory sequences. A renderer cannot turn an uncited diagnostic statement into a benchmark conclusion.
+
+Before attack-path, timeline, conclusion, evidence-completeness, duplicate-work, useful-communication, efficiency, or stability metrics enter a scoring profile, their owning change must add a normative table row defining range, direction, numerator, denominator, normalization, applicability, edge cases, positive fixtures, and negative fixtures.

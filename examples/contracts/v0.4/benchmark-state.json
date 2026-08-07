@@ -1,0 +1,16 @@
+{
+  "schema_version": "0.4",
+  "benchmark_id": "cloud-r2",
+  "last_sequence": 4,
+  "last_event_sha256": "5555555555555555555555555555555555555555555555555555555555555555",
+  "cells": [
+    {
+      "cell_id": "cell:79ee961ffd3c7a6f2e6eebf656a022048674f0cf23375a8c6b6dac0786383ff6",
+      "status": "completed",
+      "attempt_ids": ["attempt-001"],
+      "run_id": "run-001",
+      "result_sha256": "4444444444444444444444444444444444444444444444444444444444444444",
+      "reason_code": null
+    }
+  ]
+}

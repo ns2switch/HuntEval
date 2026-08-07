@@ -1,0 +1,17 @@
+{
+  "schema_version": "0.4",
+  "claim_id": "claim-001",
+  "text": "The run achieved complete event recall.",
+  "sources": [
+    {
+      "kind": "metric_pointer",
+      "run_id": "run-001",
+      "pointer": "/raw_metrics/event_recall"
+    },
+    {
+      "kind": "trajectory_sequence",
+      "run_id": "run-001",
+      "sequence": 12
+    }
+  ]
+}

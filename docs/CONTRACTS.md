@@ -577,3 +577,126 @@ A trajectory replay must:
 - re-run deterministic evaluators;
 - detect missing or altered events;
 - never require the original LLM provider.
+
+## 21. Schema 0.4 compatibility
+
+Schema `0.4` is additive to the persisted `0.3` contracts. A reader advertises the exact minor versions it accepts and applies an explicit adapter for each older version. It must reject an unknown newer minor or incompatible major version before consuming payload fields. Adaptation never edits a source artifact.
+
+A `0.3` final submission adapted to `0.4` has no structured timeline. Its timeline-dependent metrics use `value: null` and `applicability: timeline_not_submitted`; implementations must not derive timeline entries from the summary. A `0.3` ground-truth artifact has no expected timeline windows or structured acceptable statuses, so the corresponding metrics are likewise not applicable.
+
+All `0.4` JSON objects use `additionalProperties: false` at trust boundaries. Optional values represent declared absence; unknown fields are not treated as optional compatibility extensions.
+
+## 22. Authored benchmark manifest
+
+The human-authored YAML manifest contains safe relative references only:
+
+```yaml
+schema_version: "0.4"
+id: cloud-r2
+deployments:
+  - deployments/single-agent-scripted
+episodes:
+  - datasets/aws/aws-iam-001
+seeds: [11, 29]
+scoring_profile: examples/scoring-profile-balanced.yaml
+fault_profile: null
+```
+
+The runner validates identifiers, rejects absolute paths, parent traversal, symlink escape, duplicates, and an empty matrix, then resolves and hashes every referenced artifact. Filesystem paths do not enter the domain benchmark definition.
+
+## 23. Benchmark cell identity
+
+The resolved cell key is serialized as canonical JSON with lexicographically ordered object keys and no insignificant whitespace:
+
+```json
+{
+  "benchmark_id": "cloud-r2",
+  "deployment": {
+    "id": "single-agent-scripted",
+    "configuration_sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "episode": {
+    "id": "aws-iam-001",
+    "package_sha256": "1111111111111111111111111111111111111111111111111111111111111111"
+  },
+  "seed": 11,
+  "scoring_profile": {
+    "id": "balanced@1.0.0",
+    "sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+  },
+  "fault_profile": null
+}
+```
+
+`BenchmarkCellId` is `cell:` followed by the lowercase SHA-256 of those exact canonical bytes. `BenchmarkAttemptId` is an opaque stable identifier supplied by the controller. Attempt identity, timestamps, local paths, and machine details never affect cell identity.
+
+## 24. Benchmark journal and state
+
+Each line of `benchmark-events.jsonl` is one `BenchmarkEvent` with:
+
+- schema version, benchmark ID, monotonically increasing sequence, UTC timestamp, and previous-event digest;
+- event type and cell ID when the event is cell-scoped;
+- attempt ID for attempt transitions;
+- a concise typed reason code for failure, interruption, or non-comparability;
+- run ID and normalized result digest only for a successfully completed attempt.
+
+Allowed cell statuses are:
+
+- `pending`: no attempt currently owns the cell;
+- `running`: an attempt has started and has not emitted a terminal event;
+- `completed`: a validated normalized result exists;
+- `failed`: the latest attempt ended without a comparable result;
+- `non_comparable`: execution may have completed, but declared equivalence or verification requirements failed.
+
+The journal is authoritative. `benchmark-state.json` contains its last sequence and digest plus a deterministic, cell-ID-ordered projection. Resume first validates the complete hash chain. A prior `running` attempt is closed with reason `controller_interrupted` before a new attempt starts. Invalid transitions, reused attempt IDs, missing causal state, and altered history fail closed.
+
+## 25. Comparison eligibility
+
+Comparison eligibility is a structured result, not a boolean. `eligible` requires equal episode package, scoring profile, protocol, schema, declared budgets, deployment comparison configuration, seed, and fault pairing policy. Otherwise status is `ineligible` with one or more stable reason codes and the affected cell IDs. Missing and failed cells remain visible and are never imputed.
+
+Initial reason codes are:
+
+- `missing_cell`;
+- `cell_not_completed`;
+- `episode_hash_mismatch`;
+- `scoring_profile_mismatch`;
+- `schema_version_mismatch`;
+- `protocol_version_mismatch`;
+- `budget_mismatch`;
+- `configuration_mismatch`;
+- `seed_not_paired`;
+- `fault_pair_mismatch`;
+- `artifact_verification_failed`.
+
+## 26. Deployment process configuration
+
+An executable deployment declares a safe relative executable reference, fixed argument strings, and allowlisted environment variable names. It cannot store environment values, request additional tool authority, enable network access, or reference evaluator-only paths. The runner resolves the executable without following an unexpected symlink and hashes its exact bytes before execution. Standard output remains protocol-only; bounded operational diagnostics use standard error.
+
+## 27. Structured timeline entries
+
+A `0.4` final submission may include ordered timeline entries:
+
+```json
+{
+  "event_id": "evt-0012",
+  "observed_at": "2026-08-06T18:00:00Z",
+  "summary": "The suspected principal assumed the administrative role.",
+  "evidence_ids": ["evidence-004"]
+}
+```
+
+Ground truth stores evaluator-only expected windows with an event ID, earliest and latest acceptable UTC timestamps, and optional acceptable submission statuses. Public schemas cannot represent expected windows, acceptable statuses, or any private reference. Timeline order is the submitted array order; duplicate event IDs are invalid.
+
+## 28. Typed report source references
+
+A report claim contains a stable claim ID, bounded text, and at least one typed source reference. Supported source kinds and required values are:
+
+- `metric_pointer`: an RFC 6901 pointer rooted in normalized public result JSON;
+- `trajectory_sequence`: run ID and positive sequence number;
+- `run`: run ID;
+- `benchmark_cell`: benchmark and cell IDs;
+- `constraint`: run or comparison scope plus constraint ID;
+- `statistical_comparison`: comparison ID;
+- `artifact_digest`: artifact label and SHA-256 digest.
+
+References never contain filesystem paths, raw private values, environment values, or arbitrary URLs. Renderers validate reference ownership and escape all claim text before output.

@@ -1,0 +1,12 @@
+{
+  "schema_version": "0.4",
+  "benchmark_id": "cloud-r2",
+  "sequence": 4,
+  "previous_event_sha256": "3333333333333333333333333333333333333333333333333333333333333333",
+  "timestamp": "2026-08-07T09:00:00Z",
+  "type": "attempt_completed",
+  "cell_id": "cell:79ee961ffd3c7a6f2e6eebf656a022048674f0cf23375a8c6b6dac0786383ff6",
+  "attempt_id": "attempt-001",
+  "run_id": "run-001",
+  "result_sha256": "4444444444444444444444444444444444444444444444444444444444444444"
+}

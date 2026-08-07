@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hunteval.dev/schemas/v0.4/benchmark-cell.schema.json",
+  "title": "HuntEval resolved benchmark cell key v0.4",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "cell_id", "key"],
+  "properties": {
+    "schema_version": {"const": "0.4"},
+    "cell_id": {"type": "string", "pattern": "^cell:[a-f0-9]{64}$"},
+    "key": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["benchmark_id", "deployment", "episode", "seed", "scoring_profile", "fault_profile"],
+      "properties": {
+        "benchmark_id": {"$ref": "common.schema.json#/$defs/identifier"},
+        "deployment": {"$ref": "#/$defs/named_configuration"},
+        "episode": {"$ref": "#/$defs/named_package"},
+        "seed": {"type": "integer", "minimum": 0, "maximum": 18446744073709551615},
+        "scoring_profile": {"$ref": "#/$defs/named_artifact"},
+        "fault_profile": {
+          "oneOf": [
+            {"$ref": "#/$defs/named_artifact"},
+            {"type": "null"}
+          ]
+        }
+      }
+    }
+  },
+  "$defs": {
+    "named_configuration": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "configuration_sha256"],
+      "properties": {
+        "id": {"$ref": "common.schema.json#/$defs/identifier"},
+        "configuration_sha256": {"$ref": "common.schema.json#/$defs/sha256"}
+      }
+    },
+    "named_package": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "package_sha256"],
+      "properties": {
+        "id": {"$ref": "common.schema.json#/$defs/identifier"},
+        "package_sha256": {"$ref": "common.schema.json#/$defs/sha256"}
+      }
+    },
+    "named_artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "sha256"],
+      "properties": {
+        "id": {"$ref": "common.schema.json#/$defs/identifier"},
+        "sha256": {"$ref": "common.schema.json#/$defs/sha256"}
+      }
+    }
+  }
+}

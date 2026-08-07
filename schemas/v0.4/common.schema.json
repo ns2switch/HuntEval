@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hunteval.dev/schemas/v0.4/common.schema.json",
+  "title": "HuntEval common contract primitives v0.4",
+  "$defs": {
+    "contract_version": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)$",
+      "examples": ["0.4", "1.0"]
+    },
+    "identifier": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "utc_timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "Z$"
+    },
+    "safe_relative_path": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 4096,
+      "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))[^\\u0000]+$"
+    },
+    "timeline_entry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["event_id", "observed_at", "summary", "evidence_ids"],
+      "properties": {
+        "event_id": {"$ref": "#/$defs/identifier"},
+        "observed_at": {"$ref": "#/$defs/utc_timestamp"},
+        "summary": {"type": "string", "minLength": 1, "maxLength": 4096},
+        "evidence_ids": {
+          "type": "array",
+          "maxItems": 1024,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/identifier"}
+        }
+      }
+    }
+  }
+}

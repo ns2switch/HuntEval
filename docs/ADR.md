@@ -241,3 +241,39 @@ Synthetic fixtures are generated from versioned source definitions and explicit 
 **Status:** Accepted.
 
 Duration, process status, managed tool calls, rows, messages, and artifact sizes are measured by HuntEval. Token counts and provider cost are trusted only when obtained from a configured verifiable adapter; otherwise they are labeled self-reported or unavailable. Reports and scoring profiles preserve this provenance and cannot apply a hard cost or token constraint to an unverifiable value without marking the run non-comparable.
+
+## ADR-041 — Add schema version 0.4 without rewriting 0.3 artifacts
+
+**Status:** Accepted.
+
+Schema version 0.4 adds benchmark execution, timeline, comparison, and report-source contracts. Version 0.3 artifacts remain immutable and readable through explicit compatibility adapters. Readers reject unknown newer or incompatible versions with typed errors. Adaptation normalizes an older source into current in-memory types and never rewrites the stored source. Fields unavailable in 0.3 remain absent or explicitly not applicable; they are never inferred from free-form text.
+
+## ADR-042 — Derive stable benchmark cell identity from resolved inputs
+
+**Status:** Accepted.
+
+A benchmark cell key contains the benchmark identifier, deployment identifier and configuration digest, episode identifier and package digest, seed, scoring-profile identifier and digest, and an optional fault-profile identifier and digest. Canonical field order and exact lowercase SHA-256 text define the identity input. Paths, timestamps, host names, and attempt numbers are excluded. The cell identifier is the SHA-256 digest of the canonical JSON key prefixed with `cell:`. Attempt identifiers are independent opaque identifiers, so retries never overwrite history.
+
+## ADR-043 — Use an append-only benchmark journal and deterministic projection
+
+**Status:** Accepted.
+
+`benchmark-events.jsonl` is the authoritative append-only transition journal. `benchmark-state.json` is an atomically replaced deterministic projection. Cells move through `pending`, `running`, `completed`, `failed`, or `non_comparable`; terminal attempt events are never edited. Resume records an interrupted attempt before starting a new attempt. One local controller owns a benchmark journal through a bounded lock acquisition that fails with a typed error. Replaying the same valid journal must reproduce byte-equivalent normalized state.
+
+## ADR-044 — Evaluate only trusted normalized artifacts
+
+**Status:** Accepted.
+
+Metric code consumes a trusted evaluation view reduced from validated trajectory events, the structured final submission, HuntEval-observed resource measurements, and evaluator-only ground truth. Filesystem parsing, protocol replay, and infrastructure adapters remain outside metric modules. Run metrics and benchmark metrics use separate contracts. Every metric retains applicability, range, direction, numerator, denominator, edge behavior, and provenance.
+
+## ADR-045 — Require typed sources for report claims
+
+**Status:** Accepted.
+
+Every normalized or rendered report conclusion references at least one validated source: a metric JSON pointer, trajectory sequence, run or benchmark cell identifier, constraint result, statistical comparison identifier, or verified artifact digest. Reporting receives validated DTOs, never private ground truth, and does not reinterpret free-form deployment text as an evaluator conclusion. Invalid, private, missing, or cross-run references fail closed.
+
+## ADR-046 — Use one canonical quality entrypoint locally and in GitHub Actions
+
+**Status:** Accepted.
+
+Repository-owned scripts define formatting, linting, testing, documentation, dependency, architecture, and source-size checks. Local development and GitHub Actions invoke those scripts rather than maintaining separate command lists. Workflow configuration may select jobs, caching, and bounded artifacts, but cannot weaken or redefine a quality check.

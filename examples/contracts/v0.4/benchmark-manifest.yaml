@@ -1,0 +1,9 @@
+schema_version: "0.4"
+id: cloud-r2
+deployments:
+  - deployments/single-agent-scripted
+episodes:
+  - datasets/aws/aws-iam-001
+seeds: [11, 29]
+scoring_profile: examples/scoring-profile-balanced.yaml
+fault_profile: null

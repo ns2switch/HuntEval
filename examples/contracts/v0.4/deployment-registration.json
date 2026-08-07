@@ -1,0 +1,22 @@
+{
+  "schema_version": "0.4",
+  "id": "single-agent-scripted",
+  "architecture": "single_agent",
+  "version": "0.2.0",
+  "agents": [
+    {
+      "id": "investigator",
+      "role": "investigator",
+      "capabilities": ["iam_analysis", "sql_query"],
+      "prompt_version": "1.0.0",
+      "prompt_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+      "model": "scripted/reference",
+      "model_parameters": {}
+    }
+  ],
+  "process": {
+    "executable": "bin/hunteval-reference-deployment",
+    "arguments": ["--topology", "single-agent"],
+    "environment_allowlist": ["HUNTEVAL_RUN_ID", "HUNTEVAL_SEED"]
+  }
+}

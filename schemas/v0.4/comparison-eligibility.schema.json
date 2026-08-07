@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hunteval.dev/schemas/v0.4/comparison-eligibility.schema.json",
+  "title": "HuntEval comparison eligibility v0.4",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "comparison_id", "status", "cell_ids", "reasons"],
+  "properties": {
+    "schema_version": {"const": "0.4"},
+    "comparison_id": {"$ref": "common.schema.json#/$defs/identifier"},
+    "status": {"enum": ["eligible", "ineligible"]},
+    "cell_ids": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 1000000,
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^cell:[a-f0-9]{64}$"}
+    },
+    "reasons": {
+      "type": "array",
+      "maxItems": 1024,
+      "uniqueItems": true,
+      "items": {
+        "enum": ["missing_cell", "cell_not_completed", "episode_hash_mismatch", "scoring_profile_mismatch", "schema_version_mismatch", "protocol_version_mismatch", "budget_mismatch", "configuration_mismatch", "seed_not_paired", "fault_pair_mismatch", "artifact_verification_failed"]
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"status": {"const": "eligible"}}},
+      "then": {"properties": {"reasons": {"maxItems": 0}}}
+    },
+    {
+      "if": {"properties": {"status": {"const": "ineligible"}}},
+      "then": {"properties": {"reasons": {"minItems": 1}}}
+    }
+  ]
+}

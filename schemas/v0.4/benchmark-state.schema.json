@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hunteval.dev/schemas/v0.4/benchmark-state.schema.json",
+  "title": "HuntEval deterministic benchmark state projection v0.4",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "benchmark_id", "last_sequence", "last_event_sha256", "cells"],
+  "properties": {
+    "schema_version": {"const": "0.4"},
+    "benchmark_id": {"$ref": "common.schema.json#/$defs/identifier"},
+    "last_sequence": {"type": "integer", "minimum": 1},
+    "last_event_sha256": {"$ref": "common.schema.json#/$defs/sha256"},
+    "cells": {
+      "type": "array",
+      "maxItems": 1000000,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["cell_id", "status", "attempt_ids", "run_id", "result_sha256", "reason_code"],
+        "properties": {
+          "cell_id": {"type": "string", "pattern": "^cell:[a-f0-9]{64}$"},
+          "status": {"enum": ["pending", "running", "completed", "failed", "non_comparable"]},
+          "attempt_ids": {
+            "type": "array",
+            "maxItems": 10000,
+            "uniqueItems": true,
+            "items": {"$ref": "common.schema.json#/$defs/identifier"}
+          },
+          "run_id": {
+            "oneOf": [
+              {"$ref": "common.schema.json#/$defs/identifier"},
+              {"type": "null"}
+            ]
+          },
+          "result_sha256": {
+            "oneOf": [
+              {"$ref": "common.schema.json#/$defs/sha256"},
+              {"type": "null"}
+            ]
+          },
+          "reason_code": {
+            "oneOf": [
+              {"$ref": "common.schema.json#/$defs/identifier"},
+              {"type": "null"}
+            ]
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "schema_version": "0.4",
+  "episode_id": "aws-iam-001",
+  "malicious_event_ids": ["evt-0012", "evt-0019"],
+  "malicious_entity_ids": ["principal:suspected", "role:admin"],
+  "expected_attack_path": ["evt-0012", "evt-0019"],
+  "expected_attack_techniques": ["T1078"],
+  "acceptable_conclusions": ["Cross-account privilege escalation"],
+  "acceptable_submission_statuses": ["confirmed_malicious_activity", "suspicious_activity"],
+  "expected_timeline_windows": [
+    {
+      "event_id": "evt-0012",
+      "earliest": "2026-08-06T17:59:55Z",
+      "latest": "2026-08-06T18:00:05Z"
+    }
+  ],
+  "minimum_evidence_items": 1
+}

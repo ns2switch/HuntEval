@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hunteval.dev/schemas/v0.4/benchmark-event.schema.json",
+  "title": "HuntEval append-only benchmark event v0.4",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "benchmark_id", "sequence", "previous_event_sha256", "timestamp", "type"],
+  "properties": {
+    "schema_version": {"const": "0.4"},
+    "benchmark_id": {"$ref": "common.schema.json#/$defs/identifier"},
+    "sequence": {"type": "integer", "minimum": 1},
+    "previous_event_sha256": {
+      "oneOf": [
+        {"$ref": "common.schema.json#/$defs/sha256"},
+        {"type": "null"}
+      ]
+    },
+    "timestamp": {"$ref": "common.schema.json#/$defs/utc_timestamp"},
+    "type": {
+      "enum": ["benchmark_started", "cell_queued", "attempt_started", "attempt_interrupted", "attempt_completed", "attempt_failed", "cell_non_comparable", "benchmark_completed"]
+    },
+    "cell_id": {"type": "string", "pattern": "^cell:[a-f0-9]{64}$"},
+    "attempt_id": {"$ref": "common.schema.json#/$defs/identifier"},
+    "run_id": {"$ref": "common.schema.json#/$defs/identifier"},
+    "result_sha256": {"$ref": "common.schema.json#/$defs/sha256"},
+    "reason_code": {"$ref": "common.schema.json#/$defs/identifier"}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"type": {"enum": ["cell_queued", "cell_non_comparable"]}}},
+      "then": {"required": ["cell_id"]}
+    },
+    {
+      "if": {"properties": {"type": {"enum": ["attempt_started", "attempt_interrupted", "attempt_completed", "attempt_failed"]}}},
+      "then": {"required": ["cell_id", "attempt_id"]}
+    },
+    {
+      "if": {"properties": {"type": {"const": "attempt_completed"}}},
+      "then": {"required": ["run_id", "result_sha256"]}
+    },
+    {
+      "if": {"properties": {"type": {"enum": ["attempt_interrupted", "attempt_failed", "cell_non_comparable"]}}},
+      "then": {"required": ["reason_code"]}
+    }
+  ]
+}

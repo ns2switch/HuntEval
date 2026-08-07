@@ -1,0 +1,20 @@
+{
+  "schema_version": "0.4",
+  "status": "confirmed_malicious_activity",
+  "summary": "A compromised principal assumed an administrative role.",
+  "finding_ids": ["finding-001"],
+  "malicious_event_ids": ["evt-0012", "evt-0019"],
+  "malicious_entity_ids": ["principal:suspected", "role:admin"],
+  "attack_path": ["evt-0012", "evt-0019"],
+  "attack_techniques": ["T1078"],
+  "confidence": 0.9,
+  "limitations": [],
+  "timeline": [
+    {
+      "event_id": "evt-0012",
+      "observed_at": "2026-08-06T18:00:00Z",
+      "summary": "The suspected principal assumed the administrative role.",
+      "evidence_ids": ["evidence-001"]
+    }
+  ]
+}

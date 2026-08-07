@@ -16,6 +16,7 @@ thiserror.workspace = true
 time.workspace = true
 
 [dev-dependencies]
+jsonschema = { version = "0.29.1", default-features = false }
 serde_yaml_ng.workspace = true
 
 [lints]
