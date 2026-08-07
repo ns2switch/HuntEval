@@ -302,6 +302,8 @@ Raw counts and applicability are always preserved. The first result does not fab
 
 ### PR-06 — Runner, process adapter, budgets, and artifact recorder
 
+**Implementation status:** Completed on 2026-08-07.
+
 1. **Objective:** Launch an untrusted deployment, mediate its complete protocol session, enforce budgets, and write reproducible run artifacts.
 2. **Files and crates affected:** `hunteval-runner` modules `orchestrator`, `process`, `budget`, `policy`, `artifacts`, and `hashing`; CLI `run` command.
 3. **Public types and contracts:** `RunConfig`, `RunOrchestrator`, `DeploymentProcess`, `BudgetLedger`, `ArtifactWriter`, `RunManifest`, terminal statuses, and process/tool failure events.
