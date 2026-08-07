@@ -338,6 +338,8 @@ Raw counts and applicability are always preserved. The first result does not fab
 
 ### PR-09 — Protocol hardening and additional baseline topologies
 
+**Implementation status:** Completed on 2026-08-07.
+
 1. **Objective:** Generalize the proven protocol to single-agent, supervisor-investigator, and supervisor-specialist fixtures.
 2. **Files and crates affected:** protocol/runner conformance suites and three reference deployments.
 3. **Public types and contracts:** complete task lifecycle, operational messages, hypotheses, finding challenge/accept/reject, cancellation, and capability validation.

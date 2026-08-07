@@ -1,0 +1,9 @@
+schema_version: "0.3"
+id: single-agent-scripted
+kind: deterministic_protocol_fixture
+architecture: single_agent
+agents:
+  - id: investigator
+    role: investigator
+network_access: false
+scored_tools: hunteval_managed_only

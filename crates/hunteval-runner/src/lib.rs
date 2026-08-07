@@ -11,6 +11,7 @@ mod managed_tool;
 mod orchestrator;
 mod policy;
 mod process;
+mod scheduling;
 mod vertical_slice;
 
 pub use artifacts::{ArtifactError, ArtifactWriter, RunManifest};
@@ -21,6 +22,7 @@ pub use managed_tool::{ManagedTool, ManagedToolError};
 pub use orchestrator::{OrchestratorError, RunConfig, RunOrchestrator, RunTerminalStatus};
 pub use policy::{IsolationPolicy, PolicyError};
 pub use process::{DeploymentProcess, LinuxSandbox, ProcessError, ProcessOutput, ProcessSpec};
+pub use scheduling::{ScheduledTask, deterministic_schedule};
 pub use vertical_slice::run_vertical_slice;
 
 /// Replays a stored trajectory and returns its event count and exact-byte hash.

@@ -2,8 +2,8 @@ use std::collections::BTreeSet;
 
 use hunteval_domain::{
     ActionId, AgentId, DeploymentRegistration, EpisodeId, EpisodeLimits, Evidence, EvidenceId,
-    FinalSubmission, Finding, FindingId, MessageId, ProtocolVersion, RunId, TaskId, TaskSpec,
-    UtcTimestamp,
+    FinalSubmission, Finding, FindingId, HypothesisId, MessageId, ProtocolVersion, RunId, TaskId,
+    TaskSpec, UtcTimestamp,
 };
 use serde::{Deserialize, Serialize};
 
@@ -102,6 +102,20 @@ pub enum ProtocolPayload {
         agent_id: AgentId,
         task_id: TaskId,
     },
+    OperationalMessage {
+        agent_id: AgentId,
+        target_agent_id: AgentId,
+        task_id: Option<TaskId>,
+        reason_code: String,
+        message: String,
+    },
+    HypothesisUpdated {
+        agent_id: AgentId,
+        task_id: TaskId,
+        hypothesis_id: HypothesisId,
+        status: String,
+        reason_code: String,
+    },
     ToolRequest {
         agent_id: AgentId,
         task_id: TaskId,
@@ -126,6 +140,12 @@ pub enum ProtocolPayload {
         agent_id: AgentId,
         task_id: TaskId,
         finding: Finding,
+    },
+    FindingReviewed {
+        agent_id: AgentId,
+        finding_id: FindingId,
+        accepted: bool,
+        reason_code: String,
     },
     FinalSubmission {
         agent_id: AgentId,
@@ -159,9 +179,12 @@ impl ProtocolPayload {
             | Self::TaskFailed { .. }
             | Self::TaskReassigned { .. }
             | Self::TaskCancelled { .. }
+            | Self::OperationalMessage { .. }
+            | Self::HypothesisUpdated { .. }
             | Self::ToolRequest { .. }
             | Self::EvidenceShared { .. }
             | Self::FindingProposed { .. }
+            | Self::FindingReviewed { .. }
             | Self::FinalSubmission { .. } => MessageOrigin::Deployment,
         }
     }

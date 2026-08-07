@@ -178,6 +178,41 @@ impl ProtocolSession {
                 self.require_active_agent(agent_id)?;
                 self.task_mut(task_id)?.cancel().map_err(contract_error)?;
             }
+            ProtocolPayload::OperationalMessage {
+                agent_id,
+                target_agent_id,
+                task_id,
+                message: operational_message,
+                reason_code,
+            } => {
+                self.require_active_agent(agent_id)?;
+                self.require_agent(target_agent_id)?;
+                if let Some(task_id) = task_id {
+                    self.require_task(task_id)?;
+                }
+                if operational_message.trim().is_empty() || reason_code.trim().is_empty() {
+                    return Err(error(
+                        ProtocolErrorCode::InvalidMessage,
+                        "operational message fields must not be empty",
+                    ));
+                }
+            }
+            ProtocolPayload::HypothesisUpdated {
+                agent_id,
+                task_id,
+                status,
+                reason_code,
+                ..
+            } => {
+                self.require_active_agent(agent_id)?;
+                self.require_task(task_id)?;
+                if status.trim().is_empty() || reason_code.trim().is_empty() {
+                    return Err(error(
+                        ProtocolErrorCode::InvalidMessage,
+                        "hypothesis fields must not be empty",
+                    ));
+                }
+            }
             ProtocolPayload::ToolRequest {
                 agent_id,
                 task_id,
@@ -266,6 +301,26 @@ impl ProtocolSession {
                     return Err(error(
                         ProtocolErrorCode::DuplicateIdentifier,
                         "duplicate finding identifier",
+                    ));
+                }
+            }
+            ProtocolPayload::FindingReviewed {
+                agent_id,
+                finding_id,
+                reason_code,
+                ..
+            } => {
+                self.require_active_agent(agent_id)?;
+                if !self.findings.contains(finding_id) {
+                    return Err(error(
+                        ProtocolErrorCode::InvalidState,
+                        "review references unknown finding",
+                    ));
+                }
+                if reason_code.trim().is_empty() {
+                    return Err(error(
+                        ProtocolErrorCode::InvalidMessage,
+                        "review reason code must not be empty",
                     ));
                 }
             }

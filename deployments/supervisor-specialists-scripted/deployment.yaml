@@ -1,0 +1,13 @@
+schema_version: "0.3"
+id: supervisor-specialists-scripted
+kind: deterministic_protocol_fixture
+architecture: supervisor_specialists
+agents:
+  - id: supervisor
+    role: orchestrator
+  - id: identity-specialist
+    role: identity_investigator
+  - id: persistence-specialist
+    role: persistence_investigator
+network_access: false
+scored_tools: hunteval_managed_only
