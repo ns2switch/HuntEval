@@ -21,7 +21,7 @@ A future diagnostic layer will use observable run traces to identify systematic 
 
 ## Implementation status
 
-The repository is implemented through PR-09. It contains the first deterministic two-agent vertical slice plus framework-neutral single-agent and supervisor-specialist fixtures. The topology-neutral protocol covers the complete task lifecycle, operational messages, observable hypotheses, finding review, cancellation, reassignment, provenance, and deterministic scheduling. Reference deployments are protocol fixtures and make no model-quality claim.
+The repository is implemented through PR-10. It includes exact deployment × episode × seed benchmark matrices, strict repetition semantics, deterministic paired bootstrap intervals, missing-cell handling, wins/ties/losses, and constraint-first ranking that retains raw metric vectors. Statistical conclusions use paired differences and are labeled inconclusive when their interval crosses zero.
 
 Benchmark execution and the broader cloud fixture set remain future milestones. The implementation sequence and current status are maintained in `docs/EXECUTION_PLAN.md`.
 

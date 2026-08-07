@@ -350,6 +350,8 @@ Raw counts and applicability are always preserved. The first result does not fab
 
 ### PR-10 — Benchmark matrix, statistics, and ranking
 
+**Implementation status:** Completed on 2026-08-07.
+
 1. **Objective:** Run multiple deployments, episodes, and paired seeds, then report defensible comparisons.
 2. **Files and crates affected:** new `hunteval-statistics` crate, runner benchmark module, CLI benchmark/compare commands, benchmark and scoring schemas.
 3. **Public types and contracts:** `BenchmarkManifest`, `RunCell`, `RunSet`, `StatisticalSummary`, `PairedDifference`, confidence interval, effect size, wins/ties/losses, and ranking groups.

@@ -25,11 +25,20 @@ enum Command {
         #[command(subcommand)]
         command: TrajectoryCommand,
     },
+    Benchmark {
+        #[command(subcommand)]
+        command: BenchmarkCommand,
+    },
 }
 
 #[derive(Debug, Subcommand)]
 enum TrajectoryCommand {
     Inspect { path: PathBuf },
+}
+
+#[derive(Debug, Subcommand)]
+enum BenchmarkCommand {
+    Validate { manifest: PathBuf },
 }
 
 fn main() -> ExitCode {
@@ -61,6 +70,13 @@ fn execute(cli: Cli) -> Result<(), Box<dyn std::error::Error>> {
             let (event_count, digest) = hunteval_runner::inspect_trajectory(&bytes)?;
             println!("events: {event_count}");
             println!("sha256: {digest}");
+            Ok(())
+        }
+        Some(Command::Benchmark {
+            command: BenchmarkCommand::Validate { manifest },
+        }) => {
+            let benchmark = hunteval_runner::load_benchmark(&manifest)?;
+            println!("run cells: {}", benchmark.cells().len());
             Ok(())
         }
     }

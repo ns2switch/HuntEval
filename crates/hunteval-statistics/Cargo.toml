@@ -1,0 +1,16 @@
+[package]
+name = "hunteval-statistics"
+description = "Paired statistics and defensible ranking for HuntEval"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[dependencies]
+hunteval-domain = { path = "../hunteval-domain", version = "0.1.0" }
+serde.workspace = true
+thiserror.workspace = true
+
+[lints]
+workspace = true

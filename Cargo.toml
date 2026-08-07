@@ -7,6 +7,7 @@ members = [
     "crates/hunteval-fixture-tool",
     "crates/hunteval-protocol",
     "crates/hunteval-runner",
+    "crates/hunteval-statistics",
 ]
 resolver = "2"
 

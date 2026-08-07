@@ -4,6 +4,7 @@
 //! boundaries so orchestration remains testable without external services.
 
 mod artifacts;
+mod benchmark;
 mod budget;
 mod episode_loader;
 mod hashing;
@@ -15,6 +16,7 @@ mod scheduling;
 mod vertical_slice;
 
 pub use artifacts::{ArtifactError, ArtifactWriter, RunManifest};
+pub use benchmark::{BenchmarkError, BenchmarkManifest, RunCell, load_benchmark};
 pub use budget::{BudgetError, BudgetLedger, BudgetLimits, BudgetUsage};
 pub use episode_loader::{ArtifactDigests, EpisodeLoadError, EpisodePackage, PublicEpisodePackage};
 pub use hashing::{HashingError, hash_file};
