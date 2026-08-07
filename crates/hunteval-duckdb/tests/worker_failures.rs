@@ -1,7 +1,6 @@
-use std::{fs, path::Path};
+use std::path::Path;
 
 use hunteval_duckdb::{DuckDbWorker, QueryLimits, SqlRequest, TableRegistration, ToolErrorCode};
-use tempfile::TempDir;
 
 fn fixture_table() -> TableRegistration {
     TableRegistration {
@@ -32,23 +31,16 @@ fn separate_worker_returns_a_result() -> Result<(), Box<dyn std::error::Error>> 
 }
 
 #[cfg(unix)]
-fn executable_script(contents: &str) -> Result<(TempDir, std::path::PathBuf), std::io::Error> {
-    use std::os::unix::fs::PermissionsExt;
-
-    let directory = TempDir::new()?;
-    let path = directory.path().join("worker-stub");
-    fs::write(&path, contents)?;
-    let mut permissions = fs::metadata(&path)?.permissions();
-    permissions.set_mode(0o700);
-    fs::set_permissions(&path, permissions)?;
-    Ok((directory, path))
+fn shell_worker(command: &str) -> Result<DuckDbWorker, std::io::Error> {
+    let executable = std::fs::canonicalize("/bin/sh")?;
+    Ok(DuckDbWorker::new(executable, vec![fixture_table()])
+        .with_arguments(vec!["-c".into(), command.into()]))
 }
 
 #[cfg(unix)]
 #[test]
 fn timeout_kills_worker_without_terminating_runner() -> Result<(), Box<dyn std::error::Error>> {
-    let (_directory, executable) = executable_script("#!/bin/sh\nexec sleep 2\n")?;
-    let worker = DuckDbWorker::new(executable, vec![fixture_table()]);
+    let worker = shell_worker("exec sleep 2")?;
     let mut sql = request();
     sql.limits.timeout_ms = 20;
     let error = worker.execute(sql).err();
@@ -59,8 +51,7 @@ fn timeout_kills_worker_without_terminating_runner() -> Result<(), Box<dyn std::
 #[cfg(unix)]
 #[test]
 fn crash_and_invalid_output_are_typed_failures() -> Result<(), Box<dyn std::error::Error>> {
-    let (_crash_directory, crash) = executable_script("#!/bin/sh\nexit 7\n")?;
-    let crashed = DuckDbWorker::new(crash, vec![fixture_table()])
+    let crashed = shell_worker("cat >/dev/null; exit 7")?
         .execute(request())
         .err();
     assert_eq!(
@@ -68,9 +59,7 @@ fn crash_and_invalid_output_are_typed_failures() -> Result<(), Box<dyn std::erro
         Some(ToolErrorCode::WorkerCrashed)
     );
 
-    let (_invalid_directory, invalid) =
-        executable_script("#!/bin/sh\ncat >/dev/null\nprintf '{}'")?;
-    let malformed = DuckDbWorker::new(invalid, vec![fixture_table()])
+    let malformed = shell_worker("cat >/dev/null; printf '{}'")?
         .execute(request())
         .err();
     assert_eq!(
