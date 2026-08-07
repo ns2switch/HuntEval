@@ -23,7 +23,7 @@ The repository currently provides:
 
 Several of these are intentionally narrow foundations. The most important completeness gaps are:
 
-- benchmark manifests can be validated and expanded into cells, but the CLI does not yet execute, resume, and compare the complete matrix;
+- the R2.1 CLI executes, resumes, inspects, and compares the complete local matrix; trusted-view replay and the remaining evaluation contracts are now the next benchmark-completeness dependency;
 - event, entity, evidence, task, utilization, and graceful-degradation metrics exist, while attack-path, timeline, conclusion, semantic coordination, efficiency, and cross-run reproducibility metrics remain incomplete;
 - static run reports exist, but benchmark reports, timelines, coordination views, agent attribution, and artifact hashes are not yet complete;
 - diagnosis and experiment safety contracts exist, but artifact registries, end-to-end validation workflows, and broader evidence-backed classification remain incomplete;
@@ -49,7 +49,7 @@ Every initiative must preserve Clean Architecture, typed errors, bounded untrust
 
 The pull-request sequence, contracts, tests, and quality gates for all v0.2 initiatives are defined in `R2_IMPLEMENTATION_PLAN.md`.
 
-#### R2.1 — Benchmark execution and resume
+#### R2.1 — Benchmark execution and resume (complete)
 
 - add `benchmark run`, `benchmark resume`, `benchmark status`, and `benchmark compare` commands;
 - execute the exact deployment × episode × seed × configuration matrix;
@@ -63,6 +63,8 @@ The pull-request sequence, contracts, tests, and quality gates for all v0.2 init
 - interruption and resume are covered by deterministic integration tests;
 - a second execution with identical inputs produces equivalent normalized artifacts;
 - comparison rejects unpaired or non-equivalent cells with typed errors.
+
+Completion evidence: the public CLI completed both reference deployments over all nine cloud episodes and two paired seeds (36 cells), recovered a forcibly interrupted controller, reproduced equivalent definition, submission, metric, and aggregate-score artifacts, and rejected missing or digest-mismatched pairs.
 
 #### R2.2 — Complete evaluation contracts
 

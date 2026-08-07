@@ -53,7 +53,7 @@ impl BenchmarkCellExecutor for ProductionCellExecutor {
             .episodes
             .get(&cell.key.episode.id)
             .ok_or_else(|| CellExecutionFailure::validated("missing_episode"))?;
-        let inputs = ResolvedRunInputs::resolve_with_executable(
+        let mut inputs = ResolvedRunInputs::resolve_with_executable(
             episode,
             deployment,
             &self.plan.scoring_profile,
@@ -61,6 +61,11 @@ impl BenchmarkCellExecutor for ProductionCellExecutor {
             Some(&self.deployment_executable),
         )
         .map_err(|_| CellExecutionFailure::validated("invalid_configuration"))?;
+        inputs.hashes.insert(
+            "managed_tool_binary".to_owned(),
+            crate::hash_file(&self.duckdb_worker)
+                .map_err(|_| CellExecutionFailure::validated("invalid_configuration"))?,
+        );
         let timeout =
             Duration::from_secs(inputs.episode.public().manifest.limits.max_duration_seconds);
         let tool = DuckDbManagedTool::new(&self.duckdb_worker, inputs.episode.public());

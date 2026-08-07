@@ -21,7 +21,7 @@ The diagnostic layer uses observable run traces to classify supported failures a
 
 ## Implementation status
 
-The executable PR-00 through PR-15 plan is complete. R2 now has accepted v0.4 benchmark contracts and schemas. Authored v0.3 and v0.4 benchmark manifests resolve into infrastructure-independent definitions whose stable cell identities include configuration, episode, scoring-profile, seed, and optional fault-profile digests. The three reference topologies are independently executable, deterministic JSONL protocol peers that request scored SQL only through HuntEval. The generic run service resolves and hashes inputs before launch, isolates external deployments from private data and the network, mediates every scored tool request, validates replay and provenance before evaluation, and preserves partial artifacts for terminal failures. Benchmark progress is stored in a hash-chained append-only journal with deterministic snapshots, exclusive local ownership, verified completions, and explicit interrupted-attempt recovery.
+The executable PR-00 through PR-15 plan and the operational R2.1 MVP through R2-06 are complete. Authored v0.3 and v0.4 benchmark manifests resolve into infrastructure-independent definitions whose stable cell identities include configuration, episode, scoring profile, seed, optional fault profile, runtime binaries, and schema bytes. The three reference topologies are independently executable deterministic JSONL peers. The matrix service runs them through the networkless sandbox, mediates scored SQL through the isolated DuckDB worker, schedules bounded parallel work, records append-only attempts, resumes interruptions without overwriting history, and verifies normalized result digests before declaring a comparison eligible.
 
 Deterministic diagnosis emits only classifications supported by observable event or metric references. Improvement recommendations identify affected runs and remain unvalidated with mandatory human review. Controlled experiments change exactly one variable, isolate hidden-test feedback, preserve immutable authorization, tool-access, and data-handling sections, and enforce metric-regression and verified-cost constraints.
 
@@ -39,6 +39,11 @@ cargo run -p hunteval-cli -- run \
 cargo run -p hunteval-cli -- trajectory inspect runs/latest/trajectory.jsonl
 cargo run -p hunteval-cli -- report generate runs/latest --format html
 cargo run -p hunteval-cli -- benchmark validate examples/cloud-mvp-benchmark.yaml
+cargo run -p hunteval-cli -- benchmark run examples/cloud-mvp-benchmark.yaml \
+  --output runs/cloud-mvp --jobs 2
+cargo run -p hunteval-cli -- benchmark status runs/cloud-mvp --format json
+cargo run -p hunteval-cli -- benchmark compare runs/cloud-mvp \
+  --left single-agent-scripted --right two-agent-scripted
 ```
 
 ## Development
@@ -84,6 +89,7 @@ cargo run -p hunteval-fixture-tool -- generate datasets/aws/aws-iam-001
 - `docs/IMPLEMENTATION_PLAN.md`: milestones and acceptance criteria.
 - `docs/EXECUTION_PLAN.md`: executable pull-request sequence, contracts, tests, and quality gates.
 - `docs/ROADMAP.md`: prioritized post-MVP releases, dependencies, and exit criteria through v1.0.
+- `docs/BENCHMARK_CLI.md`: benchmark execution, recovery, comparison, output, and exit-code reference.
 - `docs/R2_IMPLEMENTATION_PLAN.md`: canonical delivery status, dependency order, implementation steps, and acceptance gates through R2-18.
 - `AGENTS.md`: permanent development-agent instructions.
 

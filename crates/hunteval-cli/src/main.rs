@@ -1,72 +1,16 @@
 //! HuntEval command-line entry point.
 
-use std::{path::PathBuf, process::ExitCode};
+mod args;
+mod benchmark;
 
-use clap::{Parser, Subcommand, ValueEnum};
+use std::process::ExitCode;
 
-#[derive(Debug, Parser)]
-#[command(author, version, about)]
-struct Cli {
-    #[command(subcommand)]
-    command: Option<Command>,
-}
-
-#[derive(Debug, Subcommand)]
-enum Command {
-    Run {
-        #[arg(long)]
-        episode: PathBuf,
-        #[arg(long)]
-        deployment: PathBuf,
-        #[arg(long, default_value = "runs")]
-        output: PathBuf,
-    },
-    Trajectory {
-        #[command(subcommand)]
-        command: TrajectoryCommand,
-    },
-    Benchmark {
-        #[command(subcommand)]
-        command: BenchmarkCommand,
-    },
-    Report {
-        #[command(subcommand)]
-        command: ReportCommand,
-    },
-}
-
-#[derive(Debug, Subcommand)]
-enum TrajectoryCommand {
-    Inspect { path: PathBuf },
-}
-
-#[derive(Debug, Subcommand)]
-enum BenchmarkCommand {
-    Validate {
-        manifest: PathBuf,
-        #[arg(long, default_value = ".")]
-        artifact_root: PathBuf,
-    },
-}
-
-#[derive(Debug, Subcommand)]
-enum ReportCommand {
-    Generate {
-        run: PathBuf,
-        #[arg(long, value_enum)]
-        format: ReportFormatArgument,
-    },
-}
-
-#[derive(Debug, Clone, Copy, ValueEnum)]
-enum ReportFormatArgument {
-    Json,
-    Html,
-}
+use args::{Cli, Command, ReportFormatArgument, TrajectoryCommand};
+use clap::Parser;
 
 fn main() -> ExitCode {
     match execute(Cli::parse()) {
-        Ok(()) => ExitCode::SUCCESS,
+        Ok(code) => code,
         Err(error) => {
             eprintln!("error: {error}");
             ExitCode::FAILURE
@@ -74,9 +18,9 @@ fn main() -> ExitCode {
     }
 }
 
-fn execute(cli: Cli) -> Result<(), Box<dyn std::error::Error>> {
+fn execute(cli: Cli) -> Result<ExitCode, Box<dyn std::error::Error>> {
     match cli.command {
-        None => Ok(()),
+        None => Ok(ExitCode::SUCCESS),
         Some(Command::Run {
             episode,
             deployment,
@@ -84,7 +28,7 @@ fn execute(cli: Cli) -> Result<(), Box<dyn std::error::Error>> {
         }) => {
             let path = hunteval_runner::run_vertical_slice(&episode, &deployment, &output)?;
             println!("run artifacts: {}", path.display());
-            Ok(())
+            Ok(ExitCode::SUCCESS)
         }
         Some(Command::Trajectory {
             command: TrajectoryCommand::Inspect { path },
@@ -93,21 +37,11 @@ fn execute(cli: Cli) -> Result<(), Box<dyn std::error::Error>> {
             let (event_count, digest) = hunteval_runner::inspect_trajectory(&bytes)?;
             println!("events: {event_count}");
             println!("sha256: {digest}");
-            Ok(())
+            Ok(ExitCode::SUCCESS)
         }
-        Some(Command::Benchmark {
-            command:
-                BenchmarkCommand::Validate {
-                    manifest,
-                    artifact_root,
-                },
-        }) => {
-            let benchmark = hunteval_runner::resolve_benchmark(&manifest, &artifact_root)?;
-            println!("run cells: {}", benchmark.cell_count()?);
-            Ok(())
-        }
+        Some(Command::Benchmark { command }) => benchmark::execute(command),
         Some(Command::Report {
-            command: ReportCommand::Generate { run, format },
+            command: args::ReportCommand::Generate { run, format },
         }) => {
             let format = match format {
                 ReportFormatArgument::Json => hunteval_runner::ReportFormat::Json,
@@ -115,7 +49,7 @@ fn execute(cli: Cli) -> Result<(), Box<dyn std::error::Error>> {
             };
             hunteval_runner::generate_report(&run, format)?;
             println!("report generated: {}", run.display());
-            Ok(())
+            Ok(ExitCode::SUCCESS)
         }
     }
 }

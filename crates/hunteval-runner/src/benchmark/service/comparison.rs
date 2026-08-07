@@ -87,9 +87,13 @@ impl ComparisonEligibility {
         } else {
             ComparisonStatus::Ineligible
         };
+        let comparison_key = format!("{}:{}", left.as_str(), right.as_str());
         Ok(Self {
             schema_version: SchemaVersion::new(0, 4),
-            comparison_id: format!("{}-vs-{}", left.as_str(), right.as_str()),
+            comparison_id: format!(
+                "comparison:{}",
+                hunteval_domain::Sha256Digest::from_bytes(comparison_key.as_bytes())
+            ),
             status,
             cell_ids: selected,
             reasons,

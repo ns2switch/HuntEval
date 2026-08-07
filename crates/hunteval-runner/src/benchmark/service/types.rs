@@ -43,12 +43,18 @@ impl Default for BenchmarkRunOptions {
 }
 
 impl BenchmarkExecutionPlan {
-    /// Binds the exact deployment binary into every deployment configuration identity.
-    pub fn bind_deployment_executable(
+    /// Binds exact runtime binaries and schema bytes into each configuration identity.
+    pub fn bind_runtime_artifacts(
         &mut self,
-        executable: &std::path::Path,
+        deployment_executable: &std::path::Path,
+        managed_tool_executable: &std::path::Path,
+        schema_contract: &std::path::Path,
+        runner_executable: &std::path::Path,
     ) -> Result<(), BenchmarkServiceError> {
-        let executable_hash = crate::hash_file(executable)?;
+        let deployment_hash = crate::hash_file(deployment_executable)?;
+        let managed_tool_hash = crate::hash_file(managed_tool_executable)?;
+        let schema_hash = crate::hash_file(schema_contract)?;
+        let runner_hash = crate::hash_file(runner_executable)?;
         let deployments = self
             .definition
             .deployments
@@ -56,7 +62,11 @@ impl BenchmarkExecutionPlan {
             .map(|deployment| hunteval_domain::ResolvedDeployment {
                 id: deployment.id.clone(),
                 configuration_sha256: hunteval_domain::Sha256Digest::from_bytes(
-                    format!("{}:{}", deployment.configuration_sha256, executable_hash).as_bytes(),
+                    format!(
+                        "{}:{deployment_hash}:{managed_tool_hash}:{schema_hash}:{runner_hash}",
+                        deployment.configuration_sha256
+                    )
+                    .as_bytes(),
                 ),
             })
             .collect();

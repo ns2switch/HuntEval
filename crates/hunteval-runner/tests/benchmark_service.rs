@@ -191,6 +191,33 @@ fn rejects_configuration_drift_and_reports_ineligible_missing_pair()
     Ok(())
 }
 
+#[test]
+fn runtime_artifact_changes_produce_new_cell_identities() -> Result<(), Box<dyn std::error::Error>>
+{
+    let temporary = tempfile::tempdir()?;
+    let deployment = temporary.path().join("deployment");
+    let worker = temporary.path().join("worker");
+    let schema = temporary.path().join("schema");
+    let runner = temporary.path().join("runner");
+    for (path, bytes) in [
+        (&deployment, b"deployment".as_slice()),
+        (&worker, b"worker".as_slice()),
+        (&schema, b"schema".as_slice()),
+        (&runner, b"runner".as_slice()),
+    ] {
+        fs::write(path, bytes)?;
+    }
+    let mut first = make_plan(&["left"], &["episode-a"], &[11])?;
+    first.bind_runtime_artifacts(&deployment, &worker, &schema, &runner)?;
+    let first_id = first.definition.cells()?[0].cell_id;
+
+    fs::write(&worker, b"changed-worker")?;
+    let mut second = make_plan(&["left"], &["episode-a"], &[11])?;
+    second.bind_runtime_artifacts(&deployment, &worker, &schema, &runner)?;
+    assert_ne!(first_id, second.definition.cells()?[0].cell_id);
+    Ok(())
+}
+
 fn make_plan(
     deployments: &[&str],
     episodes: &[&str],

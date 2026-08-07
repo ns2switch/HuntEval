@@ -22,8 +22,8 @@ Status values are evidence-based: `complete` means the milestone has a dedicated
 | R2-02 | complete | `1685b69` — independently executable reference deployment |
 | R2-03 | complete | `cf789a1` — isolated generic mediated run engine |
 | R2-04 | complete | `41108b6` — append-only benchmark journal and deterministic projection |
-| R2-05 | planned — next | requires R2-03 and R2-04 |
-| R2-06 | planned | requires R2-05 |
+| R2-05 | complete | `7f1f076` — bounded matrix service, production DuckDB mediation, resume, and verified comparisons |
+| R2-06 | complete | public benchmark CLI, documented exit codes, 36-cell smoke matrix, and interrupted recovery |
 | R2-07 | planned | requires trusted artifacts from R2-03 |
 | R2-08 | planned | requires R2-07 |
 | R2-09 | planned | requires R2-07 |
@@ -41,15 +41,15 @@ The operational MVP cut line is the R2.1 exit gate after R2-06. It provides comp
 
 ## 2. Current baseline findings
 
-The implementation audit at commit `41108b6` established the following current starting points:
+The implementation audit after R2-06 established the following current starting points:
 
-1. Authored v0.3 and v0.4 benchmark manifests resolve into stable infrastructure-independent cells, but no application service executes the complete matrix.
-2. The CLI exposes `benchmark validate` only.
-3. The compatibility `run` command still invokes the hard-coded vertical slice; the generic run engine is not yet wired into the public CLI.
-4. Three external reference topologies speak bounded JSONL and execute inside the networkless Linux sandbox. Their generic end-to-end tests currently use a deterministic managed-tool test adapter rather than the production DuckDB router.
-5. The benchmark journal preserves attempts, verified completions, stale-controller recovery, and deterministic state, but the matrix service does not yet drive it.
-6. Comparison eligibility is frozen as a schema and contract but is not yet reduced from executed benchmark state.
-7. The evaluator still lacks a complete normalized trusted view reduced from verified artifacts. The generic run engine performs the existing deterministic evaluation only after successful replay.
+1. The public CLI validates, executes, resumes, inspects, and compares the complete deployment × episode × seed matrix.
+2. Stable cell identities bind authored configuration, episode package, scoring profile, optional fault profile, seed, runtime binaries, and schema bytes.
+3. The runner schedules deterministic batches with bounded concurrency, records every attempt in the hash-chained journal, retains failed and interrupted history, and rejects configuration drift.
+4. Three external reference topologies execute inside the networkless Linux sandbox and request scored SQL only through the production HuntEval-owned DuckDB worker adapter.
+5. Comparison eligibility requires complete pairs and re-verifies normalized result bytes against their journaled digests. Missing, failed, or tampered pairs remain explicitly ineligible.
+6. The compatibility `run` command remains available for the original vertical-slice workflow; benchmark commands use the generic engine.
+7. The evaluator still lacks a complete normalized trusted view reduced from verified artifacts. This is the next dependency at R2-07.
 8. Attack-path, timeline, conclusion, evidence-completeness, deterministic coordination, verified efficiency, and cross-run stability contracts remain incomplete.
 9. `BenchmarkReport` remains a serialization foundation. Static rendering supports run reports, not complete comparative benchmark reports.
 10. GitHub Actions runs the mandatory gates, but no shared local/CI entrypoint, fail-closed sandbox capability job, hardened release workflow, or repository-settings checklist exists.
