@@ -23,6 +23,7 @@ ALLOWED_LOCAL_DEPENDENCIES: dict[str, set[str]] = {
         "hunteval-evaluation",
         "hunteval-knowledge",
         "hunteval-protocol",
+        "hunteval-reporting",
         "hunteval-resilience",
         "hunteval-statistics",
     },

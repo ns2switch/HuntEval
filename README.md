@@ -21,9 +21,9 @@ A future diagnostic layer will use observable run traces to identify systematic 
 
 ## Implementation status
 
-The repository is implemented through PR-12. Deterministic fault schedules now exercise timeouts, malformed responses, worker failures, unavailable agents, and noisy agents at logical event boundaries. Recovery outcomes enforce retry and reassignment budgets, while paired baseline/fault quality produces an explicit graceful-degradation metric.
+The repository is implemented through PR-13. Normalized run results can now be rendered as deterministic JSON or portable static HTML. Reports label incomplete runs, cite their source metrics and artifacts, escape untrusted text, contain no active scripts, and are written atomically.
 
-Static reporting, optional local knowledge retrieval, and controlled diagnostic experiments remain future milestones. The implementation sequence and current status are maintained in `docs/EXECUTION_PLAN.md`.
+Optional local knowledge retrieval and controlled diagnostic experiments remain future milestones. The implementation sequence and current status are maintained in `docs/EXECUTION_PLAN.md`.
 
 ## Quick start
 
@@ -35,6 +35,7 @@ cargo run -p hunteval-cli -- run \
   --episode datasets/aws/aws-iam-001 \
   --deployment deployments/two-agent-scripted
 cargo run -p hunteval-cli -- trajectory inspect runs/latest/trajectory.jsonl
+cargo run -p hunteval-cli -- report generate runs/latest --format html
 ```
 
 ## Development

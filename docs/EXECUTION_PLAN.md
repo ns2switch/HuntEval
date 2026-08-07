@@ -386,6 +386,8 @@ Raw counts and applicability are always preserved. The first result does not fab
 
 ### PR-13 — Static reporting
 
+**Implementation status:** Completed on 2026-08-07.
+
 1. **Objective:** Produce normalized JSON and portable static HTML reports grounded in artifacts.
 2. **Files and crates affected:** new `hunteval-reporting` crate, CLI report command, templates, snapshot tests.
 3. **Public types and contracts:** `RunReport`, `BenchmarkReport`, `ArtifactLink`, and report rendering interface.

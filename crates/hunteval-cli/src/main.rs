@@ -2,7 +2,7 @@
 
 use std::{path::PathBuf, process::ExitCode};
 
-use clap::{Parser, Subcommand};
+use clap::{Parser, Subcommand, ValueEnum};
 
 #[derive(Debug, Parser)]
 #[command(author, version, about)]
@@ -29,6 +29,10 @@ enum Command {
         #[command(subcommand)]
         command: BenchmarkCommand,
     },
+    Report {
+        #[command(subcommand)]
+        command: ReportCommand,
+    },
 }
 
 #[derive(Debug, Subcommand)]
@@ -39,6 +43,21 @@ enum TrajectoryCommand {
 #[derive(Debug, Subcommand)]
 enum BenchmarkCommand {
     Validate { manifest: PathBuf },
+}
+
+#[derive(Debug, Subcommand)]
+enum ReportCommand {
+    Generate {
+        run: PathBuf,
+        #[arg(long, value_enum)]
+        format: ReportFormatArgument,
+    },
+}
+
+#[derive(Debug, Clone, Copy, ValueEnum)]
+enum ReportFormatArgument {
+    Json,
+    Html,
 }
 
 fn main() -> ExitCode {
@@ -77,6 +96,17 @@ fn execute(cli: Cli) -> Result<(), Box<dyn std::error::Error>> {
         }) => {
             let benchmark = hunteval_runner::load_benchmark(&manifest)?;
             println!("run cells: {}", benchmark.cells().len());
+            Ok(())
+        }
+        Some(Command::Report {
+            command: ReportCommand::Generate { run, format },
+        }) => {
+            let format = match format {
+                ReportFormatArgument::Json => hunteval_runner::ReportFormat::Json,
+                ReportFormatArgument::Html => hunteval_runner::ReportFormat::Html,
+            };
+            hunteval_runner::generate_report(&run, format)?;
+            println!("report generated: {}", run.display());
             Ok(())
         }
     }

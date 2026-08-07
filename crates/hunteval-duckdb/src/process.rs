@@ -59,7 +59,13 @@ impl DuckDbWorker {
         let timeout = Duration::from_millis(command.request.limits.timeout_ms);
         let mut child = ChildGuard::spawn(&self.executable, &self.arguments)?;
         let mut stdin = child.0.stdin.take().ok_or_else(unavailable)?;
-        stdin.write_all(&input).map_err(|_| unavailable())?;
+        if stdin.write_all(&input).is_err() {
+            drop(stdin);
+            return match child.0.wait() {
+                Ok(status) if !status.success() => Err(worker_crashed()),
+                _ => Err(unavailable()),
+            };
+        }
         drop(stdin);
         let stdout = child.0.stdout.take().ok_or_else(unavailable)?;
         let reader = thread::spawn(move || {
@@ -90,10 +96,7 @@ impl DuckDbWorker {
             .map_err(|_| worker_protocol())?
             .map_err(|_| worker_protocol())?;
         if !status.success() {
-            return Err(ToolError::new(
-                ToolErrorCode::WorkerCrashed,
-                "managed SQL worker exited unsuccessfully",
-            ));
+            return Err(worker_crashed());
         }
         if output.len() > MAX_WIRE_RESPONSE_BYTES as usize {
             return Err(worker_protocol());
@@ -149,4 +152,11 @@ fn unavailable() -> ToolError {
 
 fn worker_protocol() -> ToolError {
     ToolError::worker_protocol()
+}
+
+fn worker_crashed() -> ToolError {
+    ToolError::new(
+        ToolErrorCode::WorkerCrashed,
+        "managed SQL worker exited unsuccessfully",
+    )
 }

@@ -13,6 +13,7 @@ mod managed_tool;
 mod orchestrator;
 mod policy;
 mod process;
+mod reporting;
 mod scheduling;
 mod vertical_slice;
 
@@ -22,10 +23,12 @@ pub use budget::{BudgetError, BudgetLedger, BudgetLimits, BudgetUsage};
 pub use episode_loader::{ArtifactDigests, EpisodeLoadError, EpisodePackage, PublicEpisodePackage};
 pub use faults::FaultController;
 pub use hashing::{HashingError, hash_file};
+pub use hunteval_reporting::ReportFormat;
 pub use managed_tool::{ManagedTool, ManagedToolError};
 pub use orchestrator::{OrchestratorError, RunConfig, RunOrchestrator, RunTerminalStatus};
 pub use policy::{IsolationPolicy, PolicyError};
 pub use process::{DeploymentProcess, LinuxSandbox, ProcessError, ProcessOutput, ProcessSpec};
+pub use reporting::{ReportGenerationError, generate_report};
 pub use scheduling::{ScheduledTask, deterministic_schedule};
 pub use vertical_slice::run_vertical_slice;
 
