@@ -1,0 +1,22 @@
+[package]
+name = "hunteval-reference-deployment"
+description = "Deterministic external JSONL reference deployment for HuntEval"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[[bin]]
+name = "hunteval-reference-deployment"
+path = "src/main.rs"
+
+[dependencies]
+clap.workspace = true
+hunteval-domain = { path = "../hunteval-domain", version = "0.1.0" }
+hunteval-protocol = { path = "../hunteval-protocol", version = "0.1.0" }
+serde_json.workspace = true
+thiserror.workspace = true
+
+[lints]
+workspace = true

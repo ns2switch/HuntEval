@@ -1,7 +1,7 @@
-schema_version: "0.3"
+schema_version: "0.4"
 id: two-agent-scripted
-kind: deterministic_protocol_fixture
-architecture: supervisor_investigator
+kind: external_reference_process
+architecture: supervisor_worker
 agents:
   - id: supervisor
     role: orchestrator
@@ -9,3 +9,7 @@ agents:
     role: investigator
 network_access: false
 scored_tools: hunteval_managed_only
+process:
+  executable: bin/hunteval-reference-deployment
+  arguments: ["--topology", "supervisor-worker"]
+  environment_allowlist: []

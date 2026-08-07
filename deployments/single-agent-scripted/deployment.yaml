@@ -1,9 +1,13 @@
-schema_version: "0.3"
+schema_version: "0.4"
 id: single-agent-scripted
-kind: deterministic_protocol_fixture
+kind: external_reference_process
 architecture: single_agent
 agents:
   - id: investigator
     role: investigator
 network_access: false
 scored_tools: hunteval_managed_only
+process:
+  executable: bin/hunteval-reference-deployment
+  arguments: ["--topology", "single-agent"]
+  environment_allowlist: []

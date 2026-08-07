@@ -11,6 +11,7 @@ import sys
 ALLOWED_LOCAL_DEPENDENCIES: dict[str, set[str]] = {
     "hunteval-domain": set(),
     "hunteval-protocol": {"hunteval-domain"},
+    "hunteval-reference-deployment": {"hunteval-domain", "hunteval-protocol"},
     "hunteval-duckdb": {"hunteval-domain"},
     "hunteval-evaluation": {"hunteval-domain"},
     "hunteval-statistics": {"hunteval-domain"},
@@ -29,6 +30,14 @@ ALLOWED_LOCAL_DEPENDENCIES: dict[str, set[str]] = {
     },
     "hunteval-cli": {"hunteval-runner"},
     "hunteval-fixture-tool": {"hunteval-domain"},
+}
+
+REFERENCE_DEPENDENCIES = {
+    "clap",
+    "hunteval-domain",
+    "hunteval-protocol",
+    "serde_json",
+    "thiserror",
 }
 
 
@@ -59,6 +68,14 @@ def main() -> int:
             violations.append(
                 f"{package_name} has forbidden local dependencies: {', '.join(forbidden)}"
             )
+        if package_name == "hunteval-reference-deployment":
+            dependencies = {dependency["name"] for dependency in package["dependencies"]}
+            unexpected = sorted(dependencies - REFERENCE_DEPENDENCIES)
+            if unexpected:
+                violations.append(
+                    "hunteval-reference-deployment has unexpected dependencies: "
+                    + ", ".join(unexpected)
+                )
 
     if violations:
         for violation in violations:

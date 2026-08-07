@@ -7,6 +7,7 @@ members = [
     "crates/hunteval-fixture-tool",
     "crates/hunteval-knowledge",
     "crates/hunteval-protocol",
+    "crates/hunteval-reference-deployment",
     "crates/hunteval-reporting",
     "crates/hunteval-resilience",
     "crates/hunteval-runner",

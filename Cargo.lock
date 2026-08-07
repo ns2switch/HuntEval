@@ -1154,6 +1154,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "hunteval-reference-deployment"
+version = "0.1.0"
+dependencies = [
+ "clap",
+ "hunteval-domain",
+ "hunteval-protocol",
+ "serde_json",
+ "thiserror",
+]
+
+[[package]]
 name = "hunteval-reporting"
 version = "0.1.0"
 dependencies = [
