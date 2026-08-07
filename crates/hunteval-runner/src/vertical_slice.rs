@@ -10,7 +10,8 @@ use hunteval_domain::{
     ResourceUsage, RunId, RunResult, RunStatus, SchemaVersion, SourcedCost,
 };
 use hunteval_evaluation::{
-    DeterministicEvaluator, EvaluationInput, Evaluator, MetricVector, ScoringProfile, score_profile,
+    DeterministicEvaluator, EfficiencyInput, EvaluationInput, Evaluator, MetricVector,
+    ScoringProfileArtifact, normalize_profile, score_profile,
 };
 use hunteval_protocol::{ProtocolEnvelope, ProtocolPayload, TrajectoryRecorder, replay_trajectory};
 
@@ -36,9 +37,9 @@ pub fn run_vertical_slice(
         })
         .ok_or_else(|| io::Error::other("reference deployment omitted its submission"))?;
     let metrics = evaluate(&package, &messages, &submission)?;
-    let profile: ScoringProfile = serde_yaml_ng::from_slice(include_bytes!(
-        "../../../examples/scoring-profile-balanced.yaml"
-    ))?;
+    let profile = normalize_profile(serde_yaml_ng::from_slice::<ScoringProfileArtifact>(
+        include_bytes!("../../../examples/scoring-profile-balanced.yaml"),
+    )?)?;
     let aggregate = score_profile(&metrics, &profile)?;
     let run_id = RunId::new("run-001")?;
     let writer = ArtifactWriter::create(output, &RunId::new("latest")?)?;
@@ -173,6 +174,7 @@ fn evaluate(
         tasks_completed,
         tool_calls_used: tool_calls,
         tool_call_limit: package.public().manifest.limits.max_tool_calls.into(),
+        resources: EfficiencyInput::default(),
     })?)
 }
 

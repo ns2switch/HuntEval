@@ -1,5 +1,6 @@
 mod conclusion;
 pub(crate) mod coordination;
+mod efficiency;
 mod evidence;
 mod fingerprint;
 mod path;
@@ -47,5 +48,6 @@ pub(super) fn evaluate_investigation(
     metrics.insert("technique_recall".into(), technique_recall);
     evidence::evaluate(input, metrics);
     coordination::evaluate(input, metrics);
+    efficiency::evaluate(input, metrics)?;
     Ok(())
 }

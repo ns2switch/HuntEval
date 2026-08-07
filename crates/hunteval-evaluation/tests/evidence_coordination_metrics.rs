@@ -1,7 +1,9 @@
 use std::collections::BTreeSet;
 
 use hunteval_domain::{Applicability, EventId, SubmissionStatus};
-use hunteval_evaluation::{DeterministicEvaluator, EvaluationError, EvaluationInput, Evaluator};
+use hunteval_evaluation::{
+    DeterministicEvaluator, EfficiencyInput, EvaluationError, EvaluationInput, Evaluator,
+};
 
 #[test]
 fn evidence_metrics_score_grounded_coverage_and_minimum() -> Result<(), Box<dyn std::error::Error>>
@@ -111,6 +113,7 @@ fn baseline() -> EvaluationInput {
         tasks_completed: 0,
         tool_calls_used: 0,
         tool_call_limit: 0,
+        resources: EfficiencyInput::default(),
     }
 }
 

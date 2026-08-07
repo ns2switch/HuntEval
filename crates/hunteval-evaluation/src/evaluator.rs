@@ -169,4 +169,6 @@ pub enum EvaluationError {
     InvalidToolName,
     #[error("tool arguments exceed canonical structured-data limits")]
     InvalidToolArguments,
+    #[error("resource usage or provenance is invalid")]
+    InvalidResourceUsage,
 }

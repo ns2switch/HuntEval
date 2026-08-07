@@ -3,7 +3,7 @@ use std::{fs::OpenOptions, io::Write, path::Path, time::Duration};
 use hunteval_domain::{
     BenchmarkAttemptId, BenchmarkCell, ProtocolVersion, RunId, SchemaVersion, UtcTimestamp,
 };
-use serde::Serialize;
+use serde::{Deserialize, Serialize};
 use time::OffsetDateTime;
 
 use crate::{DuckDbManagedTool, ResolvedRunInputs, RunExecutor, RunFailureKind, RunRequest};
@@ -82,14 +82,17 @@ impl BenchmarkCellExecutor for ProductionCellExecutor {
             .execute(&request, &inputs, &tool)
             .map_err(|failure| CellExecutionFailure::validated(failure_reason(failure.kind)))?;
         let result_path = execution.artifacts.root.join("result.json");
-        let result = NormalizedCellResult {
+        let result = BenchmarkCellResult {
             schema_version: SchemaVersion::new(0, 4),
             cell_id: cell.cell_id,
             run_id: run_id.clone(),
             cell: cell.clone(),
             metrics: execution.metrics,
             aggregate_score: execution.aggregate_score,
+            constraints: execution.constraints,
             usage: execution.usage,
+            resource_usage: execution.resource_usage,
+            submission: execution.submission,
             artifact_hashes: execution.artifacts.hashes,
         };
         write_result(&result_path, &result)?;
@@ -100,20 +103,23 @@ impl BenchmarkCellExecutor for ProductionCellExecutor {
     }
 }
 
-#[derive(Serialize)]
+#[derive(Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
-struct NormalizedCellResult {
-    schema_version: SchemaVersion,
-    cell_id: hunteval_domain::BenchmarkCellId,
-    run_id: RunId,
-    cell: BenchmarkCell,
-    metrics: hunteval_evaluation::MetricVector,
-    aggregate_score: hunteval_evaluation::AggregateScore,
-    usage: crate::BudgetUsage,
-    artifact_hashes: std::collections::BTreeMap<String, hunteval_domain::Sha256Digest>,
+pub(crate) struct BenchmarkCellResult {
+    pub(crate) schema_version: SchemaVersion,
+    pub(crate) cell_id: hunteval_domain::BenchmarkCellId,
+    pub(crate) run_id: RunId,
+    pub(crate) cell: BenchmarkCell,
+    pub(crate) metrics: hunteval_evaluation::MetricVector,
+    pub(crate) aggregate_score: hunteval_evaluation::AggregateScore,
+    pub(crate) constraints: Vec<hunteval_evaluation::ConstraintEvaluation>,
+    pub(crate) usage: crate::BudgetUsage,
+    pub(crate) resource_usage: hunteval_domain::ResourceUsage,
+    pub(crate) submission: hunteval_domain::FinalSubmission,
+    pub(crate) artifact_hashes: std::collections::BTreeMap<String, hunteval_domain::Sha256Digest>,
 }
 
-fn write_result(path: &Path, result: &NormalizedCellResult) -> Result<(), CellExecutionFailure> {
+fn write_result(path: &Path, result: &BenchmarkCellResult) -> Result<(), CellExecutionFailure> {
     let mut bytes = serde_json::to_vec_pretty(result)
         .map_err(|_| CellExecutionFailure::validated("result_serialization_failed"))?;
     bytes.push(b'\n');

@@ -1,11 +1,13 @@
 use std::{collections::BTreeMap, path::PathBuf, time::Duration};
 
-use hunteval_domain::{FinalSubmission, ProtocolVersion, RunId, Sha256Digest, UtcTimestamp};
+use hunteval_domain::{
+    FinalSubmission, ProtocolVersion, ResourceUsage, RunId, Sha256Digest, UtcTimestamp,
+};
 use serde::Serialize;
 use thiserror::Error;
 
 use crate::BudgetUsage;
-use hunteval_evaluation::{AggregateScore, MetricVector};
+use hunteval_evaluation::{AggregateScore, ConstraintEvaluation, MetricVector};
 
 /// Trusted settings for one deployment-neutral run.
 #[derive(Debug, Clone)]
@@ -32,7 +34,9 @@ pub struct RunExecution {
     pub submission: FinalSubmission,
     pub metrics: MetricVector,
     pub aggregate_score: AggregateScore,
+    pub constraints: Vec<ConstraintEvaluation>,
     pub usage: BudgetUsage,
+    pub resource_usage: ResourceUsage,
     pub artifacts: RunArtifacts,
 }
 

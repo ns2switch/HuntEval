@@ -1,7 +1,7 @@
 use std::collections::BTreeSet;
 
 use hunteval_domain::{EventId, SubmissionStatus};
-use hunteval_evaluation::{DeterministicEvaluator, EvaluationInput, Evaluator};
+use hunteval_evaluation::{DeterministicEvaluator, EfficiencyInput, EvaluationInput, Evaluator};
 
 fn event(value: &str) -> Result<EventId, Box<dyn std::error::Error>> {
     Ok(EventId::new(value)?)
@@ -38,6 +38,7 @@ fn input() -> EvaluationInput {
         tasks_completed: 0,
         tool_calls_used: 0,
         tool_call_limit: 0,
+        resources: EfficiencyInput::default(),
     }
 }
 

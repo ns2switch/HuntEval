@@ -4,7 +4,8 @@ use hunteval_domain::{
     Applicability, EventId, ExpectedTimelineWindow, SubmissionStatus, TimelineEntry,
 };
 use hunteval_evaluation::{
-    DeterministicEvaluator, EvaluationError, EvaluationInput, Evaluator, MetricVector,
+    DeterministicEvaluator, EfficiencyInput, EvaluationError, EvaluationInput, Evaluator,
+    MetricVector,
 };
 
 #[test]
@@ -208,6 +209,7 @@ fn input() -> EvaluationInput {
         tasks_completed: 0,
         tool_calls_used: 0,
         tool_call_limit: 0,
+        resources: EfficiencyInput::default(),
     }
 }
 

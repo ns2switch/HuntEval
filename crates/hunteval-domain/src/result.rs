@@ -48,6 +48,23 @@ pub struct ResourceUsage {
     pub estimated_cost: SourcedCost,
 }
 
+impl ResourceUsage {
+    /// Validates provider-dependent values against their declared provenance.
+    pub fn validate(&self) -> Result<(), ContractValidationError> {
+        validate_optional_count(
+            self.input_tokens,
+            self.token_provenance,
+            "resource_usage.input_tokens",
+        )?;
+        validate_optional_count(
+            self.output_tokens,
+            self.token_provenance,
+            "resource_usage.output_tokens",
+        )?;
+        validate_cost(&self.estimated_cost)
+    }
+}
+
 /// Six independent evaluation dimensions. Unsupported dimensions remain `null`.
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
@@ -109,7 +126,7 @@ impl RunResult {
                 ));
             }
         }
-        validate_cost(&self.resource_usage.estimated_cost)?;
+        self.resource_usage.validate()?;
         for path in [
             &self.artifacts.trajectory,
             &self.artifacts.submission,
@@ -124,6 +141,20 @@ impl RunResult {
             }
         }
         Ok(())
+    }
+}
+
+fn validate_optional_count(
+    value: Option<u64>,
+    provenance: ResourceProvenance,
+    field: &'static str,
+) -> Result<(), ContractValidationError> {
+    match (provenance, value) {
+        (ResourceProvenance::Unavailable, None) => Ok(()),
+        (ResourceProvenance::Unavailable, Some(_)) | (_, None) => Err(
+            ContractValidationError::new(field, "value and provenance are inconsistent"),
+        ),
+        (_, Some(_)) => Ok(()),
     }
 }
 

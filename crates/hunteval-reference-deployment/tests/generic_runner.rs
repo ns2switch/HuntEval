@@ -247,12 +247,17 @@ fn generic_engine_mediates_every_provider_and_topology() -> Result<(), Box<dyn s
                 repeated_request.output_root = temporary.path().join("repeated-runs");
                 let repeated = RunExecutor.execute(&repeated_request, &inputs, &tool)?;
                 expected_calls += 1;
-                for artifact in ["trajectory", "submission", "metrics", "aggregate_score"] {
+                for artifact in ["trajectory", "submission"] {
                     assert_eq!(
                         execution.artifacts.hashes.get(artifact),
                         repeated.artifacts.hashes.get(artifact)
                     );
                 }
+                let mut first_metrics = execution.metrics.clone();
+                let mut repeated_metrics = repeated.metrics.clone();
+                first_metrics.0.remove("measured_duration_utilization");
+                repeated_metrics.0.remove("measured_duration_utilization");
+                assert_eq!(first_metrics, repeated_metrics);
             }
             completed += 1;
         }

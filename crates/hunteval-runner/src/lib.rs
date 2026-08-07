@@ -25,10 +25,10 @@ pub use benchmark::{
     AuthoredBenchmarkManifest, AuthoredRunCell, BenchmarkCellExecutor, BenchmarkCellState,
     BenchmarkCellStatus, BenchmarkError, BenchmarkEvent, BenchmarkEventKind,
     BenchmarkExecutionPlan, BenchmarkJournal, BenchmarkJournalError, BenchmarkManifest,
-    BenchmarkRunOptions, BenchmarkRunSummary, BenchmarkService, BenchmarkServiceError,
-    BenchmarkState, CellExecution, CellExecutionFailure, ComparisonEligibility, ComparisonReason,
-    ComparisonStatus, ProductionCellExecutor, RetryPolicy, RunCell, load_benchmark,
-    load_stored_definition, resolve_benchmark, resolve_execution_plan,
+    BenchmarkMetricGroup, BenchmarkMetrics, BenchmarkRunOptions, BenchmarkRunSummary,
+    BenchmarkService, BenchmarkServiceError, BenchmarkState, CellExecution, CellExecutionFailure,
+    ComparisonEligibility, ComparisonReason, ComparisonStatus, ProductionCellExecutor, RetryPolicy,
+    RunCell, load_benchmark, load_stored_definition, resolve_benchmark, resolve_execution_plan,
 };
 pub use budget::{BudgetError, BudgetLedger, BudgetLimits, BudgetUsage};
 pub use episode_loader::{ArtifactDigests, EpisodeLoadError, EpisodePackage, PublicEpisodePackage};
@@ -43,7 +43,7 @@ pub use process::{DeploymentProcess, LinuxSandbox, ProcessError, ProcessOutput, 
 pub use reporting::{ReportGenerationError, generate_report};
 pub use run::{
     ResolvedRunInputs, RunArtifacts, RunExecution, RunExecutor, RunFailure, RunFailureKind,
-    RunInputError, RunRequest, StoredEvaluationError, StoredEvaluationHashes,
+    RunInputError, RunRequest, StoredEvaluationError, StoredEvaluationHashes, load_scoring_profile,
     load_trusted_run_view,
 };
 pub use scheduling::{ScheduledTask, deterministic_schedule};

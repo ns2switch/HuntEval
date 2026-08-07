@@ -59,7 +59,9 @@ pub(super) fn finalize_success(
         submission: success.submission,
         metrics: success.metrics,
         aggregate_score: success.aggregate_score,
+        constraints: success.constraints,
         usage: success.usage,
+        resource_usage: success.resource_usage,
         artifacts: RunArtifacts { root, hashes },
     })
 }

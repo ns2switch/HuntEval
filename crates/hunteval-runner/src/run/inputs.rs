@@ -5,7 +5,7 @@ use std::{
 };
 
 use hunteval_domain::{SchemaVersion, Sha256Digest};
-use hunteval_evaluation::ScoringProfile;
+use hunteval_evaluation::{ScoringProfile, ScoringProfileArtifact, normalize_profile};
 use serde::Deserialize;
 use thiserror::Error;
 
@@ -82,9 +82,7 @@ impl ResolvedRunInputs {
             None => resolve_regular(deployment_root, &deployment.process.executable)?,
         };
         let scoring_bytes = read_regular(scoring_profile)?;
-        let scoring_profile: ScoringProfile = serde_yaml_ng::from_slice(&scoring_bytes)
-            .map_err(|_| RunInputError::InvalidScoringProfile)?;
-        validate_scoring_profile(&scoring_profile)?;
+        let scoring_profile = parse_scoring_profile(&scoring_bytes)?;
         let schema_bytes = read_regular(schema_contract)?;
         let environment = deployment
             .process
@@ -139,38 +137,23 @@ impl ResolvedRunInputs {
     }
 }
 
+/// Loads and explicitly normalizes a v0.3 or v0.4 scoring profile.
+pub fn load_scoring_profile(path: &Path) -> Result<ScoringProfile, RunInputError> {
+    parse_scoring_profile(&read_regular(path)?)
+}
+
+fn parse_scoring_profile(bytes: &[u8]) -> Result<ScoringProfile, RunInputError> {
+    let artifact: ScoringProfileArtifact =
+        serde_yaml_ng::from_slice(bytes).map_err(|_| RunInputError::InvalidScoringProfile)?;
+    normalize_profile(artifact).map_err(|_| RunInputError::InvalidScoringProfile)
+}
+
 fn resolve_override(path: &Path) -> Result<PathBuf, RunInputError> {
     let metadata = fs::symlink_metadata(path).map_err(RunInputError::Io)?;
     if metadata.file_type().is_symlink() || !metadata.is_file() {
         return Err(RunInputError::UnsafePath);
     }
     fs::canonicalize(path).map_err(RunInputError::Io)
-}
-
-fn validate_scoring_profile(profile: &ScoringProfile) -> Result<(), RunInputError> {
-    const METRICS: &[&str] = &[
-        "entity_precision",
-        "entity_recall",
-        "event_precision",
-        "event_recall",
-        "evidence_grounding",
-        "provenance_validity",
-        "resilience",
-        "task_completion",
-        "tool_call_utilization",
-    ];
-    let total = profile.weights.values().sum::<f64>();
-    if profile.schema_version != SchemaVersion::new(0, 3)
-        || profile.id.trim().is_empty()
-        || profile.weights.is_empty()
-        || profile.weights.iter().any(|(name, weight)| {
-            !METRICS.contains(&name.as_str()) || !weight.is_finite() || *weight < 0.0
-        })
-        || (total - 1.0).abs() > 1e-9
-    {
-        return Err(RunInputError::InvalidScoringProfile);
-    }
-    Ok(())
 }
 
 fn validate_deployment(manifest: &DeploymentManifest) -> Result<(), RunInputError> {

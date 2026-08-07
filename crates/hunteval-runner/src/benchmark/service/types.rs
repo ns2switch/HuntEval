@@ -132,6 +132,8 @@ pub enum BenchmarkServiceError {
     Io(#[source] std::io::Error),
     #[error("benchmark serialization failed")]
     Serialize(#[source] serde_json::Error),
+    #[error("benchmark stability aggregation failed: {0}")]
+    Statistics(#[from] hunteval_statistics::StabilityError),
     #[error("benchmark journal failed: {0}")]
     Journal(#[from] BenchmarkJournalError),
     #[error("benchmark definition failed: {0}")]

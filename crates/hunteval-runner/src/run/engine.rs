@@ -1,7 +1,9 @@
-use std::{collections::BTreeSet, path::Path};
+use std::{collections::BTreeSet, path::Path, time::Instant};
 
 use crate::{ArtifactWriter, BudgetLimits, ManagedTool, RunConfig, RunOrchestrator};
-use hunteval_domain::{FinalSubmission, MessageId, ProtocolVersion};
+use hunteval_domain::{
+    FinalSubmission, MessageId, ProtocolVersion, ResourceProvenance, ResourceUsage, SourcedCost,
+};
 use hunteval_protocol::{MessageOrigin, ProtocolEnvelope, ProtocolPayload, ToolOutcome};
 
 use super::{
@@ -44,7 +46,9 @@ pub(super) struct PendingSuccess {
     pub(super) submission: FinalSubmission,
     pub(super) metrics: hunteval_evaluation::MetricVector,
     pub(super) aggregate_score: hunteval_evaluation::AggregateScore,
+    pub(super) constraints: Vec<hunteval_evaluation::ConstraintEvaluation>,
     pub(super) usage: crate::BudgetUsage,
+    pub(super) resource_usage: ResourceUsage,
     pub(super) evaluated_hashes: super::StoredEvaluationHashes,
 }
 
@@ -74,6 +78,7 @@ fn execute_inner(
     {
         return Err(EngineError::InvalidConfiguration);
     }
+    let started_at = Instant::now();
     let mut process = ProtocolProcess::spawn(
         &inputs.executable,
         &inputs.arguments,
@@ -169,14 +174,33 @@ fn execute_inner(
         }
     }
     process.finish()?;
+    let duration_ms = u64::try_from(started_at.elapsed().as_millis())
+        .map_err(|_| EngineError::InvalidConfiguration)?;
     let submission = submission.ok_or(EngineError::ProtocolViolation)?;
     let usage = orchestrator.usage();
+    let resource_usage = ResourceUsage {
+        duration_ms,
+        tool_calls: u32::try_from(usage.tool_calls)
+            .map_err(|_| EngineError::InvalidConfiguration)?,
+        sql_queries: u32::try_from(usage.tool_calls)
+            .map_err(|_| EngineError::InvalidConfiguration)?,
+        messages: u32::try_from(usage.messages).map_err(|_| EngineError::InvalidConfiguration)?,
+        input_tokens: None,
+        output_tokens: None,
+        token_provenance: ResourceProvenance::Unavailable,
+        estimated_cost: SourcedCost {
+            value: None,
+            provenance: ResourceProvenance::Unavailable,
+            currency: None,
+        },
+    };
     writer.write_json(Path::new("submission.json"), &submission)?;
     let evaluated = evaluate_stored_run(
         inputs,
         writer.partial_root(),
         &request.run_id,
         request.maximum_line_bytes,
+        &resource_usage,
     )?;
     writer.write_json(Path::new("metrics.json"), &evaluated.metrics)?;
     writer.write_json(
@@ -187,7 +211,9 @@ fn execute_inner(
         submission,
         metrics: evaluated.metrics,
         aggregate_score: evaluated.aggregate_score,
+        constraints: evaluated.constraints,
         usage,
+        resource_usage,
         evaluated_hashes: evaluated.stored_hashes,
     })
 }

@@ -533,6 +533,7 @@ The runner resolves both roots without following unexpected symlinks. Private pa
     "messages": 31,
     "input_tokens": 42000,
     "output_tokens": 9100,
+    "token_provenance": "verified_adapter",
     "estimated_cost": {
       "value": 1.42,
       "provenance": "verified_adapter",
@@ -719,3 +720,23 @@ A report claim contains a stable claim ID, bounded text, and at least one typed 
 - `artifact_digest`: artifact label and SHA-256 digest.
 
 References never contain filesystem paths, raw private values, environment values, or arbitrary URLs. Renderers validate reference ownership and escape all claim text before output.
+
+## 29. Efficiency and stability inputs
+
+Run-level efficiency consumes trusted resource observations, not deployment prose. `measured_duration_utilization` divides runner-observed process duration by the configured duration cap and caps the normalized numerator at the cap. A zero duration cap is not applicable. The uncapped duration remains in `resource_usage`; timeout or cap enforcement is represented separately from the normalized metric.
+
+`verified_cost_utilization` is applicable only when a configured adapter supplies a finite nonnegative cost with `verified_adapter` provenance and the episode supplies a positive finite cost cap. Self-reported and unavailable costs produce `requires_verified_resource_usage`. Missing caps produce `unavailable_resource`, and a zero cap produces `zero_denominator`. Normalization never upgrades self-reported data into verified data.
+
+Benchmark stability groups cells by deployment and episode and consumes the benchmark's canonical listed seed order. Every required seed must resolve to exactly one digest-verified, schema-valid completed cell. Missing, failed, or invalid cells are retained as typed unavailable repetitions and make stability `requires_comparable_cells`; they are never replaced or imputed. A benchmark declaring fewer than two seeds produces `requires_repeated_runs`.
+
+Submission stability is the mean pairwise Jaccard similarity of canonical structured claims: status, confidence, malicious event and entity IDs, ATT&CK technique IDs, ordered attack-path positions, and ordered timeline event/time pairs. Free-form summaries, limitations, finding IDs, and evidence IDs are excluded. Metric stability is one minus the mean absolute difference across identical sets of applicable bounded run metrics. A mismatched or empty applicable metric set is explicitly non-comparable. Results retain required sample count, completed sample count, pair counts, contributing cell IDs, and unavailable seeds. Pairwise aggregation enforces deterministic sample and comparison-work bounds and fails closed before allocating or executing an unbounded quadratic comparison.
+
+## 30. Scoring profile v0.4
+
+A v0.4 scoring profile contains a stable ID, an explicit missing-value policy, one or more metric selections, and a bounded constraint array. Every selection names a registered metric through its map key and supplies an exact contract version plus a finite nonnegative weight. All weights sum to one. Metric range and direction come only from the registry; an evaluated metric whose range or direction disagrees with its registered contract is rejected.
+
+The missing-value policies are `reject`, `renormalize`, and `zero`. `reject` yields no aggregate when any selected metric is unavailable. `renormalize` omits ordinary unavailable metrics, but cannot omit resilience, graceful degradation, reproducibility, submission stability, metric stability, or verified cost. `zero` retains the selected weight with the worst normalized contribution. No policy silently converts an unavailable protected metric into success.
+
+Constraints are either `observed_violation` or `metric_threshold`. Every threshold identifies a registered metric and version, comparison, bounded threshold, disqualifying flag, and an explicit resource-provenance requirement: `none`, `measured`, or `verified_adapter`. The requirement must exactly match the registry. A value with missing, self-reported, unavailable, or otherwise mismatched provenance produces `unverifiable`, never `satisfied`. Constraint codes are unique canonical identifiers.
+
+The compatibility loader accepts the immutable v0.3 profile shape, maps every legacy weight to the registered v0.3 metric contract, maps legacy disqualifying codes to typed observed-violation constraints, and returns a normalized in-memory v0.4 profile. It hashes and preserves the original bytes and never rewrites, enriches, or infers values in the v0.3 source. Unknown profile versions, metric names, metric versions, fields, weights, directions, provenance requirements, or duplicate constraint codes fail closed.

@@ -1,0 +1,98 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hunteval.dev/schemas/v0.4/scoring-profile.schema.json",
+  "title": "HuntEval scoring profile v0.4",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "id", "missing_metric_policy", "metrics", "constraints"],
+  "properties": {
+    "schema_version": {"const": "0.4"},
+    "id": {"$ref": "common.schema.json#/$defs/identifier"},
+    "missing_metric_policy": {"enum": ["reject", "renormalize", "zero"]},
+    "metrics": {
+      "type": "object",
+      "minProperties": 1,
+      "maxProperties": 64,
+      "propertyNames": {
+        "enum": [
+          "event_precision", "event_recall", "entity_precision", "entity_recall",
+          "evidence_grounding", "provenance_validity", "task_completion",
+          "tool_call_utilization", "resilience", "graceful_degradation",
+          "attack_path_precision", "attack_path_recall", "timeline_precision",
+          "timeline_recall", "conclusion_correctness", "technique_precision",
+          "technique_recall", "evidence_event_coverage", "evidence_entity_coverage",
+          "evidence_sufficiency", "duplicate_tool_work", "useful_communication",
+          "measured_duration_utilization", "verified_cost_utilization",
+          "submission_stability", "metric_stability"
+        ]
+      },
+      "additionalProperties": {"$ref": "#/$defs/metric_selection"}
+    },
+    "constraints": {
+      "type": "array",
+      "maxItems": 128,
+      "items": {"oneOf": [
+        {"$ref": "#/$defs/observed_constraint"},
+        {"$ref": "#/$defs/metric_constraint"}
+      ]}
+    }
+  },
+  "$defs": {
+    "metric_name": {
+      "type": "string",
+      "enum": [
+        "event_precision", "event_recall", "entity_precision", "entity_recall",
+        "evidence_grounding", "provenance_validity", "task_completion",
+        "tool_call_utilization", "resilience", "graceful_degradation",
+        "attack_path_precision", "attack_path_recall", "timeline_precision",
+        "timeline_recall", "conclusion_correctness", "technique_precision",
+        "technique_recall", "evidence_event_coverage", "evidence_entity_coverage",
+        "evidence_sufficiency", "duplicate_tool_work", "useful_communication",
+        "measured_duration_utilization", "verified_cost_utilization",
+        "submission_stability", "metric_stability"
+      ]
+    },
+    "metric_selection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["version", "weight"],
+      "properties": {
+        "version": {"enum": ["0.3", "0.4"]},
+        "weight": {"type": "number", "minimum": 0, "maximum": 1}
+      }
+    },
+    "metric_reference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "version"],
+      "properties": {
+        "name": {"$ref": "#/$defs/metric_name"},
+        "version": {"enum": ["0.3", "0.4"]}
+      }
+    },
+    "observed_constraint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "code", "disqualifying"],
+      "properties": {
+        "kind": {"const": "observed_violation"},
+        "code": {"type": "string", "pattern": "^[a-z0-9_]{1,128}$"},
+        "disqualifying": {"type": "boolean"}
+      }
+    },
+    "metric_constraint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "code", "metric", "comparison", "threshold", "disqualifying", "required_resource_provenance"],
+      "properties": {
+        "kind": {"const": "metric_threshold"},
+        "code": {"type": "string", "pattern": "^[a-z0-9_]{1,128}$"},
+        "metric": {"$ref": "#/$defs/metric_reference"},
+        "comparison": {"enum": ["minimum", "maximum"]},
+        "threshold": {"type": "number", "minimum": 0, "maximum": 1},
+        "disqualifying": {"type": "boolean"},
+        "required_resource_provenance": {"enum": ["none", "measured", "verified_adapter"]}
+      }
+    }
+  }
+}

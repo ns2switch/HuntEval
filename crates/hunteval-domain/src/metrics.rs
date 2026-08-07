@@ -22,6 +22,8 @@ pub enum Applicability {
     AcceptableStatusesUnavailable,
     InsufficientEvidenceRequirements,
     RequiresRepeatedRuns,
+    RequiresComparableCells,
+    RequiresVerifiedResourceUsage,
     RequiresFaultPair,
     UnavailableResource,
 }

@@ -115,6 +115,12 @@ fn canonical_v04_examples_validate_offline() -> Result<(), Box<dyn std::error::E
         "benchmark-manifest.schema.json",
         &yaml_example("examples/contracts/v0.4/benchmark-manifest.yaml")?,
     )?;
+    validate(
+        &schemas,
+        "v0.4",
+        "scoring-profile.schema.json",
+        &yaml_example("examples/contracts/v0.4/scoring-profile.yaml")?,
+    )?;
     Ok(())
 }
 
@@ -184,6 +190,10 @@ fn public_v04_contracts_reject_private_and_unknown_fields() -> Result<(), Box<dy
     let mut submission = json_example("examples/contracts/v0.4/submission.json")?;
     submission["expected_timeline_windows"] = Value::Array(Vec::new());
     assert!(validate(&schemas, "v0.4", "submission.schema.json", &submission).is_err());
+
+    let mut profile = yaml_example("examples/contracts/v0.4/scoring-profile.yaml")?;
+    profile["constraints"][0]["required_resource_provenance"] = Value::Null;
+    assert!(validate(&schemas, "v0.4", "scoring-profile.schema.json", &profile).is_err());
     Ok(())
 }
 

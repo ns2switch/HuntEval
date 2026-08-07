@@ -1,0 +1,15 @@
+schema_version: "0.3"
+id: balanced-0.3
+missing_metric_policy: renormalize
+weights:
+  entity_precision: 0.10
+  entity_recall: 0.10
+  event_precision: 0.20
+  event_recall: 0.20
+  evidence_grounding: 0.15
+  provenance_validity: 0.10
+  task_completion: 0.10
+  tool_call_utilization: 0.05
+disqualifying_constraints:
+  - ground_truth_exposure
+  - direct_scored_tool_access

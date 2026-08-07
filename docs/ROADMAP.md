@@ -23,8 +23,8 @@ The repository currently provides:
 
 Several of these are intentionally narrow foundations. The most important completeness gaps are:
 
-- the R2.1 CLI executes, resumes, inspects, and compares the complete local matrix; trusted-view replay plus R2-08 and R2-09 run metrics are complete, while verified efficiency and cross-run stability are the next benchmark-completeness dependency;
-- event, entity, evidence completeness, task, utilization, graceful-degradation, attack-path, timeline, structured-conclusion, technique, duplicate-work, and causally useful communication metrics exist, while verified efficiency and cross-run reproducibility remain incomplete;
+- the R2.1 CLI executes, resumes, inspects, and compares the complete local matrix; trusted-view replay, the R2-08 through R2-10 metric contracts, and registry-backed v0.4 scoring profiles with v0.3 compatibility are complete;
+- event, entity, evidence completeness, task, utilization, graceful-degradation, attack-path, timeline, structured-conclusion, technique, duplicate-work, causally useful communication, measured-duration, verified-cost, and cross-run stability metrics exist;
 - static run reports exist, but benchmark reports, timelines, coordination views, agent attribution, and artifact hashes are not yet complete;
 - diagnosis and experiment safety contracts exist, but artifact registries, end-to-end validation workflows, and broader evidence-backed classification remain incomplete;
 - the GitHub workflow runs the quality gates, but it still needs a shared local/CI entrypoint, hardened merge policy, bounded artifacts, and release automation.
@@ -66,7 +66,7 @@ The pull-request sequence, contracts, tests, and quality gates for all v0.2 init
 
 Completion evidence: the public CLI completed both reference deployments over all nine cloud episodes and two paired seeds (36 cells), recovered a forcibly interrupted controller, reproduced equivalent definition, submission, metric, and aggregate-score artifacts, and rejected missing or digest-mismatched pairs.
 
-#### R2.2 — Complete evaluation contracts
+#### R2.2 — Complete evaluation contracts (complete)
 
 - add ordered attack-path accuracy;
 - add timeline accuracy with versioned tolerances;

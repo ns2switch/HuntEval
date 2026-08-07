@@ -11,7 +11,7 @@ use hunteval_domain::{
 use serde::Serialize;
 
 use crate::{
-    EvaluationInput,
+    EfficiencyInput, EvaluationInput,
     input::validate::validate_input,
     metrics::coordination::{CoordinationCounts, reduce as reduce_coordination},
 };
@@ -284,6 +284,7 @@ impl TrustedRunView {
             tasks_completed: completed_tasks,
             tool_calls_used: self.observed.actions.len() as u64,
             tool_call_limit: self.tool_call_limit,
+            resources: EfficiencyInput::default(),
         }
     }
 }

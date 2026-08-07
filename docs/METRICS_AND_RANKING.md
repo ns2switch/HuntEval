@@ -143,49 +143,48 @@ Every stored raw metric includes `value`, `applicability`, `direction`, `range`,
 | tool-call utilization | `[0,1]` | lower is better | managed tool calls used | configured tool-call cap | zero cap and zero use is not applicable; use above the cap is a budget violation and the raw ratio is clamped only for dimension normalization |
 | graceful degradation | `[0,1]` | higher is better | paired fault-run quality, capped at baseline quality | paired baseline-run quality | a zero baseline denominator is not applicable; non-finite or out-of-range inputs are rejected; runs must share episode, seed, and configuration except for the declared fault profile |
 
-Event and entity inputs are treated as sets after identifier validation, so duplicate submitted identifiers do not increase the numerator or denominator. Raw duplicate counts remain available as diagnostics. A run without a paired fault run records resilience as `null` with `requires_fault_pair` applicability. Attack-path, timeline, structured-conclusion, and technique contracts are implemented by R2-08. Semantic coordination, cost-normalized efficiency, and reproducibility remain deferred to their owning milestones.
+Event and entity inputs are treated as sets after identifier validation, so duplicate submitted identifiers do not increase the numerator or denominator. Raw duplicate counts remain available as diagnostics. A run without a paired fault run records resilience as `null` with `requires_fault_pair` applicability. Attack-path, timeline, structured-conclusion, and technique contracts are implemented by R2-08; evidence and coordination by R2-09; provenance-aware efficiency plus cross-run stability by R2-10; and registry-backed scoring and compatibility by R2-11.
 
 ## 3. Dimension scores
 
-Each dimension score lies in `[0, 1]`. The scoring profile defines metric normalization and weights within a dimension.
+Each normalized score lies in `[0, 1]`. A v0.4 scoring profile selects exact metric name/version pairs and assigns weights that sum to one. Metric direction is obtained from the compiled contract registry and cannot be authored or overridden by the profile.
 
 Example:
 
 ```yaml
-investigation_quality:
-  metrics:
-    event_recall: 0.30
-    event_precision: 0.20
-    entity_recall: 0.15
-    entity_precision: 0.10
-    attack_path_precision: 0.075
-    attack_path_recall: 0.075
-    conclusion_correctness: 0.10
+schema_version: "0.4"
+id: investigation-example
+missing_metric_policy: reject
+metrics:
+  event_recall: {version: "0.3", weight: 0.40}
+  event_precision: {version: "0.3", weight: 0.20}
+  attack_path_recall: {version: "0.4", weight: 0.25}
+  conclusion_correctness: {version: "0.4", weight: 0.15}
+constraints: []
 ```
 
-Weights within a dimension must sum to one. Missing non-applicable metrics are renormalized according to an explicit profile policy.
+The missing-value policy is one of `reject`, `renormalize`, or `zero`. Missing resilience, graceful degradation, submission stability, metric stability, reproducibility, or verified cost cannot be renormalized away: `reject` and `renormalize` produce no aggregate, while `zero` applies an explicit worst contribution.
 
 ## 4. Aggregate profiles
 
 Example accuracy-first profile:
 
 ```yaml
-name: accuracy-first
-version: 1.0.0
-weights:
-  investigation_quality: 0.40
-  evidence_quality: 0.25
-  coordination_quality: 0.15
-  resilience: 0.10
-  efficiency: 0.05
-  reproducibility: 0.05
+schema_version: "0.4"
+id: verified-cost-aware
+missing_metric_policy: reject
+metrics:
+  event_recall: {version: "0.3", weight: 0.70}
+  evidence_event_coverage: {version: "0.4", weight: 0.20}
+  verified_cost_utilization: {version: "0.4", weight: 0.10}
 constraints:
-  min_event_recall: 0.70
-  max_false_positive_rate: 0.20
-  no_ground_truth_leakage: true
-  no_critical_policy_violation: true
-non_applicable:
-  dimension_policy: reject
+  - kind: metric_threshold
+    code: maximum_verified_cost
+    metric: {name: verified_cost_utilization, version: "0.4"}
+    comparison: maximum
+    threshold: 0.80
+    disqualifying: true
+    required_resource_provenance: verified_adapter
 ```
 
 Aggregate score:
@@ -194,7 +193,7 @@ Aggregate score:
 score = sum(dimension_score[d] * profile_weight[d])
 ```
 
-A deployment that violates a disqualifying constraint is excluded or clearly marked, even when its weighted score is high.
+A constraint result is `satisfied`, `violated`, or `unverifiable`. An unverifiable hard resource constraint is never considered satisfied. Disqualifying results remain explicit even when the weighted score is high.
 
 ## 5. Supported profile families
 
@@ -379,6 +378,13 @@ Structured timeline entries preserve submitted order, event identity, observable
 | `duplicate_tool_work` | `[0,1]`, lower | repeated canonical tool fingerprints adding no new grounded evidence ID / completed tool calls | zero calls is `zero_denominator`; equivalent object-key ordering, new evidence, no evidence, invalid tool names, and bounded arguments are tested |
 | `useful_communication` | `[0,1]`, higher | operational messages directly cited by a later target-agent action or task transition / operational messages | zero messages is `zero_denominator`; prose-only, wrong-target, unknown, future, reassignment, and cancellation paths are explicit |
 
+| R2-10 metric | Range / direction | Numerator / denominator and normalization | Applicability and tested edges |
+|---|---|---|---|
+| `measured_duration_utilization` | `[0,1]`, lower | runner-measured process milliseconds capped at the configured duration cap / duration cap | zero cap is `zero_denominator`; zero, partial, at-cap, and exceeded-cap measurements are deterministic; the uncapped observation remains in resource usage |
+| `verified_cost_utilization` | `[0,1]`, lower | verified-adapter cost / configured cost cap, capped at `1` | self-reported or unavailable cost is `requires_verified_resource_usage`; missing cap is `unavailable_resource`; zero cap is `zero_denominator`; malformed provenance and non-finite values fail closed |
+| `submission_stability` | `[0,1]`, higher | mean pairwise Jaccard similarity of canonical structured claims over the exact listed seed set | one seed is `requires_repeated_runs`; missing, failed, invalid, or unverified cells are `requires_comparable_cells`; free-form text and run-local provenance IDs are excluded |
+| `metric_stability` | `[0,1]`, higher | one minus mean absolute pairwise difference across identical applicable bounded metric vectors | metric-key mismatch, empty vectors, or unavailable required cells are `requires_comparable_cells`; deterministic seed ordering, identical, divergent, missing, failed, and tampered fixtures are tested |
+
 Comparison and report claims must retain typed source references. Statistical summaries cite comparison IDs and contributing cell IDs; run metric claims cite metric pointers and, where applicable, trajectory sequences. A renderer cannot turn an uncited diagnostic statement into a benchmark conclusion.
 
-Before efficiency or stability metrics enter a scoring profile, their owning change must add a normative table row defining range, direction, numerator, denominator, normalization, applicability, edge cases, positive fixtures, and negative fixtures. R2-08 and R2-09 supply those contracts and fixtures for investigation, evidence, and coordination; R2-11 owns their scoring-profile weights and compatibility policy.
+R2-08 through R2-10 provide normative contracts and positive and negative fixtures for investigation, evidence, coordination, efficiency, and stability. R2-11 registers their exact names, versions, directions, resource provenance requirements, missing-value behavior, typed constraints, and v0.3 compatibility policy. Profile normalization is deterministic and never modifies the source artifact.

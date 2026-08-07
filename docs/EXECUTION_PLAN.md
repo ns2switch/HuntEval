@@ -224,7 +224,7 @@ The vertical slice implements only metrics whose contracts can be deterministic 
 | task completion rate | `[0,1]` | higher is better | created non-superseded tasks; zero created tasks is not applicable |
 | tool-call utilization | `[0,1]` | lower raw usage is better | used calls / configured cap; zero cap with zero use is not applicable |
 
-Raw counts and applicability are always preserved. The first result does not fabricate resilience or reproducibility values from one run; those dimensions are `null` and aggregate scoring must follow an explicit profile policy. Attack-path, timeline, structured-conclusion, technique, evidence-completeness, canonical duplicate-work, and causally useful communication metrics now have separate deterministic contracts and tests. Resilience aggregation, cost-normalized efficiency, confidence intervals, and stability remain deferred to their owning milestones.
+Raw counts and applicability are always preserved. A single run does not fabricate resilience or reproducibility values; those dimensions remain `null` until their required paired inputs exist. Attack-path, timeline, structured-conclusion, technique, evidence-completeness, canonical duplicate-work, causally useful communication, measured-duration, verified-cost, cross-run submission, and metric stability have separate deterministic contracts and tests. Registry-backed v0.4 scoring profiles enforce explicit missing-value behavior, registered direction, typed constraints, and verified resource provenance; v0.3 sources are normalized without rewriting them. Comparative confidence and reporting policy remain with their owning milestones.
 
 ## 4. Pull request sequence
 

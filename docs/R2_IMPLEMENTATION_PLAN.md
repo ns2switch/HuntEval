@@ -27,9 +27,9 @@ Status values are evidence-based: `complete` means the milestone has a dedicated
 | R2-07 | complete | trusted stored-artifact reducer with typed observable provenance and fail-closed reference validation |
 | R2-08 | complete | independent attack-path, timeline, structured-conclusion, and technique metrics with v0.3/v0.4 adapters |
 | R2-09 | complete | grounded evidence coverage and sufficiency plus canonical duplicate-work and causally useful communication metrics |
-| R2-10 | planned — next | requires R2-07 and benchmark aggregation |
-| R2-11 | planned | requires R2-08 through R2-10 |
-| R2-12 | planned | requires R2-06 and R2-11 |
+| R2-10 | complete | measured duration, verified-only cost utilization, and digest-verified cross-seed stability aggregation |
+| R2-11 | complete | versioned registry-backed profiles, typed provenance constraints, and immutable v0.3 adaptation |
+| R2-12 | planned — next | requires R2-06 and R2-11 |
 | R2-13 | planned | requires R2-12 |
 | R2-14 | planned | requires R2-13 |
 | R2-15 | planned | requires R2-13 and R2-14 |
@@ -50,7 +50,7 @@ The implementation audit after R2-06 established the following current starting 
 5. Comparison eligibility requires complete pairs and re-verifies normalized result bytes against their journaled digests. Missing, failed, or tampered pairs remain explicitly ineligible.
 6. The compatibility `run` command remains available for the original vertical-slice workflow; benchmark commands use the generic engine.
 7. Run metrics now consume a non-serializable trusted view reduced from digest-verified stored trajectory and submission artifacts; its serializable observation projection cannot represent evaluator-only ground truth.
-8. Investigation, evidence-completeness, duplicate-work, and causally useful communication metrics are complete with explicit applicability and raw counts. Verified efficiency and cross-run stability remain incomplete; R2-10 is next.
+8. Investigation, evidence-completeness, duplicate-work, causally useful communication, measured-duration, verified-cost, and cross-run stability metrics are complete with explicit applicability and sample accounting. Registry-backed v0.4 scoring profiles and v0.3 compatibility are complete; R2-12 normalized benchmark results are next.
 9. `BenchmarkReport` remains a serialization foundation. Static rendering supports run reports, not complete comparative benchmark reports.
 10. GitHub Actions runs the mandatory gates, but no shared local/CI entrypoint, fail-closed sandbox capability job, hardened release workflow, or repository-settings checklist exists.
 
@@ -413,6 +413,8 @@ cargo test -p hunteval-evaluation coordination
 
 ### R2-10 — Efficiency and cross-run stability
 
+**Status:** Complete.
+
 **Objective:** implement provenance-aware resource metrics and benchmark-level stability without fabricating values from a single run.
 
 **Primary files:** evaluation resource metrics, `hunteval-statistics` stability module, runner benchmark aggregation.
@@ -428,6 +430,8 @@ cargo test -p hunteval-runner --test benchmark_metrics
 ```
 
 ### R2-11 — Scoring profile v0.4 and compatibility
+
+**Status:** Complete.
 
 **Objective:** allow profiles to select the completed metric set without embedding a universal score or unsafe missing-value behavior.
 

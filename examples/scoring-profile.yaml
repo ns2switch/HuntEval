@@ -1,19 +1,23 @@
-name: accuracy-first
-version: 1.0.0
-weights:
-  investigation_quality: 0.40
-  evidence_quality: 0.25
-  coordination_quality: 0.15
-  resilience: 0.10
-  efficiency: 0.05
-  reproducibility: 0.05
+schema_version: "0.4"
+id: accuracy-first-0.4
+missing_metric_policy: reject
+metrics:
+  event_precision: {version: "0.3", weight: 0.15}
+  event_recall: {version: "0.3", weight: 0.25}
+  entity_precision: {version: "0.3", weight: 0.10}
+  entity_recall: {version: "0.3", weight: 0.15}
+  attack_path_recall: {version: "0.4", weight: 0.10}
+  conclusion_correctness: {version: "0.4", weight: 0.10}
+  evidence_event_coverage: {version: "0.4", weight: 0.10}
+  evidence_sufficiency: {version: "0.4", weight: 0.05}
 constraints:
-  min_event_recall: 0.70
-  max_false_positive_rate: 0.20
-  no_ground_truth_leakage: true
-  no_critical_policy_violation: true
-non_applicable:
-  dimension_policy: reject
-ranking:
-  confidence_level: 0.95
-  inconclusive_when_paired_difference_includes_zero: true
+  - kind: metric_threshold
+    code: minimum_event_recall
+    metric: {name: event_recall, version: "0.3"}
+    comparison: minimum
+    threshold: 0.70
+    disqualifying: true
+    required_resource_provenance: none
+  - kind: observed_violation
+    code: ground_truth_exposure
+    disqualifying: true

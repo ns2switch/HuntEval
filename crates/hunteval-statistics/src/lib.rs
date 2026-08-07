@@ -1,5 +1,12 @@
 //! Deterministic paired summaries that retain sample counts and uncertainty.
 
+mod stability;
+
+pub use stability::{
+    StabilityError, StabilityInput, StabilitySample, StabilitySummary, UnavailableRepetition,
+    UnavailableRepetitionReason, evaluate_stability,
+};
+
 use serde::{Deserialize, Serialize};
 use thiserror::Error;
 

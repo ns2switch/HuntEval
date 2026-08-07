@@ -1,0 +1,18 @@
+schema_version: "0.4"
+id: verified-cost-aware-0.4
+missing_metric_policy: reject
+metrics:
+  event_recall: {version: "0.3", weight: 0.70}
+  evidence_event_coverage: {version: "0.4", weight: 0.20}
+  verified_cost_utilization: {version: "0.4", weight: 0.10}
+constraints:
+  - kind: metric_threshold
+    code: maximum_verified_cost
+    metric: {name: verified_cost_utilization, version: "0.4"}
+    comparison: maximum
+    threshold: 0.80
+    disqualifying: true
+    required_resource_provenance: verified_adapter
+  - kind: observed_violation
+    code: ground_truth_exposure
+    disqualifying: true

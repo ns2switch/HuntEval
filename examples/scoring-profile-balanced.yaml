@@ -1,15 +1,25 @@
-schema_version: "0.3"
-id: balanced-0.3
+schema_version: "0.4"
+id: balanced-0.4
 missing_metric_policy: renormalize
-weights:
-  entity_precision: 0.10
-  entity_recall: 0.10
-  event_precision: 0.20
-  event_recall: 0.20
-  evidence_grounding: 0.15
-  provenance_validity: 0.10
-  task_completion: 0.10
-  tool_call_utilization: 0.05
-disqualifying_constraints:
-  - ground_truth_exposure
-  - direct_scored_tool_access
+metrics:
+  entity_precision: {version: "0.3", weight: 0.08}
+  entity_recall: {version: "0.3", weight: 0.08}
+  event_precision: {version: "0.3", weight: 0.12}
+  event_recall: {version: "0.3", weight: 0.14}
+  attack_path_precision: {version: "0.4", weight: 0.06}
+  attack_path_recall: {version: "0.4", weight: 0.08}
+  conclusion_correctness: {version: "0.4", weight: 0.08}
+  evidence_event_coverage: {version: "0.4", weight: 0.08}
+  evidence_entity_coverage: {version: "0.4", weight: 0.06}
+  evidence_sufficiency: {version: "0.4", weight: 0.06}
+  duplicate_tool_work: {version: "0.4", weight: 0.04}
+  useful_communication: {version: "0.4", weight: 0.04}
+  measured_duration_utilization: {version: "0.4", weight: 0.04}
+  tool_call_utilization: {version: "0.3", weight: 0.04}
+constraints:
+  - kind: observed_violation
+    code: ground_truth_exposure
+    disqualifying: true
+  - kind: observed_violation
+    code: direct_scored_tool_access
+    disqualifying: true
