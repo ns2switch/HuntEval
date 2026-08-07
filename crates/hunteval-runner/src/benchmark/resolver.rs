@@ -5,12 +5,13 @@ use std::{
 };
 
 use hunteval_domain::{
-    BenchmarkDefinition, EpisodeId, FaultProfileId, ResolvedArtifact, ResolvedDeployment,
-    ResolvedEpisode, ScoringProfileId, Sha256Digest,
+    BenchmarkDefinition, DeploymentId, EpisodeId, FaultProfileId, ResolvedArtifact,
+    ResolvedDeployment, ResolvedEpisode, ScoringProfileId, Sha256Digest,
 };
 use serde::Deserialize;
 use sha2::{Digest, Sha256};
 
+use super::service::BenchmarkExecutionPlan;
 use super::{AuthoredBenchmarkManifest, BenchmarkError, load_benchmark};
 
 const MAX_ARTIFACT_FILES: usize = 100_000;
@@ -29,6 +30,40 @@ pub fn resolve_benchmark(
 ) -> Result<BenchmarkDefinition, BenchmarkError> {
     let manifest = load_benchmark(manifest_path)?;
     resolve_manifest(&manifest, artifact_root)
+}
+
+/// Resolves stable identities together with trusted local paths needed by the application service.
+pub fn resolve_execution_plan(
+    manifest_path: &Path,
+    artifact_root: &Path,
+) -> Result<BenchmarkExecutionPlan, BenchmarkError> {
+    let manifest = load_benchmark(manifest_path)?;
+    let definition = resolve_manifest(&manifest, artifact_root)?;
+    let root = artifact_root.canonicalize()?;
+    let mut deployments = std::collections::BTreeMap::new();
+    for reference in &manifest.deployments {
+        let root_path = resolve_path(&root, reference)?;
+        let descriptor = descriptor_path(&root_path, "deployment.yaml")?;
+        let id = read_descriptor_id(&descriptor, false)?
+            .parse::<DeploymentId>()
+            .map_err(|_| BenchmarkError::InvalidDescriptor)?;
+        deployments.insert(id, descriptor);
+    }
+    let mut episodes = std::collections::BTreeMap::new();
+    for reference in &manifest.episodes {
+        let path = resolve_path(&root, reference)?;
+        let descriptor = descriptor_path(&path, "package.yaml")?;
+        let id = read_descriptor_id(&descriptor, true)?
+            .parse::<EpisodeId>()
+            .map_err(|_| BenchmarkError::InvalidDescriptor)?;
+        episodes.insert(id, path);
+    }
+    Ok(BenchmarkExecutionPlan {
+        definition,
+        deployments,
+        episodes,
+        scoring_profile: resolve_path(&root, &manifest.scoring_profile)?,
+    })
 }
 
 fn resolve_manifest(

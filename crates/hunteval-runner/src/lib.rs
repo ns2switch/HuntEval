@@ -17,13 +17,18 @@ mod process;
 mod reporting;
 mod run;
 mod scheduling;
+mod sql_tool;
 mod vertical_slice;
 
 pub use artifacts::{ArtifactError, ArtifactWriter, RunManifest};
 pub use benchmark::{
-    AuthoredBenchmarkManifest, AuthoredRunCell, BenchmarkCellState, BenchmarkCellStatus,
-    BenchmarkError, BenchmarkEvent, BenchmarkEventKind, BenchmarkJournal, BenchmarkJournalError,
-    BenchmarkManifest, BenchmarkState, RunCell, load_benchmark, resolve_benchmark,
+    AuthoredBenchmarkManifest, AuthoredRunCell, BenchmarkCellExecutor, BenchmarkCellState,
+    BenchmarkCellStatus, BenchmarkError, BenchmarkEvent, BenchmarkEventKind,
+    BenchmarkExecutionPlan, BenchmarkJournal, BenchmarkJournalError, BenchmarkManifest,
+    BenchmarkRunOptions, BenchmarkRunSummary, BenchmarkService, BenchmarkServiceError,
+    BenchmarkState, CellExecution, CellExecutionFailure, ComparisonEligibility, ComparisonReason,
+    ComparisonStatus, ProductionCellExecutor, RetryPolicy, RunCell, load_benchmark,
+    load_stored_definition, resolve_benchmark, resolve_execution_plan,
 };
 pub use budget::{BudgetError, BudgetLedger, BudgetLimits, BudgetUsage};
 pub use episode_loader::{ArtifactDigests, EpisodeLoadError, EpisodePackage, PublicEpisodePackage};
@@ -41,6 +46,7 @@ pub use run::{
     RunInputError, RunRequest,
 };
 pub use scheduling::{ScheduledTask, deterministic_schedule};
+pub use sql_tool::DuckDbManagedTool;
 pub use vertical_slice::run_vertical_slice;
 
 /// Replays a stored trajectory and returns its event count and exact-byte hash.

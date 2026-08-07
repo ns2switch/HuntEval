@@ -10,6 +10,7 @@ repository.workspace = true
 [dependencies]
 hex.workspace = true
 hunteval-domain = { path = "../hunteval-domain", version = "0.1.0" }
+hunteval-duckdb = { path = "../hunteval-duckdb", version = "0.1.0" }
 hunteval-evaluation = { path = "../hunteval-evaluation", version = "0.1.0" }
 hunteval-knowledge = { path = "../hunteval-knowledge", version = "0.1.0" }
 hunteval-statistics = { path = "../hunteval-statistics", version = "0.1.0" }
@@ -21,6 +22,7 @@ serde_json.workspace = true
 serde_yaml_ng.workspace = true
 sha2.workspace = true
 thiserror.workspace = true
+time.workspace = true
 
 [dev-dependencies]
 serde_yaml_ng.workspace = true

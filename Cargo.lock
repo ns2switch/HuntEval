@@ -1078,6 +1078,8 @@ version = "0.1.0"
 dependencies = [
  "clap",
  "hunteval-runner",
+ "serde",
+ "serde_json",
  "tempfile",
 ]
 
@@ -1192,6 +1194,7 @@ version = "0.1.0"
 dependencies = [
  "hex",
  "hunteval-domain",
+ "hunteval-duckdb",
  "hunteval-evaluation",
  "hunteval-knowledge",
  "hunteval-protocol",
@@ -1204,6 +1207,7 @@ dependencies = [
  "sha2",
  "tempfile",
  "thiserror",
+ "time",
 ]
 
 [[package]]

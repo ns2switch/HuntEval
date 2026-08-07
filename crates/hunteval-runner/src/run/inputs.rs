@@ -52,6 +52,23 @@ impl ResolvedRunInputs {
         scoring_profile: &Path,
         schema_contract: &Path,
     ) -> Result<Self, RunInputError> {
+        Self::resolve_with_executable(
+            episode_root,
+            deployment_manifest,
+            scoring_profile,
+            schema_contract,
+            None,
+        )
+    }
+
+    /// Resolves inputs while allowing a trusted controller to supply the built deployment binary.
+    pub fn resolve_with_executable(
+        episode_root: &Path,
+        deployment_manifest: &Path,
+        scoring_profile: &Path,
+        schema_contract: &Path,
+        executable_override: Option<&Path>,
+    ) -> Result<Self, RunInputError> {
         let episode = EpisodePackage::load(episode_root)?;
         let deployment_bytes = read_regular(deployment_manifest)?;
         let deployment: DeploymentManifest = serde_yaml_ng::from_slice(&deployment_bytes)
@@ -60,7 +77,10 @@ impl ResolvedRunInputs {
         let deployment_root = deployment_manifest
             .parent()
             .ok_or(RunInputError::UnsafePath)?;
-        let executable = resolve_regular(deployment_root, &deployment.process.executable)?;
+        let executable = match executable_override {
+            Some(path) => resolve_override(path)?,
+            None => resolve_regular(deployment_root, &deployment.process.executable)?,
+        };
         let scoring_bytes = read_regular(scoring_profile)?;
         let scoring_profile: ScoringProfile = serde_yaml_ng::from_slice(&scoring_bytes)
             .map_err(|_| RunInputError::InvalidScoringProfile)?;
@@ -117,6 +137,14 @@ impl ResolvedRunInputs {
             hashes,
         })
     }
+}
+
+fn resolve_override(path: &Path) -> Result<PathBuf, RunInputError> {
+    let metadata = fs::symlink_metadata(path).map_err(RunInputError::Io)?;
+    if metadata.file_type().is_symlink() || !metadata.is_file() {
+        return Err(RunInputError::UnsafePath);
+    }
+    fs::canonicalize(path).map_err(RunInputError::Io)
 }
 
 fn validate_scoring_profile(profile: &ScoringProfile) -> Result<(), RunInputError> {

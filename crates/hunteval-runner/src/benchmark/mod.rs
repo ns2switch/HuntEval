@@ -1,6 +1,7 @@
 mod journal;
 mod manifest;
 mod resolver;
+mod service;
 
 use hunteval_domain::{BenchmarkDefinitionError, SchemaVersion};
 use thiserror::Error;
@@ -13,6 +14,13 @@ pub use manifest::{
     AuthoredBenchmarkManifest, AuthoredRunCell, BenchmarkManifest, RunCell, load_benchmark,
 };
 pub use resolver::resolve_benchmark;
+pub use resolver::resolve_execution_plan;
+pub use service::{
+    BenchmarkCellExecutor, BenchmarkExecutionPlan, BenchmarkRunOptions, BenchmarkRunSummary,
+    BenchmarkService, BenchmarkServiceError, CellExecution, CellExecutionFailure,
+    ComparisonEligibility, ComparisonReason, ComparisonStatus, ProductionCellExecutor, RetryPolicy,
+    load_stored_definition,
+};
 
 /// Failures while loading or resolving an authored benchmark manifest.
 #[derive(Debug, Error)]
