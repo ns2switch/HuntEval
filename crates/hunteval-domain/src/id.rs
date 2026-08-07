@@ -135,6 +135,19 @@ define_identifier!(
 define_identifier!(FindingId, "Opaque identifier for a threat-hunting finding.");
 define_identifier!(EpisodeId, "Opaque identifier for a benchmark episode.");
 define_identifier!(EventId, "Opaque identifier for a scored telemetry event.");
+define_identifier!(BenchmarkId, "Opaque identifier for a benchmark definition.");
+define_identifier!(
+    BenchmarkAttemptId,
+    "Opaque identifier for one benchmark cell execution attempt."
+);
+define_identifier!(
+    ScoringProfileId,
+    "Opaque identifier for a versioned benchmark scoring profile."
+);
+define_identifier!(
+    FaultProfileId,
+    "Opaque identifier for a versioned benchmark fault profile."
+);
 
 #[cfg(test)]
 mod tests {

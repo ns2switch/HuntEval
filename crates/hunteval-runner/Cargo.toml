@@ -8,6 +8,7 @@ license.workspace = true
 repository.workspace = true
 
 [dependencies]
+hex.workspace = true
 hunteval-domain = { path = "../hunteval-domain", version = "0.1.0" }
 hunteval-evaluation = { path = "../hunteval-evaluation", version = "0.1.0" }
 hunteval-knowledge = { path = "../hunteval-knowledge", version = "0.1.0" }

@@ -21,7 +21,9 @@ The diagnostic layer uses observable run traces to classify supported failures a
 
 ## Implementation status
 
-The executable PR-00 through PR-15 plan is complete. Deterministic diagnosis now emits only classifications supported by observable event or metric references. Improvement recommendations identify affected runs and remain unvalidated with mandatory human review. Controlled experiments change exactly one variable, isolate hidden-test feedback, preserve immutable authorization, tool-access, and data-handling sections, and enforce metric-regression and verified-cost constraints.
+The executable PR-00 through PR-15 plan is complete. R2 now has accepted v0.4 benchmark contracts and schemas. Authored v0.3 and v0.4 benchmark manifests resolve into infrastructure-independent definitions whose stable cell identities include configuration, episode, scoring-profile, seed, and optional fault-profile digests.
+
+Deterministic diagnosis emits only classifications supported by observable event or metric references. Improvement recommendations identify affected runs and remain unvalidated with mandatory human review. Controlled experiments change exactly one variable, isolate hidden-test feedback, preserve immutable authorization, tool-access, and data-handling sections, and enforce metric-regression and verified-cost constraints.
 
 The implementation sequence and milestone evidence are maintained in `docs/EXECUTION_PLAN.md`.
 
@@ -36,6 +38,7 @@ cargo run -p hunteval-cli -- run \
   --deployment deployments/two-agent-scripted
 cargo run -p hunteval-cli -- trajectory inspect runs/latest/trajectory.jsonl
 cargo run -p hunteval-cli -- report generate runs/latest --format html
+cargo run -p hunteval-cli -- benchmark validate examples/cloud-mvp-benchmark.yaml
 ```
 
 ## Development

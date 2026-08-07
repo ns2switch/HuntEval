@@ -19,7 +19,10 @@ mod scheduling;
 mod vertical_slice;
 
 pub use artifacts::{ArtifactError, ArtifactWriter, RunManifest};
-pub use benchmark::{BenchmarkError, BenchmarkManifest, RunCell, load_benchmark};
+pub use benchmark::{
+    AuthoredBenchmarkManifest, AuthoredRunCell, BenchmarkError, BenchmarkManifest, RunCell,
+    load_benchmark, resolve_benchmark,
+};
 pub use budget::{BudgetError, BudgetLedger, BudgetLimits, BudgetUsage};
 pub use episode_loader::{ArtifactDigests, EpisodeLoadError, EpisodePackage, PublicEpisodePackage};
 pub use faults::FaultController;

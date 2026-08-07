@@ -42,7 +42,11 @@ enum TrajectoryCommand {
 
 #[derive(Debug, Subcommand)]
 enum BenchmarkCommand {
-    Validate { manifest: PathBuf },
+    Validate {
+        manifest: PathBuf,
+        #[arg(long, default_value = ".")]
+        artifact_root: PathBuf,
+    },
 }
 
 #[derive(Debug, Subcommand)]
@@ -92,10 +96,14 @@ fn execute(cli: Cli) -> Result<(), Box<dyn std::error::Error>> {
             Ok(())
         }
         Some(Command::Benchmark {
-            command: BenchmarkCommand::Validate { manifest },
+            command:
+                BenchmarkCommand::Validate {
+                    manifest,
+                    artifact_root,
+                },
         }) => {
-            let benchmark = hunteval_runner::load_benchmark(&manifest)?;
-            println!("run cells: {}", benchmark.cells().len());
+            let benchmark = hunteval_runner::resolve_benchmark(&manifest, &artifact_root)?;
+            println!("run cells: {}", benchmark.cell_count()?);
             Ok(())
         }
         Some(Command::Report {
