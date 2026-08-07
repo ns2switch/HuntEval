@@ -21,7 +21,7 @@ A future diagnostic layer will use observable run traces to identify systematic 
 
 ## Implementation status
 
-The repository is implemented through PR-10. It includes exact deployment × episode × seed benchmark matrices, strict repetition semantics, deterministic paired bootstrap intervals, missing-cell handling, wins/ties/losses, and constraint-first ranking that retains raw metric vectors. Statistical conclusions use paired differences and are labeled inconclusive when their interval crosses zero.
+The repository is implemented through PR-11. The deterministic cloud catalog now contains three episodes each for AWS, Azure, and Google Cloud, covering identity compromise, privilege escalation, and persistence/credential creation. Every public package includes benign noise and provider-named telemetry, while attack paths and acceptable conclusions remain physically private. `generate-all` reproduces the complete catalog byte-for-byte.
 
 Benchmark execution and the broader cloud fixture set remain future milestones. The implementation sequence and current status are maintained in `docs/EXECUTION_PLAN.md`.
 

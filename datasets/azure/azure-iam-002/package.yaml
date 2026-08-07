@@ -1,0 +1,4 @@
+schema_version: "0.3"
+episode_id: azure-iam-002
+public_root: public
+private_ground_truth: private/ground-truth.json

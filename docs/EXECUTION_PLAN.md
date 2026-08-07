@@ -362,6 +362,8 @@ Raw counts and applicability are always preserved. The first result does not fab
 
 ### PR-11 — Complete cloud fixture MVP
 
+**Implementation status:** Completed on 2026-08-07.
+
 1. **Objective:** Add the remaining deterministic AWS, Azure, and Google Cloud episodes for the nine-episode benchmark.
 2. **Files and crates affected:** provider fixture generators, nine episode packages, public schema documentation, benchmark manifest, integrity tests.
 3. **Public types and contracts:** provider-native tables plus additive normalized semantic views; no lossy universal event replacement.

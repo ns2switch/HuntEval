@@ -6,6 +6,13 @@ deployments:
 episodes:
   - datasets/aws/aws-iam-001
   - datasets/aws/aws-iam-002
+  - datasets/aws/aws-iam-003
+  - datasets/azure/azure-iam-001
+  - datasets/azure/azure-iam-002
+  - datasets/azure/azure-iam-003
+  - datasets/gcp/gcp-iam-001
+  - datasets/gcp/gcp-iam-002
+  - datasets/gcp/gcp-iam-003
 seeds: [11, 29]
 repetitions: 2
 scoring_profile: examples/scoring-profile-balanced.yaml

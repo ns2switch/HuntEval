@@ -16,12 +16,19 @@ use parquet::{
 use serde::Deserialize;
 use thiserror::Error;
 
+mod catalog;
+mod package;
+
+pub use package::generate_all;
+
 /// One provider-native synthetic CloudTrail row without ground-truth labels.
 #[derive(Debug, Clone, Deserialize)]
 #[serde(deny_unknown_fields)]
 struct SourceEvent {
     event_id: String,
     event_time: String,
+    #[serde(default = "default_provider")]
+    provider: String,
     account_id: String,
     principal: String,
     event_name: String,
@@ -77,7 +84,7 @@ fn columns(events: &[SourceEvent]) -> Vec<ArrayRef> {
     vec![
         strings(events, |event| &event.event_id),
         strings(events, |event| &event.event_time),
-        Arc::new(StringArray::from(vec!["aws"; events.len()])),
+        strings(events, |event| &event.provider),
         strings(events, |event| &event.account_id),
         strings(events, |event| &event.principal),
         strings(events, |event| &event.event_name),
@@ -85,6 +92,10 @@ fn columns(events: &[SourceEvent]) -> Vec<ArrayRef> {
         strings(events, |event| &event.source_ip),
         strings(events, |event| &event.user_agent),
     ]
+}
+
+fn default_provider() -> String {
+    "aws".to_owned()
 }
 
 fn strings(events: &[SourceEvent], field: fn(&SourceEvent) -> &str) -> ArrayRef {
