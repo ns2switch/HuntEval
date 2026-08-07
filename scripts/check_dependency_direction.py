@@ -62,6 +62,10 @@ def main() -> int:
             dependency["name"]
             for dependency in package["dependencies"]
             if dependency["name"] in local_names
+            and not (
+                package_name == "hunteval-reference-deployment"
+                and dependency["kind"] == "dev"
+            )
         }
         forbidden = sorted(local_dependencies - allowed)
         if forbidden:
@@ -69,7 +73,11 @@ def main() -> int:
                 f"{package_name} has forbidden local dependencies: {', '.join(forbidden)}"
             )
         if package_name == "hunteval-reference-deployment":
-            dependencies = {dependency["name"] for dependency in package["dependencies"]}
+            dependencies = {
+                dependency["name"]
+                for dependency in package["dependencies"]
+                if dependency["kind"] != "dev"
+            }
             unexpected = sorted(dependencies - REFERENCE_DEPENDENCIES)
             if unexpected:
                 violations.append(

@@ -73,6 +73,11 @@ impl RunOrchestrator {
         self.trajectory.as_bytes()
     }
 
+    #[must_use]
+    pub const fn usage(&self) -> crate::BudgetUsage {
+        self.budgets.usage()
+    }
+
     fn accept(
         &mut self,
         envelope: ProtocolEnvelope,

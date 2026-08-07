@@ -1160,7 +1160,9 @@ dependencies = [
  "clap",
  "hunteval-domain",
  "hunteval-protocol",
+ "hunteval-runner",
  "serde_json",
+ "tempfile",
  "thiserror",
 ]
 

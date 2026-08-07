@@ -21,7 +21,7 @@ The diagnostic layer uses observable run traces to classify supported failures a
 
 ## Implementation status
 
-The executable PR-00 through PR-15 plan is complete. R2 now has accepted v0.4 benchmark contracts and schemas. Authored v0.3 and v0.4 benchmark manifests resolve into infrastructure-independent definitions whose stable cell identities include configuration, episode, scoring-profile, seed, and optional fault-profile digests. The three reference topologies are independently executable, deterministic JSONL protocol peers that request scored SQL only through HuntEval.
+The executable PR-00 through PR-15 plan is complete. R2 now has accepted v0.4 benchmark contracts and schemas. Authored v0.3 and v0.4 benchmark manifests resolve into infrastructure-independent definitions whose stable cell identities include configuration, episode, scoring-profile, seed, and optional fault-profile digests. The three reference topologies are independently executable, deterministic JSONL protocol peers that request scored SQL only through HuntEval. The generic run service resolves and hashes inputs before launch, isolates external deployments from private data and the network, mediates every scored tool request, validates replay and provenance before evaluation, and preserves partial artifacts for terminal failures.
 
 Deterministic diagnosis emits only classifications supported by observable event or metric references. Improvement recommendations identify affected runs and remain unvalidated with mandatory human review. Controlled experiments change exactly one variable, isolate hidden-test feedback, preserve immutable authorization, tool-access, and data-handling sections, and enforce metric-regression and verified-cost constraints.
 

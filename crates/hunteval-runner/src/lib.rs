@@ -15,6 +15,7 @@ mod orchestrator;
 mod policy;
 mod process;
 mod reporting;
+mod run;
 mod scheduling;
 mod vertical_slice;
 
@@ -29,11 +30,15 @@ pub use faults::FaultController;
 pub use hashing::{HashingError, hash_file};
 pub use hunteval_reporting::ReportFormat;
 pub use knowledge::{KnowledgeController, KnowledgeControllerError};
-pub use managed_tool::{ManagedTool, ManagedToolError};
+pub use managed_tool::{ManagedTool, ManagedToolError, ManagedToolOutput};
 pub use orchestrator::{OrchestratorError, RunConfig, RunOrchestrator, RunTerminalStatus};
 pub use policy::{IsolationPolicy, PolicyError};
 pub use process::{DeploymentProcess, LinuxSandbox, ProcessError, ProcessOutput, ProcessSpec};
 pub use reporting::{ReportGenerationError, generate_report};
+pub use run::{
+    ResolvedRunInputs, RunArtifacts, RunExecution, RunExecutor, RunFailure, RunFailureKind,
+    RunInputError, RunRequest,
+};
 pub use scheduling::{ScheduledTask, deterministic_schedule};
 pub use vertical_slice::run_vertical_slice;
 

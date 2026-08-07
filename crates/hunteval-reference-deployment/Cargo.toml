@@ -18,5 +18,9 @@ hunteval-protocol = { path = "../hunteval-protocol", version = "0.1.0" }
 serde_json.workspace = true
 thiserror.workspace = true
 
+[dev-dependencies]
+hunteval-runner = { path = "../hunteval-runner", version = "0.1.0" }
+tempfile = "3.25"
+
 [lints]
 workspace = true
