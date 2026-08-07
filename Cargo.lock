@@ -1036,6 +1036,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "hunteval-evaluation"
+version = "0.1.0"
+dependencies = [
+ "hunteval-domain",
+ "serde",
+ "serde_json",
+ "serde_yaml_ng",
+ "thiserror",
+]
+
+[[package]]
 name = "hunteval-fixture-tool"
 version = "0.1.0"
 dependencies = [

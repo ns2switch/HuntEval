@@ -3,6 +3,7 @@ members = [
     "crates/hunteval-cli",
     "crates/hunteval-domain",
     "crates/hunteval-duckdb",
+    "crates/hunteval-evaluation",
     "crates/hunteval-fixture-tool",
     "crates/hunteval-protocol",
     "crates/hunteval-runner",

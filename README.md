@@ -21,9 +21,9 @@ A future diagnostic layer will use observable run traces to identify systematic 
 
 ## Implementation status
 
-The repository is implemented through PR-06. It contains infrastructure-independent domain contracts, a bounded JSONL protocol with deterministic replay, a reproducible synthetic AWS episode with physically separated ground truth, a validated episode loader, and a managed DuckDB worker. The trusted runner now provides monotonic budgets, protocol-origin mediation, reproducible partial and atomically finalized artifacts, bounded process execution, environment redaction, and a Linux `bubblewrap` backend that exposes only the public episode and disables network access.
+The repository is implemented through PR-07. It contains infrastructure-independent domain contracts, a bounded JSONL protocol with deterministic replay, a reproducible synthetic AWS episode with physically separated ground truth, a validated episode loader, and a managed DuckDB worker. The trusted runner provides monotonic budgets, protocol-origin mediation, reproducible partial and atomically finalized artifacts, bounded process execution, environment redaction, and Linux process isolation. Deterministic evaluation covers event/entity precision and recall, evidence grounding, provenance validity, task completion, raw tool utilization, profile-controlled missing metrics, and explicit constraints.
 
-The scoring engine, benchmark command, and end-to-end vertical slice remain future milestones. The implementation sequence and current status are maintained in `docs/EXECUTION_PLAN.md`.
+The benchmark command and end-to-end vertical slice remain future milestones. The implementation sequence and current status are maintained in `docs/EXECUTION_PLAN.md`.
 
 ## Development
 

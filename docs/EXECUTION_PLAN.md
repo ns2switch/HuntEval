@@ -314,6 +314,8 @@ Raw counts and applicability are always preserved. The first result does not fab
 
 ### PR-07 — Deterministic evaluation and profile scoring subset
 
+**Implementation status:** Completed on 2026-08-07.
+
 1. **Objective:** Evaluate stored submissions and provenance against private truth without consulting the deployment.
 2. **Files and crates affected:** `hunteval-evaluation` modules `sets`, `evidence`, `coordination`, `profile`, and `constraints`; metrics documentation and scoring-profile schema/example.
 3. **Public types and contracts:** `Evaluator` trait, `EvaluationInput`, `MetricDefinition`, `MetricValue`, `MetricVector`, `ScoringProfile`, `AggregateScore`, and `ConstraintEvaluation`.
