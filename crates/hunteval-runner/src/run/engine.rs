@@ -2,15 +2,13 @@ use std::{collections::BTreeSet, path::Path};
 
 use crate::{ArtifactWriter, BudgetLimits, ManagedTool, RunConfig, RunOrchestrator};
 use hunteval_domain::{FinalSubmission, MessageId, ProtocolVersion};
-use hunteval_protocol::{
-    MessageOrigin, ProtocolEnvelope, ProtocolPayload, ToolOutcome, replay_trajectory,
-};
+use hunteval_protocol::{MessageOrigin, ProtocolEnvelope, ProtocolPayload, ToolOutcome};
 
 use super::{
     ResolvedRunInputs,
     completion::{finalize_success, preserve_failure},
     error::{EngineError, RunnerMessageIds},
-    evaluation::evaluate_validated_run,
+    evaluation::evaluate_stored_run,
     transport::ProtocolProcess,
     types::{RunExecution, RunFailure, RunFailureKind, RunRequest},
 };
@@ -47,6 +45,7 @@ pub(super) struct PendingSuccess {
     pub(super) metrics: hunteval_evaluation::MetricVector,
     pub(super) aggregate_score: hunteval_evaluation::AggregateScore,
     pub(super) usage: crate::BudgetUsage,
+    pub(super) evaluated_hashes: super::StoredEvaluationHashes,
 }
 
 fn execute_inner(
@@ -171,10 +170,14 @@ fn execute_inner(
     }
     process.finish()?;
     let submission = submission.ok_or(EngineError::ProtocolViolation)?;
-    replay_trajectory(orchestrator.trajectory(), request.maximum_line_bytes)?;
     let usage = orchestrator.usage();
-    let evaluated = evaluate_validated_run(inputs, orchestrator.trajectory(), &submission, usage)?;
     writer.write_json(Path::new("submission.json"), &submission)?;
+    let evaluated = evaluate_stored_run(
+        inputs,
+        writer.partial_root(),
+        &request.run_id,
+        request.maximum_line_bytes,
+    )?;
     writer.write_json(Path::new("metrics.json"), &evaluated.metrics)?;
     writer.write_json(
         Path::new("aggregate-score.json"),
@@ -185,6 +188,7 @@ fn execute_inner(
         metrics: evaluated.metrics,
         aggregate_score: evaluated.aggregate_score,
         usage,
+        evaluated_hashes: evaluated.stored_hashes,
     })
 }
 

@@ -24,8 +24,8 @@ Status values are evidence-based: `complete` means the milestone has a dedicated
 | R2-04 | complete | `41108b6` — append-only benchmark journal and deterministic projection |
 | R2-05 | complete | `7f1f076` — bounded matrix service, production DuckDB mediation, resume, and verified comparisons |
 | R2-06 | complete | public benchmark CLI, documented exit codes, 36-cell smoke matrix, and interrupted recovery |
-| R2-07 | planned | requires trusted artifacts from R2-03 |
-| R2-08 | planned | requires R2-07 |
+| R2-07 | complete | trusted stored-artifact reducer with typed observable provenance and fail-closed reference validation |
+| R2-08 | planned — next | requires R2-07 |
 | R2-09 | planned | requires R2-07 |
 | R2-10 | planned | requires R2-07 and benchmark aggregation |
 | R2-11 | planned | requires R2-08 through R2-10 |
@@ -49,8 +49,8 @@ The implementation audit after R2-06 established the following current starting 
 4. Three external reference topologies execute inside the networkless Linux sandbox and request scored SQL only through the production HuntEval-owned DuckDB worker adapter.
 5. Comparison eligibility requires complete pairs and re-verifies normalized result bytes against their journaled digests. Missing, failed, or tampered pairs remain explicitly ineligible.
 6. The compatibility `run` command remains available for the original vertical-slice workflow; benchmark commands use the generic engine.
-7. The evaluator still lacks a complete normalized trusted view reduced from verified artifacts. This is the next dependency at R2-07.
-8. Attack-path, timeline, conclusion, evidence-completeness, deterministic coordination, verified efficiency, and cross-run stability contracts remain incomplete.
+7. Run metrics now consume a non-serializable trusted view reduced from digest-verified stored trajectory and submission artifacts; its serializable observation projection cannot represent evaluator-only ground truth.
+8. Attack-path, timeline, conclusion, evidence-completeness, deterministic coordination, verified efficiency, and cross-run stability contracts remain incomplete. R2-08 is next.
 9. `BenchmarkReport` remains a serialization foundation. Static rendering supports run reports, not complete comparative benchmark reports.
 10. GitHub Actions runs the mandatory gates, but no shared local/CI entrypoint, fail-closed sandbox capability job, hardened release workflow, or repository-settings checklist exists.
 

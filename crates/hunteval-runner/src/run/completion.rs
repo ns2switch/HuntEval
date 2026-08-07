@@ -18,6 +18,7 @@ pub(super) fn finalize_success(
     run_id: &RunId,
 ) -> Result<RunExecution, RunFailure> {
     let mut hashes = inputs.hashes.clone();
+    let evaluated_hashes = success.evaluated_hashes;
     let trajectory = writer.partial_root().join("trajectory.jsonl");
     let submission = writer.partial_root().join("submission.json");
     for (name, path) in [
@@ -30,6 +31,11 @@ pub(super) fn finalize_success(
         ),
     ] {
         let digest = crate::hash_file(&path).map_err(|_| artifact_failure(&writer))?;
+        if (name == "trajectory" && digest != evaluated_hashes.trajectory)
+            || (name == "submission" && digest != evaluated_hashes.submission)
+        {
+            return Err(artifact_failure(&writer));
+        }
         hashes.insert(name.to_owned(), digest);
     }
     let manifest = RunManifest {

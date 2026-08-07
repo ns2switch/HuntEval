@@ -43,7 +43,8 @@ pub use process::{DeploymentProcess, LinuxSandbox, ProcessError, ProcessOutput, 
 pub use reporting::{ReportGenerationError, generate_report};
 pub use run::{
     ResolvedRunInputs, RunArtifacts, RunExecution, RunExecutor, RunFailure, RunFailureKind,
-    RunInputError, RunRequest,
+    RunInputError, RunRequest, StoredEvaluationError, StoredEvaluationHashes,
+    load_trusted_run_view,
 };
 pub use scheduling::{ScheduledTask, deterministic_schedule};
 pub use sql_tool::DuckDbManagedTool;

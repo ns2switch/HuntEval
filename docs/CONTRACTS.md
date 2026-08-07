@@ -578,6 +578,18 @@ A trajectory replay must:
 - detect missing or altered events;
 - never require the original LLM provider.
 
+After replay, the runner reduces stored artifacts into a `TrustedRunView` before metric code executes. The reducer:
+
+- reads bounded, regular `trajectory.jsonl` and `submission.json` files without following symlinks;
+- verifies both exact-byte digests against runner-owned metadata;
+- requires one completed protocol session and an exact match between the stored and terminal submissions;
+- projects typed actions, tasks, evidence, findings, operational messages, and their owners;
+- rejects cross-run, future, duplicate, unknown, wrongly owned, or unissued references;
+- requires finding events and entities to be supported by referenced evidence, and submitted events, entities, and attack-path entries to be supported by referenced findings;
+- attaches evaluator-only ground truth only after producing the serializable deployment-safe observation projection.
+
+`TrustedRunView` is not serializable. Its `ObservedRun` projection is serializable for diagnostics and contains no ground-truth field or private value. Metric inputs are derived from the validated view; evidence and provenance counts are never inferred from raw message counts.
+
 ## 21. Schema 0.4 compatibility
 
 Schema `0.4` is additive to the persisted `0.3` contracts. A reader advertises the exact minor versions it accepts and applies an explicit adapter for each older version. It must reject an unknown newer minor or incompatible major version before consuming payload fields. Adaptation never edits a source artifact.
