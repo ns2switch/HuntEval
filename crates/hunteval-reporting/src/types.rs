@@ -92,6 +92,60 @@ pub struct BenchmarkReport {
     pub claims: Vec<ReportClaim>,
 }
 
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct DiagnosticFinding {
+    pub classification: String,
+    pub affected_runs: Vec<String>,
+    pub observable_sources: Vec<String>,
+    pub recommendation: String,
+    pub validation_status: DiagnosticValidationStatus,
+    pub validation_source: Option<String>,
+    pub human_review_required: bool,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum DiagnosticValidationStatus {
+    Unvalidated,
+    Validated,
+    Rejected,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct DiagnosticReport {
+    pub schema_version: SchemaVersion,
+    pub findings: Vec<DiagnosticFinding>,
+}
+
+impl DiagnosticReport {
+    pub fn validate(&self) -> Result<(), ReportError> {
+        if self.findings.iter().any(|finding| {
+            finding.classification.trim().is_empty()
+                || finding.affected_runs.is_empty()
+                || finding.observable_sources.is_empty()
+                || finding
+                    .observable_sources
+                    .iter()
+                    .any(|source| source.trim().is_empty())
+                || finding.recommendation.trim().is_empty()
+                || match finding.validation_status {
+                    DiagnosticValidationStatus::Unvalidated => finding.validation_source.is_some(),
+                    DiagnosticValidationStatus::Validated
+                    | DiagnosticValidationStatus::Rejected => finding
+                        .validation_source
+                        .as_ref()
+                        .is_none_or(|source| source.trim().is_empty()),
+                }
+                || !finding.human_review_required
+        }) {
+            return Err(ReportError::InvalidDiagnostic);
+        }
+        Ok(())
+    }
+}
+
 pub trait ReportRenderer {
     fn render_run(&self, report: &RunReport) -> Result<Vec<u8>, ReportError>;
 }
@@ -101,6 +155,15 @@ pub struct JsonRenderer;
 
 impl ReportRenderer for JsonRenderer {
     fn render_run(&self, report: &RunReport) -> Result<Vec<u8>, ReportError> {
+        report.validate()?;
+        let mut bytes = serde_json::to_vec_pretty(report).map_err(ReportError::Serialize)?;
+        bytes.push(b'\n');
+        Ok(bytes)
+    }
+}
+
+impl JsonRenderer {
+    pub fn render_diagnostic(&self, report: &DiagnosticReport) -> Result<Vec<u8>, ReportError> {
         report.validate()?;
         let mut bytes = serde_json::to_vec_pretty(report).map_err(ReportError::Serialize)?;
         bytes.push(b'\n');
@@ -132,6 +195,8 @@ pub enum ReportError {
     InvalidResult,
     #[error("report contains an invalid artifact or evidence reference")]
     InvalidReference,
+    #[error("diagnostic conclusions require observable sources and a controlled review gate")]
+    InvalidDiagnostic,
     #[error("report serialization failed: {0}")]
     Serialize(serde_json::Error),
 }

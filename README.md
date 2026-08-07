@@ -4,7 +4,7 @@ HuntEval is an open-source framework for reproducibly evaluating multi-agent sys
 
 The evaluated unit is a complete **deployment**, not an isolated model. A deployment may include one or more agents, prompts, models, tools, memory layers, coordination policies, and runtime configuration. HuntEval measures which implementation performs best and explains the trade-offs across investigation quality, evidence quality, coordination, resilience, efficiency, and reproducibility.
 
-A future diagnostic layer will use observable run traces to identify systematic failures and propose concrete prompt improvements. Those recommendations must be validated through controlled A/B experiments before they are considered effective.
+The diagnostic layer uses observable run traces to classify supported failures and propose concrete improvement hypotheses. Those recommendations remain unvalidated until controlled experiments satisfy regression and verified-cost constraints.
 
 ## MVP scope
 
@@ -21,9 +21,9 @@ A future diagnostic layer will use observable run traces to identify systematic 
 
 ## Implementation status
 
-The repository is implemented through PR-14. Optional local knowledge retrieval is disabled by default, has no network path, remains confined to a validated corpus root, rejects symlink and traversal escapes, and enforces query, document, and output budgets. Retrieved documents are explicitly marked as untrusted and carry exact citations.
+The executable PR-00 through PR-15 plan is complete. Deterministic diagnosis now emits only classifications supported by observable event or metric references. Improvement recommendations identify affected runs and remain unvalidated with mandatory human review. Controlled experiments change exactly one variable, isolate hidden-test feedback, preserve immutable authorization, tool-access, and data-handling sections, and enforce metric-regression and verified-cost constraints.
 
-Deterministic failure diagnosis and controlled improvement experiments remain the final planned milestone. The implementation sequence and current status are maintained in `docs/EXECUTION_PLAN.md`.
+The implementation sequence and milestone evidence are maintained in `docs/EXECUTION_PLAN.md`.
 
 ## Quick start
 

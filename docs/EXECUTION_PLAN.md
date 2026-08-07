@@ -410,6 +410,8 @@ Raw counts and applicability are always preserved. The first result does not fab
 
 ### PR-15 — Failure diagnosis and controlled improvement experiments
 
+**Implementation status:** Completed on 2026-08-07.
+
 1. **Objective:** Implement deterministic failure classification first, then controlled artifact comparisons under immutable safety constraints.
 2. **Files and crates affected:** evaluation diagnosis modules, versioned taxonomy schema, experiment manifests, reporting extensions.
 3. **Public types and contracts:** `FailureClassification`, `DiagnosticEvidence`, `Recommendation`, `ExperimentManifest`, `CandidateConstraint`, and `ValidationDecision`.
