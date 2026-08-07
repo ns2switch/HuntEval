@@ -21,8 +21,9 @@ mod vertical_slice;
 
 pub use artifacts::{ArtifactError, ArtifactWriter, RunManifest};
 pub use benchmark::{
-    AuthoredBenchmarkManifest, AuthoredRunCell, BenchmarkError, BenchmarkManifest, RunCell,
-    load_benchmark, resolve_benchmark,
+    AuthoredBenchmarkManifest, AuthoredRunCell, BenchmarkCellState, BenchmarkCellStatus,
+    BenchmarkError, BenchmarkEvent, BenchmarkEventKind, BenchmarkJournal, BenchmarkJournalError,
+    BenchmarkManifest, BenchmarkState, RunCell, load_benchmark, resolve_benchmark,
 };
 pub use budget::{BudgetError, BudgetLedger, BudgetLimits, BudgetUsage};
 pub use episode_loader::{ArtifactDigests, EpisodeLoadError, EpisodePackage, PublicEpisodePackage};

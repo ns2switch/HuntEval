@@ -1,9 +1,14 @@
+mod journal;
 mod manifest;
 mod resolver;
 
 use hunteval_domain::{BenchmarkDefinitionError, SchemaVersion};
 use thiserror::Error;
 
+pub use journal::{
+    BenchmarkCellState, BenchmarkCellStatus, BenchmarkEvent, BenchmarkEventKind, BenchmarkJournal,
+    BenchmarkJournalError, BenchmarkState,
+};
 pub use manifest::{
     AuthoredBenchmarkManifest, AuthoredRunCell, BenchmarkManifest, RunCell, load_benchmark,
 };
