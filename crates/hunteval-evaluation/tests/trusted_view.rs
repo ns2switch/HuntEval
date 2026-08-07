@@ -6,8 +6,9 @@ use hunteval_domain::{
     Sha256Digest, SubmissionStatus, TaskId, TaskPriority, TaskSpec, TaskState,
 };
 use hunteval_evaluation::{
-    EvaluationProvenance, ObservedAction, ObservedEvidence, ObservedFinding, ObservedRun,
-    ObservedTask, ObservedToolOutcome, TrustedRunInput, TrustedRunView, TrustedViewError,
+    EvaluationProvenance, ObservedAction, ObservedEvidence, ObservedFinding, ObservedMessage,
+    ObservedRun, ObservedTask, ObservedToolOutcome, TrustedRunInput, TrustedRunView,
+    TrustedViewError,
 };
 
 #[test]
@@ -52,6 +53,74 @@ fn trusted_view_rejects_wrong_owner_and_unissued_events() -> Result<(), Box<dyn 
     assert!(matches!(
         TrustedRunView::reduce(unissued),
         Err(TrustedViewError::UnissuedEventReference)
+    ));
+    Ok(())
+}
+
+#[test]
+fn evidence_metrics_reject_forged_coverage_before_evaluation()
+-> Result<(), Box<dyn std::error::Error>> {
+    let mut forged = valid_input()?;
+    let evidence = forged
+        .observed
+        .evidence
+        .values_mut()
+        .next()
+        .ok_or_else(|| std::io::Error::other("evidence missing"))?;
+    evidence.evidence.event_ids = BTreeSet::from([EventId::new("truth-only-event")?]);
+    forged
+        .ground_truth
+        .malicious_event_ids
+        .insert(EventId::new("truth-only-event")?);
+    assert!(matches!(
+        TrustedRunView::reduce(forged),
+        Err(TrustedViewError::UnissuedEventReference)
+    ));
+    Ok(())
+}
+
+#[test]
+fn coordination_rejects_unknown_and_future_causal_references()
+-> Result<(), Box<dyn std::error::Error>> {
+    let mut future = valid_input()?;
+    let message_id = MessageId::new("message-future")?;
+    future
+        .observed
+        .message_sequences
+        .insert(message_id.clone(), 8);
+    future.observed.messages.push(ObservedMessage {
+        message_id: message_id.clone(),
+        sequence: 8,
+        caused_by_message_id: None,
+        agent_id: AgentId::new("supervisor")?,
+        target_agent_id: AgentId::new("investigator")?,
+        task_id: Some(TaskId::new("task-1")?),
+        reason_code: "observable_handoff".to_owned(),
+        message: "Untrusted prose".to_owned(),
+    });
+    let action = future
+        .observed
+        .actions
+        .values_mut()
+        .next()
+        .ok_or_else(|| std::io::Error::other("action missing"))?;
+    action.caused_by_message_id = Some(message_id);
+    assert!(matches!(
+        TrustedRunView::reduce(future),
+        Err(TrustedViewError::InvalidCausalReference)
+    ));
+
+    let mut unknown = valid_input()?;
+    let action = unknown
+        .observed
+        .actions
+        .values_mut()
+        .next()
+        .ok_or_else(|| std::io::Error::other("action missing"))?;
+    action.caused_by_message_id = Some(MessageId::new("message-unknown")?);
+    assert!(matches!(
+        TrustedRunView::reduce(unknown),
+        Err(TrustedViewError::InvalidCausalReference)
     ));
     Ok(())
 }
@@ -118,6 +187,8 @@ fn valid_input() -> Result<TrustedRunInput, Box<dyn std::error::Error>> {
         agent_id: agent_id.clone(),
         task_id: task_id.clone(),
         request_message_id: MessageId::new("message-action")?,
+        request_sequence: 3,
+        caused_by_message_id: None,
         result_message_id: MessageId::new("message-result")?,
         tool: "duckdb_sql".to_owned(),
         purpose: "Inspect observable events".to_owned(),
@@ -192,6 +263,15 @@ fn valid_input() -> Result<TrustedRunInput, Box<dyn std::error::Error>> {
             },
         )]),
         messages: Vec::new(),
+        task_transitions: Vec::new(),
+        message_sequences: BTreeMap::from([
+            (MessageId::new("message-task")?, 1),
+            (MessageId::new("message-action")?, 3),
+            (MessageId::new("message-result")?, 4),
+            (MessageId::new("message-evidence")?, 5),
+            (MessageId::new("message-finding")?, 6),
+            (MessageId::new("message-task-completed")?, 7),
+        ]),
         timeline: None,
     };
     let ground_truth = GroundTruth {

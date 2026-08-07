@@ -26,8 +26,8 @@ Status values are evidence-based: `complete` means the milestone has a dedicated
 | R2-06 | complete | public benchmark CLI, documented exit codes, 36-cell smoke matrix, and interrupted recovery |
 | R2-07 | complete | trusted stored-artifact reducer with typed observable provenance and fail-closed reference validation |
 | R2-08 | complete | independent attack-path, timeline, structured-conclusion, and technique metrics with v0.3/v0.4 adapters |
-| R2-09 | planned — next | requires R2-07 |
-| R2-10 | planned | requires R2-07 and benchmark aggregation |
+| R2-09 | complete | grounded evidence coverage and sufficiency plus canonical duplicate-work and causally useful communication metrics |
+| R2-10 | planned — next | requires R2-07 and benchmark aggregation |
 | R2-11 | planned | requires R2-08 through R2-10 |
 | R2-12 | planned | requires R2-06 and R2-11 |
 | R2-13 | planned | requires R2-12 |
@@ -50,7 +50,7 @@ The implementation audit after R2-06 established the following current starting 
 5. Comparison eligibility requires complete pairs and re-verifies normalized result bytes against their journaled digests. Missing, failed, or tampered pairs remain explicitly ineligible.
 6. The compatibility `run` command remains available for the original vertical-slice workflow; benchmark commands use the generic engine.
 7. Run metrics now consume a non-serializable trusted view reduced from digest-verified stored trajectory and submission artifacts; its serializable observation projection cannot represent evaluator-only ground truth.
-8. Attack-path, timeline, structured-conclusion, and technique metrics are complete with explicit applicability and compatibility behavior. Evidence-completeness, deterministic coordination, verified efficiency, and cross-run stability remain incomplete; R2-09 is next.
+8. Investigation, evidence-completeness, duplicate-work, and causally useful communication metrics are complete with explicit applicability and raw counts. Verified efficiency and cross-run stability remain incomplete; R2-10 is next.
 9. `BenchmarkReport` remains a serialization foundation. Static rendering supports run reports, not complete comparative benchmark reports.
 10. GitHub Actions runs the mandatory gates, but no shared local/CI entrypoint, fail-closed sandbox capability job, hardened release workflow, or repository-settings checklist exists.
 

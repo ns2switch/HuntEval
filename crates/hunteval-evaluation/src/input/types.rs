@@ -10,7 +10,11 @@ use hunteval_domain::{
 };
 use serde::Serialize;
 
-use crate::{EvaluationInput, input::validate::validate_input};
+use crate::{
+    EvaluationInput,
+    input::validate::validate_input,
+    metrics::coordination::{CoordinationCounts, reduce as reduce_coordination},
+};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize)]
 #[serde(rename_all = "snake_case")]
@@ -26,6 +30,8 @@ pub struct ObservedAction {
     pub agent_id: AgentId,
     pub task_id: TaskId,
     pub request_message_id: MessageId,
+    pub request_sequence: u64,
+    pub caused_by_message_id: Option<MessageId>,
     pub result_message_id: MessageId,
     pub tool: String,
     pub purpose: String,
@@ -68,12 +74,25 @@ pub struct ObservedFinding {
 #[serde(deny_unknown_fields)]
 pub struct ObservedMessage {
     pub message_id: MessageId,
+    pub sequence: u64,
     pub caused_by_message_id: Option<MessageId>,
     pub agent_id: AgentId,
     pub target_agent_id: AgentId,
     pub task_id: Option<TaskId>,
     pub reason_code: String,
     pub message: String,
+}
+
+/// Observable task state change retained for causal coordination metrics.
+#[derive(Debug, Clone, PartialEq, Eq, Serialize)]
+#[serde(deny_unknown_fields)]
+pub struct ObservedTaskTransition {
+    pub message_id: MessageId,
+    pub sequence: u64,
+    pub caused_by_message_id: Option<MessageId>,
+    pub agent_id: AgentId,
+    pub task_id: TaskId,
+    pub state: TaskState,
 }
 
 pub type SubmittedTimelineEntry = TimelineEntry;
@@ -89,6 +108,8 @@ pub struct ObservedRun {
     pub evidence: BTreeMap<EvidenceId, ObservedEvidence>,
     pub findings: BTreeMap<FindingId, ObservedFinding>,
     pub messages: Vec<ObservedMessage>,
+    pub task_transitions: Vec<ObservedTaskTransition>,
+    pub message_sequences: BTreeMap<MessageId, u64>,
     pub timeline: Option<Vec<SubmittedTimelineEntry>>,
 }
 
@@ -134,6 +155,7 @@ pub struct TrustedRunView {
     provenance: EvaluationProvenance,
     tool_call_limit: u64,
     benign_scored_episode: bool,
+    coordination: CoordinationCounts,
 }
 
 impl fmt::Debug for TrustedRunInput {
@@ -168,6 +190,8 @@ impl fmt::Debug for TrustedRunView {
 impl TrustedRunView {
     pub fn reduce(input: TrustedRunInput) -> Result<Self, super::TrustedViewError> {
         validate_input(&input)?;
+        let coordination = reduce_coordination(&input.observed)
+            .map_err(|_| super::TrustedViewError::InvalidCoordinationInput)?;
         Ok(Self {
             observed: input.observed,
             submission: input.submission,
@@ -175,6 +199,7 @@ impl TrustedRunView {
             provenance: input.provenance,
             tool_call_limit: input.tool_call_limit,
             benign_scored_episode: input.benign_scored_episode,
+            coordination,
         })
     }
 
@@ -207,6 +232,25 @@ impl TrustedRunView {
             .values()
             .map(|item| item.evidence.source_action_ids.len() as u64)
             .sum();
+        let submitted_evidence_ids: BTreeSet<_> = self
+            .submission
+            .finding_ids
+            .iter()
+            .filter_map(|id| self.observed.findings.get(id))
+            .flat_map(|item| item.finding.evidence_ids.iter().cloned())
+            .collect();
+        let submitted_evidence: Vec<_> = submitted_evidence_ids
+            .iter()
+            .filter_map(|id| self.observed.evidence.get(id))
+            .collect();
+        let grounded_evidence_events = submitted_evidence
+            .iter()
+            .flat_map(|item| item.evidence.event_ids.iter().cloned())
+            .collect();
+        let grounded_evidence_entities = submitted_evidence
+            .iter()
+            .flat_map(|item| item.evidence.entity_ids.iter().cloned())
+            .collect();
         EvaluationInput {
             truth_events: self.ground_truth.malicious_event_ids.clone(),
             submitted_events: self.submission.malicious_event_ids.clone(),
@@ -223,6 +267,13 @@ impl TrustedRunView {
             submitted_status: self.submission.status,
             expected_attack_techniques: self.ground_truth.expected_attack_techniques.clone(),
             submitted_attack_techniques: self.submission.attack_techniques.clone(),
+            grounded_evidence_events,
+            grounded_evidence_entities,
+            submitted_grounded_evidence_items: submitted_evidence.len() as u64,
+            minimum_evidence_items: u64::from(self.ground_truth.minimum_evidence_items),
+            duplicate_tool_calls: self.coordination.duplicate_tool_calls,
+            useful_messages: self.coordination.useful_messages,
+            operational_messages: self.coordination.operational_messages,
             benign_scored_episode: self.benign_scored_episode,
             evidence_items: self.observed.evidence.len() as u64,
             grounded_evidence_items: self.observed.evidence.len() as u64,

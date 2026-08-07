@@ -20,8 +20,8 @@ pub use experiments::{
 };
 pub use input::{
     EvaluationProvenance, ObservedAction, ObservedEvidence, ObservedFinding, ObservedMessage,
-    ObservedRun, ObservedTask, ObservedToolOutcome, SubmittedTimelineEntry, TrustedRunInput,
-    TrustedRunView, TrustedViewError,
+    ObservedRun, ObservedTask, ObservedTaskTransition, ObservedToolOutcome, SubmittedTimelineEntry,
+    TrustedRunInput, TrustedRunView, TrustedViewError,
 };
 pub use profile::{ProfileError, evaluate_constraints, score_profile};
 pub use types::{

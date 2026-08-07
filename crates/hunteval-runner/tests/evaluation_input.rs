@@ -32,6 +32,11 @@ fn evaluation_input_reduces_verified_stored_artifacts_deterministically()
     assert_eq!(metrics.0["technique_precision"].value, Some(1.0));
     assert_eq!(metrics.0["timeline_precision"].value, None);
     assert_eq!(metrics.0["conclusion_correctness"].value, None);
+    assert_eq!(metrics.0["evidence_event_coverage"].value, Some(1.0));
+    assert_eq!(metrics.0["evidence_entity_coverage"].value, Some(0.5));
+    assert_eq!(metrics.0["evidence_sufficiency"].value, Some(1.0));
+    assert_eq!(metrics.0["duplicate_tool_work"].value, Some(0.0));
+    assert_eq!(metrics.0["useful_communication"].value, None);
     Ok(())
 }
 

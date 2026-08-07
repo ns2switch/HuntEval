@@ -584,11 +584,16 @@ After replay, the runner reduces stored artifacts into a `TrustedRunView` before
 - verifies both exact-byte digests against runner-owned metadata;
 - requires one completed protocol session and an exact match between the stored and terminal submissions;
 - projects typed actions, tasks, evidence, findings, operational messages, and their owners;
+- preserves replay sequence numbers, task-state transitions, and explicit `caused_by_message_id` links for observable coordination metrics;
 - rejects cross-run, future, duplicate, unknown, wrongly owned, or unissued references;
 - requires finding events and entities to be supported by referenced evidence, and submitted events, entities, and attack-path entries to be supported by referenced findings;
 - attaches evaluator-only ground truth only after producing the serializable deployment-safe observation projection.
 
 `TrustedRunView` is not serializable. Its `ObservedRun` projection is serializable for diagnostics and contains no ground-truth field or private value. Metric inputs are derived from the validated view; evidence and provenance counts are never inferred from raw message counts.
+
+Every projected causal reference must resolve to a lower trajectory sequence in the same run. Useful communication requires a later tool request or task transition that explicitly cites the operational message, belongs to its target agent, and matches its optional task scope. Message wording, reason-code wording, and temporal proximity cannot create a causal link.
+
+Duplicate-work fingerprints contain a validated lowercase tool identifier and recursively canonical JSON arguments. Object keys are sorted, array order is preserved, insignificant whitespace is absent, and nesting, node count, and canonical byte size are bounded. A repeated fingerprint contributes duplicate work only when it introduces no previously unseen grounded evidence identifier for that fingerprint. The metric retains the duplicate count and completed-call denominator.
 
 ## 21. Schema 0.4 compatibility
 

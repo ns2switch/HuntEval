@@ -20,6 +20,7 @@ pub enum Applicability {
     TimelineNotSubmitted,
     TimelineTruthUnavailable,
     AcceptableStatusesUnavailable,
+    InsufficientEvidenceRequirements,
     RequiresRepeatedRuns,
     RequiresFaultPair,
     UnavailableResource,

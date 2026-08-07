@@ -1,19 +1,25 @@
+mod action;
+mod task;
+
 use std::collections::BTreeMap;
 
 use hunteval_domain::{ActionId, FinalSubmission, RunId, TaskId, TaskState};
 use hunteval_evaluation::{
     ObservedAction, ObservedEvidence, ObservedFinding, ObservedMessage, ObservedRun, ObservedTask,
-    ObservedToolOutcome,
+    ObservedTaskTransition,
 };
-use hunteval_protocol::{ProtocolPayload, StoredEvent, ToolOutcome};
+use hunteval_protocol::{ProtocolPayload, StoredEvent};
 
 use super::StoredEvaluationError;
+use task::ProjectedTaskTransition;
 
 #[derive(Debug)]
 struct PendingAction {
     agent_id: hunteval_domain::AgentId,
     task_id: TaskId,
     request_message_id: hunteval_domain::MessageId,
+    request_sequence: u64,
+    caused_by_message_id: Option<hunteval_domain::MessageId>,
     tool: String,
     purpose: String,
     arguments: serde_json::Value,
@@ -29,6 +35,8 @@ pub(super) struct ReplayProjection {
     evidence: BTreeMap<hunteval_domain::EvidenceId, ObservedEvidence>,
     findings: BTreeMap<hunteval_domain::FindingId, ObservedFinding>,
     messages: Vec<ObservedMessage>,
+    task_transitions: Vec<ObservedTaskTransition>,
+    message_sequences: BTreeMap<hunteval_domain::MessageId, u64>,
     submission: Option<FinalSubmission>,
     completed_termination: bool,
 }
@@ -44,60 +52,115 @@ impl ReplayProjection {
             evidence: BTreeMap::new(),
             findings: BTreeMap::new(),
             messages: Vec::new(),
+            task_transitions: Vec::new(),
+            message_sequences: BTreeMap::new(),
             submission: None,
             completed_termination: false,
         }
     }
 
     pub(super) fn apply(&mut self, event: StoredEvent) -> Result<(), StoredEvaluationError> {
+        let sequence = event.sequence;
         let envelope = event.envelope;
         if envelope.run_id != self.expected_run_id {
             return Err(StoredEvaluationError::InvalidProjection);
         }
+        self.message_sequences
+            .insert(envelope.message_id.clone(), sequence);
         let caused_by_message_id = envelope.caused_by_message_id.clone();
         match envelope.payload {
             ProtocolPayload::RunStarted { episode_id, .. } => self.episode_id = Some(episode_id),
             ProtocolPayload::TaskCreated { agent_id, task } => {
-                self.tasks.insert(
-                    task.id.clone(),
-                    ObservedTask {
-                        task,
-                        creator_agent_id: agent_id,
-                        assignee_agent_id: None,
-                        state: TaskState::Created,
-                        created_message_id: envelope.message_id,
-                        terminal_message_id: None,
-                    },
+                self.create_task(
+                    envelope.message_id,
+                    sequence,
+                    caused_by_message_id,
+                    agent_id,
+                    task,
                 );
             }
             ProtocolPayload::TaskDelegated {
                 task_id,
                 target_agent_id,
                 ..
-            } => self.update_task(&task_id, TaskState::Delegated, Some(target_agent_id), None)?,
-            ProtocolPayload::TaskStarted { task_id, .. } => {
-                self.update_task(&task_id, TaskState::Started, None, None)?;
+            } => {
+                self.transition_task(ProjectedTaskTransition {
+                    message_id: envelope.message_id,
+                    sequence,
+                    caused_by_message_id,
+                    agent_id: target_agent_id.clone(),
+                    task_id,
+                    state: TaskState::Delegated,
+                    assignee_agent_id: Some(target_agent_id),
+                    terminal: false,
+                })?;
             }
-            ProtocolPayload::TaskCompleted { task_id, .. } => self.update_task(
-                &task_id,
-                TaskState::Completed,
-                None,
-                Some(envelope.message_id),
-            )?,
-            ProtocolPayload::TaskFailed { task_id, .. } => {
-                self.update_task(&task_id, TaskState::Failed, None, Some(envelope.message_id))?
+            ProtocolPayload::TaskStarted { agent_id, task_id } => {
+                self.transition_task(ProjectedTaskTransition {
+                    message_id: envelope.message_id,
+                    sequence,
+                    caused_by_message_id,
+                    agent_id,
+                    task_id,
+                    state: TaskState::Started,
+                    assignee_agent_id: None,
+                    terminal: false,
+                })?;
+            }
+            ProtocolPayload::TaskCompleted { agent_id, task_id } => {
+                self.transition_task(ProjectedTaskTransition {
+                    message_id: envelope.message_id,
+                    sequence,
+                    caused_by_message_id,
+                    agent_id,
+                    task_id,
+                    state: TaskState::Completed,
+                    assignee_agent_id: None,
+                    terminal: true,
+                })?;
+            }
+            ProtocolPayload::TaskFailed {
+                agent_id, task_id, ..
+            } => {
+                self.transition_task(ProjectedTaskTransition {
+                    message_id: envelope.message_id,
+                    sequence,
+                    caused_by_message_id,
+                    agent_id,
+                    task_id,
+                    state: TaskState::Failed,
+                    assignee_agent_id: None,
+                    terminal: true,
+                })?;
             }
             ProtocolPayload::TaskReassigned {
                 task_id,
                 target_agent_id,
                 ..
-            } => self.update_task(&task_id, TaskState::Reassigned, Some(target_agent_id), None)?,
-            ProtocolPayload::TaskCancelled { task_id, .. } => self.update_task(
-                &task_id,
-                TaskState::Cancelled,
-                None,
-                Some(envelope.message_id),
-            )?,
+            } => {
+                self.transition_task(ProjectedTaskTransition {
+                    message_id: envelope.message_id,
+                    sequence,
+                    caused_by_message_id,
+                    agent_id: target_agent_id.clone(),
+                    task_id,
+                    state: TaskState::Reassigned,
+                    assignee_agent_id: Some(target_agent_id),
+                    terminal: false,
+                })?;
+            }
+            ProtocolPayload::TaskCancelled { agent_id, task_id } => {
+                self.transition_task(ProjectedTaskTransition {
+                    message_id: envelope.message_id,
+                    sequence,
+                    caused_by_message_id,
+                    agent_id,
+                    task_id,
+                    state: TaskState::Cancelled,
+                    assignee_agent_id: None,
+                    terminal: true,
+                })?;
+            }
             ProtocolPayload::ToolRequest {
                 agent_id,
                 task_id,
@@ -112,6 +175,8 @@ impl ReplayProjection {
                         agent_id,
                         task_id,
                         request_message_id: envelope.message_id,
+                        request_sequence: sequence,
+                        caused_by_message_id,
                         tool,
                         purpose,
                         arguments,
@@ -170,6 +235,7 @@ impl ReplayProjection {
                 message,
             } => self.messages.push(ObservedMessage {
                 message_id: envelope.message_id,
+                sequence,
                 caused_by_message_id,
                 agent_id,
                 target_agent_id,
@@ -210,69 +276,11 @@ impl ReplayProjection {
                 evidence: self.evidence,
                 findings: self.findings,
                 messages: self.messages,
+                task_transitions: self.task_transitions,
+                message_sequences: self.message_sequences,
                 timeline,
             },
             submission,
         ))
-    }
-
-    fn update_task(
-        &mut self,
-        task_id: &TaskId,
-        state: TaskState,
-        assignee: Option<hunteval_domain::AgentId>,
-        terminal_message_id: Option<hunteval_domain::MessageId>,
-    ) -> Result<(), StoredEvaluationError> {
-        let task = self
-            .tasks
-            .get_mut(task_id)
-            .ok_or(StoredEvaluationError::InvalidProjection)?;
-        if let Some(assignee) = assignee {
-            task.assignee_agent_id = Some(assignee);
-        }
-        task.state = state;
-        task.terminal_message_id = terminal_message_id;
-        Ok(())
-    }
-
-    fn complete_action(
-        &mut self,
-        action_id: ActionId,
-        result_message_id: hunteval_domain::MessageId,
-        tool: String,
-        outcome: ToolOutcome,
-        event_ids: std::collections::BTreeSet<hunteval_domain::EventId>,
-        result: serde_json::Value,
-    ) -> Result<(), StoredEvaluationError> {
-        if outcome == ToolOutcome::Error && !event_ids.is_empty() {
-            return Err(StoredEvaluationError::InvalidProjection);
-        }
-        let pending = self
-            .pending_actions
-            .remove(&action_id)
-            .ok_or(StoredEvaluationError::InvalidProjection)?;
-        if pending.tool != tool {
-            return Err(StoredEvaluationError::InvalidProjection);
-        }
-        self.actions.insert(
-            action_id.clone(),
-            ObservedAction {
-                action_id,
-                agent_id: pending.agent_id,
-                task_id: pending.task_id,
-                request_message_id: pending.request_message_id,
-                result_message_id,
-                tool,
-                purpose: pending.purpose,
-                arguments: pending.arguments,
-                outcome: match outcome {
-                    ToolOutcome::Success => ObservedToolOutcome::Success,
-                    ToolOutcome::Error => ObservedToolOutcome::Error,
-                },
-                event_ids,
-                result,
-            },
-        );
-        Ok(())
     }
 }

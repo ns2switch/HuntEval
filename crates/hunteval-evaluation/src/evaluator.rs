@@ -125,6 +125,21 @@ fn validate_counts(input: &EvaluationInput) -> Result<(), EvaluationError> {
             input.tasks_completed,
             input.tasks_created,
         ),
+        (
+            "submitted grounded evidence",
+            input.submitted_grounded_evidence_items,
+            input.grounded_evidence_items,
+        ),
+        (
+            "duplicate tool calls",
+            input.duplicate_tool_calls,
+            input.tool_calls_used,
+        ),
+        (
+            "useful operational messages",
+            input.useful_messages,
+            input.operational_messages,
+        ),
     ] {
         if numerator > denominator {
             return Err(EvaluationError::InvalidCount(name));
@@ -150,4 +165,8 @@ pub enum EvaluationError {
     EmptyAcceptableStatuses,
     #[error("unsupported ATT&CK technique identifier {0}")]
     UnsupportedTechniqueIdentifier(String),
+    #[error("tool name is not a validated canonical identifier")]
+    InvalidToolName,
+    #[error("tool arguments exceed canonical structured-data limits")]
+    InvalidToolArguments,
 }

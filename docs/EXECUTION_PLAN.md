@@ -224,7 +224,7 @@ The vertical slice implements only metrics whose contracts can be deterministic 
 | task completion rate | `[0,1]` | higher is better | created non-superseded tasks; zero created tasks is not applicable |
 | tool-call utilization | `[0,1]` | lower raw usage is better | used calls / configured cap; zero cap with zero use is not applicable |
 
-Raw counts and applicability are always preserved. The first result does not fabricate resilience or reproducibility values from one run; those dimensions are `null` and aggregate scoring must follow an explicit profile policy. Attack-path accuracy, timeline accuracy, semantic duplicate work, useful communication, resilience, cost-normalized efficiency, confidence intervals, and stability are deferred to later pull requests with separate metric contracts and tests.
+Raw counts and applicability are always preserved. The first result does not fabricate resilience or reproducibility values from one run; those dimensions are `null` and aggregate scoring must follow an explicit profile policy. Attack-path, timeline, structured-conclusion, technique, evidence-completeness, canonical duplicate-work, and causally useful communication metrics now have separate deterministic contracts and tests. Resilience aggregation, cost-normalized efficiency, confidence intervals, and stability remain deferred to their owning milestones.
 
 ## 4. Pull request sequence
 
