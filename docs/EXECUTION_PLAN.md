@@ -326,6 +326,8 @@ Raw counts and applicability are always preserved. The first result does not fab
 
 ### PR-08 — First end-to-end two-agent vertical slice
 
+**Implementation status:** Completed on 2026-08-07.
+
 1. **Objective:** Complete the required offline flow using a deterministic reference deployment.
 2. **Files and crates affected:** reference deployment fixture under `deployments/two-agent-scripted`, runner orchestration integration, CLI, end-to-end tests, README quick start.
 3. **Public types and contracts:** no new broad API; stabilize only the process command manifest and vertical-slice artifact layout.

@@ -1,4 +1,4 @@
 [build]
-# Bundled DuckDB test binaries are large; serial linking keeps local and CI
-# memory use predictable on small runners.
-jobs = 1
+# Debug symbols are disabled for development profiles; two jobs keep bundled
+# DuckDB builds practical while remaining within small-runner memory limits.
+jobs = 2

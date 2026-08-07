@@ -48,3 +48,9 @@ codegen-units = 1
 lto = "thin"
 overflow-checks = true
 strip = "symbols"
+
+[profile.dev]
+debug = 0
+
+[profile.test]
+debug = 0

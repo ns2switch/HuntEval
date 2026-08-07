@@ -1,12 +1,67 @@
 //! HuntEval command-line entry point.
 
-use clap::Parser;
+use std::{path::PathBuf, process::ExitCode};
 
-/// Evaluate threat-hunting deployments against reproducible episodes.
+use clap::{Parser, Subcommand};
+
 #[derive(Debug, Parser)]
 #[command(author, version, about)]
-struct Cli {}
+struct Cli {
+    #[command(subcommand)]
+    command: Option<Command>,
+}
 
-fn main() {
-    let _cli = Cli::parse();
+#[derive(Debug, Subcommand)]
+enum Command {
+    Run {
+        #[arg(long)]
+        episode: PathBuf,
+        #[arg(long)]
+        deployment: PathBuf,
+        #[arg(long, default_value = "runs")]
+        output: PathBuf,
+    },
+    Trajectory {
+        #[command(subcommand)]
+        command: TrajectoryCommand,
+    },
+}
+
+#[derive(Debug, Subcommand)]
+enum TrajectoryCommand {
+    Inspect { path: PathBuf },
+}
+
+fn main() -> ExitCode {
+    match execute(Cli::parse()) {
+        Ok(()) => ExitCode::SUCCESS,
+        Err(error) => {
+            eprintln!("error: {error}");
+            ExitCode::FAILURE
+        }
+    }
+}
+
+fn execute(cli: Cli) -> Result<(), Box<dyn std::error::Error>> {
+    match cli.command {
+        None => Ok(()),
+        Some(Command::Run {
+            episode,
+            deployment,
+            output,
+        }) => {
+            let path = hunteval_runner::run_vertical_slice(&episode, &deployment, &output)?;
+            println!("run artifacts: {}", path.display());
+            Ok(())
+        }
+        Some(Command::Trajectory {
+            command: TrajectoryCommand::Inspect { path },
+        }) => {
+            let bytes = std::fs::read(path)?;
+            let (event_count, digest) = hunteval_runner::inspect_trajectory(&bytes)?;
+            println!("events: {event_count}");
+            println!("sha256: {digest}");
+            Ok(())
+        }
+    }
 }

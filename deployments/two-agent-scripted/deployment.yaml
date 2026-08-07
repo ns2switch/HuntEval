@@ -1,0 +1,11 @@
+schema_version: "0.3"
+id: two-agent-scripted
+kind: deterministic_protocol_fixture
+architecture: supervisor_investigator
+agents:
+  - id: supervisor
+    role: orchestrator
+  - id: investigator
+    role: investigator
+network_access: false
+scored_tools: hunteval_managed_only

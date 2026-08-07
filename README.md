@@ -21,9 +21,21 @@ A future diagnostic layer will use observable run traces to identify systematic 
 
 ## Implementation status
 
-The repository is implemented through PR-07. It contains infrastructure-independent domain contracts, a bounded JSONL protocol with deterministic replay, a reproducible synthetic AWS episode with physically separated ground truth, a validated episode loader, and a managed DuckDB worker. The trusted runner provides monotonic budgets, protocol-origin mediation, reproducible partial and atomically finalized artifacts, bounded process execution, environment redaction, and Linux process isolation. Deterministic evaluation covers event/entity precision and recall, evidence grounding, provenance validity, task completion, raw tool utilization, profile-controlled missing metrics, and explicit constraints.
+The repository is implemented through PR-08. It contains the first deterministic two-agent vertical slice: validated Parquet input, a separate managed DuckDB query, registration and delegation, evidence-bearing findings, private evaluation, exact-byte replay, reproducibility hashes, normalized JSON, and atomically finalized run artifacts. The reference deployment is a protocol fixture and makes no model-quality claim.
 
-The benchmark command and end-to-end vertical slice remain future milestones. The implementation sequence and current status are maintained in `docs/EXECUTION_PLAN.md`.
+Benchmark execution and the broader cloud fixture set remain future milestones. The implementation sequence and current status are maintained in `docs/EXECUTION_PLAN.md`.
+
+## Quick start
+
+Build the workspace so the CLI and managed worker are sibling executables, then run the offline reference slice:
+
+```bash
+cargo build --workspace
+cargo run -p hunteval-cli -- run \
+  --episode datasets/aws/aws-iam-001 \
+  --deployment deployments/two-agent-scripted
+cargo run -p hunteval-cli -- trajectory inspect runs/latest/trajectory.jsonl
+```
 
 ## Development
 

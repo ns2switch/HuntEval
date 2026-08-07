@@ -19,6 +19,7 @@ const MAX_WIRE_RESPONSE_BYTES: u64 = 4_200_000;
 #[derive(Debug, Clone)]
 pub struct DuckDbWorker {
     executable: PathBuf,
+    arguments: Vec<String>,
     tables: Vec<TableRegistration>,
 }
 
@@ -27,8 +28,16 @@ impl DuckDbWorker {
     pub fn new(executable: impl Into<PathBuf>, tables: Vec<TableRegistration>) -> Self {
         Self {
             executable: executable.into(),
+            arguments: Vec::new(),
             tables,
         }
+    }
+
+    /// Adds fixed runner-controlled arguments used by a multi-call executable.
+    #[must_use]
+    pub fn with_arguments(mut self, arguments: Vec<String>) -> Self {
+        self.arguments = arguments;
+        self
     }
 
     /// Executes a request without allowing worker failure to terminate the caller.
@@ -48,7 +57,7 @@ impl DuckDbWorker {
         }
 
         let timeout = Duration::from_millis(command.request.limits.timeout_ms);
-        let mut child = ChildGuard::spawn(&self.executable)?;
+        let mut child = ChildGuard::spawn(&self.executable, &self.arguments)?;
         let mut stdin = child.0.stdin.take().ok_or_else(unavailable)?;
         stdin.write_all(&input).map_err(|_| unavailable())?;
         drop(stdin);
@@ -100,8 +109,9 @@ impl DuckDbWorker {
 struct ChildGuard(Child);
 
 impl ChildGuard {
-    fn spawn(executable: &Path) -> Result<Self, ToolError> {
+    fn spawn(executable: &Path, arguments: &[String]) -> Result<Self, ToolError> {
         Command::new(executable)
+            .args(arguments)
             .stdin(Stdio::piped())
             .stdout(Stdio::piped())
             .stderr(Stdio::null())
