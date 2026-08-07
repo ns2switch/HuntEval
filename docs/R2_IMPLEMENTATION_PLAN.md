@@ -13,7 +13,7 @@ This is a planning artifact. It does not authorize work outside R2 or relax any 
 
 ### Delivery status
 
-Status values are evidence-based: `complete` means the milestone has a dedicated commit, its acceptance tests pass, and the complete workspace gate has passed. `planned` means no completion claim is made, even when reusable foundations already exist.
+Status values are evidence-based: `complete` means the milestone is traceable to a completion commit, its acceptance tests pass, and the complete workspace gate has passed. One completion commit may close adjacent milestones when their contracts and tests form one indivisible review unit. `planned` means no completion claim is made, even when reusable foundations already exist.
 
 | Milestone | Status | Evidence or next dependency |
 |---|---|---|
@@ -23,12 +23,12 @@ Status values are evidence-based: `complete` means the milestone has a dedicated
 | R2-03 | complete | `cf789a1` — isolated generic mediated run engine |
 | R2-04 | complete | `41108b6` — append-only benchmark journal and deterministic projection |
 | R2-05 | complete | `7f1f076` — bounded matrix service, production DuckDB mediation, resume, and verified comparisons |
-| R2-06 | complete | public benchmark CLI, documented exit codes, 36-cell smoke matrix, and interrupted recovery |
-| R2-07 | complete | trusted stored-artifact reducer with typed observable provenance and fail-closed reference validation |
-| R2-08 | complete | independent attack-path, timeline, structured-conclusion, and technique metrics with v0.3/v0.4 adapters |
-| R2-09 | complete | grounded evidence coverage and sufficiency plus canonical duplicate-work and causally useful communication metrics |
-| R2-10 | complete | measured duration, verified-only cost utilization, and digest-verified cross-seed stability aggregation |
-| R2-11 | complete | versioned registry-backed profiles, typed provenance constraints, and immutable v0.3 adaptation |
+| R2-06 | complete | `8362fb6` — public benchmark CLI, documented exit codes, 36-cell smoke matrix, and interrupted recovery |
+| R2-07 | complete | `0842918` — trusted stored-artifact reducer with typed observable provenance and fail-closed reference validation |
+| R2-08 | complete | `2e10b1d` — independent attack-path, timeline, structured-conclusion, and technique metrics with v0.3/v0.4 adapters |
+| R2-09 | complete | `a730cd4` — grounded evidence coverage and sufficiency plus canonical duplicate-work and causally useful communication metrics |
+| R2-10 | complete | `c8c8c3b` — measured duration, verified-only cost utilization, and digest-verified cross-seed stability aggregation |
+| R2-11 | complete | `c8c8c3b` — versioned registry-backed profiles, typed provenance constraints, and immutable v0.3 adaptation |
 | R2-12 | planned — next | requires R2-06 and R2-11 |
 | R2-13 | planned | requires R2-12 |
 | R2-14 | planned | requires R2-13 |
@@ -447,6 +447,20 @@ cargo test -p hunteval-runner --test profile_compatibility
 ```
 
 **R2.2 exit gate:** every roadmap metric has a normative contract and edge-case tests; evaluators reproduce identical vectors from the same verified artifacts; unsupported inputs remain explicitly not applicable; no metric reads files, starts processes, or accesses deployment adapters.
+
+### R2.2 delivered behavior
+
+The completed evaluation slice has the following operational boundaries:
+
+- run evaluation reconstructs its trusted input from digest-verified stored trajectory and submission artifacts before reading evaluator-only ground truth;
+- the compiled registry owns each metric's exact name, contract version, direction, and minimum resource provenance, so authored profiles cannot redefine those properties;
+- v0.4 profiles select registered metric/version pairs, use weights summing to one, and declare `reject`, `renormalize`, or `zero` behavior for missing values;
+- resilience, graceful degradation, cross-run stability, and verified cost cannot disappear through renormalization, and unverifiable hard resource constraints never pass;
+- duration utilization accepts runner measurements, while cost utilization requires `verified_adapter` provenance and remains explicitly unavailable for self-reported data;
+- benchmark stability groups completed cells by deployment and episode over the manifest's exact seed set, verifies each result digest, canonicalizes structured submission claims, and reports missing, failed, or invalid repetitions instead of imputing them;
+- v0.3 scoring artifacts are adapted in memory into the v0.4 model without modifying the authored source or weakening version checks.
+
+The canonical v0.4 contract is `schemas/v0.4/scoring-profile.schema.json`, with examples in `examples/contracts/v0.4/scoring-profile.yaml` and `examples/scoring-profile-balanced.yaml`. Legacy compatibility is exercised with `examples/scoring-profile-balanced-v0.3.yaml`. Benchmark-level stability is currently an internal runner service consumed by the reporting work beginning at R2-12; it is not yet a public CLI subcommand or a normalized comparative report.
 
 ## 8. R2.3 — Comparative reporting
 

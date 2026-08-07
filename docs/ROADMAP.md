@@ -85,6 +85,8 @@ Each metric must specify range, direction, numerator, denominator, applicability
 - scoring profiles cannot reference undefined or unverifiable metrics;
 - no global score or implicit missing-value policy is introduced.
 
+Completion evidence: R2-07 through R2-11 reduce verified run artifacts into trusted evaluation inputs; implement investigation, conclusion, evidence, coordination, efficiency, and stability contracts; aggregate exact seed sets with explicit unavailable repetitions; and normalize registry-backed v0.4 scoring profiles while preserving immutable v0.3 compatibility. The implementation is traceable through commits `0842918`, `2e10b1d`, `a730cd4`, and `c8c8c3b`. Comparative result normalization and rendering remain in R2.3.
+
 #### R2.3 — Comparative reporting
 
 - render normalized benchmark JSON as the source of truth;

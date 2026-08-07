@@ -25,7 +25,7 @@ The executable PR-00 through PR-15 plan, the operational R2.1 MVP through R2-06,
 
 Deterministic diagnosis emits only classifications supported by observable event or metric references. Improvement recommendations identify affected runs and remain unvalidated with mandatory human review. Controlled experiments change exactly one variable, isolate hidden-test feedback, preserve immutable authorization, tool-access, and data-handling sections, and enforce metric-regression and verified-cost constraints.
 
-The implementation sequence and milestone evidence are maintained in `docs/EXECUTION_PLAN.md`.
+The original MVP sequence is recorded in `docs/EXECUTION_PLAN.md`. Current R2 delivery status, commit evidence, dependencies, and acceptance gates are maintained in `docs/R2_IMPLEMENTATION_PLAN.md`.
 
 ## Quick start
 

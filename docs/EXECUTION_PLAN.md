@@ -1,6 +1,6 @@
 # HuntEval executable implementation plan
 
-**Status:** Approved; implementation in progress  
+**Status:** Complete (PR-00 through PR-15); superseded for new work by `R2_IMPLEMENTATION_PLAN.md`
 **Plan version:** 0.2.0  
 **Contract baseline:** protocol and schema version 0.3  
 **Scope:** MVP vertical slice first; later work remains gated
