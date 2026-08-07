@@ -28,7 +28,7 @@ Status values are evidence-based: `complete` means the milestone is traceable to
 | R2-08 | complete | `2e10b1d` — independent attack-path, timeline, structured-conclusion, and technique metrics with v0.3/v0.4 adapters |
 | R2-09 | complete | `a730cd4` — grounded evidence coverage and sufficiency plus canonical duplicate-work and causally useful communication metrics |
 | R2-10 | complete | `c8c8c3b` — measured duration, verified-only cost utilization, and digest-verified cross-seed stability aggregation |
-| R2-11 | complete | `c8c8c3b` — versioned registry-backed profiles, typed provenance constraints, and immutable v0.3 adaptation |
+| R2-11 | complete | `c8c8c3b`, `53f48f5` — registry-backed profiles, typed provenance constraints, immutable v0.3 adaptation, and schema/loader closure hardening |
 | R2-12 | planned — next | requires R2-06 and R2-11 |
 | R2-13 | planned | requires R2-12 |
 | R2-14 | planned | requires R2-13 |
@@ -440,6 +440,8 @@ cargo test -p hunteval-runner --test benchmark_metrics
 **Rules:** weights still sum to one; metric names and versions must exist; direction comes from the metric registry rather than authored input; constraints declare required resource provenance; v0.3 profiles remain readable through a compatibility adapter; profiles cannot treat missing resilience, reproducibility, or cost as success.
 
 **Tests:** every missing-value policy, unknown metric/version, invalid weights, unverifiable cost constraint, disqualifying constraint, v0.3 compatibility, deterministic normalized JSON.
+
+**Closure audit:** `53f48f5` aligns the Rust contract and JSON Schema for required fields and identifiers, makes every schema metric selection use its registered version, binds threshold provenance to the registry, limits profile files to 1 MiB with bounded reads, rejects symlinks, covers every protected missing metric and resource requirement, and continuously checks schema-to-registry metric parity. The generic `reproducibility` label is not a selectable metric; its exact R2 contracts are `submission_stability` and `metric_stability`.
 
 ```bash
 cargo test -p hunteval-evaluation scoring_profiles
