@@ -11,19 +11,48 @@ This document turns roadmap initiatives R2.1 through R2.4 into a reviewable pull
 
 This is a planning artifact. It does not authorize work outside R2 or relax any existing security, architecture, compatibility, or maintainability rule.
 
-## 2. Baseline findings
+### Delivery status
 
-The implementation audit established the following starting points:
+Status values are evidence-based: `complete` means the milestone has a dedicated commit, its acceptance tests pass, and the complete workspace gate has passed. `planned` means no completion claim is made, even when reusable foundations already exist.
 
-1. `BenchmarkManifest` validates paths and expands the deployment × episode × seed matrix, but no application service executes or resumes those cells.
+| Milestone | Status | Evidence or next dependency |
+|---|---|---|
+| R2-00 | complete | `d51d6fb` — v0.4 contracts, schemas, and accepted ADRs |
+| R2-01 | complete | `46c056e` — stable resolved benchmark identities and v0.3 compatibility |
+| R2-02 | complete | `1685b69` — independently executable reference deployment |
+| R2-03 | complete | `cf789a1` — isolated generic mediated run engine |
+| R2-04 | complete | `41108b6` — append-only benchmark journal and deterministic projection |
+| R2-05 | planned — next | requires R2-03 and R2-04 |
+| R2-06 | planned | requires R2-05 |
+| R2-07 | planned | requires trusted artifacts from R2-03 |
+| R2-08 | planned | requires R2-07 |
+| R2-09 | planned | requires R2-07 |
+| R2-10 | planned | requires R2-07 and benchmark aggregation |
+| R2-11 | planned | requires R2-08 through R2-10 |
+| R2-12 | planned | requires R2-06 and R2-11 |
+| R2-13 | planned | requires R2-12 |
+| R2-14 | planned | requires R2-13 |
+| R2-15 | planned | requires R2-13 and R2-14 |
+| R2-16 | planned | may evolve alongside remaining milestones; final acceptance follows R2-15 |
+| R2-17 | planned | requires canonical scripts from R2-16 |
+| R2-18 | planned | requires R2-15 and R2-17 |
+
+The operational MVP cut line is the R2.1 exit gate after R2-06. It provides complete local benchmark execution, resume, status, and comparison. The full auditable v0.2/R2 release is not complete until R2-18 and the completion definition in section 12 pass.
+
+## 2. Current baseline findings
+
+The implementation audit at commit `41108b6` established the following current starting points:
+
+1. Authored v0.3 and v0.4 benchmark manifests resolve into stable infrastructure-independent cells, but no application service executes the complete matrix.
 2. The CLI exposes `benchmark validate` only.
-3. The current vertical slice embeds an AWS-specific query, a reference transcript, a fixed run identifier, and the balanced scoring profile. It is an integration fixture, not a generic run engine.
-4. Deployment manifests describe topology but do not declare a process entrypoint or an independently executable protocol adapter.
-5. Run artifacts are written safely, but there is no benchmark-level append-only journal, normalized state snapshot, attempt history, or comparison-eligibility result.
-6. The evaluator operates on a purpose-built in-memory input rather than a normalized trusted view reduced from stored trajectory, submission, and ground-truth artifacts.
-7. Attack-path, timeline, conclusion, evidence-completeness, deterministic coordination, verified efficiency, and cross-run stability contracts are incomplete.
-8. `BenchmarkReport` is a serialization skeleton. Static rendering currently supports run reports only.
-9. GitHub Actions runs the mandatory gates, but no shared local/CI entrypoint, hardened release workflow, or repository-settings checklist exists.
+3. The compatibility `run` command still invokes the hard-coded vertical slice; the generic run engine is not yet wired into the public CLI.
+4. Three external reference topologies speak bounded JSONL and execute inside the networkless Linux sandbox. Their generic end-to-end tests currently use a deterministic managed-tool test adapter rather than the production DuckDB router.
+5. The benchmark journal preserves attempts, verified completions, stale-controller recovery, and deterministic state, but the matrix service does not yet drive it.
+6. Comparison eligibility is frozen as a schema and contract but is not yet reduced from executed benchmark state.
+7. The evaluator still lacks a complete normalized trusted view reduced from verified artifacts. The generic run engine performs the existing deterministic evaluation only after successful replay.
+8. Attack-path, timeline, conclusion, evidence-completeness, deterministic coordination, verified efficiency, and cross-run stability contracts remain incomplete.
+9. `BenchmarkReport` remains a serialization foundation. Static rendering supports run reports, not complete comparative benchmark reports.
+10. GitHub Actions runs the mandatory gates, but no shared local/CI entrypoint, fail-closed sandbox capability job, hardened release workflow, or repository-settings checklist exists.
 
 These gaps define the order below. Reporting must not invent data that benchmark execution and evaluation do not yet produce.
 
@@ -539,6 +568,70 @@ git diff --check
 **R2.4 exit gate:** the same commit and feature set receive equivalent outcomes locally and in GitHub Actions; all mandatory jobs are required for merge; CI artifacts are bounded, non-secret, and independently verifiable.
 
 ## 10. Dependency and delivery order
+
+### Executable delivery waves from the current baseline
+
+Milestone numbers describe contract ownership; implementation follows dependency order. Each milestone is one reviewable behavior change and one dedicated commit after its focused tests and the complete workspace gate pass.
+
+#### Wave A — Close the operational MVP
+
+1. **R2-05 matrix service**
+   - define a small cell-executor port so scheduling and resume tests use a deterministic fake while production uses `RunExecutor`;
+   - implement the production DuckDB managed-tool router and derive event provenance from validated worker output;
+   - generate a normalized per-cell result containing matching benchmark cell and run identities before journal completion;
+   - drive queue, attempt, completion, failure, interruption, and non-comparable events through `BenchmarkJournal`;
+   - enforce deterministic cell order, bounded jobs, fail-fast semantics, and explicit retry policy without overwriting prior attempts;
+   - reduce typed comparison eligibility from verified cells and reject configuration, pairing, fault, budget, protocol, schema, or digest drift;
+   - finish with a fake-executor matrix suite and a real sandboxed reference-deployment smoke matrix.
+2. **R2-06 benchmark CLI**
+   - expose `run`, `resume`, `status`, and `compare` as thin handlers over the R2-05 service;
+   - stabilize JSON output, diagnostics, documented exit codes, argument conflicts, and safe path handling;
+   - execute the nine-episode, two-deployment, paired-seed benchmark from one command;
+   - force an interruption, resume it, and prove equivalent eligible cells and normalized hashes.
+
+**Wave A release checkpoint:** satisfy the R2.1 exit gate. At this point HuntEval may be described as an operational local MVP, but not as the complete auditable R2 release.
+
+#### Wave B — Complete deterministic evaluation
+
+3. **R2-07 trusted evaluation view:** replay and verify stored artifacts into typed observations; reject cross-run, future, forged, duplicate, or wrongly owned references before metric code runs.
+4. **R2-08 investigation metrics:** implement path, timeline, structured conclusion, and technique modules independently, including benign and not-applicable behavior.
+5. **R2-09 evidence and coordination metrics:** implement evidence coverage and sufficiency, canonical duplicate-work fingerprints, and causally useful communication without interpreting prose.
+6. **R2-10 efficiency and stability:** use runner-measured duration and counts, verified-only cost, paired seeds, explicit missing cells, and deterministic cross-run aggregation.
+7. **R2-11 scoring v0.4:** register the complete versioned metric set, preserve v0.3 reading, enforce explicit missing-value policies, and prevent unverified resource values from satisfying constraints.
+
+**Wave B release checkpoint:** satisfy the R2.2 exit gate using only verified artifacts and deterministic structured calculations.
+
+#### Wave C — Produce independently verifiable comparisons
+
+8. **R2-12 benchmark result and claim graph:** normalize benchmark state, metrics, statistics, constraints, provenance, and hashes into one validated reporting input.
+9. **R2-13 benchmark JSON:** make deterministic normalized JSON the complete machine-readable source of truth.
+10. **R2-14 benchmark HTML:** render accessible static comparative views, timelines, attribution, limitations, and artifact provenance with no active content.
+11. **R2-15 report CLI and verification:** detect validated input kinds, generate reports atomically, and verify every referenced artifact digest.
+
+**Wave C release checkpoint:** satisfy the R2.3 exit gate for complete, incomplete, failed, and non-comparable benchmarks.
+
+#### Wave D — Make delivery reproducible and governed
+
+12. **R2-16 canonical toolchain and scripts:** pin the supported toolchain and make repository-owned quality, security, and end-to-end scripts authoritative. Missing Bubblewrap or another mandatory security capability must fail rather than skip.
+13. **R2-17 GitHub Actions hardening:** invoke only canonical scripts, use least privilege, bound time and retention, preserve clean-cache parity, and publish only non-secret verification artifacts.
+14. **R2-18 governance and release dry run:** add ownership and operations documentation, verify protected-branch and tag settings with an authorized maintainer, and produce a checksummed release candidate without publishing a production release.
+
+**Wave D release checkpoint:** satisfy the R2.4 gate and then the complete R2 definition in section 12.
+
+### Milestone handoff checklist
+
+Before committing each remaining milestone:
+
+1. focused positive, negative, malformed-input, and determinism tests pass;
+2. every changed public contract has schema, compatibility, and canonical-example coverage;
+3. security-sensitive behavior includes a fail-closed test that actually executes on the required host capability;
+4. source files have been split for cohesion before 300 lines where practical;
+5. README, contracts, ADRs, operator documentation, and this status table reflect the implemented behavior;
+6. all mandatory workspace commands in section 3 pass;
+7. `git diff --check` passes and the diff contains no unrelated or private files;
+8. the milestone receives one descriptive commit; its status changes to `complete` only after recording the commit and gate evidence.
+
+Pushes do not combine unfinished milestones. If a remote CI gate fails, the milestone returns to active status until the same revision passes locally and in GitHub Actions.
 
 ```text
 R2-00 contracts and ADRs
