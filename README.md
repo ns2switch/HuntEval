@@ -80,7 +80,8 @@ cargo run -p hunteval-fixture-tool -- generate datasets/aws/aws-iam-001
 - `docs/THREAT_MODEL.md`: threats against the framework and evaluated deployments.
 - `docs/IMPLEMENTATION_PLAN.md`: milestones and acceptance criteria.
 - `docs/EXECUTION_PLAN.md`: executable pull-request sequence, contracts, tests, and quality gates.
-- `docs/ROADMAP.md`: evolution from the MVP to assisted optimization.
+- `docs/ROADMAP.md`: prioritized post-MVP releases, dependencies, and exit criteria through v1.0.
+- `docs/R2_IMPLEMENTATION_PLAN.md`: contract-first pull-request plan for roadmap initiatives R2.1 through R2.4.
 - `AGENTS.md`: permanent development-agent instructions.
 
 ## Short definition

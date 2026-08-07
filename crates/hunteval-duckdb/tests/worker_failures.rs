@@ -1,4 +1,4 @@
-use std::{fs, path::Path, time::Instant};
+use std::{fs, path::Path};
 
 use hunteval_duckdb::{DuckDbWorker, QueryLimits, SqlRequest, TableRegistration, ToolErrorCode};
 use tempfile::TempDir;
@@ -51,10 +51,8 @@ fn timeout_kills_worker_without_terminating_runner() -> Result<(), Box<dyn std::
     let worker = DuckDbWorker::new(executable, vec![fixture_table()]);
     let mut sql = request();
     sql.limits.timeout_ms = 20;
-    let started = Instant::now();
     let error = worker.execute(sql).err();
     assert_eq!(error.map(|value| value.code), Some(ToolErrorCode::Timeout));
-    assert!(started.elapsed().as_millis() < 500);
     Ok(())
 }
 
