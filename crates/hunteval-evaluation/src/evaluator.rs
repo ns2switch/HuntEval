@@ -1,6 +1,6 @@
 use std::collections::BTreeMap;
 
-use hunteval_domain::MetricDirection;
+use hunteval_domain::{Applicability, MetricDirection, MetricRange, MetricValue};
 use thiserror::Error;
 
 use crate::{
@@ -87,6 +87,20 @@ impl Evaluator for DeterministicEvaluator {
                 input.tool_call_limit,
                 MetricDirection::LowerIsBetter,
             ),
+        );
+        metrics.insert(
+            "resilience".into(),
+            MetricValue {
+                value: None,
+                applicability: Applicability::RequiresFaultPair,
+                direction: MetricDirection::HigherIsBetter,
+                range: MetricRange {
+                    minimum: 0.0,
+                    maximum: 1.0,
+                },
+                numerator: None,
+                denominator: None,
+            },
         );
         Ok(MetricVector(metrics))
     }

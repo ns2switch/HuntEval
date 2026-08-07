@@ -141,8 +141,9 @@ Every stored raw metric includes `value`, `applicability`, `direction`, `range`,
 | provenance validity | `{0,1}` | higher is better | one when all submitted provenance validates, otherwise zero | one completed or incomplete run | any missing, future, cross-run, forged, or wrong-owner reference produces `0` |
 | task completion rate | `[0,1]` | higher is better | completed tasks | created tasks excluding explicitly superseded cancellations | zero denominator is not applicable |
 | tool-call utilization | `[0,1]` | lower is better | managed tool calls used | configured tool-call cap | zero cap and zero use is not applicable; use above the cap is a budget violation and the raw ratio is clamped only for dimension normalization |
+| graceful degradation | `[0,1]` | higher is better | paired fault-run quality, capped at baseline quality | paired baseline-run quality | a zero baseline denominator is not applicable; non-finite or out-of-range inputs are rejected; runs must share episode, seed, and configuration except for the declared fault profile |
 
-Event and entity inputs are treated as sets after identifier validation, so duplicate submitted identifiers do not increase the numerator or denominator. Raw duplicate counts remain available as diagnostics. Attack-path, timeline, conclusion, semantic coordination, resilience, cost-normalized efficiency, and reproducibility metrics are deferred until their individual contracts define the same fields and tests.
+Event and entity inputs are treated as sets after identifier validation, so duplicate submitted identifiers do not increase the numerator or denominator. Raw duplicate counts remain available as diagnostics. A run without a paired fault run records resilience as `null` with `requires_fault_pair` applicability. Attack-path, timeline, conclusion, semantic coordination, cost-normalized efficiency, and reproducibility metrics are deferred until their individual contracts define the same fields and tests.
 
 ## 3. Dimension scores
 

@@ -58,3 +58,15 @@ fn rejects_forged_counts_and_budget_overrun() {
     value.tool_calls_used = 1;
     assert!(DeterministicEvaluator.evaluate(&value).is_err());
 }
+
+#[test]
+fn resilience_requires_a_paired_fault_run() -> Result<(), Box<dyn std::error::Error>> {
+    let metrics = DeterministicEvaluator.evaluate(&input())?;
+    let resilience = &metrics.0["resilience"];
+    assert_eq!(resilience.value, None);
+    assert_eq!(
+        resilience.applicability,
+        hunteval_domain::Applicability::RequiresFaultPair
+    );
+    Ok(())
+}

@@ -1074,12 +1074,22 @@ dependencies = [
 ]
 
 [[package]]
+name = "hunteval-resilience"
+version = "0.1.0"
+dependencies = [
+ "hunteval-domain",
+ "serde",
+ "thiserror",
+]
+
+[[package]]
 name = "hunteval-runner"
 version = "0.1.0"
 dependencies = [
  "hunteval-domain",
  "hunteval-evaluation",
  "hunteval-protocol",
+ "hunteval-resilience",
  "hunteval-statistics",
  "serde",
  "serde_json",

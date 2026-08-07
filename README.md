@@ -21,9 +21,9 @@ A future diagnostic layer will use observable run traces to identify systematic 
 
 ## Implementation status
 
-The repository is implemented through PR-11. The deterministic cloud catalog now contains three episodes each for AWS, Azure, and Google Cloud, covering identity compromise, privilege escalation, and persistence/credential creation. Every public package includes benign noise and provider-named telemetry, while attack paths and acceptable conclusions remain physically private. `generate-all` reproduces the complete catalog byte-for-byte.
+The repository is implemented through PR-12. Deterministic fault schedules now exercise timeouts, malformed responses, worker failures, unavailable agents, and noisy agents at logical event boundaries. Recovery outcomes enforce retry and reassignment budgets, while paired baseline/fault quality produces an explicit graceful-degradation metric.
 
-Benchmark execution and the broader cloud fixture set remain future milestones. The implementation sequence and current status are maintained in `docs/EXECUTION_PLAN.md`.
+Static reporting, optional local knowledge retrieval, and controlled diagnostic experiments remain future milestones. The implementation sequence and current status are maintained in `docs/EXECUTION_PLAN.md`.
 
 ## Quick start
 

@@ -374,6 +374,8 @@ Raw counts and applicability are always preserved. The first result does not fab
 
 ### PR-12 — Resilience and deterministic fault injection
 
+**Implementation status:** Completed on 2026-08-07.
+
 1. **Objective:** Add paired baseline/fault runs and graceful degradation metrics.
 2. **Files and crates affected:** new `hunteval-resilience` crate or runner module pending ADR, fault schemas, runner controller, fault fixtures.
 3. **Public types and contracts:** `FaultProfile`, `FaultSchedule`, `FaultEvent`, `RecoveryOutcome`, and resilience metric definitions.
