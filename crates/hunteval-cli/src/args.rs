@@ -101,6 +101,11 @@ pub(crate) enum ReportCommand {
         #[arg(long, value_enum)]
         format: ReportFormatArgument,
     },
+    Verify {
+        report: PathBuf,
+        #[arg(long, value_enum, default_value_t = OutputFormatArgument::Text)]
+        format: OutputFormatArgument,
+    },
 }
 
 #[derive(Debug, Clone, Copy, ValueEnum)]
@@ -113,7 +118,9 @@ pub(crate) enum ReportFormatArgument {
 mod tests {
     use clap::Parser;
 
-    use super::{BenchmarkCommand, Cli, Command, OutputFormatArgument, RetryArgument};
+    use super::{
+        BenchmarkCommand, Cli, Command, OutputFormatArgument, ReportCommand, RetryArgument,
+    };
 
     #[test]
     fn parses_resume_retry_policy() -> Result<(), clap::Error> {
@@ -162,5 +169,27 @@ mod tests {
     #[test]
     fn requires_output_for_new_benchmark() {
         assert!(Cli::try_parse_from(["hunteval", "benchmark", "run", "benchmark.yaml"]).is_err());
+    }
+
+    #[test]
+    fn parses_json_report_verification() -> Result<(), clap::Error> {
+        let cli = Cli::try_parse_from([
+            "hunteval",
+            "report",
+            "verify",
+            "runs/cloud-mvp",
+            "--format",
+            "json",
+        ])?;
+        assert!(matches!(
+            cli.command,
+            Some(Command::Report {
+                command: ReportCommand::Verify {
+                    format: OutputFormatArgument::Json,
+                    ..
+                }
+            })
+        ));
+        Ok(())
     }
 }

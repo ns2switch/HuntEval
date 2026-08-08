@@ -36,3 +36,18 @@ Machine-readable command results are written to stdout and diagnostics to stderr
 | 3 | A comparison was evaluated and is ineligible. |
 
 Status and comparison read the stored resolved definition and journal, so they remain available without executing deployments. Comparison eligibility requires every paired cell to be completed and every referenced normalized result to match its journaled digest.
+
+## Comparative reports
+
+Generate the normalized machine-readable report or the portable static HTML view from a benchmark artifact directory:
+
+```bash
+target/debug/hunteval report generate runs/cloud-mvp --format json
+target/debug/hunteval report generate runs/cloud-mvp --format html
+target/debug/hunteval report verify runs/cloud-mvp --format text
+target/debug/hunteval report verify runs/cloud-mvp/benchmark-report.json --format json
+```
+
+Benchmark generation always writes `benchmark-report.json`, the deterministic source of truth. HTML generation additionally writes `benchmark-report.html`; it contains semantic HTML and inline static CSS, but no scripts or event handlers. Both views retain incomplete cells, missing observations, sample counts, inconclusive comparisons, constraint-first rankings, observable claim sources, limitations, and artifact hashes.
+
+Input type is detected from validated artifacts rather than directory names. Reads are bounded, symbolic links and traversal are rejected, and output replacement is atomic. Verification revalidates the normalized contract and checks the exact SHA-256 digest of every artifact listed in the report. A stale, missing, oversized, or modified artifact makes verification return exit code 1. Run report generation remains compatible with directories containing a validated `result.json`; run verification checks its referenced artifact files, while benchmark verification additionally enforces journaled digests.

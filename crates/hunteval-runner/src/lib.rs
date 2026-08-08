@@ -40,7 +40,7 @@ pub use managed_tool::{ManagedTool, ManagedToolError, ManagedToolOutput};
 pub use orchestrator::{OrchestratorError, RunConfig, RunOrchestrator, RunTerminalStatus};
 pub use policy::{IsolationPolicy, PolicyError};
 pub use process::{DeploymentProcess, LinuxSandbox, ProcessError, ProcessOutput, ProcessSpec};
-pub use reporting::{ReportGenerationError, generate_report};
+pub use reporting::{ReportGenerationError, ReportVerification, generate_report, verify_report};
 pub use run::{
     ResolvedRunInputs, RunArtifacts, RunExecution, RunExecutor, RunFailure, RunFailureKind,
     RunInputError, RunRequest, StoredEvaluationError, StoredEvaluationHashes, load_scoring_profile,

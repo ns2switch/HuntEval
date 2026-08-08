@@ -15,6 +15,7 @@ pub use manifest::{
 };
 pub use resolver::resolve_benchmark;
 pub use resolver::resolve_execution_plan;
+pub(crate) use service::BenchmarkCellResult;
 pub use service::{
     BenchmarkCellExecutor, BenchmarkExecutionPlan, BenchmarkMetricGroup, BenchmarkMetrics,
     BenchmarkRunOptions, BenchmarkRunSummary, BenchmarkService, BenchmarkServiceError,

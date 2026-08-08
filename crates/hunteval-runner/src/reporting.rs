@@ -1,67 +1,96 @@
-use std::{
-    fs::{self, OpenOptions},
-    io::{self, Write},
-    path::Path,
-};
+mod aggregation;
+mod benchmark;
+mod io;
+mod verification;
+
+use std::{io as std_io, path::Path};
 
 use hunteval_domain::RunResult;
 use hunteval_reporting::{
-    JsonRenderer, ReportError, ReportFormat, ReportRenderer, RunReport, StaticHtmlRenderer,
+    BenchmarkJsonRenderer, BenchmarkResultError, BenchmarkStaticHtmlRenderer, JsonRenderer,
+    ReportError, ReportFormat, ReportRenderer, RunReport, StaticHtmlRenderer,
 };
 use thiserror::Error;
 
-const MAX_RESULT_BYTES: u64 = 16 * 1024 * 1024;
+pub use verification::{ReportVerification, verify_report};
 
-pub fn generate_report(run_root: &Path, format: ReportFormat) -> Result<(), ReportGenerationError> {
-    let result_path = run_root.join("result.json");
-    let metadata = fs::symlink_metadata(&result_path).map_err(ReportGenerationError::Io)?;
-    if !metadata.file_type().is_file() || metadata.len() > MAX_RESULT_BYTES {
-        return Err(ReportGenerationError::InvalidInput);
+use self::io::{read_regular_bounded, write_atomic};
+
+pub fn generate_report(root: &Path, format: ReportFormat) -> Result<(), ReportGenerationError> {
+    validate_root(root)?;
+    if regular_file_exists(&root.join("benchmark-definition.json"))? {
+        generate_benchmark_report(root, format)
+    } else {
+        generate_run_report(root, format)
     }
-    let bytes = fs::read(result_path).map_err(ReportGenerationError::Io)?;
-    let result: RunResult = serde_json::from_slice(&bytes).map_err(ReportGenerationError::Json)?;
-    let report = RunReport::from_result(result).map_err(ReportGenerationError::Report)?;
-    let (name, rendered) = match format {
-        ReportFormat::Json => (
-            "report.json",
-            JsonRenderer
-                .render_run(&report)
-                .map_err(ReportGenerationError::Report)?,
-        ),
-        ReportFormat::Html => (
-            "report.html",
-            StaticHtmlRenderer
-                .render_run(&report)
-                .map_err(ReportGenerationError::Report)?,
-        ),
-    };
-    write_atomic(run_root, name, &rendered)
 }
 
-fn write_atomic(root: &Path, name: &str, bytes: &[u8]) -> Result<(), ReportGenerationError> {
-    let temporary = root.join(format!(".{name}.partial"));
-    let destination = root.join(name);
-    let mut file = OpenOptions::new()
-        .write(true)
-        .create_new(true)
-        .open(&temporary)
-        .map_err(ReportGenerationError::Io)?;
-    let write_result = file.write_all(bytes).and_then(|()| file.sync_all());
-    if let Err(error) = write_result {
-        let _ignored = fs::remove_file(&temporary);
-        return Err(ReportGenerationError::Io(error));
+fn validate_root(root: &Path) -> Result<(), ReportGenerationError> {
+    let metadata = std::fs::symlink_metadata(root)?;
+    if metadata.file_type().is_symlink() || !metadata.file_type().is_dir() {
+        return Err(ReportGenerationError::InvalidInput);
     }
-    fs::rename(temporary, destination).map_err(ReportGenerationError::Io)
+    Ok(())
+}
+
+fn generate_run_report(root: &Path, format: ReportFormat) -> Result<(), ReportGenerationError> {
+    let bytes = read_regular_bounded(&root.join("result.json"))?;
+    let result: RunResult = serde_json::from_slice(&bytes)?;
+    let report = RunReport::from_result(result)?;
+    let (name, rendered) = match format {
+        ReportFormat::Json => ("report.json", JsonRenderer.render_run(&report)?),
+        ReportFormat::Html => ("report.html", StaticHtmlRenderer.render_run(&report)?),
+    };
+    write_atomic(root, name, &rendered)
+}
+
+fn generate_benchmark_report(
+    root: &Path,
+    format: ReportFormat,
+) -> Result<(), ReportGenerationError> {
+    let report = benchmark::build(root)?;
+    let normalized = BenchmarkJsonRenderer.render(&report)?;
+    write_atomic(root, "benchmark-report.json", &normalized)?;
+    if format == ReportFormat::Html {
+        let html = BenchmarkStaticHtmlRenderer.render(&report)?;
+        write_atomic(root, "benchmark-report.html", &html)?;
+    }
+    Ok(())
+}
+
+fn regular_file_exists(path: &Path) -> Result<bool, ReportGenerationError> {
+    match std::fs::symlink_metadata(path) {
+        Ok(metadata) if metadata.file_type().is_file() => Ok(true),
+        Ok(_) => Err(ReportGenerationError::InvalidInput),
+        Err(error) if error.kind() == std_io::ErrorKind::NotFound => Ok(false),
+        Err(error) => Err(ReportGenerationError::Io(error)),
+    }
 }
 
 #[derive(Debug, Error)]
 pub enum ReportGenerationError {
-    #[error("run result must be a regular file within the size limit")]
+    #[error("report input must be a bounded regular file")]
     InvalidInput,
+    #[error("benchmark state is unavailable")]
+    MissingState,
+    #[error("artifact digest mismatch: {0}")]
+    DigestMismatch(std::path::PathBuf),
     #[error("report I/O failed: {0}")]
-    Io(io::Error),
-    #[error("run result JSON is invalid: {0}")]
-    Json(serde_json::Error),
-    #[error("report is invalid: {0}")]
-    Report(ReportError),
+    Io(#[from] std_io::Error),
+    #[error("report JSON is invalid: {0}")]
+    Json(#[from] serde_json::Error),
+    #[error("run report is invalid: {0}")]
+    Report(#[from] ReportError),
+    #[error("benchmark report is invalid: {0}")]
+    BenchmarkReport(#[from] BenchmarkResultError),
+    #[error("benchmark service failed: {0}")]
+    BenchmarkService(#[from] crate::BenchmarkServiceError),
+    #[error("benchmark journal failed: {0}")]
+    Journal(#[from] crate::BenchmarkJournalError),
+    #[error("benchmark definition failed: {0}")]
+    Definition(#[from] hunteval_domain::BenchmarkDefinitionError),
+    #[error("artifact hashing failed: {0}")]
+    Hashing(#[from] crate::HashingError),
+    #[error("statistical calculation failed: {0}")]
+    Statistics(#[from] hunteval_statistics::StatisticsError),
 }
