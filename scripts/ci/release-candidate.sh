@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+source "$(dirname "${BASH_SOURCE[0]}")/common.sh"
+
+seeded_failure package
+require_rust_toolchain
+
+if [[ "$(uname -s)" != "Linux" || "$(uname -m)" != "x86_64" ]]; then
+    echo "error: the current release-candidate target is x86_64 Linux only" >&2
+    exit 2
+fi
+
+if [[ $# -ne 1 || "$1" != /* || "$1" == "/" || -e "$1" ]]; then
+    echo "error: provide one new absolute output directory" >&2
+    exit 2
+fi
+if [[ -n "$(git status --porcelain)" && "${HUNTEVAL_RELEASE_ALLOW_DIRTY:-}" != "1" ]]; then
+    echo "error: release-candidate dry run requires a clean worktree" >&2
+    exit 1
+fi
+
+readonly output_root="$1"
+readonly revision="$(git rev-parse --verify HEAD)"
+readonly short_revision="${revision:0:12}"
+readonly archive_name="hunteval-rc-$short_revision-x86_64-unknown-linux-gnu.tar.gz"
+readonly staging="$(mktemp -d)"
+trap 'rm -rf -- "$staging"' EXIT
+mkdir -p "$output_root" "$staging/hunteval/bin" "$staging/hunteval/schemas"
+
+cargo build --workspace --release --locked
+for binary in hunteval hunteval-duckdb-worker hunteval-reference-deployment hunteval-fixture-tool; do
+    install -m 0755 "target/release/$binary" "$staging/hunteval/bin/$binary"
+done
+cp -R schemas/v0.3 schemas/v0.4 "$staging/hunteval/schemas/"
+install -m 0644 LICENSE README.md SECURITY.md "$staging/hunteval/"
+
+tar --sort=name \
+    --mtime='UTC 1970-01-01' \
+    --owner=0 --group=0 --numeric-owner \
+    -C "$staging" -cf - hunteval \
+    | gzip -n >"$output_root/$archive_name"
+
+(
+    cd "$output_root"
+    sha256sum "$archive_name" >SHA256SUMS
+    sha256sum -c SHA256SUMS >verification.txt
+)
+{
+    printf 'revision=%s\n' "$revision"
+    printf 'rust_toolchain=%s\n' "$HUNTEVAL_RUST_VERSION"
+    printf 'target=x86_64-unknown-linux-gnu\n'
+    printf 'production_release_published=false\n'
+} >"$output_root/release-metadata.txt"
+
+echo "release-candidate dry-run artifacts: $output_root"

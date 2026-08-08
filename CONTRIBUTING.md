@@ -12,17 +12,17 @@ HuntEval welcomes focused changes that preserve its role as an evaluation framew
 6. Run every required quality gate before requesting review.
 
 ```bash
-cargo fmt --check
-cargo clippy --workspace --all-targets --all-features -- -D warnings
-cargo test --workspace
-RUSTDOCFLAGS="-D warnings" cargo doc --workspace --no-deps
-cargo deny check
-./scripts/check-dependency-direction.sh
-./scripts/check-source-size.sh
+./scripts/ci/quality.sh
+./scripts/ci/security.sh
+./scripts/ci/e2e.sh
 ```
+
+These repository-owned scripts are the authoritative local and GitHub Actions entrypoints. Rust `1.93.1`, the `rustfmt` and `clippy` components, cargo-deny `0.20.2`, and executable Bubblewrap at `/usr/bin/bwrap` are required. Missing capabilities fail closed. `./scripts/ci/test-failure-propagation.sh` demonstrates that seeded policy, security, and end-to-end failures return a nonzero status.
 
 Hand-written production Rust files must not exceed 500 lines. Files above 300 lines require a documented cohesion review. Do not use unsafe first-party Rust or weaken authorization, provenance, ground-truth isolation, or managed-tool policies.
 
 ## Pull requests
 
 Describe the objective, affected contracts, tests, security impact, commands executed, limitations, and rollback considerations. Keep mechanical refactoring separate from behavior changes and use English for project artifacts.
+
+Changes to workflows, canonical CI scripts, schemas, datasets, security policy, or release controls require CODEOWNER review. Repository administrators must also follow `docs/GITHUB_OPERATIONS.md`; committed files do not replace live branch and tag protection.

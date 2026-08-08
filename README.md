@@ -21,7 +21,7 @@ The diagnostic layer uses observable run traces to classify supported failures a
 
 ## Implementation status
 
-The executable PR-00 through PR-15 plan and R2 phases A through C (R2-00 through R2-15) are implemented. Authored v0.3 and v0.4 benchmark manifests resolve into infrastructure-independent definitions whose stable cell identities include configuration, episode, scoring profile, seed, optional fault profile, runtime binaries, and schema bytes. The three reference topologies are independently executable deterministic JSONL peers. The matrix service runs them through the networkless sandbox, mediates scored SQL through the isolated DuckDB worker, schedules bounded parallel work, records append-only attempts, resumes interruptions without overwriting history, and verifies normalized result digests before declaring a comparison eligible. Metric inputs are reduced from digest-verified stored trajectories and submissions with explicit action-to-evidence-to-finding provenance; evaluator-only ground truth never enters the serializable observation view. Investigation, evidence, coordination, efficiency, and cross-run stability metrics use deterministic structured contracts. Versioned v0.4 scoring profiles select registered metrics, obtain direction from the registry, preserve explicit missing-value policy, and require verified provenance for hard resource constraints. Immutable v0.3 profiles remain readable through an in-memory compatibility adapter.
+The executable PR-00 through PR-15 plan and R2 phases A through C (R2-00 through R2-15) are implemented. Phase D delivery automation is implemented through repository-owned quality, security, end-to-end, cache-parity, and release-candidate scripts plus a least-privilege GitHub Actions pipeline. R2-18 remains externally pending until an authorized administrator attests the live branch and tag settings. Authored v0.3 and v0.4 benchmark manifests resolve into infrastructure-independent definitions whose stable cell identities include configuration, episode, scoring profile, seed, optional fault profile, runtime binaries, and schema bytes. The three reference topologies are independently executable deterministic JSONL peers. The matrix service runs them through the networkless sandbox, mediates scored SQL through the isolated DuckDB worker, schedules bounded parallel work, records append-only attempts, resumes interruptions without overwriting history, and verifies normalized result digests before declaring a comparison eligible. Metric inputs are reduced from digest-verified stored trajectories and submissions with explicit action-to-evidence-to-finding provenance; evaluator-only ground truth never enters the serializable observation view. Investigation, evidence, coordination, efficiency, and cross-run stability metrics use deterministic structured contracts. Versioned v0.4 scoring profiles select registered metrics, obtain direction from the registry, preserve explicit missing-value policy, and require verified provenance for hard resource constraints. Immutable v0.3 profiles remain readable through an in-memory compatibility adapter.
 
 Benchmark reporting now normalizes cells, metrics, scoring omissions, constraints, resource provenance, paired statistics, ranking groups, claims, limitations, and exact artifact digests into deterministic JSON. The same validated result renders as portable, script-free HTML. Report generation detects run and benchmark inputs from validated artifacts, writes atomically, and provides an offline verification command that fails when a referenced artifact changes.
 
@@ -53,17 +53,13 @@ cargo run -p hunteval-cli -- report verify runs/cloud-mvp --format json
 
 ## Development
 
-The workspace uses stable Rust. Verify the bootstrap with:
+The workspace pins Rust `1.93.1`. Run the same authoritative gates used by GitHub Actions:
 
 ```bash
 cargo run -p hunteval-cli -- --version
-cargo fmt --check
-cargo clippy --workspace --all-targets --all-features -- -D warnings
-cargo test --workspace
-RUSTDOCFLAGS="-D warnings" cargo doc --workspace --no-deps
-cargo deny check
-./scripts/check-dependency-direction.sh
-./scripts/check-source-size.sh
+./scripts/ci/quality.sh
+./scripts/ci/security.sh
+./scripts/ci/e2e.sh
 ```
 
 See `CONTRIBUTING.md` for security, Clean Architecture, readability, and review requirements.
@@ -97,6 +93,9 @@ cargo run -p hunteval-fixture-tool -- generate datasets/aws/aws-iam-001
 - `docs/BENCHMARK_CLI.md`: benchmark execution, recovery, comparison, output, and exit-code reference.
 - `docs/USE_CASE_CLOUD_DEPLOYMENT_COMPARISON.md`: end-to-end example comparing two deployments over the 36-cell cloud MVP matrix.
 - `docs/R2_IMPLEMENTATION_PLAN.md`: canonical delivery status, dependency order, implementation steps, and acceptance gates through R2-18.
+- `docs/GITHUB_OPERATIONS.md`: required GitHub controls, verification, runner trust, retention, and rollback.
+- `docs/GITHUB_SETTINGS_ATTESTATION.md`: administrator-owned evidence for live repository settings.
+- `docs/RELEASE_CHECKLIST.md`: non-publishing release-candidate dry-run procedure and evidence requirements.
 - `AGENTS.md`: permanent development-agent instructions.
 
 ## Short definition

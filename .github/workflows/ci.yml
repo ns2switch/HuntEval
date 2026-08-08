@@ -8,42 +8,214 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  CARGO_TERM_COLOR: always
+  RUST_BACKTRACE: "1"
+
 jobs:
+  policy:
+    name: Policy
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+      - name: Install pinned Rust toolchain
+        run: rustup toolchain install 1.93.1 --profile minimal --component clippy,rustfmt
+      - name: Run policy gate
+        run: |
+          mkdir -p .ci-artifacts
+          set -o pipefail
+          ./scripts/ci/quality.sh policy |& tee .ci-artifacts/policy.log
+      - name: Prove negative gate propagation
+        run: ./scripts/ci/test-failure-propagation.sh
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        if: always()
+        with:
+          name: policy-log
+          path: .ci-artifacts/policy.log
+          if-no-files-found: error
+          retention-days: 3
+
   quality:
+    name: Quality
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+      - name: Install pinned Rust toolchain
+        run: rustup toolchain install 1.93.1 --profile minimal --component clippy,rustfmt
+      - uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
+        with:
+          path: |
+            ~/.cargo/registry/index
+            ~/.cargo/registry/cache
+            ~/.cargo/git/db
+            target
+          key: rust-${{ runner.os }}-${{ runner.arch }}-1.93.1-x86_64-unknown-linux-gnu-all-features-${{ hashFiles('Cargo.lock') }}-quality
+      - name: Run formatting and lint gates
+        run: |
+          mkdir -p .ci-artifacts
+          set -o pipefail
+          ./scripts/ci/quality.sh quality |& tee .ci-artifacts/quality.log
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        if: always()
+        with:
+          name: quality-log
+          path: .ci-artifacts/quality.log
+          if-no-files-found: error
+          retention-days: 3
+
+  test:
+    name: Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+      - name: Install pinned Rust toolchain
+        run: rustup toolchain install 1.93.1 --profile minimal --component clippy,rustfmt
+      - uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
+        with:
+          path: |
+            ~/.cargo/registry/index
+            ~/.cargo/registry/cache
+            ~/.cargo/git/db
+            target
+          key: rust-${{ runner.os }}-${{ runner.arch }}-1.93.1-x86_64-unknown-linux-gnu-all-features-${{ hashFiles('Cargo.lock') }}-test
+      - name: Run workspace tests
+        run: |
+          mkdir -p .ci-artifacts
+          set -o pipefail
+          ./scripts/ci/quality.sh test |& tee .ci-artifacts/tests.log
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        if: always()
+        with:
+          name: test-log
+          path: .ci-artifacts/tests.log
+          if-no-files-found: error
+          retention-days: 3
+
+  security:
+    name: Security
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+      - name: Install pinned Rust toolchain and host capability
+        run: |
+          rustup toolchain install 1.93.1 --profile minimal --component clippy,rustfmt
+          sudo apt-get update
+          sudo apt-get install --yes bubblewrap
+          cargo install cargo-deny --version 0.20.2 --locked
+      - name: Run security gate
+        run: |
+          mkdir -p .ci-artifacts
+          set -o pipefail
+          ./scripts/ci/security.sh |& tee .ci-artifacts/security.log
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        if: always()
+        with:
+          name: security-log
+          path: .ci-artifacts/security.log
+          if-no-files-found: error
+          retention-days: 3
+
+  end-to-end:
+    name: End-to-end
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+      - name: Install pinned Rust toolchain and host capability
+        run: |
+          rustup toolchain install 1.93.1 --profile minimal --component clippy,rustfmt
+          sudo apt-get update
+          sudo apt-get install --yes bubblewrap
+      - uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
+        with:
+          path: |
+            ~/.cargo/registry/index
+            ~/.cargo/registry/cache
+            ~/.cargo/git/db
+            target
+          key: rust-${{ runner.os }}-${{ runner.arch }}-1.93.1-x86_64-unknown-linux-gnu-all-features-${{ hashFiles('Cargo.lock') }}-e2e
+      - name: Run public end-to-end benchmark
+        env:
+          HUNTEVAL_E2E_OUTPUT: ${{ github.workspace }}/.ci-artifacts/e2e
+        run: ./scripts/ci/e2e.sh
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        if: always()
+        with:
+          name: end-to-end-results
+          path: |
+            .ci-artifacts/e2e/validation.json
+            .ci-artifacts/e2e/run-summary.json
+            .ci-artifacts/e2e/status.json
+            .ci-artifacts/e2e/comparison.json
+            .ci-artifacts/e2e/benchmark-report.json
+            .ci-artifacts/e2e/benchmark-report.html
+            .ci-artifacts/e2e/verification.json
+            .ci-artifacts/e2e/r2-evidence.json
+            .ci-artifacts/e2e/SHA256SUMS
+          if-no-files-found: error
+          retention-days: 3
+
+  documentation:
+    name: Documentation
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
-      - name: Check out repository
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+      - name: Install pinned Rust toolchain
+        run: rustup toolchain install 1.93.1 --profile minimal --component clippy,rustfmt
+      - name: Build documentation
+        run: |
+          mkdir -p .ci-artifacts
+          set -o pipefail
+          ./scripts/ci/quality.sh docs |& tee .ci-artifacts/documentation.log
+          tar -czf .ci-artifacts/rustdoc.tar.gz -C target doc
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        if: always()
+        with:
+          name: documentation
+          path: |
+            .ci-artifacts/documentation.log
+            .ci-artifacts/rustdoc.tar.gz
+          if-no-files-found: error
+          retention-days: 3
 
-      - name: Install stable Rust components
-        run: rustup toolchain install stable --profile minimal --component clippy,rustfmt
-
-      - name: Select stable Rust
-        run: rustup default stable
-
-      - name: Install cargo-deny
-        run: cargo install cargo-deny --version 0.20.2 --locked
-
-      - name: Check formatting
-        run: cargo fmt --check
-
-      - name: Check lints
-        run: cargo clippy --workspace --all-targets --all-features -- -D warnings
-
-      - name: Run tests
-        run: cargo test --workspace
-
-      - name: Check documentation
-        env:
-          RUSTDOCFLAGS: -D warnings
-        run: cargo doc --workspace --no-deps
-
-      - name: Check dependencies
-        run: cargo deny check
-
-      - name: Check architecture
-        run: ./scripts/check-dependency-direction.sh
-
-      - name: Check source size
-        run: ./scripts/check-source-size.sh
+  package:
+    name: Package
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+      - name: Install pinned Rust toolchain
+        run: rustup toolchain install 1.93.1 --profile minimal --component clippy,rustfmt
+      - name: Build uncached release-candidate dry run
+        run: |
+          ./scripts/ci/cache-parity.sh
+          ./scripts/ci/release-candidate.sh "${{ runner.temp }}/hunteval-rc"
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: release-candidate-${{ github.sha }}
+          path: ${{ runner.temp }}/hunteval-rc
+          if-no-files-found: error
+          retention-days: 3

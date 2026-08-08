@@ -1,0 +1,9 @@
+* @ns2switch
+
+/.github/ @ns2switch
+/scripts/ci/ @ns2switch
+/schemas/ @ns2switch
+/datasets/ @ns2switch
+/deny.toml @ns2switch
+/rust-toolchain.toml @ns2switch
+/SECURITY.md @ns2switch

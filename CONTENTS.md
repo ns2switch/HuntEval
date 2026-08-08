@@ -30,6 +30,7 @@ All tracked source code, documentation, schemas, fixtures, and examples are writ
 - `docs/IMPLEMENTATION_PLAN.md` and `docs/EXECUTION_PLAN.md`: completed original MVP plans
 - `docs/ROADMAP.md` and `docs/R2_IMPLEMENTATION_PLAN.md`: current roadmap and delivery evidence through R2-18
 - `docs/BENCHMARK_CLI.md` and `docs/USE_CASE_CLOUD_DEPLOYMENT_COMPARISON.md`: operational benchmark reference and end-to-end example
+- `docs/GITHUB_OPERATIONS.md`, `docs/GITHUB_SETTINGS_ATTESTATION.md`, and `docs/RELEASE_CHECKLIST.md`: delivery controls, administrator evidence, and non-publishing release-candidate procedure
 
 ## Contracts, fixtures, and examples
 
@@ -38,4 +39,4 @@ All tracked source code, documentation, schemas, fixtures, and examples are writ
 - `datasets/`: deterministic AWS, Azure, and Google Cloud episode packages with physically separated public telemetry and private evaluator ground truth
 - `deployments/`: single-agent, two-agent, and supervisor-specialist reference registrations
 - `examples/`: benchmark manifests, versioned scoring profiles, and canonical contract fixtures
-- `scripts/`: dependency-direction and source-size quality checks
+- `scripts/`: dependency-direction, source-size, canonical CI, security, end-to-end, evidence, and release-candidate checks
