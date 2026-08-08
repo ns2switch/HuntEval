@@ -21,13 +21,13 @@ The repository currently provides:
 - optional corpus-scoped local knowledge retrieval;
 - observable rule-based diagnosis and controlled experiment contracts.
 
-Several of these are intentionally narrow foundations. The most important completeness gaps are:
+Several of these are intentionally narrow foundations. The current delivery state is:
 
 - the R2.1 CLI executes, resumes, inspects, and compares the complete local matrix; trusted-view replay, the R2-08 through R2-10 metric contracts, and registry-backed v0.4 scoring profiles with v0.3 compatibility are complete;
 - event, entity, evidence completeness, task, utilization, graceful-degradation, attack-path, timeline, structured-conclusion, technique, duplicate-work, causally useful communication, measured-duration, verified-cost, and cross-run stability metrics exist;
-- static run reports exist, but benchmark reports, timelines, coordination views, agent attribution, and artifact hashes are not yet complete;
+- deterministic benchmark JSON and static HTML reports preserve comparisons, attribution, limitations, and exact artifact hashes;
 - diagnosis and experiment safety contracts exist, but artifact registries, end-to-end validation workflows, and broader evidence-backed classification remain incomplete;
-- the GitHub workflow runs the quality gates, but it still needs a shared local/CI entrypoint, hardened merge policy, bounded artifacts, and release automation.
+- canonical repository scripts and bounded least-privilege GitHub workflows are implemented; live merge and protected-tag enforcement awaits authorized administrator attestation.
 
 ## 3. Prioritization rules
 
@@ -87,7 +87,7 @@ Each metric must specify range, direction, numerator, denominator, applicability
 
 Completion evidence: R2-07 through R2-11 reduce verified run artifacts into trusted evaluation inputs; implement investigation, conclusion, evidence, coordination, efficiency, and stability contracts; aggregate exact seed sets with explicit unavailable repetitions; and normalize registry-backed v0.4 scoring profiles while preserving immutable v0.3 compatibility. The implementation is traceable through commits `0842918`, `2e10b1d`, `a730cd4`, and `c8c8c3b`. Comparative result normalization and rendering remain in R2.3.
 
-#### R2.3 — Comparative reporting
+#### R2.3 — Comparative reporting (complete)
 
 - render normalized benchmark JSON as the source of truth;
 - add portable static HTML benchmark reports;
@@ -105,7 +105,7 @@ Completion evidence: R2-07 through R2-11 reduce verified run artifacts into trus
 
 Completion evidence: R2-12 through R2-15 are implemented in `006519d`. The normalized v0.4 benchmark result retains cell status, raw metrics, score omissions, constraints, verified resource provenance, paired statistics, constraint-first ranking groups, typed claim sources, limitations, and exact artifact digests. Deterministic JSON is the machine-readable source of truth; portable HTML contains no active content; the unified CLI generates atomically and detects missing, stale, oversized, symlinked, or modified artifacts during verification.
 
-#### R2.4 — GitHub delivery hardening
+#### R2.4 — GitHub delivery hardening (implementation complete; external enforcement pending)
 
 - make GitHub Actions invoke the same repository-owned quality entrypoints used locally;
 - cache Rust and DuckDB native build outputs safely;
@@ -113,6 +113,8 @@ Completion evidence: R2-12 through R2-15 are implemented in `006519d`. The norma
 - document protected branches, required approvals, and release permissions.
 
 **Exit criteria:** the same revision receives equivalent pass/fail results locally and in GitHub Actions, and required checks protect the default branch.
+
+Implementation evidence: commit `5874792` provides pinned canonical local/CI gates, fail-closed security capability checks, negative failure-propagation tests, bounded verification artifacts, clean-cache parity, CODEOWNERS, a live-settings verifier, and a non-publishing checksummed RC workflow. Local acceptance gates and the RC package verification pass. R2.4 remains open until GitHub Actions passes this revision and an authorized administrator records that the required checks, default-branch protection, and protected RC tag rules are active.
 
 ### v0.3 — Runner and protocol hardening
 

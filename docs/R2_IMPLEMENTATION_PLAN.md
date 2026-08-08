@@ -33,9 +33,9 @@ Status values are evidence-based: `complete` means the milestone is traceable to
 | R2-13 | complete | `006519d` — deterministic normalized benchmark JSON with exact artifact provenance |
 | R2-14 | complete | `006519d` — escaped, accessible, script-free comparative HTML |
 | R2-15 | complete | `006519d` — unified report CLI, atomic output, bounded input, and exact-digest verification |
-| R2-16 | planned — next | requires the completed R2-15 reporting boundary |
-| R2-17 | planned | requires canonical scripts from R2-16 |
-| R2-18 | planned | requires R2-15 and R2-17 |
+| R2-16 | complete | `5874792` — pinned toolchain, canonical gates, negative propagation tests, and reproducible evidence collection |
+| R2-17 | implemented — remote verification pending | `5874792` — least-privilege GitHub Actions jobs, bounded artifacts, keyed caches, and clean-cache parity |
+| R2-18 | externally pending | `5874792` — ownership, operations, fail-closed settings verifier, and checksummed local RC dry run; authorized settings attestation and tagged run remain required |
 
 The operational MVP cut line is the R2.1 exit gate after R2-06. It provides complete local benchmark execution, resume, status, and comparison. The full auditable v0.2/R2 release is not complete until R2-18 and the completion definition in section 12 pass.
 
@@ -52,7 +52,7 @@ The implementation audit after R2-06 established the following current starting 
 7. Run metrics now consume a non-serializable trusted view reduced from digest-verified stored trajectory and submission artifacts; its serializable observation projection cannot represent evaluator-only ground truth.
 8. Investigation, evidence-completeness, duplicate-work, causally useful communication, measured-duration, verified-cost, and cross-run stability metrics are complete with explicit applicability and sample accounting. Registry-backed v0.4 scoring profiles and v0.3 compatibility feed the normalized benchmark result without introducing a global score.
 9. Comparative benchmark reporting now emits deterministic normalized JSON and accessible script-free HTML for complete, failed, incomplete, and non-comparable matrices. Claims resolve only to validated cells, metrics, constraints, comparisons, or artifact digests.
-10. GitHub Actions runs the mandatory gates, but no shared local/CI entrypoint, fail-closed sandbox capability job, hardened release workflow, or repository-settings checklist exists.
+10. Repository-owned scripts now drive equivalent local and GitHub Actions policy, quality, test, security, end-to-end, documentation, and package jobs. Live protected-branch and tag enforcement still requires authorized administrator attestation.
 
 These gaps define the order below. Reporting must not invent data that benchmark execution and evaluation do not yet produce.
 
@@ -588,6 +588,8 @@ git diff --check
 ```
 
 **R2.4 exit gate:** the same commit and feature set receive equivalent outcomes locally and in GitHub Actions; all mandatory jobs are required for merge; CI artifacts are bounded, non-secret, and independently verifiable.
+
+Implementation evidence: commit `5874792` pins Rust 1.93.1 and cargo-deny 0.20.2; adds canonical fail-closed quality, security, end-to-end, cache-parity, settings-verification, evidence, and RC scripts; and makes seven least-privilege GitHub Actions jobs consume those entrypoints. Local policy, formatting, lint, tests, documentation, dependency, architecture, source-size, security, negative-propagation, clean-cache parity, and 36-cell end-to-end gates pass. The clean-tree RC dry run produced `hunteval-rc-5874792e4e5a-x86_64-unknown-linux-gnu.tar.gz` and a verified SHA-256 manifest without publishing a release. R2-17 remains pending until this revision passes remotely. R2-18 and the R2.4 exit gate remain pending until an authorized maintainer completes `GITHUB_SETTINGS_ATTESTATION.md` and a protected RC tag runs successfully.
 
 ## 10. Dependency and delivery order
 
