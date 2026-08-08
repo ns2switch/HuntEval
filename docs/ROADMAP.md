@@ -114,7 +114,7 @@ Completion evidence: R2-12 through R2-15 are implemented in `006519d`. The norma
 
 **Exit criteria:** the same revision receives equivalent pass/fail results locally and in GitHub Actions, and required checks protect the default branch.
 
-Implementation evidence: commit `5874792` provides pinned canonical local/CI gates, fail-closed security capability checks, negative failure-propagation tests, bounded verification artifacts, clean-cache parity, CODEOWNERS, a live-settings verifier, and a non-publishing checksummed RC workflow. Local acceptance gates and the RC package verification pass. R2.4 remains open until GitHub Actions passes this revision and an authorized administrator records that the required checks, default-branch protection, and protected RC tag rules are active.
+Implementation evidence: commits `5874792`, `23deef2`, and `5a38c63` provide pinned canonical local/CI gates, a pinned Bubblewrap-capable runner, runner-image-bound caches, fail-closed security capability checks, negative failure-propagation tests, bounded verification artifacts, clean-cache parity, CODEOWNERS, a live-settings verifier, and a non-publishing checksummed RC workflow. Local acceptance gates and RC package verification pass. GitHub Actions run `31255365813` passed all seven canonical jobs, including the uncached Package job. R2.4 remains open until an authorized administrator records that the required checks, default-branch protection, and protected RC tag rules are active and the protected RC tag dry run passes.
 
 ### v0.3 — Runner and protocol hardening
 
