@@ -14,7 +14,7 @@ The `CI` workflow uses read-only repository permissions, cancels superseded bran
 - `Documentation`
 - `Package`
 
-Every job calls a repository-owned script under `scripts/ci/`. Cache keys bind the operating system, architecture, Rust toolchain, compilation target, feature set, lockfile, and job purpose. The uncached package job repeats deterministic contract and fixture tests in a clean target directory. Ordinary jobs receive no deployment or release secret.
+Every job calls a repository-owned script under `scripts/ci/`. Cache keys bind the pinned runner image, operating system, architecture, Rust toolchain, compilation target, feature set, lockfile, and job purpose, so changing the runner image creates a new cache namespace. The uncached package job repeats deterministic contract and fixture tests in a clean target directory. Ordinary jobs receive no deployment or release secret.
 
 CI uploads only bounded logs, generated Rust documentation, normalized public benchmark reports, verification summaries, checksums, and release-candidate binaries. Retention is three days for ordinary CI and seven days for a release-candidate dry run. Never upload an entire benchmark working directory, evaluator-only files, partial run directories, credentials, or runner diagnostics containing environment values.
 

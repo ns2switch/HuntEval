@@ -59,7 +59,7 @@ jobs:
             ~/.cargo/registry/cache
             ~/.cargo/git/db
             target
-          key: rust-${{ runner.os }}-${{ runner.arch }}-1.93.1-x86_64-unknown-linux-gnu-all-features-${{ hashFiles('Cargo.lock') }}-quality
+          key: rust-ubuntu-22.04-${{ runner.os }}-${{ runner.arch }}-1.93.1-x86_64-unknown-linux-gnu-all-features-${{ hashFiles('Cargo.lock') }}-quality
       - name: Run formatting and lint gates
         run: |
           mkdir -p .ci-artifacts
@@ -90,7 +90,7 @@ jobs:
             ~/.cargo/registry/cache
             ~/.cargo/git/db
             target
-          key: rust-${{ runner.os }}-${{ runner.arch }}-1.93.1-x86_64-unknown-linux-gnu-all-features-${{ hashFiles('Cargo.lock') }}-test
+          key: rust-ubuntu-22.04-${{ runner.os }}-${{ runner.arch }}-1.93.1-x86_64-unknown-linux-gnu-all-features-${{ hashFiles('Cargo.lock') }}-test
       - name: Run workspace tests
         run: |
           mkdir -p .ci-artifacts
@@ -151,7 +151,7 @@ jobs:
             ~/.cargo/registry/cache
             ~/.cargo/git/db
             target
-          key: rust-${{ runner.os }}-${{ runner.arch }}-1.93.1-x86_64-unknown-linux-gnu-all-features-${{ hashFiles('Cargo.lock') }}-e2e
+          key: rust-ubuntu-22.04-${{ runner.os }}-${{ runner.arch }}-1.93.1-x86_64-unknown-linux-gnu-all-features-${{ hashFiles('Cargo.lock') }}-e2e
       - name: Run public end-to-end benchmark
         env:
           HUNTEVAL_E2E_OUTPUT: ${{ github.workspace }}/.ci-artifacts/e2e
