@@ -103,6 +103,8 @@ Completion evidence: R2-07 through R2-11 reduce verified run artifacts into trus
 - report generation is deterministic and snapshot-tested;
 - artifact links and hashes are validated before rendering.
 
+Completion evidence: R2-12 through R2-15 are implemented in `006519d`. The normalized v0.4 benchmark result retains cell status, raw metrics, score omissions, constraints, verified resource provenance, paired statistics, constraint-first ranking groups, typed claim sources, limitations, and exact artifact digests. Deterministic JSON is the machine-readable source of truth; portable HTML contains no active content; the unified CLI generates atomically and detects missing, stale, oversized, symlinked, or modified artifacts during verification.
+
 #### R2.4 — GitHub delivery hardening
 
 - make GitHub Actions invoke the same repository-owned quality entrypoints used locally;

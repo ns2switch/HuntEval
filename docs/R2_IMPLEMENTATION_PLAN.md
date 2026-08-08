@@ -29,11 +29,11 @@ Status values are evidence-based: `complete` means the milestone is traceable to
 | R2-09 | complete | `a730cd4` — grounded evidence coverage and sufficiency plus canonical duplicate-work and causally useful communication metrics |
 | R2-10 | complete | `c8c8c3b` — measured duration, verified-only cost utilization, and digest-verified cross-seed stability aggregation |
 | R2-11 | complete | `c8c8c3b`, `53f48f5` — registry-backed profiles, typed provenance constraints, immutable v0.3 adaptation, and schema/loader closure hardening |
-| R2-12 | planned — next | requires R2-06 and R2-11 |
-| R2-13 | planned | requires R2-12 |
-| R2-14 | planned | requires R2-13 |
-| R2-15 | planned | requires R2-13 and R2-14 |
-| R2-16 | planned | may evolve alongside remaining milestones; final acceptance follows R2-15 |
+| R2-12 | complete | `006519d` — validated normalized benchmark result, constraint-first summaries, and typed claim graph |
+| R2-13 | complete | `006519d` — deterministic normalized benchmark JSON with exact artifact provenance |
+| R2-14 | complete | `006519d` — escaped, accessible, script-free comparative HTML |
+| R2-15 | complete | `006519d` — unified report CLI, atomic output, bounded input, and exact-digest verification |
+| R2-16 | planned — next | requires the completed R2-15 reporting boundary |
 | R2-17 | planned | requires canonical scripts from R2-16 |
 | R2-18 | planned | requires R2-15 and R2-17 |
 
@@ -50,8 +50,8 @@ The implementation audit after R2-06 established the following current starting 
 5. Comparison eligibility requires complete pairs and re-verifies normalized result bytes against their journaled digests. Missing, failed, or tampered pairs remain explicitly ineligible.
 6. The compatibility `run` command remains available for the original vertical-slice workflow; benchmark commands use the generic engine.
 7. Run metrics now consume a non-serializable trusted view reduced from digest-verified stored trajectory and submission artifacts; its serializable observation projection cannot represent evaluator-only ground truth.
-8. Investigation, evidence-completeness, duplicate-work, causally useful communication, measured-duration, verified-cost, and cross-run stability metrics are complete with explicit applicability and sample accounting. Registry-backed v0.4 scoring profiles and v0.3 compatibility are complete; R2-12 normalized benchmark results are next.
-9. `BenchmarkReport` remains a serialization foundation. Static rendering supports run reports, not complete comparative benchmark reports.
+8. Investigation, evidence-completeness, duplicate-work, causally useful communication, measured-duration, verified-cost, and cross-run stability metrics are complete with explicit applicability and sample accounting. Registry-backed v0.4 scoring profiles and v0.3 compatibility feed the normalized benchmark result without introducing a global score.
+9. Comparative benchmark reporting now emits deterministic normalized JSON and accessible script-free HTML for complete, failed, incomplete, and non-comparable matrices. Claims resolve only to validated cells, metrics, constraints, comparisons, or artifact digests.
 10. GitHub Actions runs the mandatory gates, but no shared local/CI entrypoint, fail-closed sandbox capability job, hardened release workflow, or repository-settings checklist exists.
 
 These gaps define the order below. Reporting must not invent data that benchmark execution and evaluation do not yet produce.
@@ -535,6 +535,8 @@ cargo test -p hunteval-runner --test report_verification
 ```
 
 **R2.3 exit gate:** normalized JSON and static HTML represent complete, incomplete, and non-comparable benchmarks; every conclusion has a valid source; rendering is deterministic and safe for untrusted text; report verification detects any referenced artifact change.
+
+Completion evidence: commit `006519d` adds the v0.4 benchmark-result contract, deterministic JSON and static HTML renderers, the runner normalization adapter, unified generation and verification commands, tamper detection, complete/incomplete benchmark tests, and updated operator documentation. The full workspace quality, documentation, dependency, architecture, and source-size gates pass for this revision. Phase C and the R2.3 exit gate are complete; R2-16 is the next planned milestone.
 
 ## 9. R2.4 — GitHub delivery hardening
 
