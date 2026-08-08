@@ -24,7 +24,7 @@ Protect `main` with pull requests, at least one approval, required CODEOWNER rev
 
 Create an active tag ruleset for `v*` that prevents update and deletion after creation and restricts tag creation to release maintainers. Production releases require a separately authorized manual decision; the committed release-candidate workflow has `contents: read` and cannot create a release.
 
-Use only GitHub-hosted runners or explicitly approved ephemeral self-hosted runners. Self-hosted runners must start clean, run a supported Actions Runner version, provide Bubblewrap, have no production credentials, and be destroyed after the job. Fork pull requests must not receive repository secrets.
+The committed workflows pin the GitHub-hosted `ubuntu-22.04` image because HuntEval's mandatory Bubblewrap backend requires working unprivileged user namespaces; do not replace it with a moving runner label without executing the isolation and end-to-end gates first. Use only GitHub-hosted runners or explicitly approved ephemeral self-hosted runners. Self-hosted runners must start clean, run a supported Actions Runner version, provide Bubblewrap, have no production credentials, and be destroyed after the job. Fork pull requests must not receive repository secrets.
 
 Enable private vulnerability reporting and Dependabot security updates. Dependency update pull requests must pass the complete pipeline and receive the same review as other changes. Do not configure automatic merge for changes to workflows, schemas, security policy, isolation, SQL policy, fixtures, or release scripts.
 
