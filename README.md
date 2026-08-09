@@ -31,7 +31,7 @@ The original MVP sequence is recorded in `docs/EXECUTION_PLAN.md`. Current R2 de
 
 R3 hardening is complete. The implementation adds an explicit schema 0.5 execution policy, executable Linux capability probes, one supervised Bubblewrap boundary for deployments and managed DuckDB workers, protocol property/fuzz/conformance coverage, standalone run verification, centralized bounded redaction, and deterministic secret scanning. The implementation revision `2d34517` passed all eight GitHub Actions jobs in run `31305219082`; exact local and remote completion evidence is recorded in `docs/R3_COMPLETION_EVIDENCE.md`. R2 completion evidence and its external-enforcement caveat remain unchanged.
 
-R4 is the active closure milestone. Schema 0.6 benchmark-science contracts, benign and extended cloud fixtures, nine content-addressed dataset approvals, policy-bound statistics, bounded contributor workflows, normative reference topology artifacts, controlled-variable equivalence, topology-aware metrics, and deterministic topology reports are implemented. The 108-cell E2E now produces an auditable controlled topology experiment and JSON/HTML reports. A dedicated revision and passing GitHub Actions evidence are still required before R4 is marked complete.
+R4 is complete. Schema 0.6 benchmark-science contracts, benign and extended cloud fixtures, nine content-addressed dataset approvals, policy-bound statistics, bounded contributor workflows, normative reference topology artifacts, controlled-variable equivalence, topology-aware metrics, and deterministic topology reports are implemented. The 108-cell E2E produces an auditable controlled topology experiment and JSON/HTML reports. Implementation revision `f9559a6` passed all nine GitHub Actions jobs in run `31321445726`; exact closure evidence is recorded in `docs/R4_COMPLETION_EVIDENCE.md`. R5 is the next implementation milestone.
 
 ## Quick start
 
@@ -60,7 +60,7 @@ cargo run -p hunteval-cli -- deployment conformance \
 cargo run -p hunteval-cli -- run verify runs/latest --format json
 cargo run -p hunteval-fixture-tool -- scaffold \
   --provider aws --episode-id aws-iam-900 contributions/aws-iam-900
-# Canonical R4 episodes remain incomplete until an independent review record exists.
+# A contributed episode remains incomplete until an independent review record exists.
 cargo run -p hunteval-fixture-tool -- validate datasets/aws/aws-iam-004
 cargo run -p hunteval-fixture-tool -- document datasets/aws/aws-iam-004
 cargo run -p hunteval-fixture-tool -- review-bundle datasets/aws/aws-iam-004
@@ -117,6 +117,7 @@ cargo run -p hunteval-fixture-tool -- generate datasets/aws/aws-iam-001
 - `docs/R3_IMPLEMENTATION_PLAN.md`: delivery status, contracts, tests, risks, and acceptance gates for R3.1 through R3.3.
 - `docs/R3_COMPLETION_EVIDENCE.md`: exact R3 revisions, gates, artifact hashes, limitations, and remote CI evidence.
 - `docs/R4_IMPLEMENTATION_PLAN.md`: governed delivery sequence, contracts, tests, risks, and acceptance gates for R4.1 through R4.4.
+- `docs/R4_COMPLETION_EVIDENCE.md`: exact R4 revision, gates, approvals, artifact hashes, limitations, and remote CI evidence.
 - `docs/GITHUB_OPERATIONS.md`: required GitHub controls, verification, runner trust, retention, and rollback.
 - `docs/GITHUB_SETTINGS_ATTESTATION.md`: administrator-owned evidence for live repository settings.
 - `docs/RELEASE_CHECKLIST.md`: non-publishing release-candidate dry-run procedure and evidence requirements.

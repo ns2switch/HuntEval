@@ -28,7 +28,7 @@ Several of these are intentionally narrow foundations. The current delivery stat
 - the R2.1 CLI executes, resumes, inspects, and compares the complete local matrix; trusted-view replay, the R2-08 through R2-10 metric contracts, and registry-backed v0.4 scoring profiles with v0.3 compatibility are complete;
 - event, entity, evidence completeness, task, utilization, graceful-degradation, attack-path, timeline, structured-conclusion, technique, duplicate-work, causally useful communication, measured-duration, verified-cost, and cross-run stability metrics exist;
 - deterministic benchmark JSON and static HTML reports preserve comparisons, attribution, limitations, and exact artifact hashes;
-- single-agent, two-agent, and supervisor-specialist reference deployments provide narrow topology foundations, but normative topology artifacts, controlled topology ablations, and topology-aware contribution analysis remain future R4.4 work;
+- single-agent, two-agent, and supervisor-specialist reference deployments have normative topology artifacts, controlled topology experiments, fail-closed equivalence checks, topology-aware observable metrics, and experimental topology-dependent contribution analysis;
 - diagnosis and experiment safety contracts exist, but artifact registries, end-to-end validation workflows, broader evidence-backed classification, and the bounded prompt-analysis lifecycle remain future R5 and R6 work;
 - canonical repository scripts and bounded least-privilege GitHub workflows are implemented; live merge and protected-tag enforcement awaits authorized administrator attestation.
 
@@ -137,7 +137,7 @@ Implementation evidence: commits `5874792`, `23deef2`, and `5a38c63` provide pin
 
 The pull-request sequence, contract decisions, tests, risks, and release gates for R3.1 through R3.3 are defined in `R3_IMPLEMENTATION_PLAN.md`.
 
-Current state: R3 is complete. Commits `f0f6119`, `dbfce2c`, and `2d34517` implement the release and its CI compatibility corrections. The implementation revision passed all eight canonical GitHub Actions jobs in run `31305219082`; exact local gates, artifact hashes, limitations, and ADR status are recorded in `R3_COMPLETION_EVIDENCE.md`. R2 evidence and the R2.4 external-enforcement caveat remain unchanged. R4 is the next implementation milestone.
+Current state: R3 is complete. Commits `f0f6119`, `dbfce2c`, and `2d34517` implement the release and its CI compatibility corrections. The implementation revision passed all eight canonical GitHub Actions jobs in run `31305219082`; exact local gates, artifact hashes, limitations, and ADR status are recorded in `R3_COMPLETION_EVIDENCE.md`. R2 evidence and the R2.4 external-enforcement caveat remain unchanged. R4 was completed subsequently and does not alter this R3 evidence.
 
 #### R3.1 — Isolation backends and resource enforcement
 
@@ -173,7 +173,7 @@ Current state: R3 is complete. Commits `f0f6119`, `dbfce2c`, and `2d34517` imple
 
 **Objective:** improve validity, coverage, and reviewability of the benchmark itself.
 
-Current state: R4 is the active closure milestone. Schema 0.6 contracts, expanded episode coverage, independent content-addressed approvals, statistical policy, contributor safety, explicit topologies, controlled equivalence, topology metrics, controlled paired reduction, CLI reporting, and the 108-cell E2E gate are implemented locally. R4 remains incomplete until a dedicated revision passes the canonical GitHub Actions workflow and exact completion evidence is recorded. No pre-R4 completion evidence is changed.
+Current state: R4 is complete. Implementation revision `f9559a6` provides schema 0.6 contracts, expanded episode coverage, nine independent content-addressed approvals, statistical policy, contributor safety, explicit topologies, controlled equivalence, topology metrics, controlled paired reduction, CLI reporting, and the 108-cell E2E gate. All nine canonical GitHub Actions jobs passed in run `31321445726`; exact commands, artifact hashes, limitations, and ADR status are recorded in `R4_COMPLETION_EVIDENCE.md`. R2 and R3 completion evidence and the R2.4 external-enforcement caveat remain unchanged. R5 is the next implementation milestone.
 
 #### R4.1 — Episode coverage expansion
 
@@ -426,6 +426,6 @@ Every roadmap initiative must be delivered through a small reviewable pull reque
 12. rollback behavior;
 13. known limitations.
 
-The future R4.4 and R6.4 implementation plans must address every item above before implementation begins; this roadmap does not substitute for those detailed plans.
+The completed R4 implementation plan addresses these requirements for R4.4. The future R6.4 implementation plan must address every item above before implementation begins; this roadmap does not substitute for that detailed plan.
 
 An initiative is not complete while any required quality gate fails. Scope changes must update this roadmap and the corresponding implementation plan before implementation begins.

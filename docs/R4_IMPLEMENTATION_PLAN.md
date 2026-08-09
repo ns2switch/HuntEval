@@ -15,29 +15,29 @@ R2 remains complete with its recorded R2.4 external-enforcement caveat. R3 remai
 
 ### Delivery status
 
-Status values are evidence-based. `planned` makes no implementation claim. `implemented` means behavior and focused local tests exist but release evidence is incomplete. `complete` requires a dedicated commit, focused acceptance tests, all canonical gates, documentation evidence, and passing GitHub Actions on that revision.
+Status values are evidence-based. `planned` makes no implementation claim. `implemented` means behavior and focused local tests exist but release evidence is incomplete. `complete` requires a dedicated commit, focused acceptance tests, all canonical gates, documentation evidence, and passing GitHub Actions on that revision. R4 completion evidence is recorded in `R4_COMPLETION_EVIDENCE.md`.
 
 | Milestone | Status | Outcome or dependency |
 |---|---|---|
-| R4-00 | implemented | schema 0.6 contracts, canonical examples, boundaries, and accepted ADR-053 through ADR-059 |
-| R4-01 | implemented | optional public classification is validated and content-addressed without answer labels |
-| R4-02 | implemented | one deterministic benign episode per provider and evaluator-only benign semantics |
-| R4-03 | implemented | deterministic multi-stage and cross-boundary episodes for all three providers |
-| R4-04 | implemented | nine independent approvals bind exact public, private, query, and review-policy bytes |
-| R4-05 | implemented | versioned comparison class, minimum-pair policy, and claim-strength enforcement |
-| R4-06 | implemented | paired effects, declared-confidence intervals, and multiplicity policy |
-| R4-07 | implemented | bounded confidence and severity calibration with unavailable states |
-| R4-08 | implemented | policy-bound normalized comparison output is available through the CLI and E2E gate |
-| R4-09 | implemented | safe non-overwriting episode scaffold command and negative path tests |
-| R4-10 | implemented | bounded validation and canonical provider, recovery, review, and leakage gates are integrated |
-| R4-11 | implemented | ground-truth-free documentation and content-addressed reviewer inventory rendering |
-| R4-12 | implemented | explicit normative deployment-topology artifact, loader, digest, and validation |
-| R4-13 | implemented | three conformant reference topology artifacts share the 108-cell matrix |
-| R4-14 | implemented | controlled experiment and fail-closed exact-change equivalence contracts |
-| R4-15 | implemented | separate topology-aware observable dimensions with explicit unavailable values |
-| R4-16 | implemented | the 108-cell E2E produces an auditable paired topology experiment and policy-bound reduction |
-| R4-17 | implemented | deterministic JSON/static HTML topology reports are integrated into the CLI and E2E artifacts |
-| R4-18 | implemented | local closure gates pass; dedicated revision and remote GitHub Actions evidence remain required |
+| R4-00 | complete | schema 0.6 contracts, canonical examples, boundaries, and accepted ADR-053 through ADR-059 |
+| R4-01 | complete | optional public classification is validated and content-addressed without answer labels |
+| R4-02 | complete | one deterministic benign episode per provider and evaluator-only benign semantics |
+| R4-03 | complete | deterministic multi-stage and cross-boundary episodes for all three providers |
+| R4-04 | complete | nine independent approvals bind exact public, private, query, and review-policy bytes |
+| R4-05 | complete | versioned comparison class, minimum-pair policy, and claim-strength enforcement |
+| R4-06 | complete | paired effects, declared-confidence intervals, and multiplicity policy |
+| R4-07 | complete | bounded confidence and severity calibration with unavailable states |
+| R4-08 | complete | policy-bound normalized comparison output is available through the CLI and E2E gate |
+| R4-09 | complete | safe non-overwriting episode scaffold command and negative path tests |
+| R4-10 | complete | bounded validation and canonical provider, recovery, review, and leakage gates are integrated |
+| R4-11 | complete | ground-truth-free documentation and content-addressed reviewer inventory rendering |
+| R4-12 | complete | explicit normative deployment-topology artifact, loader, digest, and validation |
+| R4-13 | complete | three conformant reference topology artifacts share the 108-cell matrix |
+| R4-14 | complete | controlled experiment and fail-closed exact-change equivalence contracts |
+| R4-15 | complete | separate topology-aware observable dimensions with explicit unavailable values |
+| R4-16 | complete | the 108-cell E2E produces an auditable paired topology experiment and policy-bound reduction |
+| R4-17 | complete | deterministic JSON/static HTML topology reports are integrated into the CLI and E2E artifacts |
+| R4-18 | complete | revision `f9559a6`, exact local evidence, and all nine jobs in GitHub Actions run `31321445726` close R4 |
 
 The R4/v0.4 release name is independent from persisted schema versions. Existing schema 0.3, 0.4, and 0.5 artifacts remain immutable. R4-00 selects one additive schema version for new benchmark-science artifacts; no existing source artifact is rewritten to simulate compatibility.
 
