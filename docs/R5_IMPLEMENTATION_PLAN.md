@@ -22,7 +22,7 @@ Status values are evidence-based. `planned` makes no implementation claim. `impl
 
 | Milestone | Status | Outcome or dependency |
 |---|---|---|
-| R5-00 | planned | freeze schema 0.7 diagnosis contracts, compatibility rules, and ADR-060 through ADR-066 |
+| R5-00 | implemented | schema 0.7 diagnosis contracts, canonical examples, compatibility rules, and ADR-060 through ADR-066 are locally verified; remote release evidence remains pending |
 | R5-01 | planned | versioned bounded taxonomy and compiled rule registry |
 | R5-02 | planned | typed observable-source references and exact artifact resolution |
 | R5-03 | planned | deterministic evidence-sufficiency levels with no speculative probability |
@@ -39,6 +39,8 @@ Status values are evidence-based. `planned` makes no implementation claim. `impl
 | R5-14 | planned | R5 release closure and exact completion evidence |
 
 The R5/v0.5 release name is independent from persisted schema versions. R5-00 selects additive schema `0.7` for diagnosis artifacts. Existing source artifacts remain byte-immutable and are never rewritten to simulate compatibility.
+
+R5-00 local evidence includes offline meta-schema and canonical-example validation, fail-closed malformed and private-field cases, the canonical quality and security gates, adversarial protocol regression, and the R4 benchmark-science gate. The milestone remains `implemented`, not `complete`, until its dedicated revision passes the remaining release gates and GitHub Actions. No functional R5 classifier, resolver, report writer, verifier, or CLI command is claimed by this contract milestone.
 
 ## 2. Baseline audit
 

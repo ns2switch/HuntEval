@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hunteval.dev/schemas/v0.7/diagnostic-source-reference.schema.json",
+  "title": "HuntEval exact diagnostic source reference v0.7",
+  "oneOf": [
+    {"$ref": "#/$defs/trajectory_event"},
+    {"$ref": "#/$defs/scoped_entity"},
+    {"$ref": "#/$defs/metric"},
+    {"$ref": "#/$defs/benchmark_cell"},
+    {"$ref": "#/$defs/statistical_comparison"},
+    {"$ref": "#/$defs/topology_artifact"},
+    {"$ref": "#/$defs/artifact"}
+  ],
+  "$defs": {
+    "trajectory_event": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "run_id", "event_sequence", "artifact_sha256"],
+      "properties": {
+        "kind": {"const": "trajectory_event"},
+        "run_id": {"$ref": "common.schema.json#/$defs/identifier"},
+        "event_sequence": {"type": "integer", "minimum": 1, "maximum": 10000000},
+        "artifact_sha256": {"$ref": "common.schema.json#/$defs/sha256"}
+      }
+    },
+    "scoped_entity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "run_id", "entity_id", "artifact_sha256"],
+      "properties": {
+        "kind": {"enum": ["agent", "action", "task", "evidence", "finding", "operational_message"]},
+        "run_id": {"$ref": "common.schema.json#/$defs/identifier"},
+        "entity_id": {"$ref": "common.schema.json#/$defs/identifier"},
+        "artifact_sha256": {"$ref": "common.schema.json#/$defs/sha256"}
+      }
+    },
+    "metric": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "metric_name", "metric_version", "artifact_sha256"],
+      "properties": {
+        "kind": {"const": "metric"},
+        "run_id": {"$ref": "common.schema.json#/$defs/identifier"},
+        "metric_name": {"$ref": "common.schema.json#/$defs/metric_name"},
+        "metric_version": {"$ref": "common.schema.json#/$defs/contract_version"},
+        "artifact_sha256": {"$ref": "common.schema.json#/$defs/sha256"}
+      }
+    },
+    "benchmark_cell": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "cell_id", "artifact_sha256"],
+      "properties": {
+        "kind": {"const": "benchmark_cell"},
+        "cell_id": {"type": "string", "pattern": "^cell:[a-f0-9]{64}$"},
+        "artifact_sha256": {"$ref": "common.schema.json#/$defs/sha256"}
+      }
+    },
+    "statistical_comparison": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "comparison_id", "artifact_sha256"],
+      "properties": {
+        "kind": {"const": "statistical_comparison"},
+        "comparison_id": {"$ref": "common.schema.json#/$defs/identifier"},
+        "artifact_sha256": {"$ref": "common.schema.json#/$defs/sha256"}
+      }
+    },
+    "topology_artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "artifact_id", "artifact_sha256"],
+      "properties": {
+        "kind": {"enum": ["topology", "topology_experiment", "topology_equivalence", "topology_analysis"]},
+        "artifact_id": {"$ref": "common.schema.json#/$defs/identifier"},
+        "artifact_sha256": {"$ref": "common.schema.json#/$defs/sha256"}
+      }
+    },
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "path", "artifact_sha256"],
+      "properties": {
+        "kind": {"const": "artifact"},
+        "path": {"$ref": "common.schema.json#/$defs/safe_relative_path"},
+        "artifact_sha256": {"$ref": "common.schema.json#/$defs/sha256"},
+        "pointer": {"$ref": "common.schema.json#/$defs/json_pointer"}
+      }
+    }
+  }
+}

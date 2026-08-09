@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hunteval.dev/schemas/v0.7/bottleneck-analysis.schema.json",
+  "title": "HuntEval bottleneck metric analysis v0.7",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "run_id", "observations_sha256", "metrics", "limitations"],
+  "properties": {
+    "schema_version": {"const": "0.7"},
+    "run_id": {"$ref": "common.schema.json#/$defs/identifier"},
+    "observations_sha256": {"$ref": "common.schema.json#/$defs/sha256"},
+    "metrics": {"type": "array", "minItems": 1, "maxItems": 128, "items": {"$ref": "#/$defs/metric"}},
+    "limitations": {"$ref": "common.schema.json#/$defs/reason_codes"}
+  },
+  "$defs": {
+    "range": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["minimum", "maximum"],
+      "properties": {
+        "minimum": {"type": "number"},
+        "maximum": {"type": ["number", "null"]}
+      }
+    },
+    "metric": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "version", "direction", "unit", "range", "applicability", "value", "numerator", "denominator", "reason_code", "sources"],
+      "properties": {
+        "name": {"$ref": "common.schema.json#/$defs/metric_name"},
+        "version": {"$ref": "common.schema.json#/$defs/contract_version"},
+        "direction": {"$ref": "common.schema.json#/$defs/metric_direction"},
+        "unit": {"enum": ["count", "ratio", "milliseconds"]},
+        "range": {"$ref": "#/$defs/range"},
+        "applicability": {"$ref": "common.schema.json#/$defs/applicability"},
+        "value": {"type": ["number", "null"]},
+        "numerator": {"type": ["number", "null"], "minimum": 0},
+        "denominator": {"type": ["number", "null"], "exclusiveMinimum": 0},
+        "reason_code": {"anyOf": [{"$ref": "common.schema.json#/$defs/reason_code"}, {"type": "null"}]},
+        "sources": {"type": "array", "maxItems": 128, "items": {"$ref": "diagnostic-source-reference.schema.json"}}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"applicability": {"const": "available"}}, "required": ["applicability"]},
+          "then": {"properties": {"value": {"type": "number"}, "reason_code": {"type": "null"}, "sources": {"minItems": 1}}},
+          "else": {"properties": {"value": {"type": "null"}, "numerator": {"type": "null"}, "denominator": {"type": "null"}, "reason_code": {"$ref": "common.schema.json#/$defs/reason_code"}}}
+        }
+      ]
+    }
+  }
+}

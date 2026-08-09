@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hunteval.dev/schemas/v0.7/diagnostic-recurrence.schema.json",
+  "title": "HuntEval diagnostic recurrence group v0.7",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "id", "taxonomy_sha256", "code", "deployment_sha256", "configuration_sha256", "topology_sha256", "eligible_samples", "occurrences", "affected_run_ids", "affected_cell_ids", "excluded_cells", "claim_strength", "sources", "limitations"],
+  "properties": {
+    "schema_version": {"const": "0.7"},
+    "id": {"$ref": "common.schema.json#/$defs/identifier"},
+    "taxonomy_sha256": {"$ref": "common.schema.json#/$defs/sha256"},
+    "code": {"$ref": "common.schema.json#/$defs/reason_code"},
+    "deployment_sha256": {"$ref": "common.schema.json#/$defs/sha256"},
+    "configuration_sha256": {"$ref": "common.schema.json#/$defs/sha256"},
+    "topology_sha256": {"$ref": "common.schema.json#/$defs/sha256"},
+    "eligible_samples": {"type": "integer", "minimum": 1, "maximum": 1000000},
+    "occurrences": {"type": "integer", "minimum": 1, "maximum": 1000000},
+    "affected_run_ids": {"type": "array", "minItems": 1, "maxItems": 1000000, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/identifier"}},
+    "affected_cell_ids": {"type": "array", "minItems": 1, "maxItems": 1000000, "uniqueItems": true, "items": {"type": "string", "pattern": "^cell:[a-f0-9]{64}$"}},
+    "excluded_cells": {"type": "array", "maxItems": 1000000, "items": {"$ref": "#/$defs/excluded_cell"}},
+    "claim_strength": {"const": "descriptive"},
+    "sources": {"type": "array", "minItems": 1, "maxItems": 256, "items": {"$ref": "diagnostic-source-reference.schema.json"}},
+    "limitations": {"$ref": "common.schema.json#/$defs/reason_codes"}
+  },
+  "$defs": {
+    "excluded_cell": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["cell_id", "reason_code"],
+      "properties": {
+        "cell_id": {"type": "string", "pattern": "^cell:[a-f0-9]{64}$"},
+        "reason_code": {"$ref": "common.schema.json#/$defs/reason_code"}
+      }
+    }
+  }
+}

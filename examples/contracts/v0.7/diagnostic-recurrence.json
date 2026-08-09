@@ -1,0 +1,24 @@
+{
+  "schema_version": "0.7",
+  "id": "recurrence-duplicate-task-001",
+  "taxonomy_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "code": "duplicate_task_creation",
+  "deployment_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+  "configuration_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+  "topology_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+  "eligible_samples": 3,
+  "occurrences": 2,
+  "affected_run_ids": ["run-r5-example-001", "run-r5-example-002"],
+  "affected_cell_ids": [
+    "cell:1111111111111111111111111111111111111111111111111111111111111111",
+    "cell:2222222222222222222222222222222222222222222222222222222222222222"
+  ],
+  "excluded_cells": [
+    {"cell_id": "cell:3333333333333333333333333333333333333333333333333333333333333333", "reason_code": "run_failed"}
+  ],
+  "claim_strength": "descriptive",
+  "sources": [
+    {"kind": "benchmark_cell", "cell_id": "cell:1111111111111111111111111111111111111111111111111111111111111111", "artifact_sha256": "4444444444444444444444444444444444444444444444444444444444444444"}
+  ],
+  "limitations": ["recurrence_is_not_causality"]
+}

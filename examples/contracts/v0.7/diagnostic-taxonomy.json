@@ -1,0 +1,61 @@
+{
+  "schema_version": "0.7",
+  "taxonomy_version": "1.0",
+  "id": "hunteval-diagnostic-failures-v1",
+  "definitions": [
+    {
+      "code": "investigation_incomplete",
+      "category": "investigation",
+      "safe_description": "The final structured investigation omitted a required observable conclusion.",
+      "required_source_kinds": ["finding", "metric"],
+      "required_source_families": ["investigation_artifact", "metric"],
+      "minimum_sources": 2,
+      "minimum_confidence": "corroborated"
+    },
+    {
+      "code": "evidence_ungrounded",
+      "category": "evidence",
+      "safe_description": "A structured finding lacks a complete observable evidence path.",
+      "required_source_kinds": ["finding", "evidence"],
+      "required_source_families": ["investigation_artifact"],
+      "minimum_sources": 2,
+      "minimum_confidence": "direct"
+    },
+    {
+      "code": "tool_action_failed",
+      "category": "tool_use",
+      "safe_description": "A HuntEval-managed action ended with an observable typed failure.",
+      "required_source_kinds": ["action", "trajectory_event"],
+      "required_source_families": ["managed_tool", "trajectory"],
+      "minimum_sources": 2,
+      "minimum_confidence": "corroborated"
+    },
+    {
+      "code": "duplicate_task_creation",
+      "category": "coordination",
+      "safe_description": "Multiple observable tasks duplicate the same registered work unit.",
+      "required_source_kinds": ["task", "trajectory_event"],
+      "required_source_families": ["trajectory"],
+      "minimum_sources": 2,
+      "minimum_confidence": "direct"
+    },
+    {
+      "code": "agent_unavailable",
+      "category": "resilience",
+      "safe_description": "A registered agent became unavailable and produced an observable degraded outcome.",
+      "required_source_kinds": ["agent", "trajectory_event"],
+      "required_source_families": ["deployment", "trajectory"],
+      "minimum_sources": 2,
+      "minimum_confidence": "corroborated"
+    },
+    {
+      "code": "policy_violation_observed",
+      "category": "policy",
+      "safe_description": "A runner-owned policy boundary rejected an observable action.",
+      "required_source_kinds": ["action", "artifact"],
+      "required_source_families": ["managed_tool", "deployment"],
+      "minimum_sources": 2,
+      "minimum_confidence": "corroborated"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hunteval.dev/schemas/v0.7/common.schema.json",
+  "title": "HuntEval common contract primitives v0.7",
+  "$defs": {
+    "contract_version": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+$"},
+    "identifier": {"type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"},
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "utc_timestamp": {"type": "string", "format": "date-time", "pattern": "Z$"},
+    "reason_code": {"type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-z][a-z0-9_]*$"},
+    "metric_name": {"type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-z][a-z0-9_.]*$"},
+    "json_pointer": {"type": "string", "minLength": 1, "maxLength": 1024, "pattern": "^/(?:[^~/]|~0|~1)+(?:/(?:[^~/]|~0|~1)+)*$"},
+    "safe_relative_path": {"type": "string", "minLength": 1, "maxLength": 4096, "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))[^\\u0000]+$"},
+    "bounded_text": {"type": "string", "minLength": 1, "maxLength": 4096},
+    "reason_codes": {"type": "array", "maxItems": 64, "uniqueItems": true, "items": {"$ref": "#/$defs/reason_code"}},
+    "applicability": {"enum": ["available", "unavailable", "not_applicable"]},
+    "metric_direction": {"enum": ["higher_is_better", "lower_is_better", "descriptive"]},
+    "evidence_confidence": {"enum": ["direct", "corroborated", "controlled"]}
+  }
+}

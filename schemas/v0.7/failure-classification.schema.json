@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hunteval.dev/schemas/v0.7/failure-classification.schema.json",
+  "title": "HuntEval evidence-backed failure classification v0.7",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "id", "run_id", "taxonomy_sha256", "classifier_registry_sha256", "code", "category", "attribution_targets", "evidence_sources", "source_families", "confidence", "claim_strength", "topology_dependent", "limitations"],
+  "properties": {
+    "schema_version": {"const": "0.7"},
+    "id": {"$ref": "common.schema.json#/$defs/identifier"},
+    "run_id": {"$ref": "common.schema.json#/$defs/identifier"},
+    "taxonomy_sha256": {"$ref": "common.schema.json#/$defs/sha256"},
+    "classifier_registry_sha256": {"$ref": "common.schema.json#/$defs/sha256"},
+    "code": {"$ref": "common.schema.json#/$defs/reason_code"},
+    "category": {"enum": ["investigation", "evidence", "tool_use", "coordination", "resilience", "policy"]},
+    "attribution_targets": {"type": "array", "minItems": 1, "maxItems": 64, "items": {"$ref": "diagnostic-source-reference.schema.json"}},
+    "evidence_sources": {"type": "array", "minItems": 1, "maxItems": 128, "items": {"$ref": "diagnostic-source-reference.schema.json"}},
+    "source_families": {"type": "array", "minItems": 1, "maxItems": 8, "uniqueItems": true, "items": {"enum": ["trajectory", "deployment", "managed_tool", "investigation_artifact", "metric", "benchmark", "topology_experiment"]}},
+    "confidence": {"$ref": "common.schema.json#/$defs/evidence_confidence"},
+    "claim_strength": {"enum": ["observational", "experimental"]},
+    "topology_dependent": {"type": "boolean"},
+    "limitations": {"$ref": "common.schema.json#/$defs/reason_codes"}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"claim_strength": {"const": "experimental"}}, "required": ["claim_strength"]},
+      "then": {"properties": {"topology_dependent": {"const": true}}}
+    }
+  ]
+}

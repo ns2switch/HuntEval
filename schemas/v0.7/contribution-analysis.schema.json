@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hunteval.dev/schemas/v0.7/contribution-analysis.schema.json",
+  "title": "HuntEval controlled contribution analysis v0.7",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "id", "experiment_id", "experiment_sha256", "equivalence_sha256", "baseline_topology_sha256", "candidate_topology_sha256", "target", "changed_variables", "paired_cell_ids", "metric_effects", "applicability", "reason_code", "experimental", "topology_dependent", "limitations"],
+  "properties": {
+    "schema_version": {"const": "0.7"},
+    "id": {"$ref": "common.schema.json#/$defs/identifier"},
+    "experiment_id": {"$ref": "common.schema.json#/$defs/identifier"},
+    "experiment_sha256": {"$ref": "common.schema.json#/$defs/sha256"},
+    "equivalence_sha256": {"$ref": "common.schema.json#/$defs/sha256"},
+    "baseline_topology_sha256": {"$ref": "common.schema.json#/$defs/sha256"},
+    "candidate_topology_sha256": {"$ref": "common.schema.json#/$defs/sha256"},
+    "target": {"$ref": "#/$defs/target"},
+    "changed_variables": {"type": "array", "minItems": 1, "maxItems": 32, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/json_pointer"}},
+    "paired_cell_ids": {"type": "array", "minItems": 2, "maxItems": 1000000, "uniqueItems": true, "items": {"type": "string", "pattern": "^cell:[a-f0-9]{64}$"}},
+    "metric_effects": {"type": "array", "maxItems": 128, "items": {"$ref": "#/$defs/metric_effect"}},
+    "applicability": {"$ref": "common.schema.json#/$defs/applicability"},
+    "reason_code": {"anyOf": [{"$ref": "common.schema.json#/$defs/reason_code"}, {"type": "null"}]},
+    "experimental": {"const": true},
+    "topology_dependent": {"const": true},
+    "limitations": {"type": "array", "minItems": 1, "maxItems": 64, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reason_code"}}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"applicability": {"const": "available"}}, "required": ["applicability"]},
+      "then": {"properties": {"reason_code": {"type": "null"}, "metric_effects": {"minItems": 1}}},
+      "else": {"properties": {"reason_code": {"$ref": "common.schema.json#/$defs/reason_code"}, "metric_effects": {"maxItems": 0}}}
+    }
+  ],
+  "$defs": {
+    "target": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "id"],
+      "properties": {
+        "kind": {"enum": ["agent", "role"]},
+        "id": {"$ref": "common.schema.json#/$defs/identifier"}
+      }
+    },
+    "interval": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["lower", "upper", "confidence"],
+      "properties": {
+        "lower": {"type": "number"},
+        "upper": {"type": "number"},
+        "confidence": {"type": "number", "exclusiveMinimum": 0.5, "exclusiveMaximum": 1}
+      }
+    },
+    "metric_effect": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["metric_name", "metric_version", "baseline_value", "candidate_value", "difference", "interval", "claim_strength", "sources"],
+      "properties": {
+        "metric_name": {"$ref": "common.schema.json#/$defs/metric_name"},
+        "metric_version": {"$ref": "common.schema.json#/$defs/contract_version"},
+        "baseline_value": {"type": "number"},
+        "candidate_value": {"type": "number"},
+        "difference": {"type": "number"},
+        "interval": {"anyOf": [{"$ref": "#/$defs/interval"}, {"type": "null"}]},
+        "claim_strength": {"enum": ["descriptive", "exploratory", "conclusive"]},
+        "sources": {"type": "array", "minItems": 1, "maxItems": 128, "items": {"$ref": "diagnostic-source-reference.schema.json"}}
+      }
+    }
+  }
+}

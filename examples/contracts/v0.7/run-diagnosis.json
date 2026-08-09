@@ -1,0 +1,47 @@
+{
+  "schema_version": "0.7",
+  "run_id": "run-r5-example-001",
+  "run_manifest_sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+  "taxonomy_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "classifier_registry_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+  "classifications": [
+    {
+      "schema_version": "0.7",
+      "id": "classification-duplicate-task-001",
+      "run_id": "run-r5-example-001",
+      "taxonomy_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "classifier_registry_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "code": "duplicate_task_creation",
+      "category": "coordination",
+      "attribution_targets": [
+        {"kind": "task", "run_id": "run-r5-example-001", "entity_id": "task-correlate-002", "artifact_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"}
+      ],
+      "evidence_sources": [
+        {"kind": "trajectory_event", "run_id": "run-r5-example-001", "event_sequence": 42, "artifact_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"},
+        {"kind": "task", "run_id": "run-r5-example-001", "entity_id": "task-correlate-002", "artifact_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"}
+      ],
+      "source_families": ["trajectory"],
+      "confidence": "direct",
+      "claim_strength": "observational",
+      "topology_dependent": true,
+      "limitations": ["observational_only"]
+    }
+  ],
+  "omissions": [
+    {"code": "agent_contribution", "reason_code": "controlled_experiment_absent", "available_sources": []}
+  ],
+  "recommendation_hypotheses": [
+    {
+      "id": "hypothesis-task-ownership-001",
+      "classification_ids": ["classification-duplicate-task-001"],
+      "affected_sources": [
+        {"kind": "task", "run_id": "run-r5-example-001", "entity_id": "task-correlate-002", "artifact_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"}
+      ],
+      "hypothesis_code": "task_ownership_policy_may_be_insufficient",
+      "rationale": "Observable duplicate task creation supports a bounded ownership-policy hypothesis; controlled validation remains required.",
+      "validation_required": true,
+      "status": "unvalidated"
+    }
+  ],
+  "limitations": ["no_causal_attribution"]
+}

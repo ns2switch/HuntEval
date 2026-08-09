@@ -1,0 +1,6 @@
+{
+  "kind": "trajectory_event",
+  "run_id": "run-r5-example-001",
+  "event_sequence": 42,
+  "artifact_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+}
