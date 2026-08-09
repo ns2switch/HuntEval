@@ -6,8 +6,9 @@ use hunteval_domain::{
 };
 use hunteval_protocol::{ProtocolEnvelope, ProtocolPayload, TrajectoryRecorder};
 use hunteval_runner::{
-    BenchmarkCellState, BenchmarkCellStatus, BenchmarkState, DiagnosticVerificationStatus,
-    RunManifest, generate_benchmark_diagnosis, verify_diagnostic_bundle,
+    BenchmarkCellState, BenchmarkCellStatus, BenchmarkState, DiagnosticBundleManifest,
+    DiagnosticVerificationStatus, RunManifest, generate_benchmark_diagnosis,
+    verify_diagnostic_bundle,
 };
 
 #[test]
@@ -15,11 +16,14 @@ fn benchmark_diagnosis_generates_recurrence_and_verifiable_report()
 -> Result<(), Box<dyn std::error::Error>> {
     let temporary = tempfile::tempdir()?;
     let benchmark = temporary.path().join("benchmark");
-    fs::create_dir_all(benchmark.join("runs/run-001"))?;
+    let run_id = "run-001";
+    fs::create_dir_all(benchmark.join("runs").join(run_id))?;
     let definition = definition()?;
     let cell = definition.cells()?.remove(0);
-    let result_sha256 =
-        write_failed_tool_run(&benchmark.join("runs/run-001"), &cell.cell_id.to_string())?;
+    let result_sha256 = write_failed_tool_run(
+        &benchmark.join("runs").join(run_id),
+        &cell.cell_id.to_string(),
+    )?;
     fs::write(
         benchmark.join("benchmark-definition.json"),
         serde_json::to_vec_pretty(&definition)?,
@@ -33,7 +37,7 @@ fn benchmark_diagnosis_generates_recurrence_and_verifiable_report()
             cell_id: cell.cell_id,
             status: BenchmarkCellStatus::Completed,
             attempt_ids: Vec::new(),
-            run_id: Some(RunId::new("run-001")?),
+            run_id: Some(RunId::new(run_id)?),
             result_sha256: Some(result_sha256),
             reason_code: None,
         }],
@@ -54,6 +58,14 @@ fn benchmark_diagnosis_generates_recurrence_and_verifiable_report()
     let recurrence = fs::read_to_string(output.join("diagnostic-recurrence.json"))?;
     assert!(recurrence.contains("task_incomplete"));
     assert!(recurrence.contains("recurrence_is_not_causality"));
+    let manifest: DiagnosticBundleManifest =
+        serde_json::from_slice(&fs::read(output.join("diagnostic-bundle-manifest.json"))?)?;
+    assert!(manifest.artifacts.iter().all(|artifact| {
+        !artifact
+            .path
+            .chars()
+            .any(|character| matches!(character, '"' | ':' | '<' | '>' | '|' | '*' | '?'))
+    }));
     Ok(())
 }
 

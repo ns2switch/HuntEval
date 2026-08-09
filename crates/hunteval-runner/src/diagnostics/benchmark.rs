@@ -5,7 +5,9 @@ use std::{
     path::{Path, PathBuf},
 };
 
-use hunteval_domain::{DiagnosticRecurrenceGroup, RunDiagnosis, SchemaVersion, Sha256Digest};
+use hunteval_domain::{
+    DiagnosticRecurrenceGroup, RunDiagnosis, RunId, SchemaVersion, Sha256Digest,
+};
 use hunteval_evaluation::{ComparableDiagnosticCell, canonical_taxonomy, reduce_recurrence};
 use hunteval_reporting::{
     DiagnosticArtifactKind, DiagnosticArtifactReference, DiagnosticClaim, DiagnosticClaimStage,
@@ -106,11 +108,13 @@ pub fn generate_benchmark_diagnosis(
             if Sha256Digest::from_bytes(&result_bytes) != result_digest {
                 return Err(DiagnosticGenerationError::MalformedSource);
             }
-            let result_path =
-                PathBuf::from("sources/cells").join(format!("{}.json", cell_state.cell_id));
+            let result_path = PathBuf::from("sources/cells").join(format!(
+                "cell-{}.json",
+                Sha256Digest::from_bytes(cell_state.cell_id.to_string().as_bytes())
+            ));
             write_new(&partial.join(&result_path), &result_bytes)?;
             source_files.push((result_path, result_bytes));
-            let relative = PathBuf::from("runs").join(run_id.as_str());
+            let relative = PathBuf::from("runs").join(bundle_run_directory(run_id));
             let target = partial.join(&relative);
             generate_run_diagnosis(&source_run, &target)?;
             let diagnosis_bytes =
@@ -245,6 +249,13 @@ fn benchmark_report(
     }
 }
 
+fn bundle_run_directory(run_id: &RunId) -> String {
+    format!(
+        "run-{}",
+        Sha256Digest::from_bytes(run_id.as_str().as_bytes())
+    )
+}
+
 fn benchmark_manifest(
     partial: &Path,
     generated: &[(PathBuf, DiagnosticArtifactKind, Vec<u8>)],
@@ -361,4 +372,23 @@ fn write_new(path: &Path, bytes: &[u8]) -> Result<(), DiagnosticGenerationError>
     file.write_all(bytes)
         .and_then(|()| file.sync_all())
         .map_err(DiagnosticGenerationError::Io)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::bundle_run_directory;
+    use hunteval_domain::RunId;
+
+    #[test]
+    fn bundle_run_directories_are_content_addressed_and_filesystem_portable()
+    -> Result<(), Box<dyn std::error::Error>> {
+        let run_id = RunId::new("run-cell:001")?;
+        let directory = bundle_run_directory(&run_id);
+        assert!(directory.starts_with("run-"));
+        assert!(directory.chars().all(|character| {
+            character.is_ascii_lowercase() || character.is_ascii_digit() || character == '-'
+        }));
+        assert!(!directory.contains(run_id.as_str()));
+        Ok(())
+    }
 }
