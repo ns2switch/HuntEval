@@ -29,7 +29,7 @@ Deterministic diagnosis emits only classifications supported by observable event
 
 The original MVP sequence is recorded in `docs/EXECUTION_PLAN.md`. Current R2 delivery status, commit evidence, dependencies, and acceptance gates are maintained in `docs/R2_IMPLEMENTATION_PLAN.md`.
 
-R3 hardening is implemented locally and remains pending completion evidence on a dedicated revision. The implementation adds an explicit schema 0.5 execution policy, executable Linux capability probes, one supervised Bubblewrap boundary for deployments and managed DuckDB workers, protocol property/fuzz/conformance coverage, standalone run verification, centralized bounded redaction, and deterministic secret scanning. R2 completion evidence and its external-enforcement caveat remain unchanged.
+R3 hardening is complete. The implementation adds an explicit schema 0.5 execution policy, executable Linux capability probes, one supervised Bubblewrap boundary for deployments and managed DuckDB workers, protocol property/fuzz/conformance coverage, standalone run verification, centralized bounded redaction, and deterministic secret scanning. The implementation revision `2d34517` passed all eight GitHub Actions jobs in run `31305219082`; exact local and remote completion evidence is recorded in `docs/R3_COMPLETION_EVIDENCE.md`. R2 completion evidence and its external-enforcement caveat remain unchanged.
 
 ## Quick start
 
@@ -103,6 +103,7 @@ cargo run -p hunteval-fixture-tool -- generate datasets/aws/aws-iam-001
 - `docs/USE_CASE_CLOUD_DEPLOYMENT_COMPARISON.md`: end-to-end example comparing two deployments over the 36-cell cloud MVP matrix.
 - `docs/R2_IMPLEMENTATION_PLAN.md`: canonical delivery status, dependency order, implementation steps, and acceptance gates through R2-18.
 - `docs/R3_IMPLEMENTATION_PLAN.md`: delivery status, contracts, tests, risks, and acceptance gates for R3.1 through R3.3.
+- `docs/R3_COMPLETION_EVIDENCE.md`: exact R3 revisions, gates, artifact hashes, limitations, and remote CI evidence.
 - `docs/GITHUB_OPERATIONS.md`: required GitHub controls, verification, runner trust, retention, and rollback.
 - `docs/GITHUB_SETTINGS_ATTESTATION.md`: administrator-owned evidence for live repository settings.
 - `docs/RELEASE_CHECKLIST.md`: non-publishing release-candidate dry-run procedure and evidence requirements.

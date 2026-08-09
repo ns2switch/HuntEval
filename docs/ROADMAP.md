@@ -137,7 +137,7 @@ Implementation evidence: commits `5874792`, `23deef2`, and `5a38c63` provide pin
 
 The pull-request sequence, contract decisions, tests, risks, and release gates for R3.1 through R3.3 are defined in `R3_IMPLEMENTATION_PLAN.md`.
 
-Current state: the R3 implementation exists locally, but R3 remains the active milestone until a dedicated revision passes every local and GitHub Actions release gate. No completion evidence is claimed here.
+Current state: R3 is complete. Commits `f0f6119`, `dbfce2c`, and `2d34517` implement the release and its CI compatibility corrections. The implementation revision passed all eight canonical GitHub Actions jobs in run `31305219082`; exact local gates, artifact hashes, limitations, and ADR status are recorded in `R3_COMPLETION_EVIDENCE.md`. R2 evidence and the R2.4 external-enforcement caveat remain unchanged. R4 is the next implementation milestone.
 
 #### R3.1 — Isolation backends and resource enforcement
 

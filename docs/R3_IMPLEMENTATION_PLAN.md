@@ -20,22 +20,24 @@ Status values are evidence-based. `implemented` means the behavior and focused l
 
 | Milestone | Status | Evidence or next dependency |
 |---|---|---|
-| R3-00 | implemented | schema 0.5 contracts and accepted ADR-047 through ADR-052 |
-| R3-01 | implemented | shared bounded redactor and non-disclosure tests |
-| R3-02 | implemented | executable capability probes and `system check` |
-| R3-03 | implemented | validated content-addressed execution policy and run provenance |
-| R3-04 | implemented | infrastructure-only shared sandbox adapter |
-| R3-05 | implemented | supervised PID namespace, resource launcher, and process-tree tests |
-| R3-06 | implemented | production protocol transport migrated with typed failure mapping |
-| R3-07 | implemented | DuckDB worker migrated with public-file-only mounts and isolation tests |
-| R3-08 | implemented | deterministic protocol property suites |
-| R3-09 | implemented | isolated fuzz package, public corpus, pinned bounded CI smoke configuration |
-| R3-10 | implemented | hostile live-process cases and partial-run verification |
-| R3-11 | implemented | content-addressed protocol compatibility inventory |
-| R3-12 | implemented | sandboxed public deployment conformance service and CLI |
-| R3-13 | implemented | bounded standalone public run-verification service |
-| R3-14 | implemented | compatible `run verify` CLI and end-to-end integration |
-| R3-15 | implemented | safe secret scanner and Security, Adversarial, End-to-end, and Package integration |
+| R3-00 | complete | schema 0.5 contracts and accepted ADR-047 through ADR-052 |
+| R3-01 | complete | shared bounded redactor and non-disclosure tests |
+| R3-02 | complete | executable capability probes and `system check` |
+| R3-03 | complete | validated content-addressed execution policy and run provenance |
+| R3-04 | complete | infrastructure-only shared sandbox adapter |
+| R3-05 | complete | supervised PID namespace, resource launcher, and process-tree tests |
+| R3-06 | complete | production protocol transport migrated with typed failure mapping |
+| R3-07 | complete | DuckDB worker migrated with public-file-only mounts and isolation tests |
+| R3-08 | complete | deterministic protocol property suites |
+| R3-09 | complete | isolated fuzz package, public corpus, pinned bounded CI smoke configuration |
+| R3-10 | complete | hostile live-process cases and partial-run verification |
+| R3-11 | complete | content-addressed protocol compatibility inventory |
+| R3-12 | complete | sandboxed public deployment conformance service and CLI |
+| R3-13 | complete | bounded standalone public run-verification service |
+| R3-14 | complete | compatible `run verify` CLI and end-to-end integration |
+| R3-15 | complete | safe secret scanner and Security, Adversarial, End-to-end, and Package integration |
+
+Completion evidence is recorded in `R3_COMPLETION_EVIDENCE.md`. It binds the implementation revision, exact local commands and artifact hashes, accepted ADRs, known limitations, and the passing eight-job GitHub Actions run without changing any R2 evidence or caveat.
 
 The release name R3/v0.3 is independent from persisted schema and process-protocol version numbers. Existing schema versions 0.3 and 0.4 and protocol version 0.3 remain immutable. New R3 artifacts use an additive schema version selected in R3-00; protocol version 0.3 remains the supported wire contract unless an independently reviewed compatibility defect requires an additive protocol revision.
 
