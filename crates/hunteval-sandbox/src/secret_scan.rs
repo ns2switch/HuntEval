@@ -3,6 +3,8 @@ use std::{collections::BTreeSet, fs, io::Read, path::Path};
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 
+const DEFAULT_MAXIMUM_FILE_BYTES: u64 = 128 * 1024 * 1024;
+
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct SecretScanPolicy {
@@ -15,7 +17,7 @@ impl Default for SecretScanPolicy {
     fn default() -> Self {
         Self {
             maximum_files: 100_000,
-            maximum_file_bytes: 16 * 1024 * 1024,
+            maximum_file_bytes: DEFAULT_MAXIMUM_FILE_BYTES,
             allowlisted_fingerprints: BTreeSet::new(),
         }
     }
@@ -287,5 +289,11 @@ mod tests {
         );
         assert_eq!(result.status, SecretScanStatus::Incomplete);
         assert_eq!(result.scanned_artifacts, 0);
+    }
+
+    #[test]
+    fn release_binary_bound_remains_explicit_and_finite() {
+        let policy = SecretScanPolicy::default();
+        assert_eq!(policy.maximum_file_bytes, 128 * 1024 * 1024);
     }
 }
