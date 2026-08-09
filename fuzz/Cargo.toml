@@ -1,0 +1,43 @@
+[package]
+name = "hunteval-protocol-fuzz"
+version = "0.0.0"
+edition = "2024"
+publish = false
+
+[package.metadata]
+cargo-fuzz = true
+
+[dependencies]
+libfuzzer-sys = "0.4"
+serde_json = "1.0"
+hunteval-protocol = { path = "../crates/hunteval-protocol" }
+
+[[bin]]
+name = "jsonl_decoder"
+path = "fuzz_targets/jsonl_decoder.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "protocol_session"
+path = "fuzz_targets/protocol_session.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "trajectory_replay"
+path = "fuzz_targets/trajectory_replay.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "conformance_input"
+path = "fuzz_targets/conformance_input.rs"
+test = false
+doc = false
+bench = false
+
+[workspace]

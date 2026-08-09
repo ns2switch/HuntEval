@@ -1,0 +1,7 @@
+{
+  "schema_version": "0.5",
+  "protocol_version": "0.3",
+  "status": "conformant",
+  "checks": ["registration", "managed_tool_mediation", "terminal_submission"],
+  "transcript_sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+}

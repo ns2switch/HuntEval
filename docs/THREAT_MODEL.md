@@ -189,6 +189,32 @@ The evaluated deployment, model output, retrieved documents, episode-authored kn
 - no execution of embedded content;
 - trusted release signing for official benchmark packs.
 
+### 4.13 Host process escape and descendant survival
+
+**Threat:** An untrusted deployment or managed worker reads evaluator files, reaches the network, spawns surviving descendants, or exhausts host resources after its immediate process exits.
+
+**Mitigations:**
+
+- one fail-closed Bubblewrap adapter for scored deployments and managed DuckDB workers;
+- executable probes for namespace, read-only mount, network-denial, process-tree, and resource-limit behavior;
+- a new PID namespace, denied network namespace, read-only explicit mounts, isolated temporary storage, cleared environment, and termination tied to the namespace leader;
+- explicit versioned limits for wall time, CPU time, address space, file size, descriptors, processes, and bounded output;
+- complete-tree timeout and drop cleanup tests using descendant pipe holders;
+- no fallback to unsandboxed scored execution when a required capability is unavailable.
+
+### 4.14 Artifact tampering and diagnostic disclosure
+
+**Threat:** A modified, partial, linked, or oversized run is treated as authentic, or hostile stderr and configuration values disclose secrets through diagnostics and CI artifacts.
+
+**Mitigations:**
+
+- bounded no-follow artifact reads and exact manifest digest verification;
+- trajectory replay, submission equivalence, execution-policy validation, and normalized-result consistency checks;
+- explicit incomplete and unsupported states without private re-evaluation claims;
+- centralized bounded redaction before diagnostics are serialized;
+- deterministic scanning of tracked public inputs, generated reports, CI evidence, and release-candidate contents;
+- secret findings retain only a rule, safe relative location, and one-way fingerprint.
+
 ## 5. MVP security requirements
 
 - No deployment network access by default.
@@ -213,3 +239,8 @@ The test suite must include:
 - prompt-injection fixtures;
 - archive and path traversal tests;
 - cancellation and timeout behavior.
+- descendant-process cleanup and operating-system limit enforcement;
+- capability-probe failure and unsupported-host behavior;
+- completed, partial, tampered, oversized, symlinked, and hard-linked run verification;
+- redaction and secret-scanner non-disclosure tests;
+- protocol property, retained corpus, bounded fuzz, and hostile live-process tests.

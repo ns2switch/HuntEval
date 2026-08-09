@@ -33,6 +33,7 @@ pub(super) enum EngineError {
     InvalidConfiguration,
     Evaluation,
     Process,
+    ResourceLimit,
     ProtocolViolation,
     Timeout,
 }
@@ -45,6 +46,7 @@ impl EngineError {
             Self::InvalidConfiguration => RunFailureKind::InvalidConfiguration,
             Self::Evaluation => RunFailureKind::Evaluation,
             Self::Process => RunFailureKind::ProcessCrash,
+            Self::ResourceLimit => RunFailureKind::ResourceLimit,
             Self::ProtocolViolation => RunFailureKind::ProtocolViolation,
             Self::Timeout => RunFailureKind::Timeout,
         }
@@ -95,6 +97,8 @@ impl From<TransportError> for EngineError {
     fn from(error: TransportError) -> Self {
         if error.is_timeout() {
             Self::Timeout
+        } else if matches!(error, TransportError::ResourceLimit(_)) {
+            Self::ResourceLimit
         } else if error.is_process_failure() {
             Self::Process
         } else {

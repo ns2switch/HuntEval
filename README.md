@@ -29,6 +29,8 @@ Deterministic diagnosis emits only classifications supported by observable event
 
 The original MVP sequence is recorded in `docs/EXECUTION_PLAN.md`. Current R2 delivery status, commit evidence, dependencies, and acceptance gates are maintained in `docs/R2_IMPLEMENTATION_PLAN.md`.
 
+R3 hardening is implemented locally and remains pending completion evidence on a dedicated revision. The implementation adds an explicit schema 0.5 execution policy, executable Linux capability probes, one supervised Bubblewrap boundary for deployments and managed DuckDB workers, protocol property/fuzz/conformance coverage, standalone run verification, centralized bounded redaction, and deterministic secret scanning. R2 completion evidence and its external-enforcement caveat remain unchanged.
+
 ## Quick start
 
 Build the workspace so the CLI and managed worker are sibling executables, then run the offline reference slice:
@@ -49,6 +51,12 @@ cargo run -p hunteval-cli -- benchmark compare runs/cloud-mvp \
 cargo run -p hunteval-cli -- report generate runs/cloud-mvp --format json
 cargo run -p hunteval-cli -- report generate runs/cloud-mvp --format html
 cargo run -p hunteval-cli -- report verify runs/cloud-mvp --format json
+cargo run -p hunteval-cli -- system check --format json
+cargo run -p hunteval-cli -- deployment conformance \
+  target/debug/hunteval-reference-deployment --format json -- \
+  --topology supervisor-worker
+cargo run -p hunteval-cli -- run verify runs/latest --format json
+./scripts/ci/secret-scan.sh
 ```
 
 ## Development
@@ -59,6 +67,7 @@ The workspace pins Rust `1.93.1`. Run the same authoritative gates used by GitHu
 cargo run -p hunteval-cli -- --version
 ./scripts/ci/quality.sh
 ./scripts/ci/security.sh
+./scripts/ci/r3-adversarial.sh
 ./scripts/ci/e2e.sh
 ```
 
@@ -93,6 +102,7 @@ cargo run -p hunteval-fixture-tool -- generate datasets/aws/aws-iam-001
 - `docs/BENCHMARK_CLI.md`: benchmark execution, recovery, comparison, output, and exit-code reference.
 - `docs/USE_CASE_CLOUD_DEPLOYMENT_COMPARISON.md`: end-to-end example comparing two deployments over the 36-cell cloud MVP matrix.
 - `docs/R2_IMPLEMENTATION_PLAN.md`: canonical delivery status, dependency order, implementation steps, and acceptance gates through R2-18.
+- `docs/R3_IMPLEMENTATION_PLAN.md`: delivery status, contracts, tests, risks, and acceptance gates for R3.1 through R3.3.
 - `docs/GITHUB_OPERATIONS.md`: required GitHub controls, verification, runner trust, retention, and rollback.
 - `docs/GITHUB_SETTINGS_ATTESTATION.md`: administrator-owned evidence for live repository settings.
 - `docs/RELEASE_CHECKLIST.md`: non-publishing release-candidate dry-run procedure and evidence requirements.

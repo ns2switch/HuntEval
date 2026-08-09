@@ -1,6 +1,6 @@
 use std::{
     collections::BTreeMap,
-    io::{self, Write},
+    io,
     path::{Path, PathBuf},
 };
 
@@ -43,12 +43,16 @@ pub fn run_vertical_slice(
     let aggregate = score_profile(&metrics, &profile)?;
     let run_id = RunId::new("run-001")?;
     let writer = ArtifactWriter::create(output, &RunId::new("latest")?)?;
+    writer.write_json(
+        Path::new("execution-policy.json"),
+        &hunteval_sandbox::ResolvedExecutionPolicy::hardened_default(),
+    )?;
     writer.append(Path::new("trajectory.jsonl"), trajectory.as_bytes())?;
     writer.write_json(Path::new("submission.json"), &submission)?;
     writer.write_json(Path::new("metrics.json"), &metrics)?;
     let result = build_result(&package, &metrics, aggregate.value, run_id.clone())?;
     writer.write_json(Path::new("result.json"), &result)?;
-    let manifest = build_manifest(&package, deployment_manifest, run_id)?;
+    let manifest = build_manifest(&package, deployment_manifest, writer.partial_root(), run_id)?;
     writer.write_json(Path::new("manifest.json"), &manifest)?;
     Ok(writer.finalize()?)
 }
@@ -60,40 +64,23 @@ fn execute_reference_query(package: &EpisodePackage) -> Result<(), Box<dyn std::
         .telemetry
         .tables
         .iter()
-        .map(|table| {
-            serde_json::json!({
-                "name": table.name,
-                "parquet_path": package.public().public_root.join(&table.path),
-            })
+        .map(|table| hunteval_duckdb::TableRegistration {
+            name: table.name.clone(),
+            parquet_path: package.public().public_root.join(&table.path),
         })
         .collect();
-    let command = serde_json::json!({
-        "tables": tables,
-        "request": {
-            "query": "SELECT event_id, event_name FROM aws_cloudtrail WHERE event_id IN ('evt-0004', 'evt-0005', 'evt-0006') ORDER BY event_id",
-            "parameters": [],
-            "limits": {"timeout_ms": 2000, "memory_limit_mb": 128, "max_rows": 1000, "max_output_bytes": 1048576}
-        }
-    });
     let current = std::env::current_exe()?;
     let worker = current
         .parent()
         .ok_or_else(|| io::Error::other("binary directory is unavailable"))?
         .join("hunteval-duckdb-worker");
-    let mut child = std::process::Command::new(worker)
-        .stdin(std::process::Stdio::piped())
-        .stdout(std::process::Stdio::piped())
-        .stderr(std::process::Stdio::null())
-        .spawn()?;
-    child
-        .stdin
-        .take()
-        .ok_or_else(|| io::Error::other("worker input is unavailable"))?
-        .write_all(&serde_json::to_vec(&command)?)?;
-    let output = child.wait_with_output()?;
-    let response: serde_json::Value = serde_json::from_slice(&output.stdout)?;
-    let row_count = response["result"]["rows"].as_array().map(Vec::len);
-    if !output.status.success() || response["status"] != "success" || row_count != Some(3) {
+    let request = hunteval_duckdb::SqlRequest {
+        query: "SELECT event_id, event_name FROM aws_cloudtrail WHERE event_id IN ('evt-0004', 'evt-0005', 'evt-0006') ORDER BY event_id".to_owned(),
+        parameters: Vec::new(),
+        limits: hunteval_duckdb::QueryLimits::default(),
+    };
+    let result = hunteval_duckdb::DuckDbWorker::new(worker, tables).execute(request)?;
+    if result.rows.len() != 3 {
         return Err(
             io::Error::other("reference query did not recover the expected public events").into(),
         );
@@ -256,6 +243,7 @@ fn average(metrics: &MetricVector, names: &[&str]) -> Option<f64> {
 fn build_manifest(
     package: &EpisodePackage,
     deployment: PathBuf,
+    run_root: &Path,
     run_id: RunId,
 ) -> Result<RunManifest, Box<dyn std::error::Error>> {
     let mut hashes = BTreeMap::from([
@@ -279,8 +267,17 @@ fn build_manifest(
     for (name, digest) in &package.digests().public_telemetry {
         hashes.insert(format!("dataset:{name}"), *digest);
     }
+    for (name, file) in [
+        ("trajectory", "trajectory.jsonl"),
+        ("submission", "submission.json"),
+        ("metrics", "metrics.json"),
+        ("result", "result.json"),
+        ("execution_policy", "execution-policy.json"),
+    ] {
+        hashes.insert(name.to_owned(), hash_file(&run_root.join(file))?);
+    }
     Ok(RunManifest {
-        schema_version: SchemaVersion::new(0, 3),
+        schema_version: SchemaVersion::new(0, 5),
         run_id,
         hashes,
         partial: false,

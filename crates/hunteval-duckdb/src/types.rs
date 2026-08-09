@@ -144,6 +144,7 @@ pub enum ToolErrorCode {
     WorkerUnavailable,
     WorkerCrashed,
     WorkerProtocol,
+    ResourceLimit,
 }
 
 /// Safe error without query text, filesystem paths, or engine internals.

@@ -32,8 +32,16 @@ cargo build --workspace --release --locked
 for binary in hunteval hunteval-duckdb-worker hunteval-reference-deployment hunteval-fixture-tool; do
     install -m 0755 "target/release/$binary" "$staging/hunteval/bin/$binary"
 done
-cp -R schemas/v0.3 schemas/v0.4 "$staging/hunteval/schemas/"
+cp -R schemas/v0.3 schemas/v0.4 schemas/v0.5 "$staging/hunteval/schemas/"
 install -m 0644 LICENSE README.md SECURITY.md "$staging/hunteval/"
+
+mapfile -d '' package_files < <(
+    cd "$staging/hunteval"
+    find . -type f -printf '%P\0' | sort -z
+)
+"$staging/hunteval/bin/hunteval" system secret-scan \
+    --root "$staging/hunteval" --format json -- "${package_files[@]}" \
+    >"$output_root/secret-scan.json"
 
 tar --sort=name \
     --mtime='UTC 1970-01-01' \
@@ -43,7 +51,7 @@ tar --sort=name \
 
 (
     cd "$output_root"
-    sha256sum "$archive_name" >SHA256SUMS
+    sha256sum "$archive_name" secret-scan.json >SHA256SUMS
     sha256sum -c SHA256SUMS >verification.txt
 )
 {

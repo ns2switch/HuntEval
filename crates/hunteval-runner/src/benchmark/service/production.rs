@@ -6,7 +6,9 @@ use hunteval_domain::{
 use serde::{Deserialize, Serialize};
 use time::OffsetDateTime;
 
-use crate::{DuckDbManagedTool, ResolvedRunInputs, RunExecutor, RunFailureKind, RunRequest};
+use crate::{
+    DuckDbManagedTool, ResolvedRunInputs, RunExecutor, RunFailureKind, RunManifest, RunRequest,
+};
 
 use super::{BenchmarkCellExecutor, BenchmarkExecutionPlan, CellExecution, CellExecutionFailure};
 
@@ -95,7 +97,8 @@ impl BenchmarkCellExecutor for ProductionCellExecutor {
             submission: execution.submission,
             artifact_hashes: execution.artifacts.hashes,
         };
-        write_result(&result_path, &result)?;
+        let result_digest = write_result(&result_path, &result)?;
+        bind_result_digest(&execution.artifacts.root, result_digest)?;
         Ok(CellExecution {
             run_id: run_id.clone(),
             result_path,
@@ -119,7 +122,10 @@ pub(crate) struct BenchmarkCellResult {
     pub(crate) artifact_hashes: std::collections::BTreeMap<String, hunteval_domain::Sha256Digest>,
 }
 
-fn write_result(path: &Path, result: &BenchmarkCellResult) -> Result<(), CellExecutionFailure> {
+fn write_result(
+    path: &Path,
+    result: &BenchmarkCellResult,
+) -> Result<hunteval_domain::Sha256Digest, CellExecutionFailure> {
     let mut bytes = serde_json::to_vec_pretty(result)
         .map_err(|_| CellExecutionFailure::validated("result_serialization_failed"))?;
     bytes.push(b'\n');
@@ -130,7 +136,34 @@ fn write_result(path: &Path, result: &BenchmarkCellResult) -> Result<(), CellExe
         .map_err(|_| CellExecutionFailure::validated("result_write_failed"))?;
     file.write_all(&bytes)
         .and_then(|_| file.sync_all())
-        .map_err(|_| CellExecutionFailure::validated("result_write_failed"))
+        .map_err(|_| CellExecutionFailure::validated("result_write_failed"))?;
+    Ok(hunteval_domain::Sha256Digest::from_bytes(&bytes))
+}
+
+fn bind_result_digest(
+    run_root: &Path,
+    digest: hunteval_domain::Sha256Digest,
+) -> Result<(), CellExecutionFailure> {
+    let manifest_path = run_root.join("manifest.json");
+    let bytes = std::fs::read(&manifest_path)
+        .map_err(|_| CellExecutionFailure::validated("manifest_read_failed"))?;
+    let mut manifest: RunManifest = serde_json::from_slice(&bytes)
+        .map_err(|_| CellExecutionFailure::validated("manifest_read_failed"))?;
+    manifest.hashes.insert("result".to_owned(), digest);
+    let mut normalized = serde_json::to_vec_pretty(&manifest)
+        .map_err(|_| CellExecutionFailure::validated("result_serialization_failed"))?;
+    normalized.push(b'\n');
+    let temporary = run_root.join("manifest.json.tmp");
+    let mut file = OpenOptions::new()
+        .create_new(true)
+        .write(true)
+        .open(&temporary)
+        .map_err(|_| CellExecutionFailure::validated("manifest_write_failed"))?;
+    file.write_all(&normalized)
+        .and_then(|_| file.sync_all())
+        .map_err(|_| CellExecutionFailure::validated("manifest_write_failed"))?;
+    std::fs::rename(temporary, manifest_path)
+        .map_err(|_| CellExecutionFailure::validated("manifest_write_failed"))
 }
 
 fn now() -> Result<UtcTimestamp, CellExecutionFailure> {
@@ -147,6 +180,7 @@ const fn failure_reason(kind: RunFailureKind) -> &'static str {
         RunFailureKind::ManagedTool => "managed_tool_failure",
         RunFailureKind::ProcessCrash => "process_crash",
         RunFailureKind::ProtocolViolation => "protocol_violation",
+        RunFailureKind::ResourceLimit => "resource_limit",
         RunFailureKind::Timeout => "timeout",
     }
 }

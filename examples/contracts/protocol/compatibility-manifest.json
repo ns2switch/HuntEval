@@ -1,0 +1,19 @@
+{
+  "schema_version": "0.5",
+  "supported": [
+    {
+      "protocol_version": "0.3",
+      "positive_fixture": "../protocol-transcript.json",
+      "sha256": "ff8530e9e4699409051d9e84e81b7fd070e42ee0a053eb04623dea1da349d33d"
+    }
+  ],
+  "required_rejections": [
+    "incompatible_major",
+    "unknown_newer_minor",
+    "malformed_envelope",
+    "unknown_message_type",
+    "duplicate_identifier",
+    "future_reference",
+    "tampered_hash_chain"
+  ]
+}

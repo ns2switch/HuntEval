@@ -29,6 +29,10 @@ pub(super) fn finalize_success(
             "aggregate_score",
             writer.partial_root().join("aggregate-score.json"),
         ),
+        (
+            "execution_policy",
+            writer.partial_root().join("execution-policy.json"),
+        ),
     ] {
         let digest = crate::hash_file(&path).map_err(|_| artifact_failure(&writer))?;
         if (name == "trajectory" && digest != evaluated_hashes.trajectory)
@@ -39,7 +43,7 @@ pub(super) fn finalize_success(
         hashes.insert(name.to_owned(), digest);
     }
     let manifest = RunManifest {
-        schema_version: SchemaVersion::new(0, 4),
+        schema_version: SchemaVersion::new(0, 5),
         run_id: run_id.clone(),
         hashes: hashes.clone(),
         partial: false,
@@ -74,12 +78,27 @@ pub(super) fn preserve_failure(
 ) -> Result<RunExecution, RunFailure> {
     let partial_artifacts = writer.partial_root().to_path_buf();
     let _ = writer.write_json(Path::new("failure.json"), &FailureArtifact { kind });
+    let mut hashes = inputs.hashes.clone();
+    let policy_path = writer.partial_root().join("execution-policy.json");
+    if !policy_path.exists()
+        && let Ok(policy) =
+            super::transport::execution_policy(request.timeout, request.maximum_line_bytes)
+        && let Ok(mut bytes) = serde_json::to_vec(&policy)
+    {
+        bytes.push(b'\n');
+        let _ = writer.append(Path::new("execution-policy.json"), &bytes);
+    }
+    if policy_path.is_file()
+        && let Ok(digest) = crate::hash_file(&policy_path)
+    {
+        hashes.insert("execution_policy".to_owned(), digest);
+    }
     let _ = writer.write_json(
         Path::new("manifest.json"),
         &RunManifest {
-            schema_version: SchemaVersion::new(0, 4),
+            schema_version: SchemaVersion::new(0, 5),
             run_id: request.run_id.clone(),
-            hashes: inputs.hashes.clone(),
+            hashes,
             partial: true,
         },
     );

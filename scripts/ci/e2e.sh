@@ -37,15 +37,27 @@ readonly benchmark="$output_root/cloud-mvp"
 "$cli" report generate "$benchmark" --format json
 "$cli" report generate "$benchmark" --format html
 "$cli" report verify "$benchmark" --format json >"$output_root/verification.json"
+find "$benchmark/runs" -type f -name manifest.json -print0 \
+    | sort -z \
+    | while IFS= read -r -d '' manifest; do
+        "$cli" run verify "$(dirname "$manifest")" --format json
+    done >"$output_root/run-verification.jsonl"
 
 cp "$benchmark/benchmark-report.json" "$output_root/benchmark-report.json"
 cp "$benchmark/benchmark-report.html" "$output_root/benchmark-report.html"
+mapfile -d '' generated_files < <(
+    cd "$output_root"
+    find . -type f ! -name generated-secret-scan.json -printf '%P\0' | sort -z
+)
+"$cli" system secret-scan --root "$output_root" --format json -- "${generated_files[@]}" \
+    >"$output_root/generated-secret-scan.json"
 python3 scripts/ci/collect-r2-evidence.py \
     "$benchmark" examples/cloud-mvp-benchmark.yaml "$output_root/r2-evidence.json"
 (
     cd "$output_root"
     sha256sum \
         benchmark-report.json benchmark-report.html r2-evidence.json verification.json \
+        run-verification.jsonl generated-secret-scan.json \
         >SHA256SUMS
     sha256sum -c SHA256SUMS
 )

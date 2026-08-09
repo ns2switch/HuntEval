@@ -10,9 +10,10 @@ import sys
 
 ALLOWED_LOCAL_DEPENDENCIES: dict[str, set[str]] = {
     "hunteval-domain": set(),
+    "hunteval-sandbox": set(),
     "hunteval-protocol": {"hunteval-domain"},
     "hunteval-reference-deployment": {"hunteval-domain", "hunteval-protocol"},
-    "hunteval-duckdb": {"hunteval-domain"},
+    "hunteval-duckdb": {"hunteval-domain", "hunteval-sandbox"},
     "hunteval-evaluation": {"hunteval-domain"},
     "hunteval-statistics": {"hunteval-domain"},
     "hunteval-resilience": {"hunteval-domain"},
@@ -26,6 +27,7 @@ ALLOWED_LOCAL_DEPENDENCIES: dict[str, set[str]] = {
         "hunteval-protocol",
         "hunteval-reporting",
         "hunteval-resilience",
+        "hunteval-sandbox",
         "hunteval-statistics",
     },
     "hunteval-cli": {"hunteval-runner"},

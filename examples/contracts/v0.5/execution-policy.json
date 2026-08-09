@@ -1,0 +1,15 @@
+{
+  "schema_version": "0.5",
+  "backend": "linux_bubblewrap",
+  "network": "denied",
+  "limits": {
+    "wall_time_ms": 60000,
+    "cpu_time_seconds": 60,
+    "address_space_bytes": 2147483648,
+    "file_size_bytes": 16777216,
+    "open_files": 256,
+    "processes": 64,
+    "stdout_bytes": 16777216,
+    "stderr_bytes": 65536
+  }
+}

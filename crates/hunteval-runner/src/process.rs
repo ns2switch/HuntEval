@@ -9,6 +9,11 @@ use std::{
 
 use thiserror::Error;
 
+use hunteval_sandbox::{
+    GuestMount, LimitKind, RedactionPolicy, Redactor, ResolvedExecutionPolicy, SandboxSpec,
+    classify_exit_status,
+};
+
 use crate::IsolationPolicy;
 
 /// Explicit child-process launch description.
@@ -68,21 +73,17 @@ impl DeploymentProcess {
         };
         let stdout = join_reader(out_reader)?;
         let raw_stderr = join_reader(err_reader)?;
-        let mut stderr = String::from_utf8_lossy(&raw_stderr).into_owned();
-        for secret in spec
-            .redacted_values
-            .iter()
-            .filter(|value| !value.is_empty())
-        {
-            stderr = stderr.replace(secret, "[REDACTED]");
-        }
-        let exit_code = status.code().ok_or(ProcessError::Signalled)?;
+        let stderr = redact(&raw_stderr, &spec.redacted_values)?;
         if !status.success() {
+            if let Some(limit) = classify_exit_status(status) {
+                return Err(ProcessError::ResourceLimit(limit));
+            }
             return Err(ProcessError::Exit {
-                code: exit_code,
+                code: status.code().ok_or(ProcessError::Signalled)?,
                 stderr,
             });
         }
+        let exit_code = status.code().ok_or(ProcessError::Signalled)?;
         Ok(ProcessOutput {
             stdout,
             stderr,
@@ -103,60 +104,76 @@ impl LinuxSandbox {
         timeout: Duration,
         output_limit_bytes: usize,
     ) -> Result<ProcessOutput, ProcessError> {
+        if output_limit_bytes == 0 {
+            return Err(ProcessError::InvalidOutputLimit);
+        }
+        let mut execution_policy = ResolvedExecutionPolicy::hardened_default();
+        execution_policy.limits.wall_time_ms =
+            u64::try_from(timeout.as_millis()).map_err(|_| ProcessError::InvalidTimeout)?;
+        execution_policy.limits.stdout_bytes = output_limit_bytes;
+        execution_policy.limits.stderr_bytes = output_limit_bytes;
+        let public_root = policy
+            .public_root()
+            .canonicalize()
+            .map_err(ProcessError::Executable)?;
         let executable = executable
             .canonicalize()
             .map_err(ProcessError::Executable)?;
-        let mut sandbox_arguments = vec![
-            "--unshare-all",
-            "--die-with-parent",
-            "--new-session",
-            "--ro-bind",
-            "/usr",
-            "/usr",
-            "--ro-bind",
-            "/bin",
-            "/bin",
-            "--ro-bind",
-            "/lib",
-            "/lib",
-            "--ro-bind",
-            "/lib64",
-            "/lib64",
-            "--proc",
-            "/proc",
-            "--dev",
-            "/dev",
-            "--tmpfs",
-            "/tmp",
-            "--ro-bind",
-            path_text(policy.public_root())?,
-            "/episode",
-            "--ro-bind",
-            path_text(&executable)?,
-            "/deployment",
-            "--chdir",
-            "/episode",
-            "--",
-            "/deployment",
-        ]
-        .into_iter()
-        .map(String::from)
-        .collect::<Vec<_>>();
-        sandbox_arguments.extend(arguments.iter().cloned());
-        DeploymentProcess::run(&ProcessSpec {
-            executable: PathBuf::from("/usr/bin/bwrap"),
-            arguments: sandbox_arguments,
-            working_directory: PathBuf::from("/"),
+        let spec = SandboxSpec {
+            executable,
+            arguments: arguments.to_vec(),
+            mounts: vec![GuestMount::read_only(public_root, "/episode")],
+            working_directory: "/episode".to_owned(),
             environment: policy.environment().clone(),
-            timeout,
-            output_limit_bytes,
-            redacted_values: policy.environment().values().cloned().collect(),
+            policy: execution_policy,
+        };
+        let mut child = hunteval_sandbox::spawn(&spec).map_err(ProcessError::Sandbox)?;
+        let stdout = child.take_stdout().map_err(ProcessError::Sandbox)?;
+        let stderr = child.take_stderr().map_err(ProcessError::Sandbox)?;
+        drop(child.take_stdin().map_err(ProcessError::Sandbox)?);
+        let out_reader = thread::spawn(move || read_bounded(stdout, output_limit_bytes));
+        let err_reader = thread::spawn(move || read_bounded(stderr, output_limit_bytes));
+        let started = Instant::now();
+        let status = loop {
+            if let Some(status) = child.try_wait().map_err(ProcessError::Sandbox)? {
+                break status;
+            }
+            if started.elapsed() >= timeout {
+                child.terminate().map_err(ProcessError::Sandbox)?;
+                return Err(ProcessError::Timeout);
+            }
+            thread::sleep(Duration::from_millis(5));
+        };
+        let stdout = join_reader(out_reader)?;
+        let stderr = redact(
+            &join_reader(err_reader)?,
+            &policy.environment().values().cloned().collect::<Vec<_>>(),
+        )?;
+        if !status.success() {
+            if let Some(limit) = classify_exit_status(status) {
+                return Err(ProcessError::ResourceLimit(limit));
+            }
+            return Err(ProcessError::Exit {
+                code: status.code().ok_or(ProcessError::Signalled)?,
+                stderr,
+            });
+        }
+        let exit_code = status.code().ok_or(ProcessError::Signalled)?;
+        Ok(ProcessOutput {
+            stdout,
+            stderr,
+            exit_code,
         })
     }
 }
 
-fn path_text(path: &std::path::Path) -> Result<&str, ProcessError> {
-    path.to_str().ok_or(ProcessError::NonUtf8Path)
+fn redact(bytes: &[u8], values: &[String]) -> Result<String, ProcessError> {
+    Redactor::new(
+        RedactionPolicy::default(),
+        values.iter().filter(|value| !value.is_empty()).cloned(),
+    )
+    .map(|redactor| redactor.redact_bytes(bytes).text)
+    .map_err(ProcessError::Redaction)
 }
 
 fn read_bounded(reader: impl Read, limit: usize) -> Result<Vec<u8>, io::Error> {
@@ -181,6 +198,8 @@ fn join_reader(
 pub enum ProcessError {
     #[error("output limit must be positive")]
     InvalidOutputLimit,
+    #[error("process timeout is outside the supported range")]
+    InvalidTimeout,
     #[error("could not launch deployment: {0}")]
     Spawn(io::Error),
     #[error("child process pipe was unavailable")]
@@ -191,10 +210,14 @@ pub enum ProcessError {
     Kill(io::Error),
     #[error("deployment process exceeded its time budget")]
     Timeout,
+    #[error("deployment exceeded an operating-system resource limit: {0:?}")]
+    ResourceLimit(LimitKind),
     #[error("deployment executable is unavailable: {0}")]
     Executable(io::Error),
-    #[error("sandbox paths must be valid UTF-8")]
-    NonUtf8Path,
+    #[error("deployment sandbox failed")]
+    Sandbox(#[source] hunteval_sandbox::SandboxError),
+    #[error("deployment diagnostic redaction failed")]
+    Redaction(#[source] hunteval_sandbox::RedactionError),
     #[error("deployment process output could not be read: {0}")]
     Read(io::Error),
     #[error("deployment output reader failed")]

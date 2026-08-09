@@ -35,6 +35,8 @@ pub use episode_loader::{ArtifactDigests, EpisodeLoadError, EpisodePackage, Publ
 pub use faults::FaultController;
 pub use hashing::{HashingError, hash_file};
 pub use hunteval_reporting::ReportFormat;
+pub use hunteval_sandbox::{ResolvedExecutionPolicy, SandboxCapabilityReport, probe_linux_sandbox};
+pub use hunteval_sandbox::{SecretScanPolicy, SecretScanResult, SecretScanStatus, scan_paths};
 pub use knowledge::{KnowledgeController, KnowledgeControllerError};
 pub use managed_tool::{ManagedTool, ManagedToolError, ManagedToolOutput};
 pub use orchestrator::{OrchestratorError, RunConfig, RunOrchestrator, RunTerminalStatus};
@@ -42,9 +44,10 @@ pub use policy::{IsolationPolicy, PolicyError};
 pub use process::{DeploymentProcess, LinuxSandbox, ProcessError, ProcessOutput, ProcessSpec};
 pub use reporting::{ReportGenerationError, ReportVerification, generate_report, verify_report};
 pub use run::{
-    ResolvedRunInputs, RunArtifacts, RunExecution, RunExecutor, RunFailure, RunFailureKind,
-    RunInputError, RunRequest, StoredEvaluationError, StoredEvaluationHashes, load_scoring_profile,
-    load_trusted_run_view,
+    ConformanceResult, ConformanceStatus, ResolvedRunInputs, RunArtifacts, RunExecution,
+    RunExecutor, RunFailure, RunFailureKind, RunInputError, RunRequest, RunVerificationResult,
+    StoredEvaluationError, StoredEvaluationHashes, VerificationCheck, VerificationStatus,
+    load_scoring_profile, load_trusted_run_view, run_conformance, verify_run,
 };
 pub use scheduling::{ScheduledTask, deterministic_schedule};
 pub use sql_tool::DuckDbManagedTool;

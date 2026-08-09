@@ -1,6 +1,6 @@
 use std::path::PathBuf;
 
-use clap::{Parser, Subcommand, ValueEnum};
+use clap::{Args, Parser, Subcommand, ValueEnum};
 
 #[derive(Debug, Parser)]
 #[command(author, version, about)]
@@ -11,14 +11,15 @@ pub(crate) struct Cli {
 
 #[derive(Debug, Subcommand)]
 pub(crate) enum Command {
-    Run {
-        #[arg(long)]
-        episode: PathBuf,
-        #[arg(long)]
-        deployment: PathBuf,
-        #[arg(long, default_value = "runs")]
-        output: PathBuf,
+    System {
+        #[command(subcommand)]
+        command: SystemCommand,
     },
+    Deployment {
+        #[command(subcommand)]
+        command: DeploymentCommand,
+    },
+    Run(RunArguments),
     Trajectory {
         #[command(subcommand)]
         command: TrajectoryCommand,
@@ -30,6 +31,54 @@ pub(crate) enum Command {
     Report {
         #[command(subcommand)]
         command: ReportCommand,
+    },
+}
+
+#[derive(Debug, Subcommand)]
+pub(crate) enum DeploymentCommand {
+    Conformance {
+        deployment: PathBuf,
+        #[arg(last = true)]
+        arguments: Vec<String>,
+        #[arg(long, value_enum, default_value_t = OutputFormatArgument::Text)]
+        format: OutputFormatArgument,
+    },
+}
+
+#[derive(Debug, Args)]
+pub(crate) struct RunArguments {
+    #[command(subcommand)]
+    pub(crate) command: Option<RunCommand>,
+    #[arg(long, requires = "deployment")]
+    pub(crate) episode: Option<PathBuf>,
+    #[arg(long, requires = "episode")]
+    pub(crate) deployment: Option<PathBuf>,
+    #[arg(long, default_value = "runs")]
+    pub(crate) output: PathBuf,
+}
+
+#[derive(Debug, Subcommand)]
+pub(crate) enum RunCommand {
+    Verify {
+        directory: PathBuf,
+        #[arg(long, value_enum, default_value_t = OutputFormatArgument::Text)]
+        format: OutputFormatArgument,
+    },
+}
+
+#[derive(Debug, Subcommand)]
+pub(crate) enum SystemCommand {
+    Check {
+        #[arg(long, value_enum, default_value_t = OutputFormatArgument::Text)]
+        format: OutputFormatArgument,
+    },
+    SecretScan {
+        #[arg(long, default_value = ".")]
+        root: PathBuf,
+        #[arg(required = true)]
+        paths: Vec<PathBuf>,
+        #[arg(long, value_enum, default_value_t = OutputFormatArgument::Text)]
+        format: OutputFormatArgument,
     },
 }
 
@@ -115,81 +164,4 @@ pub(crate) enum ReportFormatArgument {
 }
 
 #[cfg(test)]
-mod tests {
-    use clap::Parser;
-
-    use super::{
-        BenchmarkCommand, Cli, Command, OutputFormatArgument, ReportCommand, RetryArgument,
-    };
-
-    #[test]
-    fn parses_resume_retry_policy() -> Result<(), clap::Error> {
-        let cli = Cli::try_parse_from([
-            "hunteval",
-            "benchmark",
-            "resume",
-            "runs/cloud-mvp",
-            "--retry",
-            "interrupted",
-        ])?;
-        assert!(matches!(
-            cli.command,
-            Some(Command::Benchmark {
-                command: BenchmarkCommand::Resume {
-                    retry: RetryArgument::Interrupted,
-                    ..
-                }
-            })
-        ));
-        Ok(())
-    }
-
-    #[test]
-    fn parses_json_status_output() -> Result<(), clap::Error> {
-        let cli = Cli::try_parse_from([
-            "hunteval",
-            "benchmark",
-            "status",
-            "runs/cloud-mvp",
-            "--format",
-            "json",
-        ])?;
-        assert!(matches!(
-            cli.command,
-            Some(Command::Benchmark {
-                command: BenchmarkCommand::Status {
-                    format: OutputFormatArgument::Json,
-                    ..
-                }
-            })
-        ));
-        Ok(())
-    }
-
-    #[test]
-    fn requires_output_for_new_benchmark() {
-        assert!(Cli::try_parse_from(["hunteval", "benchmark", "run", "benchmark.yaml"]).is_err());
-    }
-
-    #[test]
-    fn parses_json_report_verification() -> Result<(), clap::Error> {
-        let cli = Cli::try_parse_from([
-            "hunteval",
-            "report",
-            "verify",
-            "runs/cloud-mvp",
-            "--format",
-            "json",
-        ])?;
-        assert!(matches!(
-            cli.command,
-            Some(Command::Report {
-                command: ReportCommand::Verify {
-                    format: OutputFormatArgument::Json,
-                    ..
-                }
-            })
-        ));
-        Ok(())
-    }
-}
+mod tests;

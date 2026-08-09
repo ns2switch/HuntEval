@@ -277,3 +277,39 @@ Every normalized or rendered report conclusion references at least one validated
 **Status:** Accepted.
 
 Repository-owned scripts define formatting, linting, testing, documentation, dependency, architecture, and source-size checks. Local development and GitHub Actions invoke those scripts rather than maintaining separate command lists. Workflow configuration may select jobs, caching, and bounded artifacts, but cannot weaken or redefine a quality check.
+
+## ADR-047 — Define the supported Linux sandbox capability contract
+
+**Status:** Accepted.
+
+Scored execution supports a named Linux Bubblewrap backend only after executable probes establish the required user, PID, mount, IPC, UTS, cgroup, and network namespaces, read-only mounts, process-tree cleanup, and resource-limit support. Executable presence alone is not sufficient. Unsupported hosts fail before episode data is delivered. R3 permits only denied deployment network access; any future exception requires a new versioned policy and threat-model review.
+
+## ADR-048 — Use one sandbox adapter and a supervised process tree
+
+**Status:** Accepted.
+
+An infrastructure-only `hunteval-sandbox` crate owns Linux process construction, bounded diagnostics, lifecycle supervision, capability probing, and operating-system resource limits. Runner and managed-worker adapters depend on it; domain and protocol crates do not. The implementation uses audited safe APIs and external sandbox primitives without first-party `unsafe`. Termination must remove the complete sandbox process tree.
+
+## ADR-049 — Make operating-system execution policy explicit and hashed
+
+**Status:** Accepted.
+
+Schema version 0.5 defines an execution policy containing the sandbox backend, denied network mode, wall time, CPU time, address-space cap, file-size cap, open-file cap, process cap, and stdout/stderr bounds. Hardened runs bind exact policy bytes and the sandbox launcher digest into resolved provenance. Older schemas remain readable, but scored execution requires an explicitly selected and hashed compatibility policy; no implicit default or silent downgrade is permitted.
+
+## ADR-050 — Separate deterministic protocol regression from exploratory fuzzing
+
+**Status:** Accepted.
+
+Property tests and retained minimized corpora run deterministically in ordinary CI. `cargo-fuzz` targets remain outside the release workspace, use a pinned tool version, bounded inputs, and bounded smoke campaigns. Longer exploratory campaigns are scheduled or manual. Every discovered failure receives a minimized public regression input and stable expected outcome before closure.
+
+## ADR-051 — Define standalone run-verification levels and reason codes
+
+**Status:** Accepted.
+
+Public run verification checks safe paths, supported versions, run identity, exact declared hashes, required artifacts, trajectory replay, terminal state, submission equivalence, and normalized-result consistency without a provider or private ground truth. It reports completed, incomplete, malformed, unsupported, and tampered states with stable path-safe reason codes. Public verification never claims to have recomputed private evaluation metrics.
+
+## ADR-052 — Centralize bounded redaction and secret scanning
+
+**Status:** Accepted.
+
+One infrastructure boundary performs deterministic bounded redaction for process diagnostics, configuration values, report metadata, fixtures, snapshots, CI artifacts, and release inputs. Structured values are removed before serialization where possible. Secret findings contain only stable rule identifiers, safe relative locations, and one-way fingerprints; matched values are never emitted. Secret scanning is a release gate and does not replace external secret management.

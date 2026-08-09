@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hunteval.dev/schemas/v0.5/sandbox-capability-report.schema.json",
+  "title": "HuntEval sandbox capability report v0.5",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "backend", "supported", "capabilities"],
+  "properties": {
+    "schema_version": {"const": "0.5"},
+    "backend": {"const": "linux_bubblewrap"},
+    "supported": {"type": "boolean"},
+    "capabilities": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 5,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["requirement", "available", "reason_code"],
+        "properties": {
+          "requirement": {"enum": ["namespaces", "read_only_mounts", "network_denied", "process_tree_termination", "resource_limits"]},
+          "available": {"type": "boolean"},
+          "reason_code": {"type": ["string", "null"], "maxLength": 64, "pattern": "^[a-z0-9_]*$"}
+        }
+      }
+    }
+  }
+}

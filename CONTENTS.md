@@ -22,13 +22,14 @@ All tracked source code, documentation, schemas, fixtures, and examples are writ
 - `crates/hunteval-fixture-tool/`: deterministic episode package generation and validation
 - `crates/hunteval-knowledge/`: bounded optional local knowledge retrieval
 - `crates/hunteval-resilience/`: deterministic fault scheduling and resilience evaluation
+- `crates/hunteval-sandbox/`: fail-closed Linux capability probes, process supervision, resource policies, redaction, and secret scanning
 
 ## Documentation
 
 - `docs/SPECIFICATION.md`, `docs/ADR.md`, `docs/CONTRACTS.md`, and `docs/THREAT_MODEL.md`
 - `docs/METRICS_AND_RANKING.md` and `docs/PROMPT_OPTIMIZATION.md`
 - `docs/IMPLEMENTATION_PLAN.md` and `docs/EXECUTION_PLAN.md`: completed original MVP plans
-- `docs/ROADMAP.md` and `docs/R2_IMPLEMENTATION_PLAN.md`: current roadmap and delivery evidence through R2-18
+- `docs/ROADMAP.md`, `docs/R2_IMPLEMENTATION_PLAN.md`, and `docs/R3_IMPLEMENTATION_PLAN.md`: current roadmap, completed R2 evidence, and active R3 delivery sequence
 - `docs/BENCHMARK_CLI.md` and `docs/USE_CASE_CLOUD_DEPLOYMENT_COMPARISON.md`: operational benchmark reference and end-to-end example
 - `docs/GITHUB_OPERATIONS.md`, `docs/GITHUB_SETTINGS_ATTESTATION.md`, and `docs/RELEASE_CHECKLIST.md`: delivery controls, administrator evidence, and non-publishing release-candidate procedure
 
@@ -36,7 +37,9 @@ All tracked source code, documentation, schemas, fixtures, and examples are writ
 
 - `schemas/v0.3/`: immutable original public contract schemas
 - `schemas/v0.4/`: benchmark, report-claim, and scoring-profile schemas with explicit compatibility boundaries
+- `schemas/v0.5/`: execution-policy, capability, conformance, run-verification, and secret-scan schemas
 - `datasets/`: deterministic AWS, Azure, and Google Cloud episode packages with physically separated public telemetry and private evaluator ground truth
 - `deployments/`: single-agent, two-agent, and supervisor-specialist reference registrations
 - `examples/`: benchmark manifests, versioned scoring profiles, and canonical contract fixtures
-- `scripts/`: dependency-direction, source-size, canonical CI, security, end-to-end, evidence, and release-candidate checks
+- `fuzz/`: isolated bounded protocol fuzz targets and synthetic public regression corpora
+- `scripts/`: dependency-direction, source-size, canonical CI, security, adversarial, end-to-end, evidence, and release-candidate checks

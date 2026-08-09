@@ -17,6 +17,8 @@ hunteval-statistics = { path = "../hunteval-statistics", version = "0.1.0" }
 hunteval-protocol = { path = "../hunteval-protocol", version = "0.1.0" }
 hunteval-reporting = { path = "../hunteval-reporting", version = "0.1.0" }
 hunteval-resilience = { path = "../hunteval-resilience", version = "0.1.0" }
+hunteval-sandbox = { path = "../hunteval-sandbox", version = "0.1.0" }
+libc.workspace = true
 serde.workspace = true
 serde_json.workspace = true
 serde_yaml_ng.workspace = true

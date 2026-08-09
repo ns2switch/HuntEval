@@ -51,6 +51,7 @@ pub enum RunFailureKind {
     ManagedTool,
     ProcessCrash,
     ProtocolViolation,
+    ResourceLimit,
     Timeout,
 }
 

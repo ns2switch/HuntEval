@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hunteval.dev/schemas/v0.5/run-verification-result.schema.json",
+  "title": "HuntEval run verification result v0.5",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "status", "private_evaluation", "checked_artifacts", "checks"],
+  "properties": {
+    "schema_version": {"const": "0.5"},
+    "status": {"enum": ["verified", "incomplete", "invalid", "unsupported"]},
+    "private_evaluation": {"const": "not_checked"},
+    "checked_artifacts": {"type": "integer", "minimum": 0, "maximum": 1000000},
+    "checks": {
+      "type": "array",
+      "maxItems": 4096,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["check", "passed", "reason"],
+        "properties": {
+          "check": {"type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-z0-9_]+$"},
+          "passed": {"type": "boolean"},
+          "reason": {"type": ["string", "null"], "maxLength": 128, "pattern": "^[a-z0-9_]*$"}
+        }
+      }
+    }
+  }
+}

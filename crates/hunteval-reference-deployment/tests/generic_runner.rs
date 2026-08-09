@@ -8,7 +8,7 @@ use std::{
 use hunteval_domain::{EventId, ProtocolVersion, RunId, UtcTimestamp};
 use hunteval_runner::{
     ManagedTool, ManagedToolError, ManagedToolOutput, ResolvedRunInputs, RunExecutor,
-    RunFailureKind, RunRequest, inspect_trajectory,
+    RunFailureKind, RunRequest, VerificationStatus, inspect_trajectory, verify_run,
 };
 
 struct ObservableTool {
@@ -42,6 +42,42 @@ fn generic_engine_preserves_bounded_partial_failures_and_hides_private_data()
             "crash",
             "#!/bin/sh\nIFS= read -r started\nexit 9\n",
             RunFailureKind::ProcessCrash,
+            Duration::from_secs(2),
+        ),
+        (
+            "early-eof",
+            "#!/bin/sh\nexit 0\n",
+            RunFailureKind::ProcessCrash,
+            Duration::from_secs(2),
+        ),
+        (
+            "invalid-utf8",
+            "#!/bin/sh\nIFS= read -r started\nprintf '\\377\\n'\n",
+            RunFailureKind::ProtocolViolation,
+            Duration::from_secs(2),
+        ),
+        (
+            "oversized-frame",
+            "#!/bin/sh\nIFS= read -r started\nhead -c 5000 /dev/zero | tr '\\0' a; printf '\\n'\n",
+            RunFailureKind::ProtocolViolation,
+            Duration::from_secs(2),
+        ),
+        (
+            "slow-writer",
+            "#!/bin/sh\nIFS= read -r started\nsleep 2\n",
+            RunFailureKind::Timeout,
+            Duration::from_millis(100),
+        ),
+        (
+            "descendant-pipe-holder",
+            "#!/bin/sh\nIFS= read -r started\nsleep 30 & wait\n",
+            RunFailureKind::Timeout,
+            Duration::from_millis(100),
+        ),
+        (
+            "file-limit",
+            "#!/bin/sh\nIFS= read -r started\nexec dd if=/dev/zero of=/tmp/too-large bs=1048576 count=20 2>/dev/null\n",
+            RunFailureKind::ResourceLimit,
             Duration::from_secs(2),
         ),
         (
@@ -85,6 +121,10 @@ fn generic_engine_preserves_bounded_partial_failures_and_hides_private_data()
         let manifest: serde_json::Value =
             serde_json::from_slice(&fs::read(failure.partial_artifacts.join("manifest.json"))?)?;
         assert_eq!(manifest["partial"], true);
+        assert_eq!(
+            verify_run(&failure.partial_artifacts).status,
+            VerificationStatus::Incomplete
+        );
     }
 
     let constrained_episode = temporary.path().join("constrained-episode");

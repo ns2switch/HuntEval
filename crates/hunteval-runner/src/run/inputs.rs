@@ -125,6 +125,14 @@ impl ResolvedRunInputs {
                 "runner_binary".to_owned(),
                 hash_file(&std::env::current_exe().map_err(RunInputError::Io)?)?,
             ),
+            (
+                "sandbox_backend".to_owned(),
+                hash_file(hunteval_sandbox::backend_executable())?,
+            ),
+            (
+                "resource_launcher".to_owned(),
+                hash_file(hunteval_sandbox::resource_launcher_executable())?,
+            ),
         ]);
         for (table, digest) in &episode.digests().public_telemetry {
             hashes.insert(format!("dataset:{table}"), *digest);

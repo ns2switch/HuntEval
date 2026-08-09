@@ -11,7 +11,7 @@ use super::{
     completion::{finalize_success, preserve_failure},
     error::{EngineError, RunnerMessageIds},
     evaluation::evaluate_stored_run,
-    transport::ProtocolProcess,
+    transport::{ProtocolProcess, execution_policy},
     types::{RunExecution, RunFailure, RunFailureKind, RunRequest},
 };
 
@@ -79,12 +79,17 @@ fn execute_inner(
         return Err(EngineError::InvalidConfiguration);
     }
     let started_at = Instant::now();
+    let execution_policy = execution_policy(request.timeout, request.maximum_line_bytes)?;
+    let mut execution_policy_bytes =
+        serde_json::to_vec(&execution_policy).map_err(|_| EngineError::InvalidConfiguration)?;
+    execution_policy_bytes.push(b'\n');
+    writer.append(Path::new("execution-policy.json"), &execution_policy_bytes)?;
     let mut process = ProtocolProcess::spawn(
         &inputs.executable,
         &inputs.arguments,
         policy.public_root(),
         policy.environment(),
-        request.timeout,
+        execution_policy.clone(),
         request.maximum_line_bytes,
     )?;
     let mut orchestrator = RunOrchestrator::new(RunConfig {

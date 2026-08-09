@@ -4,6 +4,8 @@ set -euo pipefail
 readonly HUNTEVAL_CI_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd -P)"
 readonly HUNTEVAL_RUST_VERSION="1.93.1"
 readonly HUNTEVAL_CARGO_DENY_VERSION="0.20.2"
+readonly HUNTEVAL_CARGO_FUZZ_VERSION="0.13.2"
+readonly HUNTEVAL_DEFAULT_FUZZ_TOOLCHAIN="nightly-2026-02-12"
 
 cd "$HUNTEVAL_CI_ROOT"
 
@@ -24,6 +26,18 @@ require_cargo_deny() {
     fi
     if [[ "$actual" != "$HUNTEVAL_CARGO_DENY_VERSION" ]]; then
         echo "error: cargo-deny $HUNTEVAL_CARGO_DENY_VERSION is required; found $actual" >&2
+        return 1
+    fi
+}
+
+require_cargo_fuzz() {
+    local actual
+    if ! actual="$(cargo fuzz --version 2>/dev/null | awk '{print $2}')"; then
+        echo "error: cargo-fuzz $HUNTEVAL_CARGO_FUZZ_VERSION is required" >&2
+        return 1
+    fi
+    if [[ "$actual" != "$HUNTEVAL_CARGO_FUZZ_VERSION" ]]; then
+        echo "error: cargo-fuzz $HUNTEVAL_CARGO_FUZZ_VERSION is required; found $actual" >&2
         return 1
     fi
 }

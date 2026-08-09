@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hunteval.dev/schemas/v0.5/protocol-conformance-result.schema.json",
+  "title": "HuntEval protocol conformance result v0.5",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "protocol_version", "status", "checks", "transcript_sha256"],
+  "properties": {
+    "schema_version": {"const": "0.5"},
+    "protocol_version": {"const": "0.3"},
+    "status": {"enum": ["conformant", "non_conformant", "unsupported"]},
+    "checks": {"type": "array", "maxItems": 1024, "items": {"type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-z0-9_]+$"}},
+    "transcript_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+  }
+}

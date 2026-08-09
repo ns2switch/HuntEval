@@ -1,0 +1,11 @@
+{
+  "schema_version": "0.5",
+  "status": "verified",
+  "private_evaluation": "not_checked",
+  "checked_artifacts": 3,
+  "checks": [
+    {"check": "manifest", "passed": true, "reason": null},
+    {"check": "trajectory", "passed": true, "reason": null},
+    {"check": "submission", "passed": true, "reason": null}
+  ]
+}

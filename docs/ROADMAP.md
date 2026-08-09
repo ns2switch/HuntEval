@@ -2,7 +2,9 @@
 
 ## 1. Purpose
 
-This roadmap starts from the implemented PR-00 through PR-15 baseline and describes the work required to turn the current MVP foundations into a complete, auditable, and stable evaluation platform.
+This roadmap starts from the completed R2/v0.2 implementation baseline and describes the work required to turn the current MVP foundations into a complete, auditable, and stable evaluation platform. The existing R2.4 external-enforcement caveat remains as recorded below.
+
+HuntEval evaluates a complete multi-agent threat-hunting deployment as its primary experimental unit. The evaluated system includes deployment topology, agent identities and roles, specialization, task delegation, coordination behavior, managed-tool usage, evidence production and propagation, resilience, resource consumption, reproducibility, and the final investigative outcome. A single-agent deployment remains a valid baseline. This definition does not require or privilege any agent framework, model provider, topology, or orchestration architecture.
 
 It is outcome-based rather than date-based. A release is complete only when its exit criteria pass; version numbers do not imply a calendar commitment.
 
@@ -26,7 +28,8 @@ Several of these are intentionally narrow foundations. The current delivery stat
 - the R2.1 CLI executes, resumes, inspects, and compares the complete local matrix; trusted-view replay, the R2-08 through R2-10 metric contracts, and registry-backed v0.4 scoring profiles with v0.3 compatibility are complete;
 - event, entity, evidence completeness, task, utilization, graceful-degradation, attack-path, timeline, structured-conclusion, technique, duplicate-work, causally useful communication, measured-duration, verified-cost, and cross-run stability metrics exist;
 - deterministic benchmark JSON and static HTML reports preserve comparisons, attribution, limitations, and exact artifact hashes;
-- diagnosis and experiment safety contracts exist, but artifact registries, end-to-end validation workflows, and broader evidence-backed classification remain incomplete;
+- single-agent, two-agent, and supervisor-specialist reference deployments provide narrow topology foundations, but normative topology artifacts, controlled topology ablations, and topology-aware contribution analysis remain future R4.4 work;
+- diagnosis and experiment safety contracts exist, but artifact registries, end-to-end validation workflows, broader evidence-backed classification, and the bounded prompt-analysis lifecycle remain future R5 and R6 work;
 - canonical repository scripts and bounded least-privilege GitHub workflows are implemented; live merge and protected-tag enforcement awaits authorized administrator attestation.
 
 ## 3. Prioritization rules
@@ -40,6 +43,18 @@ Work is ordered by the following priorities:
 5. **P2 — extensibility:** add SDKs and adapters only after the stable core contracts and compatibility suite exist.
 
 Every initiative must preserve Clean Architecture, typed errors, bounded untrusted input, explicit protocol and schema versions, and readable Rust source files. The existing quality gates remain mandatory for every merge.
+
+Topology comparisons and future deployment rankings follow this hierarchy:
+
+```text
+objective measurements
+  -> metric vector
+       -> scoring profile
+            -> optional aggregate score
+                 -> ranking or comparison
+```
+
+The raw metric vector is authoritative. Any aggregate score is derived only from an explicit versioned scoring profile; no global score or implicit missing-value policy is introduced. Missing, unavailable, or unverifiable metrics are never silently converted to zero or otherwise imputed. Constraint-first ranking remains authoritative where defined. When deployments have materially different observable capabilities, reports state that limitation instead of inventing equivalent metrics.
 
 ## 4. Release sequence
 
@@ -120,6 +135,10 @@ Implementation evidence: commits `5874792`, `23deef2`, and `5a38c63` provide pin
 
 **Objective:** make process isolation, protocol handling, and artifact integrity robust enough for untrusted deployment implementations.
 
+The pull-request sequence, contract decisions, tests, risks, and release gates for R3.1 through R3.3 are defined in `R3_IMPLEMENTATION_PLAN.md`.
+
+Current state: the R3 implementation exists locally, but R3 remains the active milestone until a dedicated revision passes every local and GitHub Actions release gate. No completion evidence is claimed here.
+
 #### R3.1 — Isolation backends and resource enforcement
 
 - formalize the Linux sandbox backend and its required host capabilities;
@@ -177,12 +196,29 @@ Implementation evidence: commits `5874792`, `23deef2`, and `5a38c63` provide pin
 - generate public package documentation from validated metadata;
 - produce review bundles that never include private ground truth in deployment-visible artifacts.
 
+#### R4.4 — Multi-agent topology benchmarking
+
+- represent deployment topology explicitly in normative versioned artifacts, including agent identities, roles, specialization, delegation and coordination relationships, model assignments, memory boundaries, task-allocation policy, execution pattern, and critic or reviewer roles;
+- compare single-agent and multi-agent deployments, including supervisor/worker, hierarchical, peer-to-peer, centralized, decentralized, homogeneous-model, heterogeneous-model, shared-memory, isolated-memory, static-allocation, dynamic-allocation, sequential, parallel, specialist, generalist, critic-enabled, and critic-free configurations;
+- execute controlled paired comparisons in which episode, seed, budgets, models, managed-tool policy, scoring profile, and other relevant variables remain equivalent unless the experiment manifest explicitly declares them as changed variables;
+- analyze marginal benefit from additional agents, coordination overhead, redundant specialization, duplicate work, evidence propagation, task allocation, parallelism, agent utilization, role-specific contribution, topology-level resilience, and cost/quality trade-offs as separate observable dimensions;
+- support controlled topology ablations such as removing an agent, replacing a specialist with a generalist, disabling a critic, changing shared memory to isolated memory, or switching static delegation to dynamic delegation;
+- treat observational traces as insufficient for strong causal claims; label every contribution estimate from a controlled ablation as experimental and topology-dependent;
+- preserve the authoritative raw metric vector, explicit applicability, constraint-first ranking, and versioned scoring-profile semantics for every topology comparison.
+
 **Release exit criteria:**
 
 - every episode class has deterministic reference recovery and leakage tests;
 - benchmark versions identify exact episode membership and scoring profiles;
 - result reports expose sample size and uncertainty for every comparative claim;
-- fixture regeneration remains byte-identical under the pinned toolchain.
+- fixture regeneration remains byte-identical under the pinned toolchain;
+- deployment topology is explicit in normative versioned artifacts;
+- single-agent, supervisor-worker, and supervisor-specialist reference deployments can be compared through the same paired benchmark matrix;
+- topology comparisons preserve all declared control variables and record every changed variable;
+- marginal-agent and controlled-ablation experiments produce auditable artifacts;
+- coordination overhead and resource trade-offs are reported separately from investigation quality;
+- unsupported topology metrics remain unavailable instead of being inferred;
+- reports do not present role-specific or agent-specific performance as universally transferable across topologies.
 
 ### v0.5 — Evidence-backed diagnosis
 
@@ -238,7 +274,44 @@ Implementation evidence: commits `5874792`, `23deef2`, and `5a38c63` provide pin
 - never allow automated generation to alter immutable policies;
 - require a new validation run when any candidate artifact changes.
 
-**Release exit criteria:** no recommendation can be labeled validated without a passing controlled experiment and recorded human review, and hidden-test feedback cannot influence candidate selection.
+#### R6.4 — Prompt improvement analysis
+
+Prompt improvement analysis identifies observable failure patterns, attributes them only where evidence permits, inspects registered instruction and configuration artifacts, formulates a bounded improvement hypothesis, and may propose a candidate change for validation through R6.2. It never modifies or adopts deployment instructions autonomously.
+
+```text
+observable run failures
+  -> failure classification
+       -> agent or artifact attribution
+            -> prompt inspection
+                 -> candidate weakness
+                      -> proposed prompt change
+                           -> controlled A/B experiment
+                                -> evidence-backed recommendation
+                                     -> human review
+```
+
+- distinguish observation, classification, attribution, hypothesis, suggested change, experimentally supported change, and approved or adopted change in contracts and reports;
+- require every recommendation to cite exact observable evidence, including affected run, trajectory event, task, tool action, finding, coordination event, and metric-delta references where applicable;
+- bind recommendations to baseline and candidate artifact hashes and to the experiment manifest used for validation;
+- define a versioned, reviewable prompt and configuration failure taxonomy covering at least role ambiguity, missing output contracts, missing evidence requirements, missing acceptance criteria, missing stopping conditions, unclear tool-use policy, insufficient error handling, insufficient delegation policy, duplicated responsibility, missing task ownership, missing conflict-resolution policy, excessive communication requirements, insufficient evidence-sharing rules, and overly broad specialist invocation criteria;
+- represent future recommendations as structured auditable artifacts with an agent or deployment target, typed issue, evidence references, suspected weakness and bounded confidence, content-addressed target section, suggested operation and rationale, expected effects, validation requirement and experiment reference, and lifecycle status; the exact schema is deferred to the R6.4 implementation plan;
+- never represent a change as causally validated from observational traces alone; validation requires a controlled baseline/candidate experiment with declared controls and a passing decision artifact;
+- reject candidate changes to authorization, tool-access, filesystem, network, data-handling, ground-truth-isolation, benchmark-constraint, output-integrity, security-control, or other immutable safety and trust-boundary sections;
+- scan every candidate for benchmark-answer leakage, keep hidden-test results unavailable during candidate generation and selection, and invalidate prior validation whenever candidate content changes;
+- require explicit human approval before adoption; autonomous prompt adoption remains deferred until after v1.0 and is not part of the v1.0 commitment.
+
+**Release exit criteria:**
+
+- prompt recommendations cite exact observable artifact references;
+- observational evidence alone cannot mark a recommendation as validated;
+- candidate changes are content-addressed and structurally diffable;
+- immutable policy sections cannot be modified through the improvement workflow;
+- baseline/candidate experiments preserve and record declared control variables;
+- hidden-test results cannot influence candidate generation or selection;
+- recommendations distinguish proposed, testing, validated, rejected, and adopted states;
+- no recommendation can be labeled validated without a passing controlled experiment;
+- adoption requires explicit recorded human approval;
+- changing candidate content invalidates every prior validation result.
 
 ### v0.7 — Knowledge and extension interfaces
 
@@ -290,6 +363,9 @@ v1.0 declares stability for:
 - managed DuckDB tool behavior and security policy;
 - local benchmark execution and resume semantics;
 - metric contracts, scoring profiles, statistics, and comparison labels;
+- versioned multi-agent deployment topology representation and topology-aware comparative semantics;
+- coordination metrics and topology-dependent attribution artifacts;
+- controlled improvement experiment and recommendation artifacts;
 - normalized reports and artifact verification;
 - the documented compatibility and deprecation policy.
 
@@ -301,8 +377,10 @@ The v1.0 release must include an official versioned cloud benchmark pack, reprod
 v0.2 complete benchmark loop
   -> v0.3 runner/protocol hardening
   -> v0.4 benchmark science
-       -> v0.5 evidence-backed diagnosis
-            -> v0.6 controlled improvements
+       -> R4.4 multi-agent topology benchmarking
+            -> v0.5 evidence-backed diagnosis
+                 -> v0.6 controlled improvements
+                      -> R6.4 prompt improvement analysis
 
 v0.3 stable contracts + v0.4 benchmark policy
   -> v0.7 knowledge and extension interfaces
@@ -333,11 +411,19 @@ Potential post-v1.0 work may include controlled SIEM-language adapters, signed p
 Every roadmap initiative must be delivered through a small reviewable pull request sequence. Each sequence must define:
 
 1. objective and user-visible outcome;
-2. affected contracts and schema/protocol compatibility;
-3. security and ground-truth-isolation impact;
-4. positive, negative, malformed-input, and deterministic tests;
-5. exact quality and acceptance commands;
-6. documentation and ADR changes;
-7. migration, rollback, and known limitations.
+2. affected contracts and compatibility;
+3. security impact;
+4. ground-truth-isolation impact;
+5. positive tests;
+6. negative tests;
+7. malformed-input tests;
+8. deterministic and replay tests;
+9. exact quality gates and acceptance commands;
+10. documentation and ADR changes;
+11. migration behavior;
+12. rollback behavior;
+13. known limitations.
+
+The future R4.4 and R6.4 implementation plans must address every item above before implementation begins; this roadmap does not substitute for those detailed plans.
 
 An initiative is not complete while any required quality gate fails. Scope changes must update this roadmap and the corresponding implementation plan before implementation begins.

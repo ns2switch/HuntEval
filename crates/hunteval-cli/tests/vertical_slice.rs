@@ -25,11 +25,22 @@ fn vertical_slice_writes_replayable_normalized_artifacts() -> Result<(), Box<dyn
         "metrics.json",
         "result.json",
         "manifest.json",
+        "execution-policy.json",
     ] {
         assert!(root.join(artifact).is_file(), "missing {artifact}");
     }
     let result = std::fs::read_to_string(root.join("result.json"))?;
     assert!(result.contains("\"status\": \"completed\""));
+    let verify = Command::new(env!("CARGO_BIN_EXE_hunteval"))
+        .args(["run", "verify"])
+        .arg(&root)
+        .arg("--format")
+        .arg("json")
+        .output()?;
+    assert!(verify.status.success());
+    let verification: serde_json::Value = serde_json::from_slice(&verify.stdout)?;
+    assert_eq!(verification["status"], "verified");
+    assert_eq!(verification["private_evaluation"], "not_checked");
     let inspect = Command::new(env!("CARGO_BIN_EXE_hunteval"))
         .args(["trajectory", "inspect"])
         .arg(root.join("trajectory.jsonl"))
@@ -41,6 +52,7 @@ fn vertical_slice_writes_replayable_normalized_artifacts() -> Result<(), Box<dyn
         "metrics.json",
         "result.json",
         "manifest.json",
+        "execution-policy.json",
     ] {
         let bytes = std::fs::read(root.join(artifact))?;
         let text = String::from_utf8_lossy(&bytes);

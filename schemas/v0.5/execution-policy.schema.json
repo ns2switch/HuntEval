@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hunteval.dev/schemas/v0.5/execution-policy.schema.json",
+  "title": "HuntEval execution policy v0.5",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "backend", "network", "limits"],
+  "properties": {
+    "schema_version": {"const": "0.5"},
+    "backend": {"const": "linux_bubblewrap"},
+    "network": {"const": "denied"},
+    "limits": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["wall_time_ms", "cpu_time_seconds", "address_space_bytes", "file_size_bytes", "open_files", "processes", "stdout_bytes", "stderr_bytes"],
+      "properties": {
+        "wall_time_ms": {"type": "integer", "minimum": 1, "maximum": 86400000},
+        "cpu_time_seconds": {"type": "integer", "minimum": 1, "maximum": 86400},
+        "address_space_bytes": {"type": "integer", "minimum": 16777216, "maximum": 1099511627776},
+        "file_size_bytes": {"type": "integer", "minimum": 1024, "maximum": 1099511627776},
+        "open_files": {"type": "integer", "minimum": 16, "maximum": 1048576},
+        "processes": {"type": "integer", "minimum": 1, "maximum": 65536},
+        "stdout_bytes": {"type": "integer", "minimum": 256, "maximum": 1073741824},
+        "stderr_bytes": {"type": "integer", "minimum": 256, "maximum": 1073741824}
+      }
+    }
+  }
+}

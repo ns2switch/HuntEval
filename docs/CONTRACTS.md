@@ -740,3 +740,25 @@ The missing-value policies are `reject`, `renormalize`, and `zero`. `reject` yie
 Constraints are either `observed_violation` or `metric_threshold`. Every threshold identifies a registered metric and version, comparison, bounded threshold, disqualifying flag, and an explicit resource-provenance requirement: `none`, `measured`, or `verified_adapter`. The requirement must exactly match the registry. A value with missing, self-reported, unavailable, or otherwise mismatched provenance produces `unverifiable`, never `satisfied`. Constraint codes are unique canonical identifiers.
 
 The compatibility loader accepts bounded regular files only. It accepts the immutable v0.3 profile shape, maps every legacy weight to the registered v0.3 metric contract, maps legacy disqualifying codes to typed observed-violation constraints, and returns a normalized in-memory v0.4 profile. It hashes and preserves the original bytes and never rewrites, enriches, or infers values in the v0.3 source. Unknown profile versions, metric names, metric versions, fields, weights, directions, provenance requirements, duplicate constraint codes, oversized files, and symlinks fail closed.
+
+## 31. Execution policy v0.5
+
+Every hardened run serializes `execution-policy.json` before starting an evaluated process. The schema 0.5 contract names the `linux_bubblewrap` backend, fixes network policy to `denied`, and records positive bounded limits for wall time, CPU time, address space, output-file size, open files, processes, stdout, and stderr. Exact policy bytes are content-addressed and included in run provenance and benchmark cell identity together with the sandbox backend and resource-launcher binaries. Older schema 0.3 and 0.4 artifacts remain readable; they do not gain an inferred policy during verification.
+
+The runtime validates the policy before process creation. An unavailable backend, launcher, mount, or declared enforcement capability fails closed before public episode data is delivered. Episode budgets remain domain constraints and are not interchangeable with operating-system limits.
+
+## 32. Sandbox capability report v0.5
+
+`SandboxCapabilityReport` is a bounded, path-free report of the supported backend and its required namespace, read-only-mount, network-denial, process-tree-termination, and resource-limit capabilities. Capability status comes from executable probes, not executable presence. `supported` is true only when every declared requirement is available. A failed probe exposes a stable reason code and no host diagnostic.
+
+## 33. Protocol conformance result v0.5
+
+The public conformance service drives protocol 0.3 through the production sandbox and transport using synthetic public observations and a fake HuntEval-managed tool response. A result records `conformant`, `non_conformant`, or `unsupported`, ordered check identifiers, the supported protocol version, and the exact transcript digest. It certifies protocol and mediation compatibility only; it does not execute private evaluation, calculate investigation quality, or authorize direct tool access.
+
+## 34. Run verification result v0.5
+
+Public run verification accepts a bounded regular directory and reads artifacts without following symbolic links. It checks supported manifest versions, completion state, exact declared digests, trajectory replay, terminal submission equivalence, JSON structure, execution policy for schema 0.5 runs, and normalized result consistency. Results are `verified`, `incomplete`, `invalid`, or `unsupported` and contain deterministically ordered, path-free checks. `private_evaluation` is always `not_checked`; public verification never claims to have recomputed evaluator-only metrics.
+
+## 35. Secret scan result v0.5
+
+The deterministic scanner accepts an explicit safe root and bounded relative regular-file inventory. It rejects traversal, symbolic links, hard links, oversized inputs, unreadable inputs, and incomplete inventories. Findings contain only a stable rule identifier, safe relative label, line number, and SHA-256 fingerprint. Candidate secret bytes are never serialized or printed. Any finding or incomplete scan is a failing gate.

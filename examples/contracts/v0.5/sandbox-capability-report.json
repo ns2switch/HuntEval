@@ -1,0 +1,12 @@
+{
+  "schema_version": "0.5",
+  "backend": "linux_bubblewrap",
+  "supported": true,
+  "capabilities": [
+    {"requirement": "namespaces", "available": true, "reason_code": null},
+    {"requirement": "read_only_mounts", "available": true, "reason_code": null},
+    {"requirement": "network_denied", "available": true, "reason_code": null},
+    {"requirement": "process_tree_termination", "available": true, "reason_code": null},
+    {"requirement": "resource_limits", "available": true, "reason_code": null}
+  ]
+}

@@ -55,6 +55,11 @@ impl BenchmarkExecutionPlan {
         let managed_tool_hash = crate::hash_file(managed_tool_executable)?;
         let schema_hash = crate::hash_file(schema_contract)?;
         let runner_hash = crate::hash_file(runner_executable)?;
+        let sandbox_hash = crate::hash_file(hunteval_sandbox::backend_executable())?;
+        let launcher_hash = crate::hash_file(hunteval_sandbox::resource_launcher_executable())?;
+        let policy_hash = hunteval_sandbox::ResolvedExecutionPolicy::hardened_default()
+            .sha256()
+            .map_err(|_| BenchmarkServiceError::InvalidOptions)?;
         let deployments = self
             .definition
             .deployments
@@ -63,7 +68,7 @@ impl BenchmarkExecutionPlan {
                 id: deployment.id.clone(),
                 configuration_sha256: hunteval_domain::Sha256Digest::from_bytes(
                     format!(
-                        "{}:{deployment_hash}:{managed_tool_hash}:{schema_hash}:{runner_hash}",
+                        "{}:{deployment_hash}:{managed_tool_hash}:{schema_hash}:{runner_hash}:{sandbox_hash}:{launcher_hash}:{policy_hash}",
                         deployment.configuration_sha256
                     )
                     .as_bytes(),

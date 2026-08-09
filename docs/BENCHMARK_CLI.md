@@ -51,3 +51,38 @@ target/debug/hunteval report verify runs/cloud-mvp/benchmark-report.json --forma
 Benchmark generation always writes `benchmark-report.json`, the deterministic source of truth. HTML generation additionally writes `benchmark-report.html`; it contains semantic HTML and inline static CSS, but no scripts or event handlers. Both views retain incomplete cells, missing observations, sample counts, inconclusive comparisons, constraint-first rankings, observable claim sources, limitations, and artifact hashes.
 
 Input type is detected from validated artifacts rather than directory names. Reads are bounded, symbolic links and traversal are rejected, and output replacement is atomic. Verification revalidates the normalized contract and checks the exact SHA-256 digest of every artifact listed in the report. A stale, missing, oversized, or modified artifact makes verification return exit code 1. Run report generation remains compatible with directories containing a validated `result.json`; run verification checks its referenced artifact files, while benchmark verification additionally enforces journaled digests.
+
+## Host capability, deployment conformance, and run integrity
+
+Before scored execution, verify the supported Linux isolation boundary:
+
+```bash
+target/debug/hunteval system check --format json
+```
+
+The command executes safe namespace, mount, network, process-tree, and resource probes. It returns nonzero if any required capability is unavailable; scored execution does not downgrade to an unsandboxed path.
+
+Validate an external protocol peer offline with synthetic public inputs:
+
+```bash
+target/debug/hunteval deployment conformance ./deployment-bin \
+  --format json -- --deployment-specific-argument
+```
+
+Conformance checks protocol registration, HuntEval-managed tool mediation, terminal submission, and transcript integrity through the production sandbox. It is not a benchmark score or an investigation-quality certification.
+
+Verify a stored run without a model provider or private ground truth:
+
+```bash
+target/debug/hunteval run verify runs/cloud-mvp/runs/<run-id> --format json
+```
+
+The verifier checks safe files, manifest compatibility, exact digests, trajectory replay, submission equivalence, execution policy, and normalized result consistency. JSON output is one deterministic line suitable for JSONL collection. Completed valid runs return zero; partial, invalid, tampered, and unsupported runs return nonzero. Public output explicitly reports `private_evaluation: not_checked`.
+
+Repository and release scans use an explicit file inventory:
+
+```bash
+./scripts/ci/secret-scan.sh
+```
+
+Matches never print the candidate value. Findings or an incomplete scan fail closed.
