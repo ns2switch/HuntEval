@@ -86,3 +86,19 @@ Repository and release scans use an explicit file inventory:
 ```
 
 Matches never print the candidate value. Findings or an incomplete scan fail closed.
+
+## Evidence-backed diagnosis
+
+Generate a content-addressed diagnostic bundle only from a verified stored run or benchmark:
+
+```bash
+target/debug/hunteval diagnose run runs/cloud-mvp/runs/<run-id> \
+  --output artifacts/run-diagnosis
+target/debug/hunteval diagnose benchmark runs/cloud-mvp \
+  --output artifacts/benchmark-diagnosis
+target/debug/hunteval diagnose verify artifacts/benchmark-diagnosis --format json
+```
+
+Generation refuses an existing destination, a destination inside the source, symbolic-link inputs or output parents, oversized artifacts, digest drift, malformed replay, and unsupported schema versions. The bundle retains bounded copies of every public source referenced by a displayed claim, including run trajectories and completed-cell results; it never copies evaluator-only inputs. Verification checks the bundle identity, unique safe inventory, media types, exact sizes and hashes, canonical taxonomy and classifier-registry hashes, typed diagnosis documents, report validation, and every report-owned artifact and claim-source digest. Exit code `0` means the offline bundle verified; malformed, incomplete, stale, or tampered bundles return `1`.
+
+Run reports separate observation, classification, unvalidated hypothesis, and available bottleneck measurements. Benchmark reports group recurrence only within exact deployment/configuration cohorts and retain every excluded cell. Recurrence is descriptive, and controlled contribution remains experimental and topology-dependent. No diagnosis command changes a deployment artifact or affects the authoritative raw metric vector.

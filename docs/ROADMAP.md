@@ -230,7 +230,7 @@ Current state: R4 is complete. Implementation revision `f9559a6` provides schema
 
 The governed pull-request sequence, contracts, tests, risks, and release gates for R5.1 through R5.3 are defined in `R5_IMPLEMENTATION_PLAN.md`.
 
-Current state: R5 planning is complete and R5 implementation has not started. R2, R3, and R4 completion evidence remains unchanged. The R2.4 external-enforcement caveat is closed by the separate administrator attestation and protected release-candidate evidence.
+Current state: R5.1 through R5.3 are implemented locally. R5 release closure remains active until the evidence revision passes every canonical local gate, the dedicated evidence-backed-diagnosis job, all other required GitHub Actions jobs, and the protected release-candidate dry run. R2, R3, and R4 completion evidence remains unchanged. The R2.4 external-enforcement caveat is closed by the separate administrator attestation and protected release-candidate evidence.
 
 #### R5.1 — Versioned taxonomy and attribution
 

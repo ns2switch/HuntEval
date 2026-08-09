@@ -6,8 +6,9 @@ mod benchmark;
 use std::process::ExitCode;
 
 use args::{
-    Cli, Command, DatasetCommand, DeploymentCommand, OutputFormatArgument, ReportCommand,
-    ReportFormatArgument, RunArguments, RunCommand, SystemCommand, TrajectoryCommand,
+    Cli, Command, DatasetCommand, DeploymentCommand, DiagnoseCommand, OutputFormatArgument,
+    ReportCommand, ReportFormatArgument, RunArguments, RunCommand, SystemCommand,
+    TrajectoryCommand,
 };
 use clap::Parser;
 
@@ -38,7 +39,45 @@ fn execute(cli: Cli) -> Result<ExitCode, Box<dyn std::error::Error>> {
         }
         Some(Command::Benchmark { command }) => benchmark::execute(command),
         Some(Command::Dataset { command }) => execute_dataset(command),
+        Some(Command::Diagnose { command }) => execute_diagnose(command),
         Some(Command::Report { command }) => execute_report(command),
+    }
+}
+
+fn execute_diagnose(command: DiagnoseCommand) -> Result<ExitCode, Box<dyn std::error::Error>> {
+    match command {
+        DiagnoseCommand::Run { run, output } => {
+            let path = hunteval_runner::generate_run_diagnosis(&run, &output)?;
+            println!("diagnostic bundle: {}", path.display());
+            Ok(ExitCode::SUCCESS)
+        }
+        DiagnoseCommand::Benchmark { benchmark, output } => {
+            let path = hunteval_runner::generate_benchmark_diagnosis(&benchmark, &output)?;
+            println!("diagnostic bundle: {}", path.display());
+            Ok(ExitCode::SUCCESS)
+        }
+        DiagnoseCommand::Verify { bundle, format } => {
+            let verification = hunteval_runner::verify_diagnostic_bundle(&bundle);
+            match format {
+                OutputFormatArgument::Json => {
+                    println!("{}", serde_json::to_string(&verification)?);
+                }
+                OutputFormatArgument::Text => {
+                    println!("status: {:?}", verification.status);
+                    println!("checked artifacts: {}", verification.checked_artifacts);
+                    for reason in &verification.reasons {
+                        println!("reason: {reason}");
+                    }
+                }
+            }
+            Ok(
+                if verification.status == hunteval_runner::DiagnosticVerificationStatus::Verified {
+                    ExitCode::SUCCESS
+                } else {
+                    ExitCode::FAILURE
+                },
+            )
+        }
     }
 }
 

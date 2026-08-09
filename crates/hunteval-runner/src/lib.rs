@@ -7,6 +7,7 @@ mod artifacts;
 mod benchmark;
 mod budget;
 mod dataset_review;
+mod diagnostics;
 mod episode_loader;
 mod faults;
 mod hashing;
@@ -40,6 +41,11 @@ pub use dataset_review::{
     DatasetReviewError, DatasetReviewValidation, DatasetReviewValidationStatus,
     create_approved_dataset_review, hash_public_package, validate_dataset_review,
 };
+pub use diagnostics::{
+    DiagnosticBundleArtifact, DiagnosticBundleManifest, DiagnosticGenerationError,
+    DiagnosticVerificationResult, DiagnosticVerificationStatus, generate_benchmark_diagnosis,
+    generate_run_diagnosis, verify_diagnostic_bundle,
+};
 pub use episode_loader::{ArtifactDigests, EpisodeLoadError, EpisodePackage, PublicEpisodePackage};
 pub use faults::FaultController;
 pub use hashing::{HashingError, hash_file};
@@ -53,10 +59,11 @@ pub use policy::{IsolationPolicy, PolicyError};
 pub use process::{DeploymentProcess, LinuxSandbox, ProcessError, ProcessOutput, ProcessSpec};
 pub use reporting::{ReportGenerationError, ReportVerification, generate_report, verify_report};
 pub use run::{
-    ConformanceResult, ConformanceStatus, ResolvedRunInputs, RunArtifacts, RunExecution,
-    RunExecutor, RunFailure, RunFailureKind, RunInputError, RunRequest, RunVerificationResult,
-    StoredEvaluationError, StoredEvaluationHashes, VerificationCheck, VerificationStatus,
-    load_scoring_profile, load_trusted_run_view, run_conformance, verify_run,
+    ConformanceResult, ConformanceStatus, DiagnosticObservedRun, ResolvedRunInputs, RunArtifacts,
+    RunExecution, RunExecutor, RunFailure, RunFailureKind, RunInputError, RunRequest,
+    RunVerificationResult, StoredEvaluationError, StoredEvaluationHashes, VerificationCheck,
+    VerificationStatus, load_observed_run_for_diagnosis, load_scoring_profile,
+    load_trusted_run_view, run_conformance, verify_run,
 };
 pub use scheduling::{ScheduledTask, deterministic_schedule};
 pub use sql_tool::DuckDbManagedTool;

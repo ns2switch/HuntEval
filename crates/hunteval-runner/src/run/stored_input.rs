@@ -8,7 +8,7 @@ use std::{
 
 use hunteval_domain::{GroundTruth, RunId, Sha256Digest};
 use hunteval_evaluation::{
-    EvaluationProvenance, TrustedRunInput, TrustedRunView, TrustedViewError,
+    EvaluationProvenance, ObservedRun, TrustedRunInput, TrustedRunView, TrustedViewError,
 };
 use hunteval_protocol::{ProtocolError, StoredEvent, replay_trajectory};
 use thiserror::Error;
@@ -17,6 +17,54 @@ use projection::ReplayProjection;
 
 const MAX_TRAJECTORY_BYTES: u64 = 256 * 1024 * 1024;
 const MAX_SUBMISSION_BYTES: u64 = 16 * 1024 * 1024;
+
+#[derive(Debug, Clone, PartialEq)]
+pub struct DiagnosticObservedRun {
+    pub observed: ObservedRun,
+    pub trajectory_sha256: Sha256Digest,
+    pub submission_sha256: Sha256Digest,
+    pub trajectory_event_count: u64,
+}
+
+pub fn load_observed_run_for_diagnosis(
+    run_root: &Path,
+    expected_run_id: &RunId,
+    expected_trajectory: Sha256Digest,
+    expected_submission: Sha256Digest,
+    maximum_line_bytes: usize,
+) -> Result<DiagnosticObservedRun, StoredEvaluationError> {
+    let trajectory =
+        read_bounded_regular(&run_root.join("trajectory.jsonl"), MAX_TRAJECTORY_BYTES)?;
+    let submission_bytes =
+        read_bounded_regular(&run_root.join("submission.json"), MAX_SUBMISSION_BYTES)?;
+    if Sha256Digest::from_bytes(&trajectory) != expected_trajectory
+        || Sha256Digest::from_bytes(&submission_bytes) != expected_submission
+    {
+        return Err(StoredEvaluationError::ArtifactDigestMismatch);
+    }
+    let replay = replay_trajectory(&trajectory, maximum_line_bytes)?;
+    let mut projection = ReplayProjection::new(expected_run_id.clone());
+    for line in trajectory.split_inclusive(|byte| *byte == b'\n') {
+        let Some(json) = line.strip_suffix(b"\n") else {
+            return Err(StoredEvaluationError::InvalidArtifact);
+        };
+        let event: StoredEvent =
+            serde_json::from_slice(json).map_err(|_| StoredEvaluationError::InvalidArtifact)?;
+        projection.apply(event)?;
+    }
+    let (observed, terminal_submission) = projection.finish()?;
+    let submission = serde_json::from_slice(&submission_bytes)
+        .map_err(|_| StoredEvaluationError::InvalidArtifact)?;
+    if terminal_submission != submission {
+        return Err(StoredEvaluationError::InvalidProjection);
+    }
+    Ok(DiagnosticObservedRun {
+        observed,
+        trajectory_sha256: replay.trajectory_sha256,
+        submission_sha256: expected_submission,
+        trajectory_event_count: replay.event_count,
+    })
+}
 pub fn load_trusted_run_view(
     run_root: &Path,
     expected_run_id: &RunId,

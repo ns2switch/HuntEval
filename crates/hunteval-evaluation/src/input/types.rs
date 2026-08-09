@@ -110,6 +110,7 @@ pub struct ObservedRun {
     pub messages: Vec<ObservedMessage>,
     pub task_transitions: Vec<ObservedTaskTransition>,
     pub message_sequences: BTreeMap<MessageId, u64>,
+    pub event_timestamps: BTreeMap<u64, hunteval_domain::UtcTimestamp>,
     pub timeline: Option<Vec<SubmittedTimelineEntry>>,
 }
 

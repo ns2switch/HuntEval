@@ -5,6 +5,7 @@
 
 mod benchmark;
 mod deployment;
+mod diagnosis;
 mod digest;
 mod episode;
 mod error;
@@ -26,6 +27,17 @@ pub use benchmark::{
     ResolvedEpisode,
 };
 pub use deployment::{AgentRegistration, DeploymentArchitecture, DeploymentRegistration};
+pub use diagnosis::{
+    BottleneckAnalysis, BottleneckInterval, BottleneckIntervalKind, BottleneckMetric,
+    BottleneckObservations, ClassificationOmission, ContributionClaimStrength,
+    ContributionInterval, ContributionMetricEffect, ContributionTarget, ContributionTargetKind,
+    ControlledContributionAnalysis, DiagnosticApplicability, DiagnosticClaimStrength,
+    DiagnosticHypothesis, DiagnosticMetricDirection, DiagnosticMetricRange, DiagnosticMetricUnit,
+    DiagnosticRecurrenceGroup, DiagnosticSourceKind, DiagnosticSourceReference, DiagnosticTaxonomy,
+    EvidenceConfidence, ExcludedDiagnosticCell, FailureCategory, FailureClassification,
+    FailureDefinition, HypothesisStatus, RecurrenceClaimStrength, RunDiagnosis, SourceFamily,
+    TaxonomyValidationError,
+};
 pub use digest::{DigestParseError, Sha256Digest};
 pub use episode::{
     EpisodeLimits, EpisodeManifest, EpisodeObjective, ExpectedTimelineWindow, GroundTruth,

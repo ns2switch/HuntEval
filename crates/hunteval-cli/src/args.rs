@@ -32,9 +32,35 @@ pub(crate) enum Command {
         #[command(subcommand)]
         command: DatasetCommand,
     },
+    Diagnose {
+        #[command(subcommand)]
+        command: DiagnoseCommand,
+    },
     Report {
         #[command(subcommand)]
         command: ReportCommand,
+    },
+}
+
+#[derive(Debug, Subcommand)]
+pub(crate) enum DiagnoseCommand {
+    /// Generate an offline diagnosis from one independently verified run.
+    Run {
+        run: PathBuf,
+        #[arg(long)]
+        output: PathBuf,
+    },
+    /// Generate per-run diagnosis and recurrence for a stored benchmark matrix.
+    Benchmark {
+        benchmark: PathBuf,
+        #[arg(long)]
+        output: PathBuf,
+    },
+    /// Verify every content-addressed artifact in a diagnostic bundle.
+    Verify {
+        bundle: PathBuf,
+        #[arg(long, value_enum, default_value_t = OutputFormatArgument::Text)]
+        format: OutputFormatArgument,
     },
 }
 

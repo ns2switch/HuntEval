@@ -58,6 +58,9 @@ python3 scripts/ci/collect-r4-topology-experiment.py \
     --observations "$output_root/topology-observations.json" \
     --seed 17 --format html >"$output_root/topology-report.html"
 "$cli" report verify "$benchmark" --format json >"$output_root/verification.json"
+"$cli" diagnose benchmark "$benchmark" --output "$output_root/diagnosis"
+"$cli" diagnose verify "$output_root/diagnosis" --format json \
+    >"$output_root/diagnostic-verification.json"
 find "$benchmark/runs" -type f -name manifest.json -print0 \
     | sort -z \
     | while IFS= read -r -d '' manifest; do
@@ -80,6 +83,9 @@ python3 scripts/ci/collect-r2-evidence.py \
         benchmark-report.json benchmark-report.html r2-evidence.json verification.json \
         run-verification.jsonl generated-secret-scan.json topology-experiment.json \
         topology-observations.json topology-report.json topology-report.html \
+        diagnostic-verification.json diagnosis/benchmark-diagnostic-report.json \
+        diagnosis/benchmark-diagnostic-report.html diagnosis/diagnostic-recurrence.json \
+        diagnosis/diagnostic-bundle-manifest.json \
         >SHA256SUMS
     sha256sum -c SHA256SUMS
 )

@@ -127,7 +127,13 @@ Efficiency metrics should be normalized against benchmark-defined caps or refere
 
 Reproducibility is calculated across repetitions, not within a single run.
 
-### 2.7 Normative MVP metric contracts
+### 2.7 Diagnostic bottleneck measurements
+
+Schema 0.7 adds a separate diagnostic vector for reassignment, duplicate work, task queue duration/utilization, agent idle duration/utilization, managed-tool wait duration/utilization, managed-tool failures, and timeouts. These values remain descriptive diagnostic observations and are not members of the scoring-profile metric registry. A future release may make selected normalized rates scoreable only through an explicit versioned contract and profile-schema update; R5 does not add them to any profile.
+
+Intervals come from runner-authoritative lifecycle events. Overlaps for the same subject and interval kind are unioned deterministically. Missing timestamps, agent scheduling windows, timeout classification, or topology role observations produce an unavailable metric with a reason code, never a zero. Supervisor concentration therefore remains unavailable unless an exact role-aware observation exists. Diagnostic overhead, investigation quality, resource use, recurrence, and controlled contribution remain separate vectors.
+
+### 2.8 Normative MVP metric contracts
 
 Every stored raw metric includes `value`, `applicability`, `direction`, `range`, and its numerator and denominator when the metric is a ratio. `value` is `null` when the applicability reason is not `applicable`. Implementations must not replace `null` with zero or one outside an explicit scoring-profile policy.
 

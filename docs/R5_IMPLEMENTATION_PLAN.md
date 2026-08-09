@@ -23,20 +23,20 @@ Status values are evidence-based. `planned` makes no implementation claim. `impl
 | Milestone | Status | Outcome or dependency |
 |---|---|---|
 | R5-00 | implemented | schema 0.7 diagnosis contracts, canonical examples, compatibility rules, and ADR-060 through ADR-066 are locally verified; remote release evidence remains pending |
-| R5-01 | planned | versioned bounded taxonomy and compiled rule registry |
-| R5-02 | planned | typed observable-source references and exact artifact resolution |
-| R5-03 | planned | deterministic evidence-sufficiency levels with no speculative probability |
-| R5-04 | planned | pure rule-based run classification and R5.1 closure |
-| R5-05 | planned | verified run-diagnosis application service and content-addressed artifact bundle |
-| R5-06 | planned | recurrence grouping across comparable cells and exact deployment versions |
-| R5-07 | planned | normalized JSON and static HTML diagnostic reporting |
-| R5-08 | planned | bounded diagnose/generate/verify CLI and R5.2 closure |
-| R5-09 | planned | runner-authoritative bottleneck observation projection |
-| R5-10 | planned | explicit reassignment, queueing, duplicate-work, idle-time, and managed-tool metrics |
-| R5-11 | planned | controlled agent-ablation contribution reduction using R4 controls |
-| R5-12 | planned | contribution and bottleneck report integration and R5.3 closure |
-| R5-13 | planned | deterministic end-to-end diagnosis, adversarial inputs, and dedicated CI gate |
-| R5-14 | planned | R5 release closure and exact completion evidence |
+| R5-01 | implemented | versioned bounded taxonomy and compiled rule registry |
+| R5-02 | implemented | typed observable-source references and exact artifact resolution |
+| R5-03 | implemented | deterministic evidence-sufficiency levels with no speculative probability |
+| R5-04 | implemented | pure rule-based run classification and R5.1 closure |
+| R5-05 | implemented | verified run-diagnosis application service and content-addressed artifact bundle |
+| R5-06 | implemented | recurrence grouping across comparable cells and exact deployment versions |
+| R5-07 | implemented | normalized JSON and static HTML diagnostic reporting |
+| R5-08 | implemented | bounded diagnose/generate/verify CLI and R5.2 closure |
+| R5-09 | implemented | runner-authoritative bottleneck observation projection |
+| R5-10 | implemented | explicit reassignment, queueing, duplicate-work, idle-time, and managed-tool metrics |
+| R5-11 | implemented | controlled agent-ablation contribution reduction using R4 controls |
+| R5-12 | implemented | contribution and bottleneck report integration and R5.3 closure |
+| R5-13 | implemented | deterministic diagnosis tests, adversarial inputs, and dedicated CI gate |
+| R5-14 | active | local release gates and remote evidence remain required before R5 is complete |
 
 The R5/v0.5 release name is independent from persisted schema versions. R5-00 selects additive schema `0.7` for diagnosis artifacts. Existing source artifacts remain byte-immutable and are never rewritten to simulate compatibility.
 
@@ -470,11 +470,10 @@ cargo test -p hunteval-evaluation --test diagnostic_classification
 cargo test -p hunteval-evaluation --test diagnostic_recurrence
 cargo test -p hunteval-evaluation --test bottleneck_metrics
 cargo test -p hunteval-evaluation --test contribution_analysis
-cargo test -p hunteval-runner --test diagnostic_input
 cargo test -p hunteval-runner --test diagnostic_service
-cargo test -p hunteval-runner --test diagnostic_verification
+cargo test -p hunteval-runner --test diagnostic_benchmark
 cargo test -p hunteval-reporting --test diagnostic_reporting
-cargo test -p hunteval-reporting --test diagnostic_untrusted_rendering
+cargo test -p hunteval-reporting --test diagnostic_report
 cargo test -p hunteval-cli --test diagnose
 ```
 

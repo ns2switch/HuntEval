@@ -28,8 +28,8 @@
       "artifact_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
     }
   ],
-  "source_families": ["trajectory"],
-  "confidence": "direct",
+  "source_families": ["investigation_artifact", "trajectory"],
+  "confidence": "corroborated",
   "claim_strength": "observational",
   "topology_dependent": true,
   "limitations": ["observational_only"]

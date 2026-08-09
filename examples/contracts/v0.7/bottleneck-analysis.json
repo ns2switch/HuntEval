@@ -4,8 +4,8 @@
   "observations_sha256": "5555555555555555555555555555555555555555555555555555555555555555",
   "metrics": [
     {
-      "name": "task_queue_duration_ms",
-      "version": "1.0",
+      "name": "task_queue_duration",
+      "version": "0.7",
       "direction": "lower_is_better",
       "unit": "milliseconds",
       "range": {"minimum": 0, "maximum": null},
@@ -20,9 +20,9 @@
       ]
     },
     {
-      "name": "agent_idle_ratio",
-      "version": "1.0",
-      "direction": "descriptive",
+      "name": "agent_idle_utilization",
+      "version": "0.7",
+      "direction": "lower_is_better",
       "unit": "ratio",
       "range": {"minimum": 0, "maximum": 1},
       "applicability": "unavailable",

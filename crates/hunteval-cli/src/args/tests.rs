@@ -1,8 +1,9 @@
 use clap::Parser;
 
 use super::{
-    BenchmarkCommand, Cli, Command, DatasetCommand, DeploymentCommand, OutputFormatArgument,
-    ReportCommand, ReportFormatArgument, RetryArgument, RunCommand, SystemCommand,
+    BenchmarkCommand, Cli, Command, DatasetCommand, DeploymentCommand, DiagnoseCommand,
+    OutputFormatArgument, ReportCommand, ReportFormatArgument, RetryArgument, RunCommand,
+    SystemCommand,
 };
 
 #[test]
@@ -20,6 +21,42 @@ fn parses_resume_retry_policy() -> Result<(), clap::Error> {
         Some(Command::Benchmark {
             command: BenchmarkCommand::Resume {
                 retry: RetryArgument::Interrupted,
+                ..
+            }
+        })
+    ));
+    Ok(())
+}
+
+#[test]
+fn parses_bounded_diagnosis_commands() -> Result<(), clap::Error> {
+    let run = Cli::try_parse_from([
+        "hunteval",
+        "diagnose",
+        "run",
+        "runs/run-001",
+        "--output",
+        "diagnostics/run-001",
+    ])?;
+    assert!(matches!(
+        run.command,
+        Some(Command::Diagnose {
+            command: DiagnoseCommand::Run { .. }
+        })
+    ));
+    let verify = Cli::try_parse_from([
+        "hunteval",
+        "diagnose",
+        "verify",
+        "diagnostics/run-001",
+        "--format",
+        "json",
+    ])?;
+    assert!(matches!(
+        verify.command,
+        Some(Command::Diagnose {
+            command: DiagnoseCommand::Verify {
+                format: OutputFormatArgument::Json,
                 ..
             }
         })

@@ -14,6 +14,7 @@ The `CI` workflow uses read-only repository permissions, cancels superseded bran
 - `End-to-end`
 - `Documentation`
 - `Benchmark science`
+- `Evidence-backed diagnosis`
 - `Package`
 
 Every job calls a repository-owned script under `scripts/ci/`. Cache keys bind the pinned runner image, operating system, architecture, Rust toolchain, compilation target, feature set, lockfile, and job purpose, so changing the runner image creates a new cache namespace. The uncached package job repeats deterministic contract and fixture tests in a clean target directory. Ordinary jobs receive no deployment or release secret.
@@ -22,7 +23,7 @@ CI uploads only bounded logs, generated Rust documentation, normalized public be
 
 ## Required repository settings
 
-Protect `main` with pull requests, at least one approval, required CODEOWNER review, dismissal of stale approvals, conversation resolution, administrator enforcement, and all nine checks above. Require the branch to be current before merge. Disable force pushes and deletion. Restrict direct pushes to maintainers responsible for emergency recovery.
+Protect `main` with pull requests, at least one approval, required CODEOWNER review, dismissal of stale approvals, conversation resolution, administrator enforcement, and all ten checks above. Require the branch to be current before merge. Disable force pushes and deletion. Restrict direct pushes to maintainers responsible for emergency recovery.
 
 Create one active `v*` tag ruleset that restricts creation to explicit release maintainers and a separate active `v*` ruleset with no bypass actor that prohibits update and deletion after creation. Keeping immutability in a non-bypassable ruleset prevents a creation bypass from weakening existing tags. Production releases require a separately authorized manual decision; the committed release-candidate workflow has `contents: read` and cannot create a release.
 
