@@ -10,8 +10,10 @@ The `CI` workflow uses read-only repository permissions, cancels superseded bran
 - `Quality`
 - `Tests`
 - `Security`
+- `Adversarial protocol`
 - `End-to-end`
 - `Documentation`
+- `Benchmark science`
 - `Package`
 
 Every job calls a repository-owned script under `scripts/ci/`. Cache keys bind the pinned runner image, operating system, architecture, Rust toolchain, compilation target, feature set, lockfile, and job purpose, so changing the runner image creates a new cache namespace. The uncached package job repeats deterministic contract and fixture tests in a clean target directory. Ordinary jobs receive no deployment or release secret.
@@ -20,9 +22,9 @@ CI uploads only bounded logs, generated Rust documentation, normalized public be
 
 ## Required repository settings
 
-Protect `main` with pull requests, at least one approval, required CODEOWNER review, dismissal of stale approvals, conversation resolution, administrator enforcement, and all seven checks above. Disable force pushes and deletion. Restrict direct pushes to maintainers responsible for emergency recovery.
+Protect `main` with pull requests, at least one approval, required CODEOWNER review, dismissal of stale approvals, conversation resolution, administrator enforcement, and all nine checks above. Require the branch to be current before merge. Disable force pushes and deletion. Restrict direct pushes to maintainers responsible for emergency recovery.
 
-Create an active tag ruleset for `v*` that prevents update and deletion after creation and restricts tag creation to release maintainers. Production releases require a separately authorized manual decision; the committed release-candidate workflow has `contents: read` and cannot create a release.
+Create one active `v*` tag ruleset that restricts creation to explicit release maintainers and a separate active `v*` ruleset with no bypass actor that prohibits update and deletion after creation. Keeping immutability in a non-bypassable ruleset prevents a creation bypass from weakening existing tags. Production releases require a separately authorized manual decision; the committed release-candidate workflow has `contents: read` and cannot create a release.
 
 The committed workflows pin the GitHub-hosted `ubuntu-22.04` image because HuntEval's mandatory Bubblewrap backend requires working unprivileged user namespaces; do not replace it with a moving runner label without executing the isolation and end-to-end gates first. Use only GitHub-hosted runners or explicitly approved ephemeral self-hosted runners. Self-hosted runners must start clean, run a supported Actions Runner version, provide Bubblewrap, have no production credentials, and be destroyed after the job. Fork pull requests must not receive repository secrets.
 

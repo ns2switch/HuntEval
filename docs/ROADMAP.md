@@ -2,7 +2,7 @@
 
 ## 1. Purpose
 
-This roadmap starts from the completed R2/v0.2 implementation baseline and describes the work required to turn the current MVP foundations into a complete, auditable, and stable evaluation platform. The existing R2.4 external-enforcement caveat remains as recorded below.
+This roadmap starts from the completed R2/v0.2 implementation baseline and describes the work required to turn the current MVP foundations into a complete, auditable, and stable evaluation platform. The previously recorded R2.4 external-enforcement caveat was closed on 2026-08-09 by the administrator attestation and protected release-candidate dry run recorded below.
 
 HuntEval evaluates a complete multi-agent threat-hunting deployment as its primary experimental unit. The evaluated system includes deployment topology, agent identities and roles, specialization, task delegation, coordination behavior, managed-tool usage, evidence production and propagation, resilience, resource consumption, reproducibility, and the final investigative outcome. A single-agent deployment remains a valid baseline. This definition does not require or privilege any agent framework, model provider, topology, or orchestration architecture.
 
@@ -29,8 +29,8 @@ Several of these are intentionally narrow foundations. The current delivery stat
 - event, entity, evidence completeness, task, utilization, graceful-degradation, attack-path, timeline, structured-conclusion, technique, duplicate-work, causally useful communication, measured-duration, verified-cost, and cross-run stability metrics exist;
 - deterministic benchmark JSON and static HTML reports preserve comparisons, attribution, limitations, and exact artifact hashes;
 - single-agent, two-agent, and supervisor-specialist reference deployments have normative topology artifacts, controlled topology experiments, fail-closed equivalence checks, topology-aware observable metrics, and experimental topology-dependent contribution analysis;
-- diagnosis and experiment safety contracts exist, but artifact registries, end-to-end validation workflows, broader evidence-backed classification, and the bounded prompt-analysis lifecycle remain future R5 and R6 work;
-- canonical repository scripts and bounded least-privilege GitHub workflows are implemented; live merge and protected-tag enforcement awaits authorized administrator attestation.
+- diagnosis and experiment safety contracts exist, but artifact registries, end-to-end validation workflows, broader evidence-backed classification, and the bounded prompt-analysis lifecycle remain future R5 implementation and R6 work;
+- canonical repository scripts and bounded least-privilege GitHub workflows are implemented; live merge and protected-tag enforcement are administrator-attested.
 
 ## 3. Prioritization rules
 
@@ -120,7 +120,7 @@ Completion evidence: R2-07 through R2-11 reduce verified run artifacts into trus
 
 Completion evidence: R2-12 through R2-15 are implemented in `006519d`. The normalized v0.4 benchmark result retains cell status, raw metrics, score omissions, constraints, verified resource provenance, paired statistics, constraint-first ranking groups, typed claim sources, limitations, and exact artifact digests. Deterministic JSON is the machine-readable source of truth; portable HTML contains no active content; the unified CLI generates atomically and detects missing, stale, oversized, symlinked, or modified artifacts during verification.
 
-#### R2.4 — GitHub delivery hardening (implementation complete; external enforcement pending)
+#### R2.4 — GitHub delivery hardening (complete)
 
 - make GitHub Actions invoke the same repository-owned quality entrypoints used locally;
 - cache Rust and DuckDB native build outputs safely;
@@ -129,7 +129,9 @@ Completion evidence: R2-12 through R2-15 are implemented in `006519d`. The norma
 
 **Exit criteria:** the same revision receives equivalent pass/fail results locally and in GitHub Actions, and required checks protect the default branch.
 
-Implementation evidence: commits `5874792`, `23deef2`, and `5a38c63` provide pinned canonical local/CI gates, a pinned Bubblewrap-capable runner, runner-image-bound caches, fail-closed security capability checks, negative failure-propagation tests, bounded verification artifacts, clean-cache parity, CODEOWNERS, a live-settings verifier, and a non-publishing checksummed RC workflow. Local acceptance gates and RC package verification pass. GitHub Actions run `31255365813` passed all seven canonical jobs, including the uncached Package job. R2.4 remains open until an authorized administrator records that the required checks, default-branch protection, and protected RC tag rules are active and the protected RC tag dry run passes.
+Implementation evidence: commits `5874792`, `23deef2`, and `5a38c63` provide pinned canonical local/CI gates, a pinned Bubblewrap-capable runner, runner-image-bound caches, fail-closed security capability checks, negative failure-propagation tests, bounded verification artifacts, clean-cache parity, CODEOWNERS, a live-settings verifier, and a non-publishing checksummed RC workflow. Local acceptance gates and RC package verification pass. GitHub Actions run `31255365813` passed all seven canonical jobs, including the uncached Package job. At that revision, R2.4 remained open until an authorized administrator recorded that the required checks, default-branch protection, and protected RC tag rules were active and the protected RC tag dry run passed.
+
+External closure evidence: on 2026-08-09, administrator `ns2switch` protected `main` with the nine current required jobs and the required review controls, activated separate restricted-creation and non-bypassable-immutability rulesets for `v*`, enabled the required repository security controls, and ran the fail-closed settings verifier successfully. CI run `31322660682` passed all nine required jobs on revision `b412953a08f3e2e26dff82c1aa0a729515496564`. Protected tag `v0.4.0-rc.1` references that revision and release-candidate run `31329216944` passed without publishing a production release. The downloaded package and secret-scan checksums verified independently. Exact settings, links, and hashes are recorded in `GITHUB_SETTINGS_ATTESTATION.md`. R2-18 and the R2.4 exit gate are complete without changing the preceding implementation evidence.
 
 ### v0.3 — Runner and protocol hardening
 
@@ -137,7 +139,7 @@ Implementation evidence: commits `5874792`, `23deef2`, and `5a38c63` provide pin
 
 The pull-request sequence, contract decisions, tests, risks, and release gates for R3.1 through R3.3 are defined in `R3_IMPLEMENTATION_PLAN.md`.
 
-Current state: R3 is complete. Commits `f0f6119`, `dbfce2c`, and `2d34517` implement the release and its CI compatibility corrections. The implementation revision passed all eight canonical GitHub Actions jobs in run `31305219082`; exact local gates, artifact hashes, limitations, and ADR status are recorded in `R3_COMPLETION_EVIDENCE.md`. R2 evidence and the R2.4 external-enforcement caveat remain unchanged. R4 was completed subsequently and does not alter this R3 evidence.
+Current state: R3 is complete. Commits `f0f6119`, `dbfce2c`, and `2d34517` implement the release and its CI compatibility corrections. The implementation revision passed all eight canonical GitHub Actions jobs in run `31305219082`; exact local gates, artifact hashes, limitations, and ADR status are recorded in `R3_COMPLETION_EVIDENCE.md`. R2 evidence remained unchanged at R3 closure; the later R2.4 external-enforcement closure is recorded independently and does not alter this R3 evidence. R4 was completed subsequently and does not alter this R3 evidence.
 
 #### R3.1 — Isolation backends and resource enforcement
 
@@ -173,7 +175,7 @@ Current state: R3 is complete. Commits `f0f6119`, `dbfce2c`, and `2d34517` imple
 
 **Objective:** improve validity, coverage, and reviewability of the benchmark itself.
 
-Current state: R4 is complete. Implementation revision `f9559a6` provides schema 0.6 contracts, expanded episode coverage, nine independent content-addressed approvals, statistical policy, contributor safety, explicit topologies, controlled equivalence, topology metrics, controlled paired reduction, CLI reporting, and the 108-cell E2E gate. All nine canonical GitHub Actions jobs passed in run `31321445726`; exact commands, artifact hashes, limitations, and ADR status are recorded in `R4_COMPLETION_EVIDENCE.md`. R2 and R3 completion evidence and the R2.4 external-enforcement caveat remain unchanged. R5 is the next implementation milestone.
+Current state: R4 is complete. Implementation revision `f9559a6` provides schema 0.6 contracts, expanded episode coverage, nine independent content-addressed approvals, statistical policy, contributor safety, explicit topologies, controlled equivalence, topology metrics, controlled paired reduction, CLI reporting, and the 108-cell E2E gate. All nine canonical GitHub Actions jobs passed in run `31321445726`; exact commands, artifact hashes, limitations, and ADR status are recorded in `R4_COMPLETION_EVIDENCE.md`. R2 and R3 completion evidence remain unchanged; the later R2.4 external-enforcement closure is recorded independently. R5 is the next implementation milestone.
 
 #### R4.1 — Episode coverage expansion
 
@@ -225,6 +227,10 @@ Current state: R4 is complete. Implementation revision `f9559a6` provides schema
 ### v0.5 — Evidence-backed diagnosis
 
 **Objective:** expand diagnosis without requesting private reasoning or making unsupported causal claims.
+
+The governed pull-request sequence, contracts, tests, risks, and release gates for R5.1 through R5.3 are defined in `R5_IMPLEMENTATION_PLAN.md`.
+
+Current state: R5 planning is complete and R5 implementation has not started. R2, R3, and R4 completion evidence remains unchanged. The R2.4 external-enforcement caveat is closed by the separate administrator attestation and protected release-candidate evidence.
 
 #### R5.1 — Versioned taxonomy and attribution
 
@@ -426,6 +432,6 @@ Every roadmap initiative must be delivered through a small reviewable pull reque
 12. rollback behavior;
 13. known limitations.
 
-The completed R4 implementation plan addresses these requirements for R4.4. The future R6.4 implementation plan must address every item above before implementation begins; this roadmap does not substitute for that detailed plan.
+The completed R4 implementation plan and the defined R5 implementation plan address these requirements for their initiatives. The future R6.4 implementation plan must address every item above before implementation begins; this roadmap does not substitute for that detailed plan.
 
 An initiative is not complete while any required quality gate fails. Scope changes must update this roadmap and the corresponding implementation plan before implementation begins.

@@ -5,7 +5,7 @@ HuntEval release candidates are verification exercises. They do not publish a pr
 ## Before tagging
 
 - Confirm the worktree is clean and the candidate commit is on protected `main`.
-- Confirm all eight required CI jobs, including the adversarial protocol job, passed for the exact revision.
+- Confirm all nine required CI jobs, including the adversarial protocol and benchmark-science jobs, passed for the exact revision.
 - Confirm the GitHub settings attestation is current.
 - Review schema and protocol compatibility, security impact, known limitations, and accepted ADR changes.
 - Confirm no credentials, evaluator-only artifacts, partial runs, or unrestricted environment diagnostics are present in the package inputs.

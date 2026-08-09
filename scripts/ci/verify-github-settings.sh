@@ -26,6 +26,48 @@ readonly headers=(
 curl --fail --silent --show-error "${headers[@]}" \
     "$api/branches/main/protection" >"$temporary/protection.json"
 curl --fail --silent --show-error "${headers[@]}" \
-    "$api/rulesets?per_page=100" >"$temporary/rulesets.json"
+    "$api/rulesets?per_page=100" >"$temporary/ruleset-list.json"
+
+mapfile -t ruleset_ids < <(
+    python3 - "$temporary/ruleset-list.json" <<'PY'
+import json
+import pathlib
+import sys
+
+rulesets = json.loads(pathlib.Path(sys.argv[1]).read_text(encoding="utf-8"))
+if not isinstance(rulesets, list):
+    raise SystemExit("error: GitHub ruleset response has an unexpected shape")
+for ruleset in rulesets:
+    identifier = ruleset.get("id") if isinstance(ruleset, dict) else None
+    if not isinstance(identifier, int) or identifier < 1:
+        raise SystemExit("error: GitHub ruleset response contains an invalid identifier")
+    print(identifier)
+PY
+)
+
+ruleset_files=()
+for ruleset_id in "${ruleset_ids[@]}"; do
+    if [[ ! "$ruleset_id" =~ ^[1-9][0-9]*$ ]]; then
+        echo "error: GitHub ruleset identifier is invalid" >&2
+        exit 1
+    fi
+    ruleset_file="$temporary/ruleset-$ruleset_id.json"
+    curl --fail --silent --show-error "${headers[@]}" \
+        "$api/rulesets/$ruleset_id" >"$ruleset_file"
+    ruleset_files+=("$ruleset_file")
+done
+
+python3 - "$temporary/rulesets.json" "${ruleset_files[@]}" <<'PY'
+import json
+import pathlib
+import sys
+
+rulesets = [
+    json.loads(pathlib.Path(path).read_text(encoding="utf-8"))
+    for path in sys.argv[2:]
+]
+pathlib.Path(sys.argv[1]).write_text(json.dumps(rulesets), encoding="utf-8")
+PY
+
 python3 scripts/ci/verify-github-settings.py \
     "$temporary/protection.json" "$temporary/rulesets.json"
