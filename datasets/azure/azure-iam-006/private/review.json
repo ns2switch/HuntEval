@@ -1,0 +1,13 @@
+{
+  "schema_version": "0.6",
+  "review_id": "review-azure-iam-006-r4",
+  "episode_id": "azure-iam-006",
+  "reviewer_id": "anibal.canada",
+  "reviewed_at": "2026-08-09T14:45:42Z",
+  "status": "approved",
+  "public_package_sha256": "7ca466db1e918c09088a19693068fa0fb08197f4f6b0ce05a8332b7c792e321c",
+  "private_ground_truth_sha256": "2372f2e42adcbb274389a68d6d1478c4392a8d25924d9efc923deb9bc2c9b5e6",
+  "reference_query_sha256": "e4a02c7b7164238ede1976b34994b64d5ec3c030def89473a9ea59ea8fce4c47",
+  "review_policy_sha256": "d7b32ea129bf68b65fa612c906eb17cd3b6d97d48869a8561eec96af5bc60a0f",
+  "reason_codes": []
+}

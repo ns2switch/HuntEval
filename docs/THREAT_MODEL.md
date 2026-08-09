@@ -215,6 +215,22 @@ The evaluated deployment, model output, retrieved documents, episode-authored kn
 - deterministic scanning of tracked public inputs, generated reports, CI evidence, and release-candidate contents;
 - secret findings retain only a rule, safe relative location, and one-way fingerprint.
 
+### 4.15 Topology and dataset-science metadata abuse
+
+**Threat:** A contributor uses topology labels, classification metadata, review files, or generated documentation to disclose answers, inject active content, forge approval, or support an undeclared causal comparison.
+
+**Mitigations:**
+
+- schema 0.6 uses bounded enums, identifiers, relationship counts, reason codes, and deny-unknown-field parsing;
+- public episode classification contains no benign or malicious answer label and is loaded separately from evaluator-only truth;
+- approvals bind exact public-package, private-truth, reference-query, and review-policy hashes; missing, rejected, malformed, or stale records never approve an episode;
+- contributor scaffolding refuses overwrite and unsafe targets, while validation is read-only and rejects symlinks and oversized files;
+- reviewer inventories contain hashes and visibility labels rather than private file contents;
+- topology registration must match authored agent identities, roles, and architecture;
+- controlled topology analysis is unavailable until exact artifact hashes and every declared variable match;
+- observational metrics cannot produce role-contribution or topology-resilience claims;
+- static topology HTML escapes untrusted text and always labels controlled results experimental and topology-dependent.
+
 ## 5. MVP security requirements
 
 - No deployment network access by default.

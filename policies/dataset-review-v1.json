@@ -1,0 +1,15 @@
+{
+  "schema_version": "0.6",
+  "id": "dataset-review-v1",
+  "decision_authority": "independent_human_reviewer",
+  "required_checks": [
+    "public_private_separation",
+    "ground_truth_correctness",
+    "reference_query_recovery",
+    "deterministic_regeneration",
+    "answer_leakage_absence",
+    "path_and_resource_safety"
+  ],
+  "approval_semantics": "all_required_checks_pass",
+  "revalidation": "required_after_any_bound_artifact_change"
+}

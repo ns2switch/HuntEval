@@ -173,7 +173,7 @@ Current state: R3 is complete. Commits `f0f6119`, `dbfce2c`, and `2d34517` imple
 
 **Objective:** improve validity, coverage, and reviewability of the benchmark itself.
 
-Current state: R4 is the active implementation milestone. Its governed pull-request sequence, contract decisions, tests, migration behavior, rollback behavior, and release gates are defined in `R4_IMPLEMENTATION_PLAN.md`. No R4 implementation or completion evidence is claimed yet.
+Current state: R4 is the active closure milestone. Schema 0.6 contracts, expanded episode coverage, independent content-addressed approvals, statistical policy, contributor safety, explicit topologies, controlled equivalence, topology metrics, controlled paired reduction, CLI reporting, and the 108-cell E2E gate are implemented locally. R4 remains incomplete until a dedicated revision passes the canonical GitHub Actions workflow and exact completion evidence is recorded. No pre-R4 completion evidence is changed.
 
 #### R4.1 — Episode coverage expansion
 

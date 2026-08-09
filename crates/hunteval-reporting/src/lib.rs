@@ -2,6 +2,7 @@
 
 mod benchmark;
 mod html;
+mod topology;
 mod types;
 
 pub use benchmark::{
@@ -11,6 +12,7 @@ pub use benchmark::{
     BenchmarkRankingGroup, BenchmarkResult, BenchmarkResultError, BenchmarkStaticHtmlRenderer,
 };
 pub use html::StaticHtmlRenderer;
+pub use topology::{ConstraintFirstStatus, TopologyComparisonReport, TopologyReportError};
 pub use types::{
     ArtifactLink, BenchmarkReport, DiagnosticFinding, DiagnosticReport, DiagnosticValidationStatus,
     JsonRenderer, ReportClaim, ReportError, ReportFormat, ReportRenderer, RunReport,

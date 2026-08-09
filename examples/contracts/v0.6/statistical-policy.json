@@ -1,0 +1,1 @@
+{"schema_version":"0.6","id":"paired-validation-v1","comparison_class":"validation","minimum_paired_samples":10,"confidence_level":0.95,"interval_method":"deterministic_paired_bootstrap","effect_size_method":"paired_mean_difference","multiplicity":{"method":"holm_bonferroni","family":"primary-quality"},"calibration":"confidence_brier_and_severity_confusion"}

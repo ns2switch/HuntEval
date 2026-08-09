@@ -11,6 +11,7 @@ use hunteval_domain::{
 pub enum ReferenceTopology {
     SingleAgent,
     SupervisorWorker,
+    SupervisorSpecialist,
     SupervisorSpecialists,
 }
 
@@ -38,6 +39,22 @@ impl ReferenceTopology {
                     (
                         "investigator",
                         "investigator",
+                        &["iam_analysis", "sql_query"][..],
+                    ),
+                ],
+            ),
+            Self::SupervisorSpecialist => (
+                "supervisor-specialist-scripted",
+                DeploymentArchitecture::Hierarchical,
+                vec![
+                    (
+                        "supervisor",
+                        "orchestrator",
+                        &["delegation", "synthesis"][..],
+                    ),
+                    (
+                        "identity-specialist",
+                        "identity_investigator",
                         &["iam_analysis", "sql_query"][..],
                     ),
                 ],
@@ -79,14 +96,18 @@ impl ReferenceTopology {
     pub(super) fn coordinator(self) -> Result<AgentId, IdValidationError> {
         match self {
             Self::SingleAgent => AgentId::new("investigator"),
-            Self::SupervisorWorker | Self::SupervisorSpecialists => AgentId::new("supervisor"),
+            Self::SupervisorWorker | Self::SupervisorSpecialist | Self::SupervisorSpecialists => {
+                AgentId::new("supervisor")
+            }
         }
     }
 
     pub(super) fn investigator(self) -> Result<AgentId, IdValidationError> {
         match self {
             Self::SingleAgent | Self::SupervisorWorker => AgentId::new("investigator"),
-            Self::SupervisorSpecialists => AgentId::new("identity-specialist"),
+            Self::SupervisorSpecialist | Self::SupervisorSpecialists => {
+                AgentId::new("identity-specialist")
+            }
         }
     }
 
@@ -94,6 +115,7 @@ impl ReferenceTopology {
         match self {
             Self::SingleAgent => "single-agent",
             Self::SupervisorWorker => "supervisor-worker",
+            Self::SupervisorSpecialist => "supervisor-specialist",
             Self::SupervisorSpecialists => "supervisor-specialists",
         }
     }

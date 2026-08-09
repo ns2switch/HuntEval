@@ -1,0 +1,130 @@
+{
+  "schema_version": "0.6",
+  "analysis": {
+    "schema_version": "0.6",
+    "baseline_topology_sha256": "d09ed0d9e0ed4c0bb184384e01f140d9b9c1abb63b3e9bdabc04f96485e18081",
+    "candidate_topology_sha256": "236fbbfd4356087c89fb668e7d7d8e89f1b0cd47ea714afcd778649f0f2b1a42",
+    "experiment_sha256": "89d4b182f21b36c730fcc1725c562f845f0f5a7bb898e051aa52ba54380c717d",
+    "analysis_kind": "controlled_ablation",
+    "topology_dependent": true,
+    "metrics": {
+      "coordination_overhead_delta": {
+        "applicability": "applicable",
+        "value": 0.09999999999999999,
+        "reason_code": null
+      },
+      "investigation_quality_delta": {
+        "applicability": "applicable",
+        "value": 0.12000000000000002,
+        "reason_code": null
+      },
+      "role_contribution": {
+        "applicability": "unavailable",
+        "value": null,
+        "reason_code": "insufficient_controlled_samples"
+      },
+      "verified_cost_delta": {
+        "applicability": "applicable",
+        "value": 0.1,
+        "reason_code": null
+      }
+    },
+    "limitations": [
+      "experimental_topology_dependent",
+      "multiplicity_adjusted_inference_unavailable"
+    ]
+  },
+  "statistical_policy_sha256": "51c5e5a0691754bff1dbca5172f7d8d13bb82aa2677f4e8e5d968bc8a87ef982",
+  "scoring_profile_sha256": "f49e1c009ca684ccd54336fd7c40d1ce7df4a2d52ba6ef65a4afd20556476f1d",
+  "comparisons": {
+    "coordination_overhead": {
+      "policy_sha256": "51c5e5a0691754bff1dbca5172f7d8d13bb82aa2677f4e8e5d968bc8a87ef982",
+      "comparison_class": "validation",
+      "paired_difference": {
+        "count": 10,
+        "mean_difference": 0.09999999999999999,
+        "interval": {
+          "lower": 0.09999999999999998,
+          "upper": 0.1,
+          "confidence": 0.95
+        },
+        "wins": 10,
+        "ties": 0,
+        "losses": 0,
+        "conclusive": false
+      },
+      "effect_size": {
+        "count": 10,
+        "mean_difference": 0.09999999999999999,
+        "standardized_difference": null
+      },
+      "claim_strength": "descriptive",
+      "multiplicity": {
+        "method": "holm_bonferroni",
+        "family": "primary-quality"
+      }
+    },
+    "investigation_quality": {
+      "policy_sha256": "51c5e5a0691754bff1dbca5172f7d8d13bb82aa2677f4e8e5d968bc8a87ef982",
+      "comparison_class": "validation",
+      "paired_difference": {
+        "count": 10,
+        "mean_difference": 0.12000000000000002,
+        "interval": {
+          "lower": 0.12000000000000002,
+          "upper": 0.12000000000000002,
+          "confidence": 0.95
+        },
+        "wins": 10,
+        "ties": 0,
+        "losses": 0,
+        "conclusive": false
+      },
+      "effect_size": {
+        "count": 10,
+        "mean_difference": 0.12000000000000002,
+        "standardized_difference": null
+      },
+      "claim_strength": "descriptive",
+      "multiplicity": {
+        "method": "holm_bonferroni",
+        "family": "primary-quality"
+      }
+    },
+    "verified_cost": {
+      "policy_sha256": "51c5e5a0691754bff1dbca5172f7d8d13bb82aa2677f4e8e5d968bc8a87ef982",
+      "comparison_class": "validation",
+      "paired_difference": {
+        "count": 10,
+        "mean_difference": 0.1,
+        "interval": {
+          "lower": 0.09999999999999998,
+          "upper": 0.10000000000000002,
+          "confidence": 0.95
+        },
+        "wins": 10,
+        "ties": 0,
+        "losses": 0,
+        "conclusive": false
+      },
+      "effect_size": {
+        "count": 10,
+        "mean_difference": 0.1,
+        "standardized_difference": null
+      },
+      "claim_strength": "descriptive",
+      "multiplicity": {
+        "method": "holm_bonferroni",
+        "family": "primary-quality"
+      }
+    }
+  },
+  "aggregate_score": null,
+  "constraint_first_status": "incomparable",
+  "limitations": [
+    "experimental_topology_dependent",
+    "multiplicity_adjusted_inference_unavailable",
+    "raw_metric_vector_authoritative",
+    "constraint_first_ranking_requires_declared_constraints"
+  ]
+}

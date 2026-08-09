@@ -5,8 +5,8 @@ use std::{
 };
 
 use hunteval_domain::{
-    BenchmarkDefinition, DeploymentId, EpisodeId, FaultProfileId, ResolvedArtifact,
-    ResolvedDeployment, ResolvedEpisode, ScoringProfileId, Sha256Digest,
+    BenchmarkDefinition, DeploymentId, DeploymentTopology, EpisodeId, FaultProfileId,
+    ResolvedArtifact, ResolvedDeployment, ResolvedEpisode, ScoringProfileId, Sha256Digest,
 };
 use serde::Deserialize;
 use sha2::{Digest, Sha256};
@@ -21,6 +21,34 @@ const MAX_ARTIFACT_BYTES: u64 = 8 * 1024 * 1024 * 1024;
 struct ArtifactDescriptor {
     id: Option<String>,
     episode_id: Option<String>,
+}
+
+/// A validated normative topology and the digest of its exact authored bytes.
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct ResolvedTopology {
+    pub topology: DeploymentTopology,
+    pub sha256: Sha256Digest,
+}
+
+/// Loads a deployment's optional v0.6 topology artifact without guessing legacy topology.
+pub fn load_deployment_topology(
+    deployment_root: &Path,
+) -> Result<Option<ResolvedTopology>, BenchmarkError> {
+    let path = deployment_root.join("topology.json");
+    if !path.try_exists()? {
+        return Ok(None);
+    }
+    if fs::symlink_metadata(&path)?.file_type().is_symlink() {
+        return Err(BenchmarkError::SymlinkArtifact);
+    }
+    let bytes = fs::read(path)?;
+    let topology: DeploymentTopology =
+        serde_json::from_slice(&bytes).map_err(|_| BenchmarkError::MalformedTopology)?;
+    topology.validate()?;
+    Ok(Some(ResolvedTopology {
+        topology,
+        sha256: Sha256Digest::from_bytes(&bytes),
+    }))
 }
 
 /// Loads an authored manifest and resolves it into infrastructure-independent identities.
@@ -76,6 +104,9 @@ fn resolve_manifest(
     for reference in &manifest.deployments {
         let path = resolve_path(&root, reference)?;
         let descriptor = descriptor_path(&path, "deployment.yaml")?;
+        if path.is_dir() {
+            load_deployment_topology(&path)?;
+        }
         deployments.push(ResolvedDeployment {
             configuration_sha256: hash_artifact(&path)?,
             id: read_descriptor_id(&descriptor, false)?

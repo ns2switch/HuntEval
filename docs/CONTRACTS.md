@@ -759,6 +759,20 @@ The public conformance service drives protocol 0.3 through the production sandbo
 
 Public run verification accepts a bounded regular directory and reads artifacts without following symbolic links. It checks supported manifest versions, completion state, exact declared digests, trajectory replay, terminal submission equivalence, JSON structure, execution policy for schema 0.5 runs, and normalized result consistency. Results are `verified`, `incomplete`, `invalid`, or `unsupported` and contain deterministically ordered, path-free checks. `private_evaluation` is always `not_checked`; public verification never claims to have recomputed evaluator-only metrics.
 
+## 34. Benchmark-science contracts v0.6
+
+Schema 0.6 is additive and does not modify stored 0.3 through 0.5 artifacts. Public episode classification uses fixed difficulty, capability, and investigation-shape taxonomies. It cannot identify whether an episode is benign, or contain ground truth, expected identifiers, reference queries, hidden partition membership, or free-form reviewer rationale. Legacy episodes retain unavailable classification rather than receiving inferred tags.
+
+The private dataset-review record binds an episode identifier, exact public package, private ground-truth, reference-query and review-policy hashes, an opaque reviewer identifier, UTC review time, status, and bounded safe reason codes. Approval is valid only for the exact bound bytes. Record generation requires an explicit independent-approval confirmation and never performs or infers the human review. Public contributor results may expose approval status and fingerprints but never reviewer notes, private paths, or answer material.
+
+A statistical policy names the comparison class, minimum paired sample count, confidence level, interval method, effect-size method, multiplicity policy, and calibration policy. Every comparison retains paired sample count, missing pairs, applicability, and policy hash. Below-threshold output is descriptive. Hidden-test results cannot be used for candidate selection.
+
+The deployment-topology artifact is framework neutral. It contains stable agent identities, roles, specialization, model assignments, memory groups, typed delegation or coordination edges, coordination mode, task-allocation policy, execution pattern, and optional critic/reviewer roles. Relationships must reference declared agents and satisfy topology-specific invariants. It cannot embed instruction bodies, credentials, environment values, tool authority, or episode data.
+
+A topology experiment binds exact baseline and candidate topology hashes, a nonempty bounded set of changed variables, paired benchmark cells, and every required control hash. The equivalence result is eligible only when each actual change is declared and each non-experimental control is equal. Changing a candidate artifact changes experiment identity and invalidates earlier results.
+
+Topology analysis keeps investigation quality, coordination overhead, evidence propagation, duplicate work, task allocation, parallelism, utilization, resilience, and verified resource measurements separate. Observational results cannot contain contribution estimates. Paired-ablation observations preserve missing values and exact baseline/candidate ordering. Controlled comparison reports bind the experiment, topologies, statistical policy, scoring profile, raw metric vector, uncertainty, applicability, constraint-first status, and explicit limitations. Controlled ablations may report experimental topology-dependent deltas with exact experiment and source references; they never imply universal agent or role rankings.
+
 ## 35. Secret scan result v0.5
 
 The deterministic scanner accepts an explicit safe root and bounded relative regular-file inventory. It rejects traversal, symbolic links, hard links, oversized inputs, unreadable inputs, and incomplete inventories. Findings contain only a stable rule identifier, safe relative label, line number, and SHA-256 fingerprint. Candidate secret bytes are never serialized or printed. Any finding or incomplete scan is a failing gate.

@@ -41,7 +41,7 @@ pub(super) fn evaluate_stored_run(
         expected_hashes,
         maximum_line_bytes,
         u64::from(package.public().manifest.limits.max_tool_calls),
-        package.public().manifest.benign_evaluation,
+        package.ground_truth().is_benign_scored_episode(),
     )
     .map_err(|_| EngineError::Evaluation)?;
     let mut evaluation_input = view.evaluation_input();

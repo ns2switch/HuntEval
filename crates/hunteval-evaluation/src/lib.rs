@@ -8,6 +8,7 @@ mod metrics;
 mod profile;
 mod registry;
 mod sets;
+mod topology_metrics;
 mod types;
 
 pub use diagnosis::{
@@ -28,6 +29,7 @@ pub use profile::{
     ConstraintInput, ProfileError, evaluate_constraints, normalize_profile, score_profile,
 };
 pub use registry::{MetricContract, metric_contract, metric_contracts};
+pub use topology_metrics::{TopologyMetricError, TopologyMetricInput, evaluate_topology_metrics};
 pub use types::{
     AggregateScore, ConstraintEvaluation, ConstraintStatus, EfficiencyInput, EvaluationInput,
     LegacyScoringProfile, MetricDefinition, MetricReference, MetricSelection, MetricVector,

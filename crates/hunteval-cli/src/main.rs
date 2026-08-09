@@ -6,8 +6,8 @@ mod benchmark;
 use std::process::ExitCode;
 
 use args::{
-    Cli, Command, DeploymentCommand, OutputFormatArgument, ReportCommand, ReportFormatArgument,
-    RunArguments, RunCommand, SystemCommand, TrajectoryCommand,
+    Cli, Command, DatasetCommand, DeploymentCommand, OutputFormatArgument, ReportCommand,
+    ReportFormatArgument, RunArguments, RunCommand, SystemCommand, TrajectoryCommand,
 };
 use clap::Parser;
 
@@ -37,7 +37,47 @@ fn execute(cli: Cli) -> Result<ExitCode, Box<dyn std::error::Error>> {
             Ok(ExitCode::SUCCESS)
         }
         Some(Command::Benchmark { command }) => benchmark::execute(command),
+        Some(Command::Dataset { command }) => execute_dataset(command),
         Some(Command::Report { command }) => execute_report(command),
+    }
+}
+
+fn execute_dataset(command: DatasetCommand) -> Result<ExitCode, Box<dyn std::error::Error>> {
+    match command {
+        DatasetCommand::ReviewRecord {
+            episode,
+            review_policy,
+            review_id,
+            reviewer_id,
+            reviewed_at,
+            confirm_independent_approval,
+        } => {
+            if !confirm_independent_approval {
+                return Err(std::io::Error::other(
+                    "an explicit independent approval confirmation is required",
+                )
+                .into());
+            }
+            let metadata = std::fs::symlink_metadata(&review_policy)?;
+            if metadata.file_type().is_symlink()
+                || !metadata.is_file()
+                || metadata.len() > 1024 * 1024
+            {
+                return Err(
+                    std::io::Error::other("review policy is not a bounded regular file").into(),
+                );
+            }
+            let policy = std::fs::read(review_policy)?;
+            let record = hunteval_runner::create_approved_dataset_review(
+                &episode,
+                &policy,
+                &review_id,
+                &reviewer_id,
+                &reviewed_at,
+            )?;
+            println!("{}", serde_json::to_string_pretty(&record)?);
+            Ok(ExitCode::SUCCESS)
+        }
     }
 }
 

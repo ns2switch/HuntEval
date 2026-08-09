@@ -5,15 +5,27 @@ pub(crate) struct EpisodeSpec {
     pub category: &'static str,
     pub table: &'static str,
     pub telemetry_file: &'static str,
+    pub malicious: bool,
+    pub scenario: Scenario,
 }
 
-pub(crate) const EPISODES: [EpisodeSpec; 9] = [
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub(crate) enum Scenario {
+    Legacy,
+    Benign,
+    MultiStage,
+    CrossBoundary,
+}
+
+pub(crate) const EPISODES: [EpisodeSpec; 18] = [
     EpisodeSpec {
         provider: "aws",
         id: "aws-iam-001",
         category: "identity_compromise",
         table: "aws_cloudtrail",
         telemetry_file: "cloudtrail.parquet",
+        malicious: true,
+        scenario: Scenario::Legacy,
     },
     EpisodeSpec {
         provider: "aws",
@@ -21,6 +33,8 @@ pub(crate) const EPISODES: [EpisodeSpec; 9] = [
         category: "privilege_escalation",
         table: "aws_cloudtrail",
         telemetry_file: "cloudtrail.parquet",
+        malicious: true,
+        scenario: Scenario::Legacy,
     },
     EpisodeSpec {
         provider: "aws",
@@ -28,6 +42,35 @@ pub(crate) const EPISODES: [EpisodeSpec; 9] = [
         category: "persistence_credential_creation",
         table: "aws_cloudtrail",
         telemetry_file: "cloudtrail.parquet",
+        malicious: true,
+        scenario: Scenario::Legacy,
+    },
+    EpisodeSpec {
+        provider: "aws",
+        id: "aws-iam-004",
+        category: "identity_activity_review",
+        table: "aws_cloudtrail",
+        telemetry_file: "cloudtrail.parquet",
+        malicious: false,
+        scenario: Scenario::Benign,
+    },
+    EpisodeSpec {
+        provider: "aws",
+        id: "aws-iam-005",
+        category: "multi_stage_identity_attack",
+        table: "aws_cloudtrail",
+        telemetry_file: "cloudtrail.parquet",
+        malicious: true,
+        scenario: Scenario::MultiStage,
+    },
+    EpisodeSpec {
+        provider: "aws",
+        id: "aws-iam-006",
+        category: "cross_boundary_identity_attack",
+        table: "aws_cloudtrail",
+        telemetry_file: "cloudtrail.parquet",
+        malicious: true,
+        scenario: Scenario::CrossBoundary,
     },
     EpisodeSpec {
         provider: "azure",
@@ -35,6 +78,8 @@ pub(crate) const EPISODES: [EpisodeSpec; 9] = [
         category: "identity_compromise",
         table: "azure_activity",
         telemetry_file: "activity.parquet",
+        malicious: true,
+        scenario: Scenario::Legacy,
     },
     EpisodeSpec {
         provider: "azure",
@@ -42,6 +87,8 @@ pub(crate) const EPISODES: [EpisodeSpec; 9] = [
         category: "privilege_escalation",
         table: "azure_activity",
         telemetry_file: "activity.parquet",
+        malicious: true,
+        scenario: Scenario::Legacy,
     },
     EpisodeSpec {
         provider: "azure",
@@ -49,6 +96,35 @@ pub(crate) const EPISODES: [EpisodeSpec; 9] = [
         category: "persistence_credential_creation",
         table: "azure_activity",
         telemetry_file: "activity.parquet",
+        malicious: true,
+        scenario: Scenario::Legacy,
+    },
+    EpisodeSpec {
+        provider: "azure",
+        id: "azure-iam-004",
+        category: "identity_activity_review",
+        table: "azure_activity",
+        telemetry_file: "activity.parquet",
+        malicious: false,
+        scenario: Scenario::Benign,
+    },
+    EpisodeSpec {
+        provider: "azure",
+        id: "azure-iam-005",
+        category: "multi_stage_identity_attack",
+        table: "azure_activity",
+        telemetry_file: "activity.parquet",
+        malicious: true,
+        scenario: Scenario::MultiStage,
+    },
+    EpisodeSpec {
+        provider: "azure",
+        id: "azure-iam-006",
+        category: "cross_boundary_identity_attack",
+        table: "azure_activity",
+        telemetry_file: "activity.parquet",
+        malicious: true,
+        scenario: Scenario::CrossBoundary,
     },
     EpisodeSpec {
         provider: "gcp",
@@ -56,6 +132,8 @@ pub(crate) const EPISODES: [EpisodeSpec; 9] = [
         category: "identity_compromise",
         table: "gcp_audit",
         telemetry_file: "audit.parquet",
+        malicious: true,
+        scenario: Scenario::Legacy,
     },
     EpisodeSpec {
         provider: "gcp",
@@ -63,6 +141,8 @@ pub(crate) const EPISODES: [EpisodeSpec; 9] = [
         category: "privilege_escalation",
         table: "gcp_audit",
         telemetry_file: "audit.parquet",
+        malicious: true,
+        scenario: Scenario::Legacy,
     },
     EpisodeSpec {
         provider: "gcp",
@@ -70,5 +150,34 @@ pub(crate) const EPISODES: [EpisodeSpec; 9] = [
         category: "persistence_credential_creation",
         table: "gcp_audit",
         telemetry_file: "audit.parquet",
+        malicious: true,
+        scenario: Scenario::Legacy,
+    },
+    EpisodeSpec {
+        provider: "gcp",
+        id: "gcp-iam-004",
+        category: "identity_activity_review",
+        table: "gcp_audit",
+        telemetry_file: "audit.parquet",
+        malicious: false,
+        scenario: Scenario::Benign,
+    },
+    EpisodeSpec {
+        provider: "gcp",
+        id: "gcp-iam-005",
+        category: "multi_stage_identity_attack",
+        table: "gcp_audit",
+        telemetry_file: "audit.parquet",
+        malicious: true,
+        scenario: Scenario::MultiStage,
+    },
+    EpisodeSpec {
+        provider: "gcp",
+        id: "gcp-iam-006",
+        category: "cross_boundary_identity_attack",
+        table: "gcp_audit",
+        telemetry_file: "audit.parquet",
+        malicious: true,
+        scenario: Scenario::CrossBoundary,
     },
 ];

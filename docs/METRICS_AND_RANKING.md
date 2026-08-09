@@ -388,3 +388,34 @@ Structured timeline entries preserve submitted order, event identity, observable
 Comparison and report claims must retain typed source references. Statistical summaries cite comparison IDs and contributing cell IDs; run metric claims cite metric pointers and, where applicable, trajectory sequences. A renderer cannot turn an uncited diagnostic statement into a benchmark conclusion.
 
 R2-08 through R2-10 provide normative contracts and positive and negative fixtures for investigation, evidence, coordination, efficiency, and stability. R2-11 registers their exact names, versions, directions, resource provenance requirements, missing-value behavior, typed constraints, and v0.3 compatibility policy. Profile normalization is deterministic and never modifies the source artifact.
+
+## 15. Schema 0.6 benchmark-science and topology projections
+
+Topology comparisons retain this authoritative sequence:
+
+```text
+objective measurements
+  -> raw metric vector
+  -> explicit versioned scoring profile
+  -> optional aggregate score
+  -> constraint-first ranking or comparison
+```
+
+The raw metric vector remains authoritative. Unavailable, missing, or unverifiable values are never silently converted to zero or imputed. If two deployments expose materially different observable capabilities, the report records the limitation instead of inventing equivalent values.
+
+The schema 0.6 observable topology projection keeps normalized `[0,1]` measurements separate. Controlled delta and contribution fields use `[-1,1]`, where the sign is defined by the explicit baseline/candidate order:
+
+| Dimension | Numerator / denominator | Edge and claim behavior |
+|---|---|---|
+| `agent_utilization` | active agents / declared agents | unavailable when no normative agent inventory exists |
+| `task_allocation` | delegated tasks / created tasks | unavailable with no created tasks |
+| `evidence_propagation` | cross-agent evidence items / evidence items | unavailable with no grounded evidence items |
+| `duplicate_work` | duplicate managed-tool calls / managed-tool calls | unavailable with no tool calls |
+| `coordination_overhead` | operational messages / operational messages plus tool calls | reported separately from investigation quality |
+| `parallelism` | overlapping active milliseconds / measured duration | unavailable without measured duration |
+| `investigation_quality` | explicit scoring-profile result | unavailable without the exact scoring profile |
+| `verified_cost_utilization` | verified cost / declared cost cap | unavailable without verified resource provenance |
+| `topology_resilience` | controlled fault-pair result | never inferred from an ordinary run |
+| `role_contribution` | controlled ablation result | never inferred from observational traces |
+
+Policy-bound paired comparisons record the statistical-policy hash, comparison class, sample count, confidence interval at the declared confidence level, wins/ties/losses, effect-size applicability, multiplicity policy, and claim strength. Below-threshold or zero-crossing results remain descriptive. When a Holm-Bonferroni family contains multiple comparisons but adjusted per-comparison evidence is unavailable, HuntEval fails closed: every claim remains descriptive, `conclusive` is false, role contribution is unavailable, and the report records `multiplicity_adjusted_inference_unavailable`. Controlled topology output additionally records exact topology and experiment hashes and is always labeled experimental and topology-dependent.

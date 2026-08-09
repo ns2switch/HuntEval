@@ -1,0 +1,12 @@
+{
+  "acceptable_conclusions": [
+    "The observed identity activity is consistent with authorized administration."
+  ],
+  "episode_id": "azure-iam-004",
+  "expected_attack_path": [],
+  "expected_attack_techniques": [],
+  "malicious_entity_ids": [],
+  "malicious_event_ids": [],
+  "minimum_evidence_items": 1,
+  "schema_version": "0.3"
+}

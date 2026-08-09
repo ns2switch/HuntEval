@@ -313,3 +313,45 @@ Public run verification checks safe paths, supported versions, run identity, exa
 **Status:** Accepted.
 
 One infrastructure boundary performs deterministic bounded redaction for process diagnostics, configuration values, report metadata, fixtures, snapshots, CI artifacts, and release inputs. Structured values are removed before serialization where possible. Secret findings contain only stable rule identifiers, safe relative locations, and one-way fingerprints; matched values are never emitted. Secret scanning is a release gate and does not replace external secret management.
+
+## ADR-053 — Add immutable benchmark-science contracts
+
+**Status:** Accepted.
+
+Schema version 0.6 adds benchmark-science artifacts for episode classification and review, statistical policy and calibration, contribution validation, deployment topology, and controlled topology experiments. Schemas 0.3 through 0.5 remain immutable. Readers use explicit compatibility behavior, writers emit only their current authored form, and unknown versions or fields fail closed.
+
+## ADR-054 — Separate public episode classification from private review evidence
+
+**Status:** Accepted.
+
+Public episode metadata uses bounded taxonomies for difficulty, required capabilities, and investigation shape. Ground truth, reference queries, expected recovery details, reviewer notes, and hidden partition membership remain private. A review record binds exact public, private, and reference-query hashes. Any bound-byte change invalidates approval.
+
+## ADR-055 — Make statistical claim policy explicit and versioned
+
+**Status:** Accepted.
+
+A content-addressed statistical policy defines comparison class, minimum paired samples, interval and effect-size methods, multiplicity handling, calibration policy, and permitted claim strength. Results below the declared threshold remain descriptive and cannot become conclusive. Missing pairs and unavailable metrics are never imputed.
+
+## ADR-056 — Use one bounded contributor service behind the CLI
+
+**Status:** Accepted.
+
+Episode scaffolding, validation, documentation, and review-bundle generation use application services behind filesystem ports. Scaffolding writes only beneath a validated new root and never overwrites. Validation is read-only. Public results contain safe reason codes and hashes but no ground truth, private paths, reference answers, or reviewer notes.
+
+## ADR-057 — Represent deployment topology as a normative artifact
+
+**Status:** Accepted.
+
+A framework-neutral schema 0.6 topology artifact declares agents, roles, specialization, model assignments, delegation and coordination relationships, memory boundaries, task allocation, execution pattern, and critic/reviewer roles. Protocol registration must conform to the artifact but does not replace it. Single-agent topology is a first-class baseline.
+
+## ADR-058 — Prove control-variable equivalence for topology experiments
+
+**Status:** Accepted.
+
+A controlled topology experiment binds baseline and candidate topology hashes, paired cells, exact changed variables, and hashes for every declared control. Episode, seed, budgets, models, managed-tool policy, scoring profile, execution policy, schemas, and relevant binaries remain equal unless explicitly experimental. Undeclared drift makes the comparison ineligible.
+
+## ADR-059 — Separate topology observation from experimental contribution
+
+**Status:** Accepted.
+
+Investigation quality, coordination overhead, duplicate work, evidence propagation, task allocation, parallelism, utilization, resilience, and verified resources remain separate observable dimensions. Observational traces do not establish contribution. Marginal-agent and role contribution require a controlled ablation and are always labeled experimental and topology-dependent.

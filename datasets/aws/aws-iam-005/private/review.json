@@ -1,0 +1,13 @@
+{
+  "schema_version": "0.6",
+  "review_id": "review-aws-iam-005-r4",
+  "episode_id": "aws-iam-005",
+  "reviewer_id": "anibal.canada",
+  "reviewed_at": "2026-08-09T14:45:42Z",
+  "status": "approved",
+  "public_package_sha256": "6f3a8ab38cb0f5176bdf4b3b408a03f2113c455f699106ea0610377b3458108e",
+  "private_ground_truth_sha256": "b1b074f60ef24cfc7c7d580cc9c019fe0097e51c81ad6deeaf2d0e3add35b193",
+  "reference_query_sha256": "48a409250d9b1d2767bc544db021da150f2ed8a10becc082d1e12ef1f5dcc2e9",
+  "review_policy_sha256": "d7b32ea129bf68b65fa612c906eb17cd3b6d97d48869a8561eec96af5bc60a0f",
+  "reason_codes": []
+}

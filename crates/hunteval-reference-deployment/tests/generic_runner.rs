@@ -242,6 +242,7 @@ fn generic_engine_mediates_every_provider_and_topology() -> Result<(), Box<dyn s
         for (topology, architecture) in [
             ("single-agent", "single_agent"),
             ("supervisor-worker", "supervisor_worker"),
+            ("supervisor-specialist", "hierarchical"),
             ("supervisor-specialists", "hierarchical"),
         ] {
             let deployment = deployment_root.join("deployment.yaml");
@@ -302,7 +303,7 @@ fn generic_engine_mediates_every_provider_and_topology() -> Result<(), Box<dyn s
             completed += 1;
         }
     }
-    assert_eq!(completed, 9);
+    assert_eq!(completed, 12);
     assert_eq!(tool.calls.load(Ordering::SeqCst), expected_calls);
     Ok(())
 }

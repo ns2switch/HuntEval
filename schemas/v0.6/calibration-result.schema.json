@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hunteval.dev/schemas/v0.6/calibration-result.schema.json",
+  "title": "HuntEval calibration result v0.6",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "policy_sha256", "sample_count", "applicability", "brier_score", "severity_accuracy", "reason_code"],
+  "properties": {
+    "schema_version": {"const": "0.6"},
+    "policy_sha256": {"$ref": "common.schema.json#/$defs/sha256"},
+    "sample_count": {"type": "integer", "minimum": 0, "maximum": 1000000},
+    "applicability": {"enum": ["applicable", "unavailable", "not_applicable"]},
+    "brier_score": {"type": ["number", "null"], "minimum": 0.0, "maximum": 1.0},
+    "severity_accuracy": {"type": ["number", "null"], "minimum": 0.0, "maximum": 1.0},
+    "reason_code": {"anyOf": [{"$ref": "common.schema.json#/$defs/reason_code"}, {"type": "null"}]}
+  }
+}

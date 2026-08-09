@@ -6,6 +6,7 @@
 mod artifacts;
 mod benchmark;
 mod budget;
+mod dataset_review;
 mod episode_loader;
 mod faults;
 mod hashing;
@@ -18,6 +19,9 @@ mod reporting;
 mod run;
 mod scheduling;
 mod sql_tool;
+mod topology_ablation;
+mod topology_control;
+mod topology_report;
 mod vertical_slice;
 
 pub use artifacts::{ArtifactError, ArtifactWriter, RunManifest};
@@ -27,10 +31,15 @@ pub use benchmark::{
     BenchmarkExecutionPlan, BenchmarkJournal, BenchmarkJournalError, BenchmarkManifest,
     BenchmarkMetricGroup, BenchmarkMetrics, BenchmarkRunOptions, BenchmarkRunSummary,
     BenchmarkService, BenchmarkServiceError, BenchmarkState, CellExecution, CellExecutionFailure,
-    ComparisonEligibility, ComparisonReason, ComparisonStatus, ProductionCellExecutor, RetryPolicy,
-    RunCell, load_benchmark, load_stored_definition, resolve_benchmark, resolve_execution_plan,
+    ComparisonEligibility, ComparisonReason, ComparisonStatus, ProductionCellExecutor,
+    ResolvedTopology, RetryPolicy, RunCell, load_benchmark, load_deployment_topology,
+    load_stored_definition, resolve_benchmark, resolve_execution_plan,
 };
 pub use budget::{BudgetError, BudgetLedger, BudgetLimits, BudgetUsage};
+pub use dataset_review::{
+    DatasetReviewError, DatasetReviewValidation, DatasetReviewValidationStatus,
+    create_approved_dataset_review, hash_public_package, validate_dataset_review,
+};
 pub use episode_loader::{ArtifactDigests, EpisodeLoadError, EpisodePackage, PublicEpisodePackage};
 pub use faults::FaultController;
 pub use hashing::{HashingError, hash_file};
@@ -51,6 +60,16 @@ pub use run::{
 };
 pub use scheduling::{ScheduledTask, deterministic_schedule};
 pub use sql_tool::DuckDbManagedTool;
+pub use topology_ablation::{
+    ControlledTopologyAblation, TopologyAblationObservations, execute_controlled_topology_ablation,
+};
+pub use topology_control::{
+    TopologyControlError, build_controlled_topology_analysis, evaluate_topology_equivalence,
+    registration_conforms_to_topology,
+};
+pub use topology_report::{
+    ControlledTopologyReportError, ControlledTopologyReportInput, render_controlled_topology_report,
+};
 pub use vertical_slice::run_vertical_slice;
 
 /// Replays a stored trajectory and returns its event count and exact-byte hash.

@@ -1,0 +1,1 @@
+{"schema_version":"0.6","episode_id":"aws-iam-001","status":"valid","package_sha256":"1111111111111111111111111111111111111111111111111111111111111111","checks":[{"name":"schema_validation","status":"passed","reason_code":null},{"name":"ground_truth_leakage","status":"passed","reason_code":null},{"name":"reference_recovery","status":"passed","reason_code":null}]}

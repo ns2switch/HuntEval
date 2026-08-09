@@ -1,0 +1,1 @@
+{"schema_version":"0.6","experiment_sha256":"1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef","status":"eligible","declared_changes":["/agents/critic"],"observed_changes":["/agents/critic"],"mismatch_reason_codes":[]}

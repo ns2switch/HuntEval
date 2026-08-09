@@ -151,7 +151,7 @@ fn evaluate(
         duplicate_tool_calls: 0,
         useful_messages: 0,
         operational_messages: 0,
-        benign_scored_episode: package.public().manifest.benign_evaluation,
+        benign_scored_episode: package.ground_truth().is_benign_scored_episode(),
         evidence_items: evidence,
         grounded_evidence_items: evidence,
         findings_submitted: submission.finding_ids.len() as u64,

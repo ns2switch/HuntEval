@@ -3,16 +3,26 @@ id: cloud-mvp
 deployments:
   - deployments/single-agent-scripted
   - deployments/two-agent-scripted
+  - deployments/supervisor-specialist-scripted
 episodes:
   - datasets/aws/aws-iam-001
   - datasets/aws/aws-iam-002
   - datasets/aws/aws-iam-003
+  - datasets/aws/aws-iam-004
+  - datasets/aws/aws-iam-005
+  - datasets/aws/aws-iam-006
   - datasets/azure/azure-iam-001
   - datasets/azure/azure-iam-002
   - datasets/azure/azure-iam-003
+  - datasets/azure/azure-iam-004
+  - datasets/azure/azure-iam-005
+  - datasets/azure/azure-iam-006
   - datasets/gcp/gcp-iam-001
   - datasets/gcp/gcp-iam-002
   - datasets/gcp/gcp-iam-003
+  - datasets/gcp/gcp-iam-004
+  - datasets/gcp/gcp-iam-005
+  - datasets/gcp/gcp-iam-006
 seeds: [11, 29]
 repetitions: 2
 scoring_profile: examples/scoring-profile-balanced.yaml

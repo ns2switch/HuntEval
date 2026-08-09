@@ -17,8 +17,15 @@ use serde::Deserialize;
 use thiserror::Error;
 
 mod catalog;
+mod contributor;
+mod contributor_output;
 mod package;
 
+pub use contributor::{
+    ContributorCheck, ContributorCheckStatus, ContributorValidationResult,
+    ContributorValidationStatus, ScaffoldRequest, scaffold_episode, validate_episode,
+};
+pub use contributor_output::{build_review_bundle_manifest, render_public_documentation};
 pub use package::generate_all;
 
 /// One provider-native synthetic CloudTrail row without ground-truth labels.
@@ -119,4 +126,8 @@ pub enum FixtureGenerationError {
     DuplicateEventId,
     #[error("fixture output path must have a parent directory")]
     OutputHasNoParent,
+    #[error("contributor target is unsafe, invalid, or already exists")]
+    UnsafeContributorTarget,
+    #[error("contributor package is malformed")]
+    MalformedContributorPackage,
 }

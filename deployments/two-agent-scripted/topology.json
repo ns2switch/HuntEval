@@ -1,0 +1,35 @@
+{
+  "schema_version": "0.6",
+  "id": "supervisor-worker-scripted-topology",
+  "kind": "supervisor_worker",
+  "coordination": "centralized",
+  "model_composition": "homogeneous",
+  "memory": "shared",
+  "task_allocation": "static",
+  "execution_pattern": "sequential",
+  "agents": [
+    {
+      "id": "supervisor",
+      "role": "orchestrator",
+      "specialization": "supervisor",
+      "model_assignment": "scripted-reference",
+      "memory_group": "shared-memory",
+      "reviewer": false
+    },
+    {
+      "id": "investigator",
+      "role": "investigator",
+      "specialization": "generalist",
+      "model_assignment": "scripted-reference",
+      "memory_group": "shared-memory",
+      "reviewer": false
+    }
+  ],
+  "relationships": [
+    {
+      "source": "supervisor",
+      "target": "investigator",
+      "kind": "delegates_to"
+    }
+  ]
+}

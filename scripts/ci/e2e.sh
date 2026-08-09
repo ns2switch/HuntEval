@@ -36,6 +36,27 @@ readonly benchmark="$output_root/cloud-mvp"
     >"$output_root/comparison.json"
 "$cli" report generate "$benchmark" --format json
 "$cli" report generate "$benchmark" --format html
+python3 scripts/ci/collect-r4-topology-experiment.py \
+    "$HUNTEVAL_CI_ROOT" "$benchmark" "$benchmark/benchmark-report.json" \
+    "$HUNTEVAL_CI_ROOT/deployments/single-agent-scripted/topology.json" \
+    "$HUNTEVAL_CI_ROOT/deployments/supervisor-specialist-scripted/topology.json" \
+    "$output_root/topology-experiment.json" "$output_root/topology-observations.json"
+"$cli" benchmark topology-report \
+    --experiment "$output_root/topology-experiment.json" \
+    --baseline-topology deployments/single-agent-scripted/topology.json \
+    --candidate-topology deployments/supervisor-specialist-scripted/topology.json \
+    --statistical-policy examples/contracts/v0.6/statistical-policy.json \
+    --scoring-profile examples/scoring-profile-balanced.yaml \
+    --observations "$output_root/topology-observations.json" \
+    --seed 17 --format json >"$output_root/topology-report.json"
+"$cli" benchmark topology-report \
+    --experiment "$output_root/topology-experiment.json" \
+    --baseline-topology deployments/single-agent-scripted/topology.json \
+    --candidate-topology deployments/supervisor-specialist-scripted/topology.json \
+    --statistical-policy examples/contracts/v0.6/statistical-policy.json \
+    --scoring-profile examples/scoring-profile-balanced.yaml \
+    --observations "$output_root/topology-observations.json" \
+    --seed 17 --format html >"$output_root/topology-report.html"
 "$cli" report verify "$benchmark" --format json >"$output_root/verification.json"
 find "$benchmark/runs" -type f -name manifest.json -print0 \
     | sort -z \
@@ -57,7 +78,8 @@ python3 scripts/ci/collect-r2-evidence.py \
     cd "$output_root"
     sha256sum \
         benchmark-report.json benchmark-report.html r2-evidence.json verification.json \
-        run-verification.jsonl generated-secret-scan.json \
+        run-verification.jsonl generated-secret-scan.json topology-experiment.json \
+        topology-observations.json topology-report.json topology-report.html \
         >SHA256SUMS
     sha256sum -c SHA256SUMS
 )

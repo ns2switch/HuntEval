@@ -3,7 +3,7 @@ mod manifest;
 mod resolver;
 mod service;
 
-use hunteval_domain::{BenchmarkDefinitionError, SchemaVersion};
+use hunteval_domain::{BenchmarkDefinitionError, ContractValidationError, SchemaVersion};
 use thiserror::Error;
 
 pub use journal::{
@@ -15,6 +15,7 @@ pub use manifest::{
 };
 pub use resolver::resolve_benchmark;
 pub use resolver::resolve_execution_plan;
+pub use resolver::{ResolvedTopology, load_deployment_topology};
 pub(crate) use service::BenchmarkCellResult;
 pub use service::{
     BenchmarkCellExecutor, BenchmarkExecutionPlan, BenchmarkMetricGroup, BenchmarkMetrics,
@@ -48,6 +49,10 @@ pub enum BenchmarkError {
     ArtifactLimit,
     #[error("benchmark artifact descriptor is invalid")]
     InvalidDescriptor,
+    #[error("deployment topology is invalid: {0}")]
+    InvalidTopology(#[from] ContractValidationError),
+    #[error("deployment topology JSON is malformed")]
+    MalformedTopology,
     #[error("resolved benchmark definition is invalid: {0}")]
     Domain(#[from] BenchmarkDefinitionError),
     #[error("benchmark could not be read: {0}")]

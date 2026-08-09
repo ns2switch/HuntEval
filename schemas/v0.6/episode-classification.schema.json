@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hunteval.dev/schemas/v0.6/episode-classification.schema.json",
+  "title": "HuntEval episode classification v0.6",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "episode_id", "difficulty", "capabilities", "investigation_shapes"],
+  "properties": {
+    "schema_version": {"const": "0.6"},
+    "episode_id": {"$ref": "common.schema.json#/$defs/identifier"},
+    "difficulty": {"enum": ["introductory", "intermediate", "advanced"]},
+    "capabilities": {"type": "array", "minItems": 1, "maxItems": 32, "uniqueItems": true, "items": {"enum": ["identity_analysis", "timeline_reconstruction", "cross_boundary_correlation", "benign_disambiguation", "attack_path_analysis", "evidence_correlation"]}},
+    "investigation_shapes": {"type": "array", "minItems": 1, "maxItems": 8, "uniqueItems": true, "items": {"enum": ["single_stage", "multi_stage", "cross_boundary", "ambiguous_alternative"]}}
+  }
+}

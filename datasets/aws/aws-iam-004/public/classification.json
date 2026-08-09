@@ -1,0 +1,13 @@
+{
+  "capabilities": [
+    "identity_analysis",
+    "benign_disambiguation"
+  ],
+  "difficulty": "intermediate",
+  "episode_id": "aws-iam-004",
+  "investigation_shapes": [
+    "single_stage",
+    "ambiguous_alternative"
+  ],
+  "schema_version": "0.6"
+}

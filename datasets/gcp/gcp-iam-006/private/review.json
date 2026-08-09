@@ -1,0 +1,13 @@
+{
+  "schema_version": "0.6",
+  "review_id": "review-gcp-iam-006-r4",
+  "episode_id": "gcp-iam-006",
+  "reviewer_id": "anibal.canada",
+  "reviewed_at": "2026-08-09T14:45:42Z",
+  "status": "approved",
+  "public_package_sha256": "27b6f73f2828d3def5c57945ef1a17c30f279f6eef83a54d75e49dd85a0241d4",
+  "private_ground_truth_sha256": "51e748ee078a0aaadbdfefa0d2706dd176e913341f62070c7c422c9f4393c762",
+  "reference_query_sha256": "bcf1f80ea726ed28a98464ce3842eb43b6f4fa28dad0518aaa823b95eac7007f",
+  "review_policy_sha256": "d7b32ea129bf68b65fa612c906eb17cd3b6d97d48869a8561eec96af5bc60a0f",
+  "reason_codes": []
+}

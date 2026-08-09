@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hunteval.dev/schemas/v0.6/common.schema.json",
+  "title": "HuntEval common contract primitives v0.6",
+  "$defs": {
+    "identifier": {"type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"},
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "utc_timestamp": {"type": "string", "format": "date-time", "pattern": "Z$"},
+    "reason_code": {"type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-z][a-z0-9_]*$"},
+    "json_pointer": {"type": "string", "minLength": 1, "maxLength": 1024, "pattern": "^/(?:[^~/]|~0|~1)+(?:/(?:[^~/]|~0|~1)+)*$"},
+    "metric_value": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["applicability", "value"],
+      "properties": {
+        "applicability": {"enum": ["applicable", "unavailable", "not_applicable"]},
+        "value": {"type": ["number", "null"]},
+        "reason_code": {"anyOf": [{"$ref": "#/$defs/reason_code"}, {"type": "null"}]}
+      }
+    }
+  }
+}

@@ -31,7 +31,7 @@ The original MVP sequence is recorded in `docs/EXECUTION_PLAN.md`. Current R2 de
 
 R3 hardening is complete. The implementation adds an explicit schema 0.5 execution policy, executable Linux capability probes, one supervised Bubblewrap boundary for deployments and managed DuckDB workers, protocol property/fuzz/conformance coverage, standalone run verification, centralized bounded redaction, and deterministic secret scanning. The implementation revision `2d34517` passed all eight GitHub Actions jobs in run `31305219082`; exact local and remote completion evidence is recorded in `docs/R3_COMPLETION_EVIDENCE.md`. R2 completion evidence and its external-enforcement caveat remain unchanged.
 
-R4 is the active implementation milestone. Its governed sequence covers episode expansion, statistical policy, contributor tooling, and controlled multi-agent topology benchmarking. No R4 implementation or completion evidence is claimed yet.
+R4 is the active closure milestone. Schema 0.6 benchmark-science contracts, benign and extended cloud fixtures, nine content-addressed dataset approvals, policy-bound statistics, bounded contributor workflows, normative reference topology artifacts, controlled-variable equivalence, topology-aware metrics, and deterministic topology reports are implemented. The 108-cell E2E now produces an auditable controlled topology experiment and JSON/HTML reports. A dedicated revision and passing GitHub Actions evidence are still required before R4 is marked complete.
 
 ## Quick start
 
@@ -58,6 +58,16 @@ cargo run -p hunteval-cli -- deployment conformance \
   target/debug/hunteval-reference-deployment --format json -- \
   --topology supervisor-worker
 cargo run -p hunteval-cli -- run verify runs/latest --format json
+cargo run -p hunteval-fixture-tool -- scaffold \
+  --provider aws --episode-id aws-iam-900 contributions/aws-iam-900
+# Canonical R4 episodes remain incomplete until an independent review record exists.
+cargo run -p hunteval-fixture-tool -- validate datasets/aws/aws-iam-004
+cargo run -p hunteval-fixture-tool -- document datasets/aws/aws-iam-004
+cargo run -p hunteval-fixture-tool -- review-bundle datasets/aws/aws-iam-004
+cargo run -p hunteval-cli -- dataset review-record datasets/aws/aws-iam-004 \
+  --review-policy policies/dataset-review-v1.json \
+  --review-id review-aws-iam-004-r4 --reviewer-id reviewer-001 \
+  --reviewed-at 2026-08-09T00:00:00Z --confirm-independent-approval
 ./scripts/ci/secret-scan.sh
 ```
 
@@ -102,7 +112,7 @@ cargo run -p hunteval-fixture-tool -- generate datasets/aws/aws-iam-001
 - `docs/EXECUTION_PLAN.md`: executable pull-request sequence, contracts, tests, and quality gates.
 - `docs/ROADMAP.md`: prioritized post-MVP releases, dependencies, and exit criteria through v1.0.
 - `docs/BENCHMARK_CLI.md`: benchmark execution, recovery, comparison, output, and exit-code reference.
-- `docs/USE_CASE_CLOUD_DEPLOYMENT_COMPARISON.md`: end-to-end example comparing two deployments over the 36-cell cloud MVP matrix.
+- `docs/USE_CASE_CLOUD_DEPLOYMENT_COMPARISON.md`: end-to-end example comparing three reference topologies over the current cloud benchmark matrix.
 - `docs/R2_IMPLEMENTATION_PLAN.md`: canonical delivery status, dependency order, implementation steps, and acceptance gates through R2-18.
 - `docs/R3_IMPLEMENTATION_PLAN.md`: delivery status, contracts, tests, risks, and acceptance gates for R3.1 through R3.3.
 - `docs/R3_COMPLETION_EVIDENCE.md`: exact R3 revisions, gates, artifact hashes, limitations, and remote CI evidence.

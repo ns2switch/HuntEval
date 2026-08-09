@@ -148,6 +148,23 @@ define_identifier!(
     FaultProfileId,
     "Opaque identifier for a versioned benchmark fault profile."
 );
+define_identifier!(
+    DatasetReviewId,
+    "Opaque identifier for an independent dataset review."
+);
+define_identifier!(ReviewerId, "Opaque identifier for a dataset reviewer.");
+define_identifier!(
+    TopologyId,
+    "Opaque identifier for a versioned deployment topology."
+);
+define_identifier!(
+    TopologyExperimentId,
+    "Opaque identifier for a controlled topology experiment."
+);
+define_identifier!(
+    StatisticalPolicyId,
+    "Opaque identifier for a versioned statistical policy."
+);
 
 #[cfg(test)]
 mod tests {

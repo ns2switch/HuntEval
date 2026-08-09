@@ -1,14 +1,14 @@
-# Use case: compare two cloud threat-hunting deployments
+# Use case: compare three cloud threat-hunting topologies
 
 ## Goal
 
-An evaluation engineer wants to compare a scripted single-agent deployment with a scripted two-agent deployment across the same AWS, Azure, and Google Cloud identity investigations. The comparison must use identical episodes and paired seeds, keep ground truth hidden from both deployments, and remain recoverable if the controller is interrupted.
+An evaluation engineer wants to compare scripted single-agent, supervisor-worker, and supervisor-specialist deployments across the same AWS, Azure, and Google Cloud identity investigations. The comparison must use identical episodes and paired seeds, keep ground truth hidden from every deployment, and remain recoverable if the controller is interrupted.
 
 This use case answers a concrete question:
 
-> Can both deployment architectures complete the same 18 episode-and-seed pairs with verified, directly comparable artifacts?
+> Can all three deployment architectures complete the same 36 episode-and-seed pairs with verified, directly comparable artifacts?
 
-It demonstrates benchmark execution and comparison mechanics. It does not establish that either scripted reference deployment represents production performance.
+It demonstrates benchmark execution and comparison mechanics. It does not establish that any scripted reference deployment represents production performance.
 
 ## Inputs
 
@@ -16,16 +16,17 @@ The repository provides everything needed for the example:
 
 | Input | Purpose |
 |---|---|
-| `examples/cloud-mvp-benchmark.yaml` | Defines two deployments, nine episodes, two paired seeds, and the scoring profile. |
+| `examples/cloud-mvp-benchmark.yaml` | Defines three deployments, eighteen episodes, two paired seeds, and the scoring profile. |
 | `deployments/single-agent-scripted` | External single-agent reference deployment. |
 | `deployments/two-agent-scripted` | External supervisor-and-investigator reference deployment. |
-| `datasets/{aws,azure,gcp}` | Nine physically separated public/private episode packages. |
+| `deployments/supervisor-specialist-scripted` | External supervisor-and-specialist reference deployment bounded to two agents for legacy episode compatibility. |
+| `datasets/{aws,azure,gcp}` | Eighteen physically separated public/private episode packages. |
 | `examples/scoring-profile-balanced.yaml` | Versioned metric weights used by every cell. |
 
-The Cartesian matrix contains 36 cells:
+The Cartesian matrix contains 108 cells:
 
 ```text
-2 deployments × 9 episodes × 2 seeds = 36 cells
+3 deployments × 18 episodes × 2 seeds = 108 cells
 ```
 
 ## 1. Build the trusted components
@@ -48,7 +49,7 @@ target/debug/hunteval benchmark validate \
 Expected stdout:
 
 ```json
-{"benchmark_id":"cloud-mvp","run_cells":36}
+{"benchmark_id":"cloud-mvp","run_cells":108}
 ```
 
 Validation resolves every referenced artifact, rejects unsafe paths and duplicate dimensions, and derives stable cell identities without launching a deployment.
@@ -67,7 +68,7 @@ target/debug/hunteval benchmark run \
 Expected successful summary:
 
 ```json
-{"total":36,"completed":36,"failed":0,"pending":0,"non_comparable":0}
+{"total":108,"completed":108,"failed":0,"pending":0,"non_comparable":0}
 ```
 
 For each cell, HuntEval starts the selected deployment in the networkless Linux sandbox, exposes only public episode data, mediates its SQL request through the constrained DuckDB worker, validates the JSONL trajectory, evaluates the final submission privately, and records exact artifact hashes.
@@ -140,6 +141,6 @@ runs/cloud-mvp-use-case/
 
 ## Expected decision
 
-When the command reports 36 completed cells and an eligible comparison, the engineer may proceed to analyze paired metrics for the two deployment architectures. An ineligible comparison is not a low score: it means the available cells cannot support a valid like-for-like claim and the listed reason codes must be resolved first.
+When the benchmark reports 108 completed cells and the selected pairwise comparison reports 36 eligible pairs, the engineer may proceed to analyze paired metrics for those two deployment architectures. An ineligible comparison is not a low score: it means the available cells cannot support a valid like-for-like claim and the listed reason codes must be resolved first.
 
 The complete command and exit-code reference is in [BENCHMARK_CLI.md](BENCHMARK_CLI.md).

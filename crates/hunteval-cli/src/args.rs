@@ -28,9 +28,31 @@ pub(crate) enum Command {
         #[command(subcommand)]
         command: BenchmarkCommand,
     },
+    Dataset {
+        #[command(subcommand)]
+        command: DatasetCommand,
+    },
     Report {
         #[command(subcommand)]
         command: ReportCommand,
+    },
+}
+
+#[derive(Debug, Subcommand)]
+pub(crate) enum DatasetCommand {
+    /// Render a content-addressed approval after an independent human review.
+    ReviewRecord {
+        episode: PathBuf,
+        #[arg(long)]
+        review_policy: PathBuf,
+        #[arg(long)]
+        review_id: String,
+        #[arg(long)]
+        reviewer_id: String,
+        #[arg(long)]
+        reviewed_at: String,
+        #[arg(long, required = true)]
+        confirm_independent_approval: bool,
     },
 }
 
@@ -127,6 +149,24 @@ pub(crate) enum BenchmarkCommand {
         left: String,
         #[arg(long)]
         right: String,
+    },
+    TopologyReport {
+        #[arg(long)]
+        experiment: PathBuf,
+        #[arg(long)]
+        baseline_topology: PathBuf,
+        #[arg(long)]
+        candidate_topology: PathBuf,
+        #[arg(long)]
+        statistical_policy: PathBuf,
+        #[arg(long)]
+        scoring_profile: PathBuf,
+        #[arg(long)]
+        observations: PathBuf,
+        #[arg(long, default_value_t = 0)]
+        seed: u64,
+        #[arg(long, value_enum, default_value_t = ReportFormatArgument::Json)]
+        format: ReportFormatArgument,
     },
 }
 

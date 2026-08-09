@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hunteval.dev/schemas/v0.6/topology-analysis.schema.json",
+  "title": "HuntEval topology analysis v0.6",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "baseline_topology_sha256", "candidate_topology_sha256", "experiment_sha256", "analysis_kind", "topology_dependent", "metrics", "limitations"],
+  "properties": {
+    "schema_version": {"const": "0.6"},
+    "baseline_topology_sha256": {"$ref": "common.schema.json#/$defs/sha256"},
+    "candidate_topology_sha256": {"$ref": "common.schema.json#/$defs/sha256"},
+    "experiment_sha256": {"anyOf": [{"$ref": "common.schema.json#/$defs/sha256"}, {"type": "null"}]},
+    "analysis_kind": {"enum": ["observational", "controlled_ablation"]},
+    "topology_dependent": {"type": "boolean"},
+    "metrics": {"type": "object", "minProperties": 1, "maxProperties": 128, "additionalProperties": {"$ref": "common.schema.json#/$defs/metric_value"}},
+    "limitations": {"type": "array", "maxItems": 64, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reason_code"}}
+  }
+}

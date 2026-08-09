@@ -68,8 +68,8 @@ fn benchmark_manifest_adapts_v03_into_a_resolved_v04_definition()
     let root = workspace_root()?;
     let definition = resolve_benchmark(&root.join("examples/cloud-mvp-benchmark.yaml"), &root)?;
     assert_eq!(definition.schema_version, SchemaVersion::new(0, 4));
-    assert_eq!(definition.cell_count()?, 36);
-    assert_eq!(definition.cells()?.len(), 36);
+    assert_eq!(definition.cell_count()?, 108);
+    assert_eq!(definition.cells()?.len(), 108);
     Ok(())
 }
 

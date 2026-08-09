@@ -6,6 +6,7 @@ fn all_reference_topologies_pass_public_conformance() {
     for topology in [
         "single-agent",
         "supervisor-worker",
+        "supervisor-specialist",
         "supervisor-specialists",
     ] {
         let result = run_conformance(executable, &["--topology".to_owned(), topology.to_owned()]);

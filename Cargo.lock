@@ -1134,9 +1134,11 @@ dependencies = [
  "arrow-array 59.2.0",
  "arrow-schema 59.2.0",
  "clap",
+ "hunteval-domain",
  "parquet",
  "serde",
  "serde_json",
+ "serde_yaml_ng",
  "tempfile",
  "thiserror",
 ]

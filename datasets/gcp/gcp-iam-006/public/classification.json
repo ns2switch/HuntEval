@@ -1,0 +1,16 @@
+{
+  "capabilities": [
+    "identity_analysis",
+    "timeline_reconstruction",
+    "cross_boundary_correlation",
+    "attack_path_analysis"
+  ],
+  "difficulty": "advanced",
+  "episode_id": "gcp-iam-006",
+  "investigation_shapes": [
+    "multi_stage",
+    "cross_boundary",
+    "ambiguous_alternative"
+  ],
+  "schema_version": "0.6"
+}

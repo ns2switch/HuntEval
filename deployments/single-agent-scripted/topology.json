@@ -1,0 +1,21 @@
+{
+  "schema_version": "0.6",
+  "id": "single-agent-scripted-topology",
+  "kind": "single_agent",
+  "coordination": "centralized",
+  "model_composition": "homogeneous",
+  "memory": "isolated",
+  "task_allocation": "static",
+  "execution_pattern": "sequential",
+  "agents": [
+    {
+      "id": "investigator",
+      "role": "investigator",
+      "specialization": "generalist",
+      "model_assignment": "scripted-reference",
+      "memory_group": "investigator-memory",
+      "reviewer": false
+    }
+  ],
+  "relationships": []
+}

@@ -152,6 +152,7 @@ fn all_reference_topologies_complete_a_managed_protocol_session()
     for topology in [
         "single-agent",
         "supervisor-worker",
+        "supervisor-specialist",
         "supervisor-specialists",
     ] {
         let seed = 11;

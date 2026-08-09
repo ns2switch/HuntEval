@@ -1,0 +1,10 @@
+{
+  "baseline": {
+    "investigation_quality": [0.60, 0.62, 0.58],
+    "coordination_overhead": [0.20, 0.22, 0.18]
+  },
+  "candidate": {
+    "investigation_quality": [0.72, 0.74, 0.70],
+    "coordination_overhead": [0.30, 0.32, 0.28]
+  }
+}

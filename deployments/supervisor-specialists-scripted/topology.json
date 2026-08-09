@@ -1,0 +1,53 @@
+{
+  "schema_version": "0.6",
+  "id": "supervisor-specialists-scripted-topology",
+  "kind": "hierarchical",
+  "coordination": "centralized",
+  "model_composition": "homogeneous",
+  "memory": "shared",
+  "task_allocation": "dynamic",
+  "execution_pattern": "parallel",
+  "agents": [
+    {
+      "id": "supervisor",
+      "role": "orchestrator",
+      "specialization": "supervisor",
+      "model_assignment": "scripted-reference",
+      "memory_group": "shared-memory",
+      "reviewer": false
+    },
+    {
+      "id": "identity-specialist",
+      "role": "identity_investigator",
+      "specialization": "identity_specialist",
+      "model_assignment": "scripted-reference",
+      "memory_group": "shared-memory",
+      "reviewer": false
+    },
+    {
+      "id": "persistence-specialist",
+      "role": "persistence_investigator",
+      "specialization": "timeline_specialist",
+      "model_assignment": "scripted-reference",
+      "memory_group": "shared-memory",
+      "reviewer": false
+    }
+  ],
+  "relationships": [
+    {
+      "source": "supervisor",
+      "target": "identity-specialist",
+      "kind": "delegates_to"
+    },
+    {
+      "source": "supervisor",
+      "target": "persistence-specialist",
+      "kind": "delegates_to"
+    },
+    {
+      "source": "identity-specialist",
+      "target": "persistence-specialist",
+      "kind": "coordinates_with"
+    }
+  ]
+}

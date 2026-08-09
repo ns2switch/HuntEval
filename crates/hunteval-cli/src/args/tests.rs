@@ -1,8 +1,8 @@
 use clap::Parser;
 
 use super::{
-    BenchmarkCommand, Cli, Command, DeploymentCommand, OutputFormatArgument, ReportCommand,
-    RetryArgument, RunCommand, SystemCommand,
+    BenchmarkCommand, Cli, Command, DatasetCommand, DeploymentCommand, OutputFormatArgument,
+    ReportCommand, ReportFormatArgument, RetryArgument, RunCommand, SystemCommand,
 };
 
 #[test]
@@ -20,6 +20,69 @@ fn parses_resume_retry_policy() -> Result<(), clap::Error> {
         Some(Command::Benchmark {
             command: BenchmarkCommand::Resume {
                 retry: RetryArgument::Interrupted,
+                ..
+            }
+        })
+    ));
+    Ok(())
+}
+
+#[test]
+fn review_record_requires_explicit_approval_confirmation() -> Result<(), clap::Error> {
+    let base = [
+        "hunteval",
+        "dataset",
+        "review-record",
+        "episode",
+        "--review-policy",
+        "policy.json",
+        "--review-id",
+        "review-001",
+        "--reviewer-id",
+        "reviewer-001",
+        "--reviewed-at",
+        "2026-08-09T00:00:00Z",
+    ];
+    assert!(Cli::try_parse_from(base).is_err());
+    let cli = Cli::try_parse_from(base.into_iter().chain(["--confirm-independent-approval"]))?;
+    assert!(matches!(
+        cli.command,
+        Some(Command::Dataset {
+            command: DatasetCommand::ReviewRecord {
+                confirm_independent_approval: true,
+                ..
+            }
+        })
+    ));
+    Ok(())
+}
+
+#[test]
+fn parses_controlled_topology_report() -> Result<(), clap::Error> {
+    let cli = Cli::try_parse_from([
+        "hunteval",
+        "benchmark",
+        "topology-report",
+        "--experiment",
+        "experiment.json",
+        "--baseline-topology",
+        "baseline.json",
+        "--candidate-topology",
+        "candidate.json",
+        "--statistical-policy",
+        "statistics.json",
+        "--scoring-profile",
+        "scoring.yaml",
+        "--observations",
+        "observations.json",
+        "--format",
+        "html",
+    ])?;
+    assert!(matches!(
+        cli.command,
+        Some(Command::Benchmark {
+            command: BenchmarkCommand::TopologyReport {
+                format: ReportFormatArgument::Html,
                 ..
             }
         })

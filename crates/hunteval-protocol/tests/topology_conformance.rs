@@ -11,6 +11,7 @@ fn reference_topologies_are_framework_neutral_and_managed() -> Result<(), Box<dy
     for name in [
         "single-agent-scripted",
         "two-agent-scripted",
+        "supervisor-specialist-scripted",
         "supervisor-specialists-scripted",
     ] {
         let text = std::fs::read_to_string(root.join(name).join("deployment.yaml"))?;

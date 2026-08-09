@@ -12,8 +12,12 @@ mod evidence;
 mod id;
 mod metrics;
 mod result;
+mod science;
 mod task;
 mod timestamp;
+mod topology;
+mod topology_analysis;
+mod topology_experiment;
 mod version;
 
 pub use benchmark::{
@@ -33,15 +37,31 @@ pub use evidence::{
     SubmissionStatus, TimeRange, TimelineEntry,
 };
 pub use id::{
-    ActionId, AgentId, BenchmarkAttemptId, BenchmarkId, DeploymentId, EpisodeId, EventId,
-    EvidenceId, FaultProfileId, FindingId, HypothesisId, IdValidationError, MessageId, RunId,
-    ScoringProfileId, TaskId,
+    ActionId, AgentId, BenchmarkAttemptId, BenchmarkId, DatasetReviewId, DeploymentId, EpisodeId,
+    EventId, EvidenceId, FaultProfileId, FindingId, HypothesisId, IdValidationError, MessageId,
+    ReviewerId, RunId, ScoringProfileId, StatisticalPolicyId, TaskId, TopologyExperimentId,
+    TopologyId,
 };
 pub use metrics::{Applicability, MetricDirection, MetricRange, MetricValue};
 pub use result::{
     ArtifactReferences, ConstraintViolation, MetricVector, ResourceProvenance, ResourceUsage,
     RunResult, RunStatus, SourcedCost,
 };
+pub use science::{
+    DatasetReviewRecord, DatasetReviewStatus, EpisodeCapability, EpisodeClassification,
+    EpisodeDifficulty, InvestigationShape,
+};
 pub use task::{TaskPriority, TaskRecord, TaskSpec, TaskState};
 pub use timestamp::{TimestampError, UtcTimestamp};
+pub use topology::{
+    CoordinationMode, DeploymentTopology, ExecutionPattern, MemoryMode, ModelComposition,
+    RelationshipKind, TaskAllocationPolicy, TopologyAgent, TopologyKind, TopologyRelationship,
+    TopologySpecialization,
+};
+pub use topology_analysis::{
+    TopologyAnalysis, TopologyAnalysisKind, TopologyMetricApplicability, TopologyMetricValue,
+};
+pub use topology_experiment::{
+    ControlHashes, EquivalenceStatus, TopologyEquivalenceResult, TopologyExperiment,
+};
 pub use version::{ContractVersion, ProtocolVersion, SchemaVersion, VersionParseError};

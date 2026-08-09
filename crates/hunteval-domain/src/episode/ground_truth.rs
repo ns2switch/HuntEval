@@ -52,6 +52,15 @@ impl ExpectedTimelineWindow {
 }
 
 impl GroundTruth {
+    /// Returns whether the private truth declares an explicitly empty scored case.
+    #[must_use]
+    pub fn is_benign_scored_episode(&self) -> bool {
+        self.malicious_event_ids.is_empty()
+            && self.malicious_entity_ids.is_empty()
+            && self.expected_attack_path.is_empty()
+            && self.expected_attack_techniques.is_empty()
+    }
+
     /// Validates the explicitly supported v0.3 and v0.4 normalized forms.
     pub fn validate(&self) -> Result<(), ContractValidationError> {
         const V03: SchemaVersion = SchemaVersion::new(0, 3);

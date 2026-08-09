@@ -4,7 +4,9 @@ use std::{
     path::{Component, Path, PathBuf},
 };
 
-use hunteval_domain::{EpisodeId, EpisodeManifest, GroundTruth, SchemaVersion, Sha256Digest};
+use hunteval_domain::{
+    EpisodeClassification, EpisodeId, EpisodeManifest, GroundTruth, SchemaVersion, Sha256Digest,
+};
 use serde::Deserialize;
 use thiserror::Error;
 
@@ -22,6 +24,7 @@ struct PackageIndex {
 pub struct ArtifactDigests {
     pub package_index: Sha256Digest,
     pub public_manifest: Sha256Digest,
+    pub public_classification: Option<Sha256Digest>,
     pub public_telemetry: BTreeMap<String, Sha256Digest>,
     pub private_ground_truth: Sha256Digest,
 }
@@ -32,6 +35,8 @@ pub struct PublicEpisodePackage {
     pub manifest: EpisodeManifest,
     pub public_root: PathBuf,
     pub manifest_sha256: Sha256Digest,
+    pub classification: Option<EpisodeClassification>,
+    pub classification_sha256: Option<Sha256Digest>,
     pub telemetry_sha256: BTreeMap<String, Sha256Digest>,
 }
 
@@ -76,6 +81,9 @@ impl EpisodePackage {
             return Err(EpisodeLoadError::EpisodeIdMismatch);
         }
 
+        let (classification, classification_sha256) =
+            load_classification(&public_root, &package.episode_id)?;
+
         let ground_truth_bytes = fs::read(&ground_truth_path).map_err(EpisodeLoadError::Io)?;
         let ground_truth: GroundTruth = serde_json::from_slice(&ground_truth_bytes)
             .map_err(|_| EpisodeLoadError::InvalidGroundTruth)?;
@@ -114,11 +122,14 @@ impl EpisodePackage {
             manifest,
             public_root,
             manifest_sha256: public_manifest,
+            classification,
+            classification_sha256,
             telemetry_sha256: telemetry_sha256.clone(),
         };
         let digests = ArtifactDigests {
             package_index,
             public_manifest,
+            public_classification: classification_sha256,
             public_telemetry: telemetry_sha256,
             private_ground_truth,
         };
@@ -146,6 +157,27 @@ impl EpisodePackage {
     pub const fn digests(&self) -> &ArtifactDigests {
         &self.digests
     }
+}
+
+fn load_classification(
+    public_root: &Path,
+    episode_id: &EpisodeId,
+) -> Result<(Option<EpisodeClassification>, Option<Sha256Digest>), EpisodeLoadError> {
+    let path = public_root.join("classification.json");
+    if !path.try_exists().map_err(EpisodeLoadError::Io)? {
+        return Ok((None, None));
+    }
+    reject_symlink(&path)?;
+    let bytes = fs::read(path).map_err(EpisodeLoadError::Io)?;
+    let classification: EpisodeClassification =
+        serde_json::from_slice(&bytes).map_err(|_| EpisodeLoadError::InvalidClassification)?;
+    classification
+        .validate()
+        .map_err(|_| EpisodeLoadError::InvalidClassification)?;
+    if &classification.episode_id != episode_id {
+        return Err(EpisodeLoadError::EpisodeIdMismatch);
+    }
+    Ok((Some(classification), Some(Sha256Digest::from_bytes(bytes))))
 }
 
 const fn supported_schema(version: SchemaVersion) -> bool {
@@ -205,4 +237,6 @@ pub enum EpisodeLoadError {
     PrivateRootExposed,
     #[error("public episode artifact is invalid")]
     InvalidPublicArtifact,
+    #[error("public episode classification is invalid")]
+    InvalidClassification,
 }

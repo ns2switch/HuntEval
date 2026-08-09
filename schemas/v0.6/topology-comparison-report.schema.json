@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hunteval.dev/schemas/v0.6/topology-comparison-report.schema.json",
+  "title": "HuntEval controlled topology comparison report v0.6",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "analysis", "statistical_policy_sha256", "scoring_profile_sha256", "comparisons", "aggregate_score", "constraint_first_status", "limitations"],
+  "properties": {
+    "schema_version": {"const": "0.6"},
+    "analysis": {"$ref": "topology-analysis.schema.json"},
+    "statistical_policy_sha256": {"$ref": "common.schema.json#/$defs/sha256"},
+    "scoring_profile_sha256": {"$ref": "common.schema.json#/$defs/sha256"},
+    "comparisons": {
+      "type": "object",
+      "minProperties": 1,
+      "maxProperties": 128,
+      "propertyNames": {"pattern": "^[a-z][a-z0-9_]{0,127}$"},
+      "additionalProperties": {"$ref": "#/$defs/policy_comparison"}
+    },
+    "aggregate_score": {"anyOf": [{"type": "number", "minimum": 0, "maximum": 1}, {"type": "null"}]},
+    "constraint_first_status": {"enum": ["baseline_preferred", "candidate_preferred", "tied", "incomparable"]},
+    "limitations": {"type": "array", "minItems": 1, "maxItems": 128, "items": {"type": "string", "minLength": 1, "maxLength": 4096}}
+  },
+  "$defs": {
+    "interval": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["lower", "upper", "confidence"],
+      "properties": {
+        "lower": {"type": "number"},
+        "upper": {"type": "number"},
+        "confidence": {"type": "number", "exclusiveMinimum": 0.5, "exclusiveMaximum": 1}
+      }
+    },
+    "paired_difference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["count", "mean_difference", "interval", "wins", "ties", "losses", "conclusive"],
+      "properties": {
+        "count": {"type": "integer", "minimum": 0, "maximum": 1000000},
+        "mean_difference": {"type": ["number", "null"]},
+        "interval": {"anyOf": [{"$ref": "#/$defs/interval"}, {"type": "null"}]},
+        "wins": {"type": "integer", "minimum": 0},
+        "ties": {"type": "integer", "minimum": 0},
+        "losses": {"type": "integer", "minimum": 0},
+        "conclusive": {"type": "boolean"}
+      }
+    },
+    "effect_size": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["count", "mean_difference", "standardized_difference"],
+      "properties": {
+        "count": {"type": "integer", "minimum": 0, "maximum": 1000000},
+        "mean_difference": {"type": ["number", "null"]},
+        "standardized_difference": {"type": ["number", "null"]}
+      }
+    },
+    "policy_comparison": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["policy_sha256", "comparison_class", "paired_difference", "effect_size", "claim_strength", "multiplicity"],
+      "properties": {
+        "policy_sha256": {"$ref": "common.schema.json#/$defs/sha256"},
+        "comparison_class": {"enum": ["exploratory", "validation", "hidden_test"]},
+        "paired_difference": {"$ref": "#/$defs/paired_difference"},
+        "effect_size": {"$ref": "#/$defs/effect_size"},
+        "claim_strength": {"enum": ["descriptive", "exploratory", "conclusive"]},
+        "multiplicity": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["method", "family"],
+          "properties": {
+            "method": {"enum": ["exploratory_unadjusted", "holm_bonferroni"]},
+            "family": {"type": "string", "minLength": 1, "maxLength": 128}
+          }
+        }
+      }
+    }
+  }
+}

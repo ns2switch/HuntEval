@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hunteval.dev/schemas/v0.6/topology-equivalence-result.schema.json",
+  "title": "HuntEval topology equivalence result v0.6",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "experiment_sha256", "status", "declared_changes", "observed_changes", "mismatch_reason_codes"],
+  "properties": {
+    "schema_version": {"const": "0.6"},
+    "experiment_sha256": {"$ref": "common.schema.json#/$defs/sha256"},
+    "status": {"enum": ["eligible", "ineligible"]},
+    "declared_changes": {"type": "array", "maxItems": 32, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/json_pointer"}},
+    "observed_changes": {"type": "array", "maxItems": 32, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/json_pointer"}},
+    "mismatch_reason_codes": {"type": "array", "maxItems": 32, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reason_code"}}
+  }
+}

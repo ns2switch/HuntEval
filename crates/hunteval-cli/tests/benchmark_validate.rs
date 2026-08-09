@@ -21,6 +21,6 @@ fn benchmark_validate_resolves_all_referenced_artifacts() -> Result<(), Box<dyn 
     assert!(output.status.success());
     let value: serde_json::Value = serde_json::from_slice(&output.stdout)?;
     assert_eq!(value["benchmark_id"], "cloud-mvp");
-    assert_eq!(value["run_cells"], 36);
+    assert_eq!(value["run_cells"], 108);
     Ok(())
 }

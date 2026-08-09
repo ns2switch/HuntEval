@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hunteval.dev/schemas/v0.6/statistical-policy.schema.json",
+  "title": "HuntEval statistical policy v0.6",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "id", "comparison_class", "minimum_paired_samples", "confidence_level", "interval_method", "effect_size_method", "multiplicity", "calibration"],
+  "properties": {
+    "schema_version": {"const": "0.6"},
+    "id": {"$ref": "common.schema.json#/$defs/identifier"},
+    "comparison_class": {"enum": ["exploratory", "validation", "hidden_test"]},
+    "minimum_paired_samples": {"type": "integer", "minimum": 2, "maximum": 1000000},
+    "confidence_level": {"type": "number", "exclusiveMinimum": 0.5, "exclusiveMaximum": 1.0},
+    "interval_method": {"enum": ["deterministic_paired_bootstrap"]},
+    "effect_size_method": {"enum": ["paired_mean_difference", "paired_standardized_difference"]},
+    "multiplicity": {
+      "type": "object", "additionalProperties": false, "required": ["method", "family"],
+      "properties": {"method": {"enum": ["exploratory_unadjusted", "holm_bonferroni"]}, "family": {"$ref": "common.schema.json#/$defs/identifier"}}
+    },
+    "calibration": {"enum": ["not_required", "confidence_brier_and_severity_confusion"]}
+  }
+}

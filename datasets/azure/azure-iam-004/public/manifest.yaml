@@ -1,0 +1,29 @@
+schema_version: "0.3"
+id: azure-iam-004
+title: "Synthetic azure identity_activity_review hunt"
+provider: azure
+category: identity_activity_review
+objective:
+  primary: "Identify suspicious identity activity and distinguish the benign alternative."
+  secondary: ["Preserve event and entity provenance."]
+telemetry:
+  tables:
+    - name: azure_activity
+      path: telemetry/activity.parquet
+knowledge:
+  documents: []
+limits:
+  max_agents: 3
+  max_parallel_agents: 2
+  max_parallel_tool_calls: 1
+  max_outstanding_tasks: 8
+  max_delegation_depth: 2
+  max_tool_calls: 10
+  max_sql_queries: 8
+  max_retrieved_documents: 0
+  max_messages: 40
+  max_duration_seconds: 120
+  max_tokens: 20000
+  max_estimated_cost: null
+fault_profile: null
+benign_evaluation: false

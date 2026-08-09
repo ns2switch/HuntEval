@@ -19,25 +19,25 @@ Status values are evidence-based. `planned` makes no implementation claim. `impl
 
 | Milestone | Status | Outcome or dependency |
 |---|---|---|
-| R4-00 | planned | schema decisions, statistical policy boundaries, topology semantics, and accepted ADRs |
-| R4-01 | planned | versioned public episode classification and capability metadata |
-| R4-02 | planned | deterministic benign episodes and empty-ground-truth semantics |
-| R4-03 | planned | multi-stage and cross-boundary episode expansion |
-| R4-04 | planned | independent private review records and R4.1 closure |
-| R4-05 | planned | versioned comparison class and minimum-sample policy |
-| R4-06 | planned | paired effect sizes, uncertainty, and multiplicity handling |
-| R4-07 | planned | confidence and severity calibration checks |
-| R4-08 | planned | statistical claim projection and R4.2 closure |
-| R4-09 | planned | safe episode scaffold command |
-| R4-10 | planned | complete contributor validation command |
-| R4-11 | planned | public documentation and private review-bundle generation |
-| R4-12 | planned | explicit normative deployment-topology artifact |
-| R4-13 | planned | conformant single-agent, supervisor-worker, and supervisor-specialist artifacts |
-| R4-14 | planned | controlled topology experiment and variable-equivalence contracts |
-| R4-15 | planned | topology-aware observable metric vector |
-| R4-16 | planned | marginal-agent and controlled-ablation execution |
-| R4-17 | planned | topology comparison normalization and reporting |
-| R4-18 | planned | full R4 release evidence and closure |
+| R4-00 | implemented | schema 0.6 contracts, canonical examples, boundaries, and accepted ADR-053 through ADR-059 |
+| R4-01 | implemented | optional public classification is validated and content-addressed without answer labels |
+| R4-02 | implemented | one deterministic benign episode per provider and evaluator-only benign semantics |
+| R4-03 | implemented | deterministic multi-stage and cross-boundary episodes for all three providers |
+| R4-04 | implemented | nine independent approvals bind exact public, private, query, and review-policy bytes |
+| R4-05 | implemented | versioned comparison class, minimum-pair policy, and claim-strength enforcement |
+| R4-06 | implemented | paired effects, declared-confidence intervals, and multiplicity policy |
+| R4-07 | implemented | bounded confidence and severity calibration with unavailable states |
+| R4-08 | implemented | policy-bound normalized comparison output is available through the CLI and E2E gate |
+| R4-09 | implemented | safe non-overwriting episode scaffold command and negative path tests |
+| R4-10 | implemented | bounded validation and canonical provider, recovery, review, and leakage gates are integrated |
+| R4-11 | implemented | ground-truth-free documentation and content-addressed reviewer inventory rendering |
+| R4-12 | implemented | explicit normative deployment-topology artifact, loader, digest, and validation |
+| R4-13 | implemented | three conformant reference topology artifacts share the 108-cell matrix |
+| R4-14 | implemented | controlled experiment and fail-closed exact-change equivalence contracts |
+| R4-15 | implemented | separate topology-aware observable dimensions with explicit unavailable values |
+| R4-16 | implemented | the 108-cell E2E produces an auditable paired topology experiment and policy-bound reduction |
+| R4-17 | implemented | deterministic JSON/static HTML topology reports are integrated into the CLI and E2E artifacts |
+| R4-18 | implemented | local closure gates pass; dedicated revision and remote GitHub Actions evidence remain required |
 
 The R4/v0.4 release name is independent from persisted schema versions. Existing schema 0.3, 0.4, and 0.5 artifacts remain immutable. R4-00 selects one additive schema version for new benchmark-science artifacts; no existing source artifact is rewritten to simulate compatibility.
 
@@ -467,18 +467,24 @@ git diff --check
 The owning milestones must add stable focused commands equivalent to:
 
 ```bash
-cargo test -p hunteval-domain --test schema_r4
-cargo test -p hunteval-fixture-tool --test benign_catalog
-cargo test -p hunteval-fixture-tool --test expanded_catalog
+cargo test -p hunteval-domain --test schema_v06 --test science_v06
+cargo test -p hunteval-runner --test cloud_fixtures
 cargo test -p hunteval-runner --test dataset_review
 cargo test -p hunteval-statistics --test statistical_policy
 cargo test -p hunteval-statistics --test calibration
-cargo test -p hunteval-runner --test contributor_workflow
-cargo test -p hunteval-domain --test topology_contract
+cargo test -p hunteval-fixture-tool --test contributor
 cargo test -p hunteval-runner --test topology_equivalence
 cargo test -p hunteval-evaluation --test topology_metrics
-cargo test -p hunteval-runner --test topology_ablation
-cargo test -p hunteval-runner --test topology_reporting
+cargo test -p hunteval-reporting --test topology_reporting
+cargo test -p hunteval-cli --test benchmark_validate
 ```
 
 Exact test target names may change only in the milestone that creates them and must be reflected here in the same change.
+
+The implemented focused R4 gate is:
+
+```bash
+./scripts/ci/r4-science.sh
+```
+
+It runs `schema_v06`, `science_v06`, `contributor`, `determinism`, `schema`, `cloud_fixtures`, `dataset_review`, `topology_equivalence`, `statistical_policy`, `calibration`, `topology_metrics`, `topology_reporting`, and `benchmark_validate`. The dataset review test verifies all nine approved R4 records against the versioned review policy. The E2E gate executes 108 cells and produces content-addressed controlled topology experiment, observation, JSON report, and static HTML report artifacts.

@@ -18,10 +18,12 @@ clap.workspace = true
 parquet.workspace = true
 serde.workspace = true
 serde_json.workspace = true
+serde_yaml_ng.workspace = true
+hunteval-domain = { path = "../hunteval-domain", version = "0.1.0" }
 thiserror.workspace = true
+tempfile = "3.25"
 
 [dev-dependencies]
-tempfile = "3.25"
 
 [lints]
 workspace = true
