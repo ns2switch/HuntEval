@@ -31,6 +31,8 @@ The original MVP sequence is recorded in `docs/EXECUTION_PLAN.md`. Current R2 de
 
 R3 hardening is complete. The implementation adds an explicit schema 0.5 execution policy, executable Linux capability probes, one supervised Bubblewrap boundary for deployments and managed DuckDB workers, protocol property/fuzz/conformance coverage, standalone run verification, centralized bounded redaction, and deterministic secret scanning. The implementation revision `2d34517` passed all eight GitHub Actions jobs in run `31305219082`; exact local and remote completion evidence is recorded in `docs/R3_COMPLETION_EVIDENCE.md`. R2 completion evidence and its external-enforcement caveat remain unchanged.
 
+R4 is the active implementation milestone. Its governed sequence covers episode expansion, statistical policy, contributor tooling, and controlled multi-agent topology benchmarking. No R4 implementation or completion evidence is claimed yet.
+
 ## Quick start
 
 Build the workspace so the CLI and managed worker are sibling executables, then run the offline reference slice:
@@ -104,6 +106,7 @@ cargo run -p hunteval-fixture-tool -- generate datasets/aws/aws-iam-001
 - `docs/R2_IMPLEMENTATION_PLAN.md`: canonical delivery status, dependency order, implementation steps, and acceptance gates through R2-18.
 - `docs/R3_IMPLEMENTATION_PLAN.md`: delivery status, contracts, tests, risks, and acceptance gates for R3.1 through R3.3.
 - `docs/R3_COMPLETION_EVIDENCE.md`: exact R3 revisions, gates, artifact hashes, limitations, and remote CI evidence.
+- `docs/R4_IMPLEMENTATION_PLAN.md`: governed delivery sequence, contracts, tests, risks, and acceptance gates for R4.1 through R4.4.
 - `docs/GITHUB_OPERATIONS.md`: required GitHub controls, verification, runner trust, retention, and rollback.
 - `docs/GITHUB_SETTINGS_ATTESTATION.md`: administrator-owned evidence for live repository settings.
 - `docs/RELEASE_CHECKLIST.md`: non-publishing release-candidate dry-run procedure and evidence requirements.

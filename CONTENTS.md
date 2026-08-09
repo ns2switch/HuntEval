@@ -29,7 +29,8 @@ All tracked source code, documentation, schemas, fixtures, and examples are writ
 - `docs/SPECIFICATION.md`, `docs/ADR.md`, `docs/CONTRACTS.md`, and `docs/THREAT_MODEL.md`
 - `docs/METRICS_AND_RANKING.md` and `docs/PROMPT_OPTIMIZATION.md`
 - `docs/IMPLEMENTATION_PLAN.md` and `docs/EXECUTION_PLAN.md`: completed original MVP plans
-- `docs/ROADMAP.md`, `docs/R2_IMPLEMENTATION_PLAN.md`, and `docs/R3_IMPLEMENTATION_PLAN.md`: current roadmap, completed R2 evidence, and active R3 delivery sequence
+- `docs/ROADMAP.md`, `docs/R2_IMPLEMENTATION_PLAN.md`, `docs/R3_IMPLEMENTATION_PLAN.md`, and `docs/R3_COMPLETION_EVIDENCE.md`: current roadmap and completed R2/R3 plans and evidence
+- `docs/R4_IMPLEMENTATION_PLAN.md`: active R4 benchmark-science, dataset-quality, contributor-tooling, and topology-benchmarking delivery sequence
 - `docs/BENCHMARK_CLI.md` and `docs/USE_CASE_CLOUD_DEPLOYMENT_COMPARISON.md`: operational benchmark reference and end-to-end example
 - `docs/GITHUB_OPERATIONS.md`, `docs/GITHUB_SETTINGS_ATTESTATION.md`, and `docs/RELEASE_CHECKLIST.md`: delivery controls, administrator evidence, and non-publishing release-candidate procedure
 

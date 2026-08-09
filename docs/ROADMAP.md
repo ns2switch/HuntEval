@@ -173,6 +173,8 @@ Current state: R3 is complete. Commits `f0f6119`, `dbfce2c`, and `2d34517` imple
 
 **Objective:** improve validity, coverage, and reviewability of the benchmark itself.
 
+Current state: R4 is the active implementation milestone. Its governed pull-request sequence, contract decisions, tests, migration behavior, rollback behavior, and release gates are defined in `R4_IMPLEMENTATION_PLAN.md`. No R4 implementation or completion evidence is claimed yet.
+
 #### R4.1 — Episode coverage expansion
 
 - add explicitly benign scored episodes to lock empty-ground-truth semantics;
