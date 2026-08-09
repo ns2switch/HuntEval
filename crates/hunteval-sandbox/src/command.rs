@@ -72,7 +72,6 @@ fn base_arguments() -> Vec<String> {
         "--unshare-user",
         "--die-with-parent",
         "--new-session",
-        "--disable-userns",
         "--clearenv",
         "--proc",
         "/proc",
@@ -114,7 +113,27 @@ fn validate_environment(key: &str, value: &str) -> Result<(), SandboxError> {
 
 #[cfg(test)]
 mod tests {
-    use super::validate_environment;
+    use super::{base_arguments, validate_environment};
+
+    #[test]
+    fn base_arguments_use_the_supported_isolation_baseline() {
+        let arguments = base_arguments();
+
+        for required in [
+            "--unshare-all",
+            "--unshare-user",
+            "--die-with-parent",
+            "--new-session",
+            "--clearenv",
+        ] {
+            assert!(arguments.iter().any(|argument| argument == required));
+        }
+        assert!(
+            !arguments
+                .iter()
+                .any(|argument| argument == "--disable-userns")
+        );
+    }
 
     #[test]
     fn environment_validation_is_bounded() {
