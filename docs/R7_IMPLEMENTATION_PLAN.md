@@ -22,24 +22,24 @@ Status is evidence-based. `planned` makes no implementation claim. `in progress`
 
 | Milestone | Status | Outcome or dependency |
 |---|---|---|
-| R7-00 | implemented | schema 0.9 contracts, canonical examples, compatibility policy, and ADR-076 through ADR-083 |
-| R7-01 | in progress | content-addressed corpus and hardened source loading exist; per-source authoritative verifier evidence remains to be bound |
-| R7-02 | implemented | deterministic index build over runner-verified public artifact bytes |
-| R7-03 | in progress | bounded queries and source/hash/field citations exist; deeper typed run/event/metric adapters remain |
-| R7-04 | implemented | hash-linked retrieval audit, provenance, validation/build/query/verify CLI |
-| R7-05 | in progress | focused isolation, tamper, private-field, and representative R2-R6 corpus tests exist; R7.1 closure remains |
-| R7-06 | implemented | versioned managed-tool adapter manifest contract |
-| R7-07 | implemented | versioned deployment-adapter manifest contract |
-| R7-08 | implemented | deny-by-default capability, denied-network, limit, and digest enforcement |
-| R7-09 | implemented | extension fixtures plus supervised deployment and one-shot managed-tool conformance with timeout, crash, malformed-output, and transcript checks |
-| R7-10 | implemented | schema-aligned typed Python models and bounded validation errors |
-| R7-11 | in progress | corpus/extension builders and content-addressed opaque public readers exist; roadmap-wide typed readers remain |
-| R7-12 | implemented | bounded deployment-protocol peer with registration/terminal enforcement |
-| R7-13 | implemented | Rust/Python fixture agreement and reproducible wheel-content dry run |
-| R7-14 | in progress | dedicated local gate and `Knowledge and extensions` job exist; the complete end-to-end adapter workflow remains |
-| R7-15 | planned | documentation, migration, rollback, and R7 release closure |
+| R7-00 | complete | schema 0.9 contracts, canonical examples, compatibility policy, and accepted ADR-076 through ADR-083 |
+| R7-01 | complete | content-addressed corpus membership plus hardened revalidation of every declared public source byte |
+| R7-02 | complete | deterministic index build over runner-verified public artifact bytes |
+| R7-03 | complete | bounded queries with exact source identity, kind, artifact hash, normalized field path, and excerpt citations |
+| R7-04 | complete | hash-linked retrieval audit, provenance, validation/build/query/verify CLI, authoritative JSON, and escaped HTML |
+| R7-05 | complete | isolation, tamper, private-field, deterministic rebuild, and representative R2-R6 corpus evidence |
+| R7-06 | complete | versioned managed-tool adapter manifest and request/result contracts |
+| R7-07 | complete | versioned deployment-adapter manifest contract |
+| R7-08 | complete | deny-by-default capability, denied-network, limit, and executable-digest enforcement |
+| R7-09 | complete | supervised deployment and sandboxed managed-tool conformance with timeout, crash, malformed-output, and transcript checks |
+| R7-10 | complete | schema-aligned typed Python models and bounded validation errors |
+| R7-11 | complete | typed schema 0.9 builders plus content-addressed version/kind-preserving public artifact readers under the explicit support matrix |
+| R7-12 | complete | bounded deployment-protocol peer and CrewAI connector with registration, task, delegation, managed-tool, correlation, and terminal enforcement |
+| R7-13 | complete | Rust/Python fixture agreement and reproducible wheel-content evidence |
+| R7-14 | complete | combined benchmark, corpus/query/audit, both adapter paths, Python, package, negative-path, and dedicated CI evidence |
+| R7-15 | complete | documentation, migration, rollback, package, protected-branch, and remote closure evidence |
 
-The R7/v0.7 release name is independent from persisted schema versions. R7-00 selects additive schema `0.9` through accepted ADR-076 and freezes the canonical fixture inventory. R7 remains incomplete until R7-15 records exact local, package, protected-branch, and remote evidence.
+The R7/v0.7 release name is independent from persisted schema versions. R7-00 selects additive schema `0.9` through accepted ADR-076 and freezes the canonical fixture inventory. R7 is complete; exact local, package, protected-branch, and remote evidence is recorded in `R7_COMPLETION_EVIDENCE.md`.
 
 ## 2. Baseline audit
 
@@ -124,7 +124,7 @@ The existing `hunteval-knowledge` crate remains optional and network-free. R7 ma
 
 ## 5. Architecture decisions to close in R7-00
 
-The following ADRs are proposed. R7-00 must either accept them with exact contracts and tests or update this plan before implementation begins.
+The following ADRs were accepted by R7-00 with exact contracts and tests.
 
 ### ADR-076 — Add immutable knowledge and extension contracts
 

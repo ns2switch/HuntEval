@@ -30,6 +30,7 @@ Several of these are intentionally narrow foundations. The current delivery stat
 - deterministic benchmark JSON and static HTML reports preserve comparisons, attribution, limitations, and exact artifact hashes;
 - single-agent, two-agent, and supervisor-specialist reference deployments have normative topology artifacts, controlled topology experiments, fail-closed equivalence checks, topology-aware observable metrics, and experimental topology-dependent contribution analysis;
 - evidence-backed diagnosis, recurrence, bottleneck, controlled-contribution analysis, R6 artifact registries, controlled change validation, recommendation lifecycle, and bounded prompt-analysis capabilities are complete;
+- artifact-grounded analytical search, versioned out-of-process extension contracts, the Python SDK, and the CrewAI deployment connector are complete under the R7 compatibility and security boundaries;
 - canonical repository scripts and bounded least-privilege GitHub workflows are implemented; live merge and protected-tag enforcement are administrator-attested.
 
 ## 3. Prioritization rules
@@ -261,7 +262,7 @@ Completion evidence: the 108-cell matrix completed without failed, pending, or n
 
 **Objective:** make improvement hypotheses reproducible from artifact registration through human-approved validation.
 
-The governed pull-request sequence, contracts, security boundaries, tests, migration, rollback, and release gates for R6.1 through R6.4 are defined in `R6_IMPLEMENTATION_PLAN.md`. R6 is complete. Runtime revision `079bf45` implements schema 0.8 contracts, the canonical benchmark-backed experiment service, lifecycle and review controls, prompt/configuration analysis, reporting, offline verification, and the dedicated CI gate. Governance revision `aacf27c` makes `Controlled improvement` a required protected-branch check. All eleven GitHub Actions jobs passed in run `31376156815`; exact local gates, artifact hashes, package evidence, limitations, and ADR status are recorded in `R6_COMPLETION_EVIDENCE.md`. R2 through R5 completion evidence remains unchanged, and R7 is the next implementation milestone.
+The governed pull-request sequence, contracts, security boundaries, tests, migration, rollback, and release gates for R6.1 through R6.4 are defined in `R6_IMPLEMENTATION_PLAN.md`. R6 is complete. Runtime revision `079bf45` implements schema 0.8 contracts, the canonical benchmark-backed experiment service, lifecycle and review controls, prompt/configuration analysis, reporting, offline verification, and the dedicated CI gate. Governance revision `aacf27c` makes `Controlled improvement` a required protected-branch check. All eleven GitHub Actions jobs passed in run `31376156815`; exact local gates, artifact hashes, package evidence, limitations, and ADR status are recorded in `R6_COMPLETION_EVIDENCE.md`. R2 through R5 completion evidence remains unchanged; subsequent R7 completion evidence is recorded separately.
 
 #### R6.1 — Artifact registry and safe diffs
 
@@ -329,7 +330,7 @@ observable run failures
 
 **Objective:** add local analytical capabilities and external integrations without coupling them to the domain model or the scored MVP path.
 
-The governed pull-request sequence, contracts, security boundaries, compatibility strategy, tests, migration, rollback, and release gates for R7.1 through R7.3 are defined in `R7_IMPLEMENTATION_PLAN.md`. R7 implementation is active but remains incomplete until R7-15 records exact local and remote release evidence. R2 through R6 remain complete with their recorded evidence.
+The governed pull-request sequence, contracts, security boundaries, compatibility strategy, tests, migration, rollback, and release gates for R7.1 through R7.3 are defined in `R7_IMPLEMENTATION_PLAN.md`. R7 is complete; exact implementation, package, protected-branch, and GitHub Actions evidence is recorded in `R7_COMPLETION_EVIDENCE.md`. R2 through R6 remain complete with their recorded evidence.
 
 #### R7.1 — Artifact-grounded local search
 
@@ -438,6 +439,6 @@ Every roadmap initiative must be delivered through a small reviewable pull reque
 12. rollback behavior;
 13. known limitations.
 
-The completed R4, R5, and R6 implementation plans address these requirements for their initiatives. `R7_IMPLEMENTATION_PLAN.md` applies the same governance to active R7 work without making a completion claim.
+The completed R4, R5, R6, and R7 implementation plans address these requirements for their initiatives. `R7_COMPLETION_EVIDENCE.md` records the exact R7 closure evidence and known limitations.
 
 An initiative is not complete while any required quality gate fails. Scope changes must update this roadmap and the corresponding implementation plan before implementation begins.

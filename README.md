@@ -176,7 +176,7 @@ Scored execution against production SIEMs, unrestricted deployment network acces
 
 ## Project status
 
-R2 through R6 are complete. R7 knowledge, extension, and Python SDK implementation is active and locally gated; R7 is not complete until its release-closure evidence passes on the exact protected-branch revision. HuntEval never adopts a suggested change automatically.
+R2 through R7 are complete. HuntEval provides the offline benchmark loop, topology science, evidence-backed diagnosis, controlled improvements, artifact-grounded local search, stable extension contracts, a Python SDK, and a CrewAI connector. HuntEval never adopts a suggested change automatically.
 
 - [Roadmap through v1.0](docs/ROADMAP.md)
 - [R5 completion evidence](docs/R5_COMPLETION_EVIDENCE.md)
@@ -186,6 +186,7 @@ R2 through R6 are complete. R7 knowledge, extension, and Python SDK implementati
 - [R7 implementation plan](docs/R7_IMPLEMENTATION_PLAN.md)
 - [Knowledge and extensions use case](docs/USE_CASE_KNOWLEDGE_EXTENSIONS.md)
 - [CrewAI connector](docs/CREWAI_CONNECTOR.md)
+- [R7 completion evidence](docs/R7_COMPLETION_EVIDENCE.md)
 
 ## Development
 
