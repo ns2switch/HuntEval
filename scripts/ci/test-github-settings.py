@@ -12,6 +12,7 @@ CHECKER = ROOT / "scripts/ci/verify-github-settings.py"
 CHECKS = [
     "Adversarial protocol",
     "Benchmark science",
+    "Controlled improvement",
     "Evidence-backed diagnosis",
     "Policy",
     "Quality",

@@ -1,0 +1,8 @@
+{
+  "schema_version": "0.8", "id": "decision-supervisor-ownership", "experiment_id": "experiment-supervisor-ownership",
+  "experiment_sha256": "1010101010101010101010101010101010101010101010101010101010101010", "equivalence_sha256": "1212121212121212121212121212121212121212121212121212121212121212",
+  "improvement_policy_sha256": "2222222222222222222222222222222222222222222222222222222222222222", "status": "passed", "paired_samples": 18, "missing_pairs": [],
+  "metric_deltas": [{"metric": "event_recall", "version": "0.3", "baseline": 0.80, "candidate": 0.84, "difference": 0.04, "interval": {"lower": 0.01, "upper": 0.07}, "applicability": "available"}],
+  "constraints": [{"code": "maximum_event_recall_regression", "status": "satisfied", "source_metric": "event_recall"}],
+  "hidden_test_used_in_selection": false, "human_review_required": true, "limitations": ["topology_dependent"]
+}

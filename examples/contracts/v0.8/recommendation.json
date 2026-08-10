@@ -1,0 +1,10 @@
+{
+  "schema_version": "0.8", "id": "recommendation-supervisor-ownership", "target": {"kind": "agent", "id": "supervisor"},
+  "issue_code": "duplicate_task_creation",
+  "observed_evidence": [{"kind": "trajectory_event", "run_id": "run-r6-example-001", "event_sequence": 42, "artifact_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"}],
+  "suspected_weakness": {"code": "missing_task_ownership", "evidence_sufficiency": "corroborated"},
+  "target_artifact": {"id": "supervisor-instructions-v2", "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"},
+  "target_section": "delegation", "suggested_change": {"operation": "add_constraint", "rationale": "Require one declared owner for every created task."},
+  "expected_effects": ["reduce_duplicate_work", "reduce_coordination_overhead"], "possible_trade_offs": ["increase_delegation_latency"],
+  "validation": {"required": true, "experiment_id": null}, "status": "proposed"
+}

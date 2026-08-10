@@ -3,7 +3,7 @@
 mod diagnosis;
 mod diagnostics;
 mod evaluator;
-mod experiments;
+mod improvement;
 mod input;
 mod metrics;
 mod profile;
@@ -25,10 +25,7 @@ pub use diagnostics::{
     resolve_sources, validate_registry,
 };
 pub use evaluator::{DeterministicEvaluator, EvaluationError, Evaluator};
-pub use experiments::{
-    CandidateConstraint, ExperimentError, ExperimentManifest, ExperimentObservation, Partition,
-    ValidationDecision, validate_candidate, validate_experiment_manifest,
-};
+pub use improvement::*;
 pub use input::{
     EvaluationProvenance, ObservedAction, ObservedEvidence, ObservedFinding, ObservedMessage,
     ObservedRun, ObservedTask, ObservedTaskTransition, ObservedToolOutcome, SubmittedTimelineEntry,

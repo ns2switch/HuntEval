@@ -3,6 +3,7 @@
 mod benchmark;
 mod diagnostic;
 mod html;
+mod improvement;
 mod topology;
 mod types;
 
@@ -18,6 +19,7 @@ pub use diagnostic::{
     DiagnosticValidationStatus,
 };
 pub use html::StaticHtmlRenderer;
+pub use improvement::*;
 pub use topology::{ConstraintFirstStatus, TopologyComparisonReport, TopologyReportError};
 pub use types::{
     ArtifactLink, BenchmarkReport, JsonRenderer, LegacyDiagnosticFinding, LegacyDiagnosticReport,

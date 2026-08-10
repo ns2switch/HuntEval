@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hunteval.dev/schemas/v0.8/improvement-experiment.schema.json",
+  "title": "HuntEval controlled improvement experiment v0.8",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "id", "lineage_id", "baseline_artifact_sha256", "candidate_artifact_sha256", "artifact_diff_sha256", "improvement_policy_sha256", "partition_policy_sha256", "scoring_profile_sha256", "statistical_policy_sha256", "changed_variable", "control_hashes", "paired_cells", "candidate_frozen"],
+  "properties": {
+    "schema_version": {"const": "0.8"},
+    "id": {"$ref": "common.schema.json#/$defs/identifier"},
+    "lineage_id": {"$ref": "common.schema.json#/$defs/identifier"},
+    "baseline_artifact_sha256": {"$ref": "common.schema.json#/$defs/sha256"},
+    "candidate_artifact_sha256": {"$ref": "common.schema.json#/$defs/sha256"},
+    "artifact_diff_sha256": {"$ref": "common.schema.json#/$defs/sha256"},
+    "improvement_policy_sha256": {"$ref": "common.schema.json#/$defs/sha256"},
+    "partition_policy_sha256": {"$ref": "common.schema.json#/$defs/sha256"},
+    "scoring_profile_sha256": {"$ref": "common.schema.json#/$defs/sha256"},
+    "statistical_policy_sha256": {"$ref": "common.schema.json#/$defs/sha256"},
+    "changed_variable": {"$ref": "common.schema.json#/$defs/identifier"},
+    "control_hashes": {"$ref": "#/$defs/controls"},
+    "paired_cells": {"type": "array", "minItems": 1, "maxItems": 4096, "items": {"$ref": "#/$defs/pair"}},
+    "candidate_frozen": {"const": true}
+  },
+  "$defs": {
+    "controls": {
+      "type": "object", "additionalProperties": false,
+      "required": ["episode_set", "seed_set", "budgets", "models", "topology", "managed_tool_policy", "execution_policy", "schemas", "runtime_binaries"],
+      "properties": {
+        "episode_set": {"$ref": "common.schema.json#/$defs/sha256"}, "seed_set": {"$ref": "common.schema.json#/$defs/sha256"},
+        "budgets": {"$ref": "common.schema.json#/$defs/sha256"}, "models": {"$ref": "common.schema.json#/$defs/sha256"},
+        "topology": {"$ref": "common.schema.json#/$defs/sha256"}, "managed_tool_policy": {"$ref": "common.schema.json#/$defs/sha256"},
+        "execution_policy": {"$ref": "common.schema.json#/$defs/sha256"}, "schemas": {"$ref": "common.schema.json#/$defs/sha256"},
+        "runtime_binaries": {"$ref": "common.schema.json#/$defs/sha256"}
+      }
+    },
+    "pair": {
+      "type": "object", "additionalProperties": false, "required": ["baseline_cell_id", "candidate_cell_id"],
+      "properties": {"baseline_cell_id": {"$ref": "common.schema.json#/$defs/identifier"}, "candidate_cell_id": {"$ref": "common.schema.json#/$defs/identifier"}}
+    }
+  }
+}

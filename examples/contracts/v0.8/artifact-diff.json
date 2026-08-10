@@ -1,0 +1,6 @@
+{
+  "schema_version": "0.8", "id": "diff-supervisor-ownership", "baseline_artifact_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "candidate_artifact_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", "changed_variable": "supervisor_instruction_artifact",
+  "operations": [{"operation": "add_constraint", "section_id": "delegation", "section_class": "delegation_strategy", "baseline_sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd", "candidate_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"}],
+  "immutable_policy_status": "passed", "reason_codes": []
+}

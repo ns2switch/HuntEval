@@ -425,3 +425,21 @@ The schema 0.6 observable topology projection keeps normalized `[0,1]` measureme
 | `role_contribution` | controlled ablation result | never inferred from observational traces |
 
 Policy-bound paired comparisons record the statistical-policy hash, comparison class, sample count, confidence interval at the declared confidence level, wins/ties/losses, effect-size applicability, multiplicity policy, and claim strength. Below-threshold or zero-crossing results remain descriptive. When a Holm-Bonferroni family contains multiple comparisons but adjusted per-comparison evidence is unavailable, HuntEval fails closed: every claim remains descriptive, `conclusive` is false, role contribution is unavailable, and the report records `multiplicity_adjusted_inference_unavailable`. Controlled topology output additionally records exact topology and experiment hashes and is always labeled experimental and topology-dependent.
+
+## 16. Schema 0.8 controlled validation semantics
+
+R6 validation does not add an implicit metric, dimension, global score, or missing-value policy. It preserves the authoritative sequence:
+
+```text
+objective measurements
+  -> raw metric vector
+  -> explicit versioned scoring profile
+  -> optional aggregate score
+  -> constraint-first controlled decision
+```
+
+The improvement policy selects explicit regression, minimum-quality, resilience, resource, and verified-cost constraints. Metric range, direction, applicability, and resource-provenance requirements continue to come from the registered metric contract. An unknown metric or version fails validation. A self-reported or unavailable resource value cannot satisfy a measured or verified-adapter constraint.
+
+Each controlled decision retains baseline and candidate values, the signed difference defined by their declared order, policy-bound interval, paired sample count, missing pairs, applicability, and every satisfied, violated, or unverifiable constraint. Missing, failed, non-comparable, unavailable, or unverifiable observations are never imputed or silently converted to zero. A high optional aggregate score cannot override a disqualifying regression or unverifiable hard constraint.
+
+`passed` means that the exact candidate satisfies the exact declared controlled policy for the bound experiment. It supports an experimental validation state only. It does not establish universal superiority, approve the candidate, or adopt it. Human approval and an external adoption record are separate later artifacts. Changing any candidate or control identity requires a new paired decision.

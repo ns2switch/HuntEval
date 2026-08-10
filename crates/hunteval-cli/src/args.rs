@@ -36,9 +36,74 @@ pub(crate) enum Command {
         #[command(subcommand)]
         command: DiagnoseCommand,
     },
+    Improvement {
+        #[command(subcommand)]
+        command: ImprovementCommand,
+    },
     Report {
         #[command(subcommand)]
         command: ReportCommand,
+    },
+}
+
+#[derive(Debug, Subcommand)]
+pub(crate) enum ImprovementCommand {
+    Validate {
+        #[arg(long)]
+        experiment: PathBuf,
+        #[arg(long)]
+        equivalence: PathBuf,
+        #[arg(long)]
+        candidate_artifact: PathBuf,
+        #[arg(long)]
+        benchmark_manifest: PathBuf,
+        #[arg(long, default_value = ".")]
+        artifact_root: PathBuf,
+    },
+    Run {
+        #[arg(long)]
+        experiment: PathBuf,
+        #[arg(long)]
+        equivalence: PathBuf,
+        #[arg(long)]
+        candidate_artifact: PathBuf,
+        #[arg(long)]
+        benchmark_manifest: PathBuf,
+        #[arg(long)]
+        output: PathBuf,
+        #[arg(long, default_value_t = 1)]
+        jobs: usize,
+        #[arg(long)]
+        fail_fast: bool,
+        #[arg(long, default_value = ".")]
+        artifact_root: PathBuf,
+        #[arg(long)]
+        deployment_executable: Option<PathBuf>,
+        #[arg(long)]
+        duckdb_worker: Option<PathBuf>,
+        #[arg(long)]
+        schema_contract: Option<PathBuf>,
+    },
+    Resume {
+        benchmark_directory: PathBuf,
+        #[arg(long)]
+        experiment: PathBuf,
+        #[arg(long)]
+        equivalence: PathBuf,
+        #[arg(long)]
+        candidate_artifact: PathBuf,
+        #[arg(long, value_enum, default_value_t = RetryArgument::None)]
+        retry: RetryArgument,
+    },
+    Status {
+        benchmark_directory: PathBuf,
+        #[arg(long, value_enum, default_value_t = OutputFormatArgument::Text)]
+        format: OutputFormatArgument,
+    },
+    Verify {
+        bundle: PathBuf,
+        #[arg(long, value_enum, default_value_t = OutputFormatArgument::Text)]
+        format: OutputFormatArgument,
     },
 }
 

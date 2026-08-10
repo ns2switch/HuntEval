@@ -1,0 +1,6 @@
+{
+  "schema_version": "0.8", "id": "adoption-supervisor-ownership", "recommendation_id": "recommendation-supervisor-ownership",
+  "candidate_artifact_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", "human_decision_sha256": "1717171717171717171717171717171717171717171717171717171717171717",
+  "adopted_deployment_sha256": "1818181818181818181818181818181818181818181818181818181818181818", "actor_id": "maintainer-r6-001",
+  "adopted_at": "2026-08-10T14:00:00Z", "external_adoption_confirmed": true
+}

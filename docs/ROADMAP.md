@@ -29,7 +29,7 @@ Several of these are intentionally narrow foundations. The current delivery stat
 - event, entity, evidence completeness, task, utilization, graceful-degradation, attack-path, timeline, structured-conclusion, technique, duplicate-work, causally useful communication, measured-duration, verified-cost, and cross-run stability metrics exist;
 - deterministic benchmark JSON and static HTML reports preserve comparisons, attribution, limitations, and exact artifact hashes;
 - single-agent, two-agent, and supervisor-specialist reference deployments have normative topology artifacts, controlled topology experiments, fail-closed equivalence checks, topology-aware observable metrics, and experimental topology-dependent contribution analysis;
-- evidence-backed diagnosis, recurrence, bottleneck, and controlled-contribution analysis are complete; artifact registries, controlled change validation, and the bounded prompt-analysis lifecycle remain future R6 work;
+- evidence-backed diagnosis, recurrence, bottleneck, controlled-contribution analysis, R6 artifact registries, controlled change validation, recommendation lifecycle, and bounded prompt-analysis capabilities are complete;
 - canonical repository scripts and bounded least-privilege GitHub workflows are implemented; live merge and protected-tag enforcement are administrator-attested.
 
 ## 3. Prioritization rules
@@ -230,7 +230,7 @@ Current state: R4 is complete. Implementation revision `f9559a6` provides schema
 
 The governed pull-request sequence, contracts, tests, risks, and release gates for R5.1 through R5.3 are defined in `R5_IMPLEMENTATION_PLAN.md`.
 
-Current state: R5 is complete. Evidence revision `e22e71b` implements schema 0.7 diagnosis contracts, the bounded taxonomy and compiled registry, exact typed attribution, deterministic recurrence, bottleneck and controlled-contribution analysis, content-addressed JSON/static-HTML bundles, offline verification, CLI integration, and the dedicated CI gate. All ten GitHub Actions jobs passed in run `31343374320`; exact local gates, artifact hashes, limitations, and ADR status are recorded in `R5_COMPLETION_EVIDENCE.md`. R2, R3, and R4 completion evidence remains unchanged. The former R2.4 external-enforcement caveat remains closed by its separate administrator attestation. R6 is the next implementation milestone.
+Current state: R5 is complete. Evidence revision `e22e71b` implements schema 0.7 diagnosis contracts, the bounded taxonomy and compiled registry, exact typed attribution, deterministic recurrence, bottleneck and controlled-contribution analysis, content-addressed JSON/static-HTML bundles, offline verification, CLI integration, and the dedicated CI gate. All ten GitHub Actions jobs passed in run `31343374320`; exact local gates, artifact hashes, limitations, and ADR status are recorded in `R5_COMPLETION_EVIDENCE.md`. R2, R3, and R4 completion evidence remains unchanged. The former R2.4 external-enforcement caveat remains closed by its separate administrator attestation. R6 was completed subsequently and does not alter this R5 evidence.
 
 #### R5.1 — Versioned taxonomy and attribution
 
@@ -260,6 +260,8 @@ Completion evidence: the 108-cell matrix completed without failed, pending, or n
 ### v0.6 — Controlled improvement workflow
 
 **Objective:** make improvement hypotheses reproducible from artifact registration through human-approved validation.
+
+The governed pull-request sequence, contracts, security boundaries, tests, migration, rollback, and release gates for R6.1 through R6.4 are defined in `R6_IMPLEMENTATION_PLAN.md`. R6 is complete. Runtime revision `079bf45` implements schema 0.8 contracts, the canonical benchmark-backed experiment service, lifecycle and review controls, prompt/configuration analysis, reporting, offline verification, and the dedicated CI gate. Governance revision `aacf27c` makes `Controlled improvement` a required protected-branch check. All eleven GitHub Actions jobs passed in run `31376156815`; exact local gates, artifact hashes, package evidence, limitations, and ADR status are recorded in `R6_COMPLETION_EVIDENCE.md`. R2 through R5 completion evidence remains unchanged, and R7 is the next implementation milestone.
 
 #### R6.1 — Artifact registry and safe diffs
 
@@ -434,6 +436,6 @@ Every roadmap initiative must be delivered through a small reviewable pull reque
 12. rollback behavior;
 13. known limitations.
 
-The completed R4 and R5 implementation plans address these requirements for their initiatives. The future R6.4 implementation plan must address every item above before implementation begins; this roadmap does not substitute for that detailed plan.
+The completed R4, R5, and R6 implementation plans address these requirements for their initiatives.
 
 An initiative is not complete while any required quality gate fails. Scope changes must update this roadmap and the corresponding implementation plan before implementation begins.

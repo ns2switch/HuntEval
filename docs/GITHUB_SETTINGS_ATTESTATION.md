@@ -50,3 +50,12 @@ The live `main` protection now retains mandatory pull requests while requiring z
 The committed live-settings verifier passed against the detailed branch-protection response and rulesets `20609834` and `20609835`. Pull request [#1](https://github.com/ns2switch/HuntEval/pull/1) subsequently reported `CLEAN` and `MERGEABLE` with all ten required checks successful.
 
 If a second trusted maintainer is granted repository access, the repository must restore at least one required approval, required CODEOWNER review, and stale-review dismissal as documented in `docs/GITHUB_OPERATIONS.md`. This amendment changes only the live governance configuration needed to support a sole maintainer; it does not modify or supersede the historical R2 evidence above.
+
+## R6 required-check amendment
+
+- Policy revision: `aacf27c8d346fb58226dd8bb99a803c6b652b88a`
+- Administrator: `ns2switch`
+- Verification date (UTC): `2026-08-10`
+- Evidence: [R6 validation run 31376156815](https://github.com/ns2switch/HuntEval/actions/runs/31376156815)
+
+The live `main` protection now requires `Controlled improvement` in addition to the ten previously recorded checks. Strict up-to-date-branch enforcement, mandatory pull requests, zero-approval solo-maintainer governance, administrator enforcement, conversation resolution, force-push prohibition, branch-deletion prohibition, and both protected release-tag rulesets remain active. The committed live-settings verifier passed after the new check was added. All eleven jobs passed on the exact policy revision above. This amendment extends the required-check inventory without modifying earlier implementation or governance evidence.

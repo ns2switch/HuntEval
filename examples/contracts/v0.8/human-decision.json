@@ -1,0 +1,6 @@
+{
+  "schema_version": "0.8", "id": "review-supervisor-ownership", "recommendation_id": "recommendation-supervisor-ownership",
+  "candidate_artifact_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", "experiment_sha256": "1010101010101010101010101010101010101010101010101010101010101010",
+  "validation_decision_sha256": "1515151515151515151515151515151515151515151515151515151515151515", "improvement_policy_sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+  "reviewer_id": "reviewer-r6-001", "reviewed_at": "2026-08-10T13:00:00Z", "decision": "approve", "reason_codes": ["controlled_validation_reviewed"], "explicit_confirmation": true
+}

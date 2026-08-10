@@ -11,6 +11,7 @@ mod episode;
 mod error;
 mod evidence;
 mod id;
+mod improvement;
 mod metrics;
 mod result;
 mod science;
@@ -54,6 +55,7 @@ pub use id::{
     ReviewerId, RunId, ScoringProfileId, StatisticalPolicyId, TaskId, TopologyExperimentId,
     TopologyId,
 };
+pub use improvement::*;
 pub use metrics::{Applicability, MetricDirection, MetricRange, MetricValue};
 pub use result::{
     ArtifactReferences, ConstraintViolation, MetricVector, ResourceProvenance, ResourceUsage,

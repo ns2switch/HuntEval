@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema", "$id": "https://hunteval.dev/schemas/v0.8/recommendation-state.schema.json",
+  "title": "HuntEval recommendation lifecycle projection v0.8", "type": "object", "additionalProperties": false,
+  "required": ["schema_version", "recommendation_id", "last_sequence", "last_event_sha256", "status", "candidate_artifact_sha256", "validation_decision_sha256", "human_decision_sha256", "adoption_record_sha256", "invalidation_reasons"],
+  "properties": {
+    "schema_version": {"const": "0.8"}, "recommendation_id": {"$ref": "common.schema.json#/$defs/identifier"},
+    "last_sequence": {"type": "integer", "minimum": 1}, "last_event_sha256": {"$ref": "common.schema.json#/$defs/sha256"},
+    "status": {"enum": ["proposed", "testing", "validated", "rejected", "approved", "adopted", "invalidated", "superseded"]},
+    "candidate_artifact_sha256": {"$ref": "common.schema.json#/$defs/sha256"},
+    "validation_decision_sha256": {"oneOf": [{"$ref": "common.schema.json#/$defs/sha256"}, {"type": "null"}]},
+    "human_decision_sha256": {"oneOf": [{"$ref": "common.schema.json#/$defs/sha256"}, {"type": "null"}]},
+    "adoption_record_sha256": {"oneOf": [{"$ref": "common.schema.json#/$defs/sha256"}, {"type": "null"}]},
+    "invalidation_reasons": {"$ref": "common.schema.json#/$defs/reason_codes"}
+  },
+  "allOf": [
+    {"if": {"properties": {"status": {"enum": ["validated", "approved", "adopted"]}}}, "then": {"properties": {"validation_decision_sha256": {"$ref": "common.schema.json#/$defs/sha256"}}}},
+    {"if": {"properties": {"status": {"enum": ["approved", "adopted"]}}}, "then": {"properties": {"human_decision_sha256": {"$ref": "common.schema.json#/$defs/sha256"}}}},
+    {"if": {"properties": {"status": {"const": "adopted"}}}, "then": {"properties": {"adoption_record_sha256": {"$ref": "common.schema.json#/$defs/sha256"}}}},
+    {"if": {"properties": {"status": {"const": "invalidated"}}}, "then": {"properties": {"invalidation_reasons": {"minItems": 1}}}}
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "schema_version": "0.8", "id": "controlled-improvement-v1",
+  "immutable_section_classes": ["authorization_policy", "tool_access_policy", "filesystem_policy", "network_policy", "data_handling_policy", "ground_truth_isolation", "benchmark_constraints", "output_integrity", "security_controls"],
+  "allowed_targets": ["task_planning", "evidence_requirements", "delegation_strategy", "stopping_conditions", "communication_format", "error_recovery", "output_contract"],
+  "allowed_operations": ["add_section", "replace_section", "remove_section", "add_constraint"],
+  "max_artifact_bytes": 1048576, "max_growth_percent": 25, "answer_leakage_check_required": true,
+  "hidden_test_feedback_during_selection": false, "human_review_required": true, "autonomous_adoption": false,
+  "constraints": [
+    {"kind": "minimum_metric", "metric": "event_recall", "threshold": 0.75, "required_provenance": "none"},
+    {"kind": "maximum_regression", "metric": "event_recall", "threshold": 0.02, "required_provenance": "none"},
+    {"kind": "maximum_verified_cost_increase", "metric": "verified_cost_utilization", "threshold": 0.10, "required_provenance": "verified_adapter"}
+  ]
+}

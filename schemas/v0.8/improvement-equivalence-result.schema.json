@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hunteval.dev/schemas/v0.8/improvement-equivalence-result.schema.json",
+  "title": "HuntEval improvement equivalence result v0.8",
+  "type": "object", "additionalProperties": false,
+  "required": ["schema_version", "experiment_id", "experiment_sha256", "artifact_diff_sha256", "status", "declared_changed_variable", "actual_changed_variables", "controls_equal", "safety_status", "leakage_status", "reason_codes"],
+  "properties": {
+    "schema_version": {"const": "0.8"}, "experiment_id": {"$ref": "common.schema.json#/$defs/identifier"},
+    "experiment_sha256": {"$ref": "common.schema.json#/$defs/sha256"}, "artifact_diff_sha256": {"$ref": "common.schema.json#/$defs/sha256"},
+    "status": {"enum": ["eligible", "ineligible"]}, "declared_changed_variable": {"$ref": "common.schema.json#/$defs/identifier"},
+    "actual_changed_variables": {"type": "array", "maxItems": 8, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/identifier"}},
+    "controls_equal": {"type": "boolean"}, "safety_status": {"enum": ["passed", "rejected", "unverifiable"]},
+    "leakage_status": {"enum": ["passed", "rejected", "unverifiable"]}, "reason_codes": {"$ref": "common.schema.json#/$defs/reason_codes"}
+  },
+  "allOf": [{"if": {"properties": {"status": {"const": "eligible"}}}, "then": {"properties": {"actual_changed_variables": {"minItems": 1, "maxItems": 1}, "controls_equal": {"const": true}, "safety_status": {"const": "passed"}, "leakage_status": {"const": "passed"}, "reason_codes": {"maxItems": 0}}}}]
+}

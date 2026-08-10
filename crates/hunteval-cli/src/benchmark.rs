@@ -87,7 +87,7 @@ pub(crate) fn execute(command: BenchmarkCommand) -> Result<ExitCode, Box<dyn std
 }
 
 #[allow(clippy::too_many_arguments)]
-fn run_new(
+pub(crate) fn run_new(
     manifest: &Path,
     output: &Path,
     jobs: usize,
@@ -127,7 +127,7 @@ fn run_new(
     execute_plan(&output, &config, RetryPolicy::None)
 }
 
-fn resume(
+pub(crate) fn resume(
     benchmark_directory: &Path,
     retry: RetryArgument,
 ) -> Result<ExitCode, Box<dyn std::error::Error>> {
@@ -191,7 +191,7 @@ fn validate_controller(config: &ControllerConfig) -> Result<(), Box<dyn std::err
     Ok(())
 }
 
-fn status(
+pub(crate) fn status(
     benchmark_directory: &Path,
     format: OutputFormatArgument,
 ) -> Result<ExitCode, Box<dyn std::error::Error>> {

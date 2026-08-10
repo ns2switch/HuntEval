@@ -397,3 +397,57 @@ Repeated classifications across comparable cells establish recurrence only. Agen
 **Status:** Accepted.
 
 Queueing, task execution, managed-tool wait, active-agent, and idle intervals derive from runner-authoritative trajectory order and timestamps. Overlaps are unioned deterministically; negative, reversed, missing, cross-run, or ambiguous intervals fail or become explicitly unavailable according to the metric contract. Agent-reported timing is never upgraded to measured timing, and bottlenecks remain separate from investigation quality and verified resource costs.
+
+## ADR-067 — Add immutable controlled-improvement contracts
+
+**Status:** Accepted.
+
+Schema version 0.8 adds bounded artifacts for registration, structural diff, improvement policy, controlled experiment, equivalence, validation, recommendation lifecycle, human decision, external adoption record, prompt/configuration weakness taxonomy, normalized report, and bundle verification. Schemas 0.3 through 0.7 remain immutable. Unknown versions, fields, variants, states, references, policies, and applicability values fail closed.
+
+## ADR-068 — Register exact bytes and compare only declared structure
+
+**Status:** Accepted.
+
+Every experimental artifact is identified by exact bytes, kind, media type, and SHA-256 digest. A bounded versioned section inventory is required for structural comparison. Opaque legacy artifacts remain valid provenance but are ineligible for a structural experiment. Diff operations use typed section identifiers; inferred Markdown structure and arbitrary filesystem patches are not normative evidence.
+
+## ADR-069 — Put immutable safety policy outside candidate authority
+
+**Status:** Accepted.
+
+The versioned improvement policy owns the complete immutable class inventory: authorization, tool access, filesystem, network, data handling, ground-truth isolation, benchmark constraints, output integrity, and security controls. A candidate cannot redefine mutability. Missing, changed, removed, renamed, reclassified, or ambiguously parsed immutable content makes the candidate ineligible before scored execution.
+
+## ADR-070 — Separate candidate selection from hidden-test evaluation
+
+**Status:** Accepted.
+
+An evaluator-only content-addressed partition policy controls training, validation, and hidden-test membership. Candidate generation and selection cannot receive hidden membership, metrics, failures, or episode-level feedback. A frozen candidate may receive one sealed final assessment for release or adoption review; that result cannot feed another candidate in the same lineage.
+
+## ADR-071 — Reuse benchmark journals for controlled paired experiments
+
+**Status:** Accepted.
+
+R6 resolves baseline and candidate matrices into the existing benchmark cell and attempt model. Experiment journals add scoped transitions and references without replacing or modifying benchmark journals. Existing pairing, resume, failure, non-comparability, statistics, sandbox, and verification semantics remain authoritative.
+
+## ADR-072 — Make recommendation state append-only and digest-bound
+
+**Status:** Accepted.
+
+Recommendation lifecycle events form an append-only hash chain and project deterministically to current state. Only explicit transitions are valid. A change to candidate or controlling bytes invalidates prior validation and downstream approval or adoption eligibility without rewriting history.
+
+## ADR-073 — Separate experimental validation, human approval, and adoption
+
+**Status:** Accepted.
+
+A passing controlled decision can support `validated` but cannot approve or adopt a candidate. A human decision binds exact recommendation, candidate, experiment, validation, policy, reviewer identifier, and UTC time. HuntEval never edits the active deployment; `adopted` records a separately confirmed external action against the approved digest.
+
+## ADR-074 — Treat prompt recommendations as bounded hypotheses until controlled support
+
+**Status:** Accepted.
+
+A content-addressed reviewable taxonomy maps exact R5 classifications and observable source families to candidate prompt/configuration weaknesses. Executable mapping remains compiled typed Rust. Suggested changes cite exact evidence and sections. Observational traces alone cannot produce validation.
+
+## ADR-075 — Keep suggested patches separate and non-authoritative
+
+**Status:** Accepted.
+
+A suggested-change artifact may describe bounded typed operations against mutable sections, but generation never writes into a registered baseline or deployment tree. A suggestion becomes testable only after an explicit materialization step creates new bytes, registration assigns a new digest, safety validation passes, and a new controlled experiment binds the candidate.

@@ -1,0 +1,7 @@
+{
+  "schema_version": "0.8", "id": "supervisor-instructions-v2-structure", "registered_artifact_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "sections": [
+    {"id": "authorization", "mutability": "immutable", "class": "authorization_policy", "content": "Only HuntEval-authorized actions are permitted.", "sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"},
+    {"id": "delegation", "mutability": "mutable", "class": "delegation_strategy", "content": "Assign every task to one declared owner.", "sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"}
+  ]
+}

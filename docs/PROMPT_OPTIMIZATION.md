@@ -282,3 +282,15 @@ Example questions:
 - Which deployment is most robust when the query specialist fails?
 
 Answers must cite concrete run and artifact identifiers.
+
+## 14. Controlled improvement contract boundary
+
+Schema 0.8 makes the future workflow auditable without enabling autonomous optimization. A recommendation must distinguish observation, classification, attribution, hypothesis, suggested change, experimental support, human approval, external adoption, rejection, and invalidation. Exact registered artifact and section hashes replace free-form prompt-version claims.
+
+The first structured weakness taxonomy covers role ambiguity, missing output contracts, missing evidence requirements, missing acceptance criteria, missing stopping conditions, unclear tool-use policy, insufficient error handling, insufficient delegation policy, duplicated responsibility, missing task ownership, missing conflict-resolution policy, excessive communication requirements, insufficient evidence-sharing rules, and overly broad specialist invocation criteria. Taxonomy data is reviewable metadata; typed compiled rules own executable mapping behavior.
+
+A suggestion can target only an explicitly mutable structured section and remains a separate proposed artifact. It cannot edit a registered baseline, redefine section mutability, or alter authorization, tool-access, filesystem, network, data-handling, ground-truth-isolation, benchmark-constraint, output-integrity, or security-control sections. Materializing a suggestion creates new candidate bytes and a new content identity.
+
+Validation requires a paired controlled experiment over authorized training and validation partitions. Candidate generation and selection cannot access hidden-test membership or feedback. A frozen candidate may receive one sealed final assessment under the accepted partition policy, but that result cannot be used to iterate another candidate in the same lineage. Changing candidate or control bytes invalidates previous validation.
+
+No schema 0.8 artifact authorizes HuntEval to modify an active deployment. A passing experiment supports `validated`; a separate explicit human decision supports `approved`; `adopted` records a separately confirmed external action against the approved digest. Autonomous adoption remains outside R6 and the v1.0 commitment.

@@ -15,6 +15,7 @@ The `CI` workflow uses read-only repository permissions, cancels superseded bran
 - `Documentation`
 - `Benchmark science`
 - `Evidence-backed diagnosis`
+- `Controlled improvement`
 - `Package`
 
 Every job calls a repository-owned script under `scripts/ci/`. Cache keys bind the pinned runner image, operating system, architecture, Rust toolchain, compilation target, feature set, lockfile, and job purpose, so changing the runner image creates a new cache namespace. The uncached package job repeats deterministic contract and fixture tests in a clean target directory. Ordinary jobs receive no deployment or release secret.
@@ -23,7 +24,7 @@ CI uploads only bounded logs, generated Rust documentation, normalized public be
 
 ## Required repository settings
 
-Protect `main` with pull requests, conversation resolution, administrator enforcement, and all ten checks above. Require the branch to be current before merge. Disable force pushes and deletion. The repository currently has one administrator and no independent reviewer, so the pull-request rule requires zero approvals and does not require CODEOWNER self-approval. `CODEOWNERS` remains an ownership and routing record. If a second trusted maintainer is granted access, restore at least one approval, CODEOWNER review, and stale-review dismissal before that maintainer's first merge. Restrict emergency recovery to repository administrators and preserve an auditable pull request whenever GitHub is operational.
+Protect `main` with pull requests, conversation resolution, administrator enforcement, and all eleven checks above. Require the branch to be current before merge. Disable force pushes and deletion. The repository currently has one administrator and no independent reviewer, so the pull-request rule requires zero approvals and does not require CODEOWNER self-approval. `CODEOWNERS` remains an ownership and routing record. If a second trusted maintainer is granted access, restore at least one approval, CODEOWNER review, and stale-review dismissal before that maintainer's first merge. Restrict emergency recovery to repository administrators and preserve an auditable pull request whenever GitHub is operational.
 
 Create one active `v*` tag ruleset that restricts creation to explicit release maintainers and a separate active `v*` ruleset with no bypass actor that prohibits update and deletion after creation. Keeping immutability in a non-bypassable ruleset prevents a creation bypass from weakening existing tags. Production releases require a separately authorized manual decision; the committed release-candidate workflow has `contents: read` and cannot create a release.
 

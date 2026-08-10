@@ -1,0 +1,7 @@
+{
+  "schema_version": "0.8", "recommendation_id": "recommendation-supervisor-ownership", "last_sequence": 3,
+  "last_event_sha256": "1616161616161616161616161616161616161616161616161616161616161616", "status": "validated",
+  "candidate_artifact_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+  "validation_decision_sha256": "1515151515151515151515151515151515151515151515151515151515151515",
+  "human_decision_sha256": null, "adoption_record_sha256": null, "invalidation_reasons": []
+}

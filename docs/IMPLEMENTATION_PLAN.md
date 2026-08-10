@@ -1,6 +1,6 @@
 # Implementation plan
 
-This document records the original MVP milestones. PR-00 through PR-15 implemented the executable MVP sequence. New work is prioritized in `ROADMAP.md` and must receive its own pull-request-level implementation plan before code changes begin. The detailed preparation for roadmap initiatives R2.1 through R2.4 is maintained in `R2_IMPLEMENTATION_PLAN.md`; R3.1 through R3.3 are maintained in `R3_IMPLEMENTATION_PLAN.md`.
+This document records the original MVP milestones. PR-00 through PR-15 implemented the executable MVP sequence. New work is prioritized in `ROADMAP.md` and must receive its own pull-request-level implementation plan before code changes begin. Release-specific preparation is maintained in `R2_IMPLEMENTATION_PLAN.md` through `R6_IMPLEMENTATION_PLAN.md`; completed-release evidence remains in the corresponding completion records.
 
 ## Milestone 0 — Repository bootstrap
 

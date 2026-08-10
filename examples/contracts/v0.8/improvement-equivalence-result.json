@@ -1,0 +1,6 @@
+{
+  "schema_version": "0.8", "experiment_id": "experiment-supervisor-ownership", "experiment_sha256": "1010101010101010101010101010101010101010101010101010101010101010",
+  "artifact_diff_sha256": "1111111111111111111111111111111111111111111111111111111111111111", "status": "eligible",
+  "declared_changed_variable": "supervisor_instruction_artifact", "actual_changed_variables": ["supervisor_instruction_artifact"],
+  "controls_equal": true, "safety_status": "passed", "leakage_status": "passed", "reason_codes": []
+}

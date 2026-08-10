@@ -2,8 +2,8 @@ use clap::Parser;
 
 use super::{
     BenchmarkCommand, Cli, Command, DatasetCommand, DeploymentCommand, DiagnoseCommand,
-    OutputFormatArgument, ReportCommand, ReportFormatArgument, RetryArgument, RunCommand,
-    SystemCommand,
+    ImprovementCommand, OutputFormatArgument, ReportCommand, ReportFormatArgument, RetryArgument,
+    RunCommand, SystemCommand,
 };
 
 #[test]
@@ -25,6 +25,48 @@ fn parses_resume_retry_policy() -> Result<(), clap::Error> {
             }
         })
     ));
+    Ok(())
+}
+
+#[test]
+fn parses_controlled_improvement_commands_without_adoption_surface() -> Result<(), clap::Error> {
+    let validate = Cli::try_parse_from([
+        "hunteval",
+        "improvement",
+        "validate",
+        "--experiment",
+        "experiment.json",
+        "--equivalence",
+        "equivalence.json",
+        "--candidate-artifact",
+        "candidate.json",
+        "--benchmark-manifest",
+        "benchmark.yaml",
+    ])?;
+    assert!(matches!(
+        validate.command,
+        Some(Command::Improvement {
+            command: ImprovementCommand::Validate { .. }
+        })
+    ));
+    let verify = Cli::try_parse_from([
+        "hunteval",
+        "improvement",
+        "verify",
+        "bundle",
+        "--format",
+        "json",
+    ])?;
+    assert!(matches!(
+        verify.command,
+        Some(Command::Improvement {
+            command: ImprovementCommand::Verify {
+                format: OutputFormatArgument::Json,
+                ..
+            }
+        })
+    ));
+    assert!(Cli::try_parse_from(["hunteval", "improvement", "adopt"]).is_err());
     Ok(())
 }
 

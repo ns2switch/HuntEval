@@ -32,7 +32,7 @@ cargo build --workspace --release --locked
 for binary in hunteval hunteval-duckdb-worker hunteval-reference-deployment hunteval-fixture-tool; do
     install -m 0755 "target/release/$binary" "$staging/hunteval/bin/$binary"
 done
-cp -R schemas/v0.3 schemas/v0.4 schemas/v0.5 schemas/v0.6 schemas/v0.7 "$staging/hunteval/schemas/"
+cp -R schemas/v0.3 schemas/v0.4 schemas/v0.5 schemas/v0.6 schemas/v0.7 schemas/v0.8 "$staging/hunteval/schemas/"
 cp -R taxonomies "$staging/hunteval/"
 install -m 0644 LICENSE README.md SECURITY.md "$staging/hunteval/"
 

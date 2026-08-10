@@ -1,0 +1,7 @@
+{
+  "schema_version": "0.8", "id": "bundle-supervisor-ownership", "report_sha256": "1919191919191919191919191919191919191919191919191919191919191919",
+  "artifacts": [
+    {"kind": "report", "path": "improvement-report.json", "sha256": "1919191919191919191919191919191919191919191919191919191919191919", "size_bytes": 2048},
+    {"kind": "validation_decision", "path": "artifacts/validation-decision.json", "sha256": "1515151515151515151515151515151515151515151515151515151515151515", "size_bytes": 1024}
+  ]
+}

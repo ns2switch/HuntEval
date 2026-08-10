@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hunteval.dev/schemas/v0.8/improvement-policy.schema.json",
+  "title": "HuntEval controlled improvement policy v0.8",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "id", "immutable_section_classes", "allowed_targets", "allowed_operations", "max_artifact_bytes", "max_growth_percent", "answer_leakage_check_required", "hidden_test_feedback_during_selection", "human_review_required", "autonomous_adoption", "constraints"],
+  "properties": {
+    "schema_version": {"const": "0.8"},
+    "id": {"$ref": "common.schema.json#/$defs/identifier"},
+    "immutable_section_classes": {
+      "type": "array", "minItems": 9, "maxItems": 9,
+      "prefixItems": [
+        {"const": "authorization_policy"}, {"const": "tool_access_policy"}, {"const": "filesystem_policy"},
+        {"const": "network_policy"}, {"const": "data_handling_policy"}, {"const": "ground_truth_isolation"},
+        {"const": "benchmark_constraints"}, {"const": "output_integrity"}, {"const": "security_controls"}
+      ],
+      "items": false
+    },
+    "allowed_targets": {"type": "array", "minItems": 1, "maxItems": 7, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/mutable_section_class"}},
+    "allowed_operations": {"type": "array", "minItems": 1, "maxItems": 4, "uniqueItems": true, "items": {"enum": ["add_section", "replace_section", "remove_section", "add_constraint"]}},
+    "max_artifact_bytes": {"type": "integer", "minimum": 1, "maximum": 16777216},
+    "max_growth_percent": {"type": "number", "minimum": 0, "maximum": 100},
+    "answer_leakage_check_required": {"const": true},
+    "hidden_test_feedback_during_selection": {"const": false},
+    "human_review_required": {"const": true},
+    "autonomous_adoption": {"const": false},
+    "constraints": {"type": "array", "minItems": 2, "maxItems": 64, "items": {"$ref": "#/$defs/constraint"}, "allOf": [{"contains": {"properties": {"kind": {"const": "minimum_metric"}}}}, {"contains": {"properties": {"kind": {"const": "maximum_regression"}}}}]}
+  },
+  "$defs": {
+    "constraint": {
+      "type": "object", "additionalProperties": false,
+      "required": ["kind", "metric", "threshold", "required_provenance"],
+      "properties": {
+        "kind": {"enum": ["minimum_metric", "maximum_regression", "maximum_verified_cost_increase"]},
+        "metric": {"$ref": "common.schema.json#/$defs/metric_name"},
+        "threshold": {"type": "number", "minimum": 0},
+        "required_provenance": {"enum": ["none", "measured", "verified_adapter"]}
+      }
+    }
+  }
+}

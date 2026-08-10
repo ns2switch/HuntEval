@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hunteval.dev/schemas/v0.8/common.schema.json",
+  "title": "HuntEval common contract primitives v0.8",
+  "$defs": {
+    "identifier": {"type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"},
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "utc_timestamp": {"type": "string", "format": "date-time", "pattern": "Z$"},
+    "reason_code": {"type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-z][a-z0-9_]*$"},
+    "metric_name": {"type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-z][a-z0-9_.]*$"},
+    "section_id": {"type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-z][a-z0-9_.-]*$"},
+    "safe_label": {"type": "string", "minLength": 1, "maxLength": 256, "pattern": "^[^/\\\\\u0000]+$"},
+    "safe_relative_path": {"type": "string", "minLength": 1, "maxLength": 4096, "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))[^\\u0000]+$"},
+    "bounded_text": {"type": "string", "minLength": 1, "maxLength": 4096},
+    "reason_codes": {"type": "array", "maxItems": 64, "uniqueItems": true, "items": {"$ref": "#/$defs/reason_code"}},
+    "artifact_kind": {"enum": ["deployment_configuration", "instruction", "output_contract", "tool_description", "coordination_policy", "other_configuration"]},
+    "media_type": {"enum": ["application/json", "application/yaml", "text/markdown", "text/plain"]},
+    "immutable_section_class": {"enum": ["authorization_policy", "tool_access_policy", "filesystem_policy", "network_policy", "data_handling_policy", "ground_truth_isolation", "benchmark_constraints", "output_integrity", "security_controls"]},
+    "mutable_section_class": {"enum": ["task_planning", "evidence_requirements", "delegation_strategy", "stopping_conditions", "communication_format", "error_recovery", "output_contract"]},
+    "artifact_reference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "sha256"],
+      "properties": {
+        "id": {"$ref": "#/$defs/identifier"},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "report_source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "artifact_sha256", "reference_id"],
+      "properties": {
+        "kind": {"enum": ["diagnostic_source", "artifact", "diff", "experiment", "equivalence", "validation_decision", "recommendation_event", "human_decision", "adoption_record"]},
+        "artifact_sha256": {"$ref": "#/$defs/sha256"},
+        "reference_id": {"$ref": "#/$defs/identifier"}
+      }
+    }
+  }
+}
