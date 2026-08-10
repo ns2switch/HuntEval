@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hunteval.dev/schemas/v0.7/diagnostic-taxonomy.schema.json",
+  "title": "HuntEval diagnostic failure taxonomy v0.7",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "taxonomy_version", "id", "definitions"],
+  "properties": {
+    "schema_version": {"const": "0.7"},
+    "taxonomy_version": {"$ref": "common.schema.json#/$defs/contract_version"},
+    "id": {"$ref": "common.schema.json#/$defs/identifier"},
+    "definitions": {
+      "type": "array",
+      "minItems": 6,
+      "maxItems": 256,
+      "items": {"$ref": "#/$defs/failure_definition"},
+      "allOf": [
+        {"contains": {"properties": {"category": {"const": "investigation"}}, "required": ["category"]}},
+        {"contains": {"properties": {"category": {"const": "evidence"}}, "required": ["category"]}},
+        {"contains": {"properties": {"category": {"const": "tool_use"}}, "required": ["category"]}},
+        {"contains": {"properties": {"category": {"const": "coordination"}}, "required": ["category"]}},
+        {"contains": {"properties": {"category": {"const": "resilience"}}, "required": ["category"]}},
+        {"contains": {"properties": {"category": {"const": "policy"}}, "required": ["category"]}}
+      ]
+    }
+  },
+  "$defs": {
+    "failure_category": {"enum": ["investigation", "evidence", "tool_use", "coordination", "resilience", "policy"]},
+    "source_kind": {"enum": ["trajectory_event", "agent", "action", "task", "evidence", "finding", "operational_message", "metric", "benchmark_cell", "statistical_comparison", "topology", "topology_experiment", "topology_equivalence", "topology_analysis", "artifact"]},
+    "source_family": {"enum": ["trajectory", "deployment", "managed_tool", "investigation_artifact", "metric", "benchmark", "topology_experiment"]},
+    "failure_definition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["code", "category", "safe_description", "required_source_kinds", "required_source_families", "minimum_sources", "minimum_confidence"],
+      "properties": {
+        "code": {"$ref": "common.schema.json#/$defs/reason_code"},
+        "category": {"$ref": "#/$defs/failure_category"},
+        "safe_description": {"$ref": "common.schema.json#/$defs/bounded_text"},
+        "required_source_kinds": {"type": "array", "minItems": 1, "maxItems": 16, "uniqueItems": true, "items": {"$ref": "#/$defs/source_kind"}},
+        "required_source_families": {"type": "array", "minItems": 1, "maxItems": 8, "uniqueItems": true, "items": {"$ref": "#/$defs/source_family"}},
+        "minimum_sources": {"type": "integer", "minimum": 1, "maximum": 32},
+        "minimum_confidence": {"$ref": "common.schema.json#/$defs/evidence_confidence"}
+      }
+    }
+  }
+}

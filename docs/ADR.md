@@ -355,3 +355,45 @@ A controlled topology experiment binds baseline and candidate topology hashes, p
 **Status:** Accepted.
 
 Investigation quality, coordination overhead, duplicate work, evidence propagation, task allocation, parallelism, utilization, resilience, and verified resources remain separate observable dimensions. Observational traces do not establish contribution. Marginal-agent and role contribution require a controlled ablation and are always labeled experimental and topology-dependent.
+
+## ADR-060 — Add immutable evidence-backed diagnosis contracts
+
+**Status:** Accepted.
+
+Schema version 0.7 adds bounded artifacts for diagnostic taxonomies, typed source references, failure classifications, run diagnoses, recurrence, bottleneck observations and analysis, controlled contribution analysis, normalized diagnostic reports, and diagnostic bundle manifests. Schemas 0.3 through 0.6 remain immutable. Readers use explicit compatibility behavior, writers emit only the current authored form, and unknown versions, fields, variants, references, confidence levels, and applicability states fail closed.
+
+## ADR-061 — Separate reviewable taxonomy metadata from executable classifiers
+
+**Status:** Accepted.
+
+A content-addressed taxonomy defines stable codes, categories, safe descriptions, required source kinds, and evidence-sufficiency requirements. Executable classification remains typed Rust in the evaluation boundary; taxonomy data cannot contain expressions or scripts. The compiled registry and taxonomy must agree exactly on identifiers and versions. Changing taxonomy bytes or classifier semantics changes artifact identity and invalidates prior reproduction claims.
+
+## ADR-062 — Make confidence an evidence-sufficiency label
+
+**Status:** Accepted.
+
+Diagnostic confidence is the bounded evidence-sufficiency level `direct`, `corroborated`, or `controlled`, never a model-generated probability. A level cannot exceed the strongest complete rule-specific evidence set. Controlled confidence additionally requires an eligible controlled experiment. Missing required evidence omits the classification rather than producing a speculative low-confidence result.
+
+## ADR-063 — Resolve every diagnostic attribution against verified artifacts
+
+**Status:** Accepted.
+
+Diagnostic sources are tagged, typed, bounded references to exact verified run, event, agent, action, task, evidence, finding, metric, benchmark cell, comparison, topology experiment, or artifact identities. Resolution verifies digests, ownership, same-run scope, ordering, and referential integrity. A generic safe artifact reference is permitted only when no stronger typed reference exists. Public diagnosis cannot contain ground-truth identifiers, private paths, private hashes, or inferred private reasoning.
+
+## ADR-064 — Treat diagnostic reports as deterministic projections
+
+**Status:** Accepted.
+
+Normalized JSON is the machine-readable diagnostic source of truth and static HTML is a safe deterministic projection. Reports keep observations, classifications, unvalidated hypotheses, controlled experiment results, and approved changes in explicit stages. R5 writers cannot emit an approved change; that state requires a future R6 approval artifact. Every displayed conclusion resolves to an included source, untrusted text is escaped, and active content is prohibited.
+
+## ADR-065 — Separate recurrence from causal contribution
+
+**Status:** Accepted.
+
+Repeated classifications across comparable cells establish recurrence only. Agent or role contribution requires an eligible R4 controlled topology experiment, an exact changed-variable inventory, paired observations, and the versioned statistical policy. Contribution remains experimental and topology-dependent. Observational recurrence, proximity, message wording, or role labels cannot create a causal contribution claim.
+
+## ADR-066 — Derive bottlenecks from runner-authoritative intervals
+
+**Status:** Accepted.
+
+Queueing, task execution, managed-tool wait, active-agent, and idle intervals derive from runner-authoritative trajectory order and timestamps. Overlaps are unioned deterministically; negative, reversed, missing, cross-run, or ambiguous intervals fail or become explicitly unavailable according to the metric contract. Agent-reported timing is never upgraded to measured timing, and bottlenecks remain separate from investigation quality and verified resource costs.

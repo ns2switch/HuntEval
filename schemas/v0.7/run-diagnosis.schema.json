@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hunteval.dev/schemas/v0.7/run-diagnosis.schema.json",
+  "title": "HuntEval deterministic run diagnosis v0.7",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "run_id", "run_manifest_sha256", "taxonomy_sha256", "classifier_registry_sha256", "classifications", "omissions", "recommendation_hypotheses", "limitations"],
+  "properties": {
+    "schema_version": {"const": "0.7"},
+    "run_id": {"$ref": "common.schema.json#/$defs/identifier"},
+    "run_manifest_sha256": {"$ref": "common.schema.json#/$defs/sha256"},
+    "taxonomy_sha256": {"$ref": "common.schema.json#/$defs/sha256"},
+    "classifier_registry_sha256": {"$ref": "common.schema.json#/$defs/sha256"},
+    "classifications": {"type": "array", "maxItems": 256, "items": {"$ref": "failure-classification.schema.json"}},
+    "omissions": {"type": "array", "maxItems": 256, "items": {"$ref": "#/$defs/omission"}},
+    "recommendation_hypotheses": {"type": "array", "maxItems": 128, "items": {"$ref": "#/$defs/hypothesis"}},
+    "limitations": {"$ref": "common.schema.json#/$defs/reason_codes"}
+  },
+  "$defs": {
+    "omission": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["code", "reason_code"],
+      "properties": {
+        "code": {"$ref": "common.schema.json#/$defs/reason_code"},
+        "reason_code": {"$ref": "common.schema.json#/$defs/reason_code"},
+        "available_sources": {"type": "array", "maxItems": 64, "items": {"$ref": "diagnostic-source-reference.schema.json"}}
+      }
+    },
+    "hypothesis": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "classification_ids", "affected_sources", "hypothesis_code", "rationale", "validation_required", "status"],
+      "properties": {
+        "id": {"$ref": "common.schema.json#/$defs/identifier"},
+        "classification_ids": {"type": "array", "minItems": 1, "maxItems": 64, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/identifier"}},
+        "affected_sources": {"type": "array", "minItems": 1, "maxItems": 128, "items": {"$ref": "diagnostic-source-reference.schema.json"}},
+        "hypothesis_code": {"$ref": "common.schema.json#/$defs/reason_code"},
+        "rationale": {"$ref": "common.schema.json#/$defs/bounded_text"},
+        "validation_required": {"const": true},
+        "status": {"const": "unvalidated"}
+      }
+    }
+  }
+}

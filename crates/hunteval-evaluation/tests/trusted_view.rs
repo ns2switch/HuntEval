@@ -272,6 +272,7 @@ fn valid_input() -> Result<TrustedRunInput, Box<dyn std::error::Error>> {
             (MessageId::new("message-finding")?, 6),
             (MessageId::new("message-task-completed")?, 7),
         ]),
+        event_timestamps: BTreeMap::new(),
         timeline: None,
     };
     let ground_truth = GroundTruth {

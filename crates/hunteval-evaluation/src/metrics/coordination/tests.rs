@@ -122,6 +122,7 @@ fn observed() -> Result<ObservedRun, Box<dyn std::error::Error>> {
         messages: Vec::new(),
         task_transitions: Vec::new(),
         message_sequences: BTreeMap::new(),
+        event_timestamps: BTreeMap::new(),
         timeline: None,
     })
 }

@@ -37,6 +37,7 @@ pub(super) struct ReplayProjection {
     messages: Vec<ObservedMessage>,
     task_transitions: Vec<ObservedTaskTransition>,
     message_sequences: BTreeMap<hunteval_domain::MessageId, u64>,
+    event_timestamps: BTreeMap<u64, hunteval_domain::UtcTimestamp>,
     submission: Option<FinalSubmission>,
     completed_termination: bool,
 }
@@ -54,6 +55,7 @@ impl ReplayProjection {
             messages: Vec::new(),
             task_transitions: Vec::new(),
             message_sequences: BTreeMap::new(),
+            event_timestamps: BTreeMap::new(),
             submission: None,
             completed_termination: false,
         }
@@ -67,6 +69,7 @@ impl ReplayProjection {
         }
         self.message_sequences
             .insert(envelope.message_id.clone(), sequence);
+        self.event_timestamps.insert(sequence, envelope.timestamp);
         let caused_by_message_id = envelope.caused_by_message_id.clone();
         match envelope.payload {
             ProtocolPayload::RunStarted { episode_id, .. } => self.episode_id = Some(episode_id),
@@ -278,6 +281,7 @@ impl ReplayProjection {
                 messages: self.messages,
                 task_transitions: self.task_transitions,
                 message_sequences: self.message_sequences,
+                event_timestamps: self.event_timestamps,
                 timeline,
             },
             submission,

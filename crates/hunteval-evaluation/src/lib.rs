@@ -1,6 +1,7 @@
 //! Pure deterministic evaluation over stored trusted inputs.
 
 mod diagnosis;
+mod diagnostics;
 mod evaluator;
 mod experiments;
 mod input;
@@ -14,6 +15,14 @@ mod types;
 pub use diagnosis::{
     DiagnosticEvidence, DiagnosticInput, FailureClassification, FailureKind, ObservableFailure,
     Recommendation, RecommendationStatus, diagnose, recommend,
+};
+pub use diagnostics::{
+    BottleneckError, ClassificationCandidate, ClassifierRule, ComparableDiagnosticCell,
+    ContributionError, ControlledContributionInput, DiagnosticArtifactSet, DiagnosticInputV07,
+    DiagnosticRegistryError, DiagnosticResolutionError, EvidenceSufficiency, RecurrenceError,
+    ResolvedDiagnosticSource, canonical_taxonomy, classifier_registry_digest, classify_verified,
+    evaluate_bottlenecks, evaluate_sufficiency, reduce_controlled_contribution, reduce_recurrence,
+    resolve_sources, validate_registry,
 };
 pub use evaluator::{DeterministicEvaluator, EvaluationError, Evaluator};
 pub use experiments::{

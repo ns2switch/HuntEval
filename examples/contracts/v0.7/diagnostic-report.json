@@ -1,0 +1,36 @@
+{
+  "schema_version": "0.7",
+  "report_id": "diagnostic-report-run-r5-example-001",
+  "scope": "run",
+  "subject_id": "run-r5-example-001",
+  "source_manifest_sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+  "metric_vector_sha256": "9999999999999999999999999999999999999999999999999999999999999999",
+  "scoring_profile_sha256": null,
+  "claims": [
+    {
+      "id": "claim-duplicate-task-001",
+      "stage": "classification",
+      "code": "duplicate_task_creation",
+      "summary": "Two structured task records duplicated the same registered work unit.",
+      "sources": [
+        {"kind": "task", "run_id": "run-r5-example-001", "entity_id": "task-correlate-002", "artifact_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"}
+      ],
+      "validation_status": "not_applicable"
+    },
+    {
+      "id": "claim-task-ownership-hypothesis-001",
+      "stage": "hypothesis",
+      "code": "task_ownership_policy_may_be_insufficient",
+      "summary": "A bounded task-ownership hypothesis requires a future controlled validation experiment.",
+      "sources": [
+        {"kind": "task", "run_id": "run-r5-example-001", "entity_id": "task-correlate-002", "artifact_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"}
+      ],
+      "validation_status": "unvalidated"
+    }
+  ],
+  "artifacts": [
+    {"kind": "run_diagnosis", "path": "diagnostics/run-diagnosis.json", "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"},
+    {"kind": "bottleneck_analysis", "path": "diagnostics/bottleneck-analysis.json", "sha256": "5555555555555555555555555555555555555555555555555555555555555555"}
+  ],
+  "limitations": ["no_private_reasoning", "raw_metric_vector_authoritative"]
+}

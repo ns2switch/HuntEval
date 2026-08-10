@@ -94,19 +94,19 @@ pub struct BenchmarkReport {
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
-pub struct DiagnosticFinding {
+pub struct LegacyDiagnosticFinding {
     pub classification: String,
     pub affected_runs: Vec<String>,
     pub observable_sources: Vec<String>,
     pub recommendation: String,
-    pub validation_status: DiagnosticValidationStatus,
+    pub validation_status: LegacyDiagnosticValidationStatus,
     pub validation_source: Option<String>,
     pub human_review_required: bool,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
-pub enum DiagnosticValidationStatus {
+pub enum LegacyDiagnosticValidationStatus {
     Unvalidated,
     Validated,
     Rejected,
@@ -114,12 +114,12 @@ pub enum DiagnosticValidationStatus {
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
-pub struct DiagnosticReport {
+pub struct LegacyDiagnosticReport {
     pub schema_version: SchemaVersion,
-    pub findings: Vec<DiagnosticFinding>,
+    pub findings: Vec<LegacyDiagnosticFinding>,
 }
 
-impl DiagnosticReport {
+impl LegacyDiagnosticReport {
     pub fn validate(&self) -> Result<(), ReportError> {
         if self.findings.iter().any(|finding| {
             finding.classification.trim().is_empty()
@@ -131,9 +131,11 @@ impl DiagnosticReport {
                     .any(|source| source.trim().is_empty())
                 || finding.recommendation.trim().is_empty()
                 || match finding.validation_status {
-                    DiagnosticValidationStatus::Unvalidated => finding.validation_source.is_some(),
-                    DiagnosticValidationStatus::Validated
-                    | DiagnosticValidationStatus::Rejected => finding
+                    LegacyDiagnosticValidationStatus::Unvalidated => {
+                        finding.validation_source.is_some()
+                    }
+                    LegacyDiagnosticValidationStatus::Validated
+                    | LegacyDiagnosticValidationStatus::Rejected => finding
                         .validation_source
                         .as_ref()
                         .is_none_or(|source| source.trim().is_empty()),
@@ -163,7 +165,10 @@ impl ReportRenderer for JsonRenderer {
 }
 
 impl JsonRenderer {
-    pub fn render_diagnostic(&self, report: &DiagnosticReport) -> Result<Vec<u8>, ReportError> {
+    pub fn render_legacy_diagnostic(
+        &self,
+        report: &LegacyDiagnosticReport,
+    ) -> Result<Vec<u8>, ReportError> {
         report.validate()?;
         let mut bytes = serde_json::to_vec_pretty(report).map_err(ReportError::Serialize)?;
         bytes.push(b'\n');

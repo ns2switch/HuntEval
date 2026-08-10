@@ -231,6 +231,22 @@ The evaluated deployment, model output, retrieved documents, episode-authored kn
 - observational metrics cannot produce role-contribution or topology-resilience claims;
 - static topology HTML escapes untrusted text and always labels controlled results experimental and topology-dependent.
 
+### 4.16 Diagnostic overclaim and attribution disclosure
+
+**Threat:** Untrusted agent text, incomplete traces, or mismatched artifacts are used to infer private reasoning, expose evaluator-only data, fabricate attribution, silently impute missing observations, or present correlation as causal contribution.
+
+**Mitigations:**
+
+- schema 0.7 permits only bounded typed references to exact observable artifacts and rejects unknown fields and variants;
+- every attribution must resolve against digest-verified artifacts with matching ownership, run scope, event order, and referential integrity before serialization;
+- public diagnosis cannot contain ground-truth identifiers, private paths or hashes, hidden-test material, secrets, or private chain of thought;
+- taxonomy data is non-executable, while classifier behavior remains compiled and reviewable;
+- unsupported classifications and metrics remain unavailable instead of being guessed, assigned low confidence, imputed, or converted to zero;
+- recurrence is observational and cannot produce a causal contribution claim;
+- agent or role contribution requires an eligible R4 controlled topology experiment and remains experimental and topology-dependent;
+- R5 hypotheses remain unvalidated and cannot be represented as approved changes without a future R6 approval artifact;
+- normalized diagnostic JSON is authoritative and static HTML must escape untrusted text and prohibit active content.
+
 ## 5. MVP security requirements
 
 - No deployment network access by default.

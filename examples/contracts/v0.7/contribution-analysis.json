@@ -1,0 +1,35 @@
+{
+  "schema_version": "0.7",
+  "id": "contribution-specialist-001",
+  "experiment_id": "specialist-ablation",
+  "experiment_sha256": "6666666666666666666666666666666666666666666666666666666666666666",
+  "equivalence_sha256": "7777777777777777777777777777777777777777777777777777777777777777",
+  "baseline_topology_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+  "candidate_topology_sha256": "8888888888888888888888888888888888888888888888888888888888888888",
+  "target": {"kind": "agent", "id": "specialist-1"},
+  "changed_variables": ["/agents/2"],
+  "paired_cell_ids": [
+    "cell:1111111111111111111111111111111111111111111111111111111111111111",
+    "cell:2222222222222222222222222222222222222222222222222222222222222222"
+  ],
+  "metric_effects": [
+    {
+      "metric_name": "evidence_completeness",
+      "metric_version": "1.0",
+      "baseline_value": 0.9,
+      "candidate_value": 0.7,
+      "difference": -0.2,
+      "interval": {"lower": -0.3, "upper": -0.1, "confidence": 0.95},
+      "claim_strength": "exploratory",
+      "sources": [
+        {"kind": "topology_experiment", "artifact_id": "specialist-ablation", "artifact_sha256": "6666666666666666666666666666666666666666666666666666666666666666"},
+        {"kind": "topology_equivalence", "artifact_id": "specialist-ablation-equivalence", "artifact_sha256": "7777777777777777777777777777777777777777777777777777777777777777"}
+      ]
+    }
+  ],
+  "applicability": "available",
+  "reason_code": null,
+  "experimental": true,
+  "topology_dependent": true,
+  "limitations": ["experimental_topology_dependent"]
+}

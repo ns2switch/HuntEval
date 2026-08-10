@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hunteval.dev/schemas/v0.7/diagnostic-report.schema.json",
+  "title": "HuntEval normalized diagnostic report v0.7",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "report_id", "scope", "subject_id", "source_manifest_sha256", "metric_vector_sha256", "scoring_profile_sha256", "claims", "artifacts", "limitations"],
+  "properties": {
+    "schema_version": {"const": "0.7"},
+    "report_id": {"$ref": "common.schema.json#/$defs/identifier"},
+    "scope": {"enum": ["run", "benchmark"]},
+    "subject_id": {"$ref": "common.schema.json#/$defs/identifier"},
+    "source_manifest_sha256": {"$ref": "common.schema.json#/$defs/sha256"},
+    "metric_vector_sha256": {"anyOf": [{"$ref": "common.schema.json#/$defs/sha256"}, {"type": "null"}]},
+    "scoring_profile_sha256": {"anyOf": [{"$ref": "common.schema.json#/$defs/sha256"}, {"type": "null"}]},
+    "claims": {"type": "array", "maxItems": 1024, "items": {"$ref": "#/$defs/claim"}},
+    "artifacts": {"type": "array", "maxItems": 1024, "items": {"$ref": "#/$defs/artifact"}},
+    "limitations": {"type": "array", "minItems": 1, "maxItems": 128, "uniqueItems": true, "items": {"$ref": "common.schema.json#/$defs/reason_code"}}
+  },
+  "$defs": {
+    "claim": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "stage", "code", "summary", "sources", "validation_status"],
+      "properties": {
+        "id": {"$ref": "common.schema.json#/$defs/identifier"},
+        "stage": {"enum": ["observation", "classification", "hypothesis", "experiment_result", "approved_change"]},
+        "code": {"$ref": "common.schema.json#/$defs/reason_code"},
+        "summary": {"$ref": "common.schema.json#/$defs/bounded_text"},
+        "sources": {"type": "array", "minItems": 1, "maxItems": 128, "items": {"$ref": "diagnostic-source-reference.schema.json"}},
+        "validation_status": {"enum": ["not_applicable", "unvalidated", "experimental", "approved"]}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"stage": {"const": "approved_change"}}, "required": ["stage"]},
+          "then": {"properties": {"validation_status": {"const": "approved"}}}
+        }
+      ]
+    },
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "path", "sha256"],
+      "properties": {
+        "kind": {"enum": ["run_diagnosis", "recurrence", "bottleneck_observations", "bottleneck_analysis", "contribution_analysis"]},
+        "path": {"$ref": "common.schema.json#/$defs/safe_relative_path"},
+        "sha256": {"$ref": "common.schema.json#/$defs/sha256"}
+      }
+    }
+  }
+}

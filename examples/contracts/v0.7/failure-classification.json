@@ -1,0 +1,36 @@
+{
+  "schema_version": "0.7",
+  "id": "classification-duplicate-task-001",
+  "run_id": "run-r5-example-001",
+  "taxonomy_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "classifier_registry_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+  "code": "duplicate_task_creation",
+  "category": "coordination",
+  "attribution_targets": [
+    {
+      "kind": "task",
+      "run_id": "run-r5-example-001",
+      "entity_id": "task-correlate-002",
+      "artifact_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    }
+  ],
+  "evidence_sources": [
+    {
+      "kind": "trajectory_event",
+      "run_id": "run-r5-example-001",
+      "event_sequence": 42,
+      "artifact_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    {
+      "kind": "task",
+      "run_id": "run-r5-example-001",
+      "entity_id": "task-correlate-002",
+      "artifact_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    }
+  ],
+  "source_families": ["investigation_artifact", "trajectory"],
+  "confidence": "corroborated",
+  "claim_strength": "observational",
+  "topology_dependent": true,
+  "limitations": ["observational_only"]
+}

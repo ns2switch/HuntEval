@@ -1,0 +1,37 @@
+{
+  "schema_version": "0.7",
+  "run_id": "run-r5-example-001",
+  "observations_sha256": "5555555555555555555555555555555555555555555555555555555555555555",
+  "metrics": [
+    {
+      "name": "task_queue_duration",
+      "version": "0.7",
+      "direction": "lower_is_better",
+      "unit": "milliseconds",
+      "range": {"minimum": 0, "maximum": null},
+      "applicability": "available",
+      "value": 2000,
+      "numerator": 2000,
+      "denominator": 1,
+      "reason_code": null,
+      "sources": [
+        {"kind": "trajectory_event", "run_id": "run-r5-example-001", "event_sequence": 38, "artifact_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"},
+        {"kind": "trajectory_event", "run_id": "run-r5-example-001", "event_sequence": 42, "artifact_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"}
+      ]
+    },
+    {
+      "name": "agent_idle_utilization",
+      "version": "0.7",
+      "direction": "lower_is_better",
+      "unit": "ratio",
+      "range": {"minimum": 0, "maximum": 1},
+      "applicability": "unavailable",
+      "value": null,
+      "numerator": null,
+      "denominator": null,
+      "reason_code": "legacy_lifecycle_incomplete",
+      "sources": []
+    }
+  ],
+  "limitations": ["quality_reported_separately"]
+}

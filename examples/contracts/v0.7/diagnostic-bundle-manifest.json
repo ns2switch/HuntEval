@@ -1,0 +1,14 @@
+{
+  "schema_version": "0.7",
+  "bundle_id": "diagnostic-bundle-run-r5-example-001",
+  "source_revision": "b412953a08f3e2e26dff82c1aa0a729515496564000000000000000000000000",
+  "taxonomy_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "classifier_registry_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+  "artifacts": [
+    {"path": "diagnostics/run-diagnosis.json", "media_type": "application/json", "size_bytes": 4096, "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"},
+    {"path": "diagnostics/report.json", "media_type": "application/json", "size_bytes": 2048, "sha256": "9999999999999999999999999999999999999999999999999999999999999999"},
+    {"path": "diagnostics/report.html", "media_type": "text/html", "size_bytes": 8192, "sha256": "8888888888888888888888888888888888888888888888888888888888888888"}
+  ],
+  "root_reports": ["diagnostics/report.json", "diagnostics/report.html"],
+  "limitations": ["offline_verification_required"]
+}

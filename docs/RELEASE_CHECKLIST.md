@@ -5,9 +5,9 @@ HuntEval release candidates are verification exercises. They do not publish a pr
 ## Before tagging
 
 - Confirm the worktree is clean and the candidate commit is on protected `main`.
-- Confirm all eight required CI jobs, including the adversarial protocol job, passed for the exact revision.
+- Confirm all ten required CI jobs, including adversarial protocol, benchmark science, and evidence-backed diagnosis, passed for the exact revision.
 - Confirm the GitHub settings attestation is current.
-- Review schema and protocol compatibility, security impact, known limitations, and accepted ADR changes.
+- Review schema, diagnostic-taxonomy, and protocol compatibility, security impact, known limitations, and accepted ADR changes.
 - Confirm no credentials, evaluator-only artifacts, partial runs, or unrestricted environment diagnostics are present in the package inputs.
 
 ## Dry run
@@ -18,6 +18,8 @@ Run locally with a new absolute output directory:
 ./scripts/ci/quality.sh
 ./scripts/ci/security.sh
 ./scripts/ci/r3-adversarial.sh
+./scripts/ci/r4-science.sh
+./scripts/ci/r5-diagnosis.sh
 ./scripts/ci/e2e.sh
 ./scripts/ci/release-candidate.sh /tmp/hunteval-rc
 (cd /tmp/hunteval-rc && sha256sum -c SHA256SUMS)
