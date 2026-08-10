@@ -366,9 +366,11 @@ jobs:
       - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
         with:
           python-version: '3.11'
-      - name: Install pinned Rust toolchain
+      - name: Install pinned Rust toolchain and host capability
         run: |
           rustup toolchain install 1.93.1 --profile minimal --component clippy,rustfmt
+          sudo apt-get update
+          sudo apt-get install --yes bubblewrap
           python3 --version
       - uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
         with:
@@ -404,8 +406,13 @@ jobs:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
+        with:
+          python-version: '3.11'
       - name: Install pinned Rust toolchain
-        run: rustup toolchain install 1.93.1 --profile minimal --component clippy,rustfmt
+        run: |
+          rustup toolchain install 1.93.1 --profile minimal --component clippy,rustfmt
+          python3 --version
       - name: Build uncached release-candidate dry run
         run: |
           ./scripts/ci/cache-parity.sh
