@@ -261,6 +261,8 @@ Completion evidence: the 108-cell matrix completed without failed, pending, or n
 
 **Objective:** make improvement hypotheses reproducible from artifact registration through human-approved validation.
 
+The governed pull-request sequence, contracts, security boundaries, tests, migration, rollback, and release gates for R6.1 through R6.4 are defined in `R6_IMPLEMENTATION_PLAN.md`. All R6 milestones remain planned; this plan does not constitute implementation evidence.
+
 #### R6.1 — Artifact registry and safe diffs
 
 - register versioned deployment configuration and instruction artifacts by content hash;
@@ -434,6 +436,6 @@ Every roadmap initiative must be delivered through a small reviewable pull reque
 12. rollback behavior;
 13. known limitations.
 
-The completed R4 and R5 implementation plans address these requirements for their initiatives. The future R6.4 implementation plan must address every item above before implementation begins; this roadmap does not substitute for that detailed plan.
+The completed R4 and R5 implementation plans address these requirements for their initiatives. `R6_IMPLEMENTATION_PLAN.md` addresses them for the planned R6.1 through R6.4 sequence; no R6 implementation begins until its R6-00 contract and ADR decisions are accepted.
 
 An initiative is not complete while any required quality gate fails. Scope changes must update this roadmap and the corresponding implementation plan before implementation begins.
