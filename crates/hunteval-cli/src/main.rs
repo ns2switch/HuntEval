@@ -3,6 +3,8 @@
 mod args;
 mod benchmark;
 mod improvement;
+mod r7;
+mod r7_args;
 
 use std::process::ExitCode;
 
@@ -42,6 +44,8 @@ fn execute(cli: Cli) -> Result<ExitCode, Box<dyn std::error::Error>> {
         Some(Command::Dataset { command }) => execute_dataset(command),
         Some(Command::Diagnose { command }) => execute_diagnose(command),
         Some(Command::Improvement { command }) => improvement::execute(command),
+        Some(Command::Knowledge { command }) => r7::execute_knowledge(command),
+        Some(Command::Extension { command }) => r7::execute_extension(command),
         Some(Command::Report { command }) => execute_report(command),
     }
 }

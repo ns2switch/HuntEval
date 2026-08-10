@@ -130,8 +130,9 @@ pub trait LocalIndex: fmt::Debug {
     fn retrieve(&self, request: &RetrievalRequest) -> Result<RetrievalResult, KnowledgeError>;
 }
 
-fn safe_relative(value: &str) -> bool {
+pub(crate) fn safe_relative(value: &str) -> bool {
     !value.is_empty()
+        && value.len() <= 4096
         && !Path::new(value).is_absolute()
         && !Path::new(value).components().any(|component| {
             matches!(
@@ -155,4 +156,14 @@ pub enum KnowledgeError {
     DocumentUnavailable,
     #[error("knowledge document is not valid UTF-8")]
     InvalidEncoding,
+    #[error("analytical corpus is invalid or contains unauthorized sources")]
+    InvalidAnalyticalCorpus,
+    #[error("analytical source inventory does not match the verified corpus")]
+    AnalyticalSourceMismatch,
+    #[error("analytical query is invalid or exceeds a configured bound")]
+    InvalidAnalyticalQuery,
+    #[error("analytical query is not authorized for this index and corpus scope")]
+    AnalyticalAuthorizationDenied,
+    #[error("analytical retrieval audit journal is malformed")]
+    InvalidAuditJournal,
 }

@@ -1,0 +1,4 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema","$id":"https://hunteval.dev/schemas/v0.9/managed-tool-adapter-request.schema.json","title":"HuntEval managed-tool adapter request v0.9","type":"object","additionalProperties":false,
+  "required":["schema_version","request_id","tool","arguments"],"properties":{"schema_version":{"const":"0.9"},"request_id":{"$ref":"common.schema.json#/$defs/identifier"},"tool":{"$ref":"common.schema.json#/$defs/identifier"},"arguments":{}}
+}

@@ -329,6 +329,8 @@ observable run failures
 
 **Objective:** add local analytical capabilities and external integrations without coupling them to the domain model or the scored MVP path.
 
+The governed pull-request sequence, contracts, security boundaries, compatibility strategy, tests, migration, rollback, and release gates for R7.1 through R7.3 are defined in `R7_IMPLEMENTATION_PLAN.md`. R7 implementation is active but remains incomplete until R7-15 records exact local and remote release evidence. R2 through R6 remain complete with their recorded evidence.
+
 #### R7.1 — Artifact-grounded local search
 
 - index normalized reports and verified historical runs locally;
@@ -436,6 +438,6 @@ Every roadmap initiative must be delivered through a small reviewable pull reque
 12. rollback behavior;
 13. known limitations.
 
-The completed R4, R5, and R6 implementation plans address these requirements for their initiatives.
+The completed R4, R5, and R6 implementation plans address these requirements for their initiatives. `R7_IMPLEMENTATION_PLAN.md` applies the same governance to active R7 work without making a completion claim.
 
 An initiative is not complete while any required quality gate fails. Scope changes must update this roadmap and the corresponding implementation plan before implementation begins.

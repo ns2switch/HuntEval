@@ -451,3 +451,51 @@ A content-addressed reviewable taxonomy maps exact R5 classifications and observ
 **Status:** Accepted.
 
 A suggested-change artifact may describe bounded typed operations against mutable sections, but generation never writes into a registered baseline or deployment tree. A suggestion becomes testable only after an explicit materialization step creates new bytes, registration assigns a new digest, safety validation passes, and a new controlled experiment binds the candidate.
+
+## ADR-076 — Add immutable knowledge and extension contracts
+
+**Status:** Accepted.
+
+Schema version 0.9 adds bounded analytical corpus, index, query, result, retrieval-audit, extension manifest, capability policy, resolution, conformance, and SDK compatibility artifacts. Schemas 0.3 through 0.8 remain immutable. Unknown versions, fields, variants, source classes, capabilities, and states fail closed.
+
+## ADR-077 — Separate evaluator analytics from deployment-visible knowledge
+
+**Status:** Accepted.
+
+Every R7 corpus has exactly one authorization scope. Evaluator analytical artifacts are never exposed through deployment sessions or managed retrieval tools. Deployment-visible corpora contain only explicitly authored verified documents and retain the existing untrusted-input and disabled-by-default controls. Mixed scopes fail validation.
+
+## ADR-078 — Index only verified content-addressed public artifacts
+
+**Status:** Accepted.
+
+Analytical corpus membership binds a stable source identity, kind, exact SHA-256 digest, and successful public verification. Index construction requires exact inventory agreement, bounded normalized fields, deterministic ordering, and a content-addressed manifest. Digest drift, unsupported artifacts, private material, symlinks, and incomplete verification are rejected before indexing.
+
+## ADR-079 — Make analytical answers typed deterministic projections
+
+**Status:** Accepted.
+
+Analytical queries use a bounded versioned vocabulary over declared source kinds and verified fields. Results retain source identity, artifact digest, field, and bounded excerpt. They cannot create metrics, causal claims, experimental validation, approval, or adoption absent from source artifacts. Query/result use is recorded through hash-linked retrieval audit events with measured latency and explicit cost availability.
+
+## ADR-080 — Use out-of-process versioned extension contracts
+
+**Status:** Accepted.
+
+Managed-tool and deployment adapters declare exact executable identity, supported versions, requested capabilities, denied network, tool inventory, and resource limits. Third-party execution remains out of process behind the existing sandbox and supervisor. HuntEval does not expose a stable Rust ABI or load third-party libraries into its process.
+
+## ADR-081 — Keep capability policy and scored-tool authority in HuntEval
+
+**Status:** Accepted.
+
+An extension manifest requests capabilities but never grants them. Runner-owned deny-by-default policy resolves requests against explicit limits and rejects every undeclared or excessive capability. Scored tools remain runner-mediated; neither deployment adapters nor SDK clients may execute them directly. Scored network access remains denied before v1.0.
+
+## ADR-082 — Build the Python SDK from normative contracts
+
+**Status:** Accepted.
+
+The pure Python SDK provides strict public contract models, bounded local readers, authored builders, and a deployment-side JSONL peer. It does not implement evaluation, scoring, authoritative verification, runner orchestration, provider access, or direct scored tools. The Rust core has no dependency on Python or Python packaging.
+
+## ADR-083 — Prove cross-language compatibility with canonical fixtures
+
+**Status:** Accepted.
+
+Rust and Python validate the same immutable schema and protocol fixture inventory. Compatibility follows normative schema/protocol semantics and canonical vectors rather than implementation object layout. Python supports version 3.11 or newer for the initial R7 package; changing language or contract support requires an updated compatibility index and package version.

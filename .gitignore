@@ -1,2 +1,9 @@
 /target/
 /runs/
+__pycache__/
+*.py[cod]
+.venv/
+sdk/python/build/
+sdk/python/dist/
+sdk/python/*.egg-info/
+sdk/python/src/*.egg-info/

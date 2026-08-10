@@ -10,6 +10,7 @@ REQUIRED_CHECKS = {
     "Adversarial protocol",
     "Benchmark science",
     "Controlled improvement",
+    "Knowledge and extensions",
     "Evidence-backed diagnosis",
     "Policy",
     "Quality",

@@ -1,0 +1,4 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema","$id":"https://hunteval.dev/schemas/v0.9/extension-resolution.schema.json","title":"HuntEval extension resolution v0.9","type":"object","additionalProperties":false,
+  "required":["schema_version","manifest_sha256","policy_sha256","granted_capabilities","status","reasons"],"properties":{"schema_version":{"const":"0.9"},"manifest_sha256":{"$ref":"common.schema.json#/$defs/sha256"},"policy_sha256":{"$ref":"common.schema.json#/$defs/sha256"},"granted_capabilities":{"type":"array","maxItems":4,"uniqueItems":true,"items":{"$ref":"common.schema.json#/$defs/capability"}},"status":{"enum":["eligible","rejected"]},"reasons":{"type":"array","maxItems":16,"uniqueItems":true,"items":{"$ref":"common.schema.json#/$defs/reason_code"}}}
+}

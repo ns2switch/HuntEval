@@ -1,0 +1,4 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema","$id":"https://hunteval.dev/schemas/v0.9/extension-capability-policy.schema.json","title":"HuntEval extension capability policy v0.9","type":"object","additionalProperties":false,
+  "required":["schema_version","policy_sha256","allowed_capabilities","network","maximum_limits"],"properties":{"schema_version":{"const":"0.9"},"policy_sha256":{"$ref":"common.schema.json#/$defs/sha256"},"allowed_capabilities":{"type":"array","maxItems":4,"uniqueItems":true,"items":{"$ref":"common.schema.json#/$defs/capability"}},"network":{"const":"denied"},"maximum_limits":{"$ref":"common.schema.json#/$defs/limits"}}
+}

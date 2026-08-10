@@ -41,7 +41,7 @@ impl ReportRenderer for StaticHtmlRenderer {
     }
 }
 
-fn escape(value: &str) -> String {
+pub(crate) fn escape(value: &str) -> String {
     value
         .replace('&', "&amp;")
         .replace('<', "&lt;")

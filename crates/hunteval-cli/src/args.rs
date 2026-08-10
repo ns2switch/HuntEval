@@ -2,6 +2,8 @@ use std::path::PathBuf;
 
 use clap::{Args, Parser, Subcommand, ValueEnum};
 
+use crate::r7_args::{ExtensionCommand, KnowledgeCommand};
+
 #[derive(Debug, Parser)]
 #[command(author, version, about)]
 pub(crate) struct Cli {
@@ -39,6 +41,14 @@ pub(crate) enum Command {
     Improvement {
         #[command(subcommand)]
         command: ImprovementCommand,
+    },
+    Knowledge {
+        #[command(subcommand)]
+        command: KnowledgeCommand,
+    },
+    Extension {
+        #[command(subcommand)]
+        command: ExtensionCommand,
     },
     Report {
         #[command(subcommand)]
