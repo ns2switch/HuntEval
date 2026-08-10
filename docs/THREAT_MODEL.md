@@ -16,6 +16,8 @@ HuntEval must protect:
 - verified analytical corpora, indexes, queries, and citations;
 - third-party extension manifests, executables, and capability policies;
 - Python SDK packages and cross-language fixtures.
+- framework connector events, MCP sessions, and fixed tool catalogs;
+- commercial connector policies, secret references, tenant aliases, fixtures, and remote observations.
 
 ## 2. Trust boundaries
 
@@ -33,6 +35,7 @@ Trusted HuntEval runner
 
 The evaluated deployment, model output, retrieved documents, episode-authored knowledge, and generated SQL are untrusted.
 Third-party adapters, analytical source text, query input, Python-authored artifacts, and package contents are also untrusted. Evaluator analytical corpora are a separate trusted-use scope and are never deployment-visible.
+Framework callbacks, MCP clients, vendor responses, DNS results, and commercial platform-native agent output are untrusted. Commercial credentials are external secrets and never public artifact fields.
 
 ## 3. Adversaries and failure sources
 
@@ -218,6 +221,35 @@ Third-party adapters, analytical source text, query input, Python-authored artif
 - centralized bounded redaction before diagnostics are serialized;
 - deterministic scanning of tracked public inputs, generated reports, CI evidence, and release-candidate contents;
 - secret findings retain only a rule, safe relative location, and one-way fingerprint.
+
+### 4.15 Framework and MCP authority escalation
+
+**Threat:** A framework callback or MCP client invokes undeclared tools, forges identities, requests private context, injects tool metadata, or turns an optional adapter into an alternate policy authority.
+
+**Mitigations:**
+
+- one framework-neutral lifecycle over the existing deployment protocol;
+- fixed run-bound MCP capability and tool catalogs;
+- local supervised `stdio` only;
+- no MCP sampling, elicitation, roots, server prompts, arbitrary resources, subscriptions, dynamic tools, or remote transport;
+- strict message, identity, lifecycle, correlation, byte, and count limits;
+- runner-mediated scored tools and explicit structured final submissions;
+- malformed JSON-RPC, duplicate identities, unsupported methods, and cross-run references fail closed.
+
+### 4.16 Commercial connector SSRF and credential disclosure
+
+**Threat:** An agent constructs arbitrary HTTP, reaches local or metadata services, exploits DNS rebinding, forwards credentials, causes mutations, or leaks tenant data through artifacts.
+
+**Mitigations:**
+
+- finite typed read-only platform and operation catalogs;
+- runner-owned exact HTTPS origins with IP literals, paths, user information, and caller-selected transport fields rejected;
+- connection-time validation rejecting loopback, private, link-local, multicast, documentation, metadata, and mapped private addresses;
+- opaque secret references and one-way public identities, never secret values;
+- strict request, response, record, time, and count limits;
+- content-addressed synthetic offline fixtures and no network in required replay CI;
+- live execution unavailable until a supervised worker proves TLS, DNS, redirect, proxy, secret, and host-enforcement requirements;
+- no mutation or production scored SIEM mode before v1.0.
 
 ### 4.15 Topology and dataset-science metadata abuse
 

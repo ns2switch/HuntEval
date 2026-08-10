@@ -84,6 +84,25 @@ python3 -m pip install ./sdk/python
 
 It provides typed public models, digest-verifying artifact readers, and a bounded deployment-protocol peer. It does not execute benchmarks, evaluate results, or call scored tools directly.
 
+## Connect your agent deployment
+
+The Python SDK provides one framework-neutral lifecycle and adapters for common agent frameworks:
+
+| Integration | Current status |
+|---|---|
+| CrewAI | supported R7 baseline |
+| LangGraph | implemented with deterministic fixture conformance |
+| AutoGen AgentChat | implemented with deterministic fixture conformance |
+| Google ADK | implemented locally; remote A2A is disabled |
+| Semantic Kernel | preview with deterministic fixture conformance |
+| MCP | bounded local `stdio` interoperability |
+
+Adapters receive only public run inputs and translate observable tasks, delegation, managed-tool requests, evidence, findings, and the final submission into HuntEval's process protocol. HuntEval retains control of scored tools, budgets, validation, and provenance. Framework scratchpads and private chain of thought are neither requested nor recorded.
+
+Start with the [framework and MCP connector guide](docs/FRAMEWORK_CONNECTORS.md). Exact upstream-version certification remains pending for every new adapter except the existing CrewAI baseline.
+
+HuntEval also includes deterministic offline connector previews for CrowdStrike Falcon, Google Security Operations, Microsoft Sentinel, Elastic Security, and Cortex XSIAM. These previews replay content-addressed synthetic fixtures and perform no DNS, network, credential, or tenant access. See the [commercial connector guide](docs/COMMERCIAL_CONNECTORS.md) for the supported read-only operation families and current limitations.
+
 Validate the included R7 analytical corpus and extension examples:
 
 ```bash
@@ -176,7 +195,9 @@ Scored execution against production SIEMs, unrestricted deployment network acces
 
 ## Project status
 
-R2 through R7 are complete. HuntEval provides the offline benchmark loop, topology science, evidence-backed diagnosis, controlled improvements, artifact-grounded local search, stable extension contracts, a Python SDK, and a CrewAI connector. HuntEval never adopts a suggested change automatically.
+R2 through R7 are complete. HuntEval provides the offline benchmark loop, topology science, evidence-backed diagnosis, controlled improvements, artifact-grounded local search, stable extension contracts, a Python SDK, and a CrewAI connector.
+
+The local v0.7.1 framework/MCP implementation and the v0.7.2 commercial offline safety foundation now exist and have dedicated CI gates. They are not release-complete: exact upstream-framework conformance, a supervised live transport worker, runtime secret handling, authorized non-production tenant evidence, and protected closure evidence remain pending. No commercial connector currently performs live or production-scored execution. HuntEval never adopts a suggested change automatically.
 
 - [Roadmap through v1.0](docs/ROADMAP.md)
 - [R5 completion evidence](docs/R5_COMPLETION_EVIDENCE.md)
@@ -187,6 +208,14 @@ R2 through R7 are complete. HuntEval provides the offline benchmark loop, topolo
 - [Knowledge and extensions use case](docs/USE_CASE_KNOWLEDGE_EXTENSIONS.md)
 - [CrewAI connector](docs/CREWAI_CONNECTOR.md)
 - [R7 completion evidence](docs/R7_COMPLETION_EVIDENCE.md)
+- [Pre-R8 connector implementation plan](docs/PRE_R8_CONNECTOR_IMPLEMENTATION_PLAN.md)
+- [v0.7.1 framework connector plan](docs/V071_FRAMEWORK_CONNECTOR_PLAN.md)
+- [Framework and MCP connector guide](docs/FRAMEWORK_CONNECTORS.md)
+- [Connector support matrix](docs/CONNECTOR_SUPPORT_MATRIX.md)
+- [v0.7.1 local implementation evidence](docs/V071_IMPLEMENTATION_EVIDENCE.md)
+- [v0.7.2 commercial platform connector plan](docs/V072_COMMERCIAL_CONNECTOR_PLAN.md)
+- [Commercial connector preview guide](docs/COMMERCIAL_CONNECTORS.md)
+- [v0.7.2 local implementation evidence](docs/V072_IMPLEMENTATION_EVIDENCE.md)
 
 ## Development
 
@@ -200,6 +229,8 @@ HUNTEVAL_SKIP_FUZZ_SMOKE=1 ./scripts/ci/r3-adversarial.sh
 ./scripts/ci/r5-diagnosis.sh
 ./scripts/ci/r6-improvement.sh
 ./scripts/ci/r7-extensions.sh
+./scripts/ci/v071-framework-connectors.sh
+./scripts/ci/v072-commercial-connectors.sh
 ./scripts/ci/e2e.sh
 ```
 

@@ -355,6 +355,39 @@ The governed pull-request sequence, contracts, security boundaries, compatibilit
 
 **Release exit criteria:** third-party adapters and SDK clients pass the compatibility suite without introducing a dependency from the Rust core to a provider or agent framework.
 
+### v0.7.1 — Framework connector pack
+
+**Objective:** extend the completed R7 connector foundation so equivalent HuntEval deployments can be authored with multiple agent frameworks while preserving one process-neutral protocol, runner-mediated scored tools, topology semantics, budgets, provenance, and reports.
+
+The coordinated pre-R8 sequence is defined in `PRE_R8_CONNECTOR_IMPLEMENTATION_PLAN.md`; the detailed v0.7.1 requirements and evidence-based milestone statuses are defined in `V071_FRAMEWORK_CONNECTOR_PLAN.md`. This release addition does not reopen R7 or change its completion evidence. Focused local implementations exist, but v0.7.1 remains incomplete until every release criterion has closure evidence.
+
+- retain CrewAI as the existing compatibility baseline;
+- add LangGraph, AutoGen AgentChat, and Google ADK/A2A connectors through optional out-of-core Python packages;
+- evaluate a bounded Semantic Kernel preview only against stable observable APIs, otherwise record the affected capability as unsupported;
+- provide a bounded local MCP `stdio` server so other frameworks can use HuntEval's generic deployment contract without receiving native-support status;
+- map only observable framework activity and never request or persist private chain of thought or framework scratchpads;
+- keep framework-native tools from bypassing HuntEval's managed-tool boundary;
+- compare framework deployments through paired benchmark matrices with declared topology and control-variable equivalence;
+- preserve unavailable observations as unavailable instead of inferring framework-independent metrics.
+
+**Release exit criteria:** the base SDK remains framework-independent; CrewAI regression evidence and the required new connectors pass the common deterministic conformance suite; an otherwise unsupported framework completes canonical single-agent and multi-agent runs through the bounded MCP interface; MCP capability, malformed-input, isolation, and tool-bypass tests fail closed; paired framework comparisons preserve declared controls and topology semantics; optional packaging, compatibility, migration, rollback, and exact supported-version evidence are documented; and every required local and GitHub gate passes on the closure revision.
+
+### v0.7.2 — Commercial platform connector preview
+
+**Objective:** add secure, auditable access to authorized read-only observations from commercial threat-hunting platforms without granting evaluated deployments unrestricted network access or changing pre-v1.0 scoring boundaries.
+
+The coordinated pre-R8 sequence is defined in `PRE_R8_CONNECTOR_IMPLEMENTATION_PLAN.md`; the detailed v0.7.2 requirements and evidence-based milestone statuses are defined in `V072_COMMERCIAL_CONNECTOR_PLAN.md`. Deterministic offline catalogs and replay exist, but the network worker, secret handling, live connectors, and v0.7.2 closure remain incomplete. v0.7.2 follows v0.7.1 and must finish before v0.8 decides which connector interfaces are stable enough to freeze.
+
+- implement a supervised, runner-owned, deny-by-default network worker with a finite versioned operation catalog;
+- keep credentials as opaque runtime references and exclude secret values and raw tenant identifiers from artifacts;
+- provide deterministic fixture replay without network or credentials;
+- add authorized, opt-in, non-scored live-read-only conformance for CrowdStrike Falcon and Google Security Operations;
+- evaluate Microsoft Sentinel and documented Security Copilot outputs, Elastic Security, and Cortex XSIAM or Cortex AgentiX through public read-only APIs, recording unsupported capabilities explicitly;
+- keep vendor SDKs, HTTP clients, authentication, and platform schemas outside the domain, evaluation, scoring, and reporting cores;
+- prohibit arbitrary HTTP, mutations, platform response actions, and production scored SIEM execution.
+
+**Release exit criteria:** offline replay is deterministic; the network and secret boundaries pass adversarial fail-closed tests; CrowdStrike Falcon and Google Security Operations pass offline and authorized live-read-only conformance; at least one additional planned platform passes the same bounded conformance or its release requirement is revised through roadmap governance before implementation; supported and unsupported capabilities are evidenced precisely; no vendor output is treated as ground truth; no mutation or production-scored mode exists; and all canonical, protected live, package, documentation, migration, rollback, and GitHub gates pass on the exact closure revisions.
+
 ### v0.8 — Release candidate
 
 **Objective:** freeze and audit the interfaces intended for v1.0.
@@ -400,7 +433,11 @@ v0.2 complete benchmark loop
 v0.3 stable contracts + v0.4 benchmark policy
   -> v0.7 knowledge and extension interfaces
 
-v0.2 through v0.7 exit criteria
+v0.7 complete extension foundation
+  -> v0.7.1 framework connector pack
+       -> v0.7.2 commercial platform connector preview
+
+v0.2 through v0.7.2 exit criteria
   -> v0.8 release candidate
        -> v1.0 stable platform
 ```
@@ -439,6 +476,6 @@ Every roadmap initiative must be delivered through a small reviewable pull reque
 12. rollback behavior;
 13. known limitations.
 
-The completed R4, R5, R6, and R7 implementation plans address these requirements for their initiatives. `R7_COMPLETION_EVIDENCE.md` records the exact R7 closure evidence and known limitations.
+The completed R4, R5, R6, and R7 implementation plans address these requirements for their initiatives. `R7_COMPLETION_EVIDENCE.md` records the exact R7 closure evidence and known limitations. The in-progress v0.7.1 and v0.7.2 implementation plans apply the same governance requirements without making a completion claim.
 
 An initiative is not complete while any required quality gate fails. Scope changes must update this roadmap and the corresponding implementation plan before implementation begins.
