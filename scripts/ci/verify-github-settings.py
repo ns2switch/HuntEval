@@ -9,6 +9,7 @@ import sys
 REQUIRED_CHECKS = {
     "Adversarial protocol",
     "Benchmark science",
+    "Controlled improvement",
     "Evidence-backed diagnosis",
     "Policy",
     "Quality",
