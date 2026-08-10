@@ -11,7 +11,7 @@ R4 covers:
 - bounded contributor tooling for episode scaffolding, validation, documentation, and review bundles;
 - normative topology artifacts, controlled topology experiments, topology-aware metrics, and auditable ablations.
 
-R2 remains complete with its recorded R2.4 external-enforcement caveat. R3 remains complete with the evidence in `R3_COMPLETION_EVIDENCE.md`. Existing benchmark execution, scoring-profile semantics, constraint-first ranking, sandboxing, protocol, verification, redaction, and secret-scanning contracts remain authoritative. R5 diagnosis and R6 controlled improvement remain future work.
+R2 and R3 remain complete with their recorded evidence. Existing benchmark execution, scoring-profile semantics, constraint-first ranking, sandboxing, protocol, verification, redaction, and secret-scanning contracts remain authoritative. This baseline records the state when R4 was planned; R5 diagnosis was completed subsequently, while R6 controlled improvement remains future work.
 
 ### Delivery status
 

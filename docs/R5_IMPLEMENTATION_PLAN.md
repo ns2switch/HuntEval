@@ -22,25 +22,25 @@ Status values are evidence-based. `planned` makes no implementation claim. `impl
 
 | Milestone | Status | Outcome or dependency |
 |---|---|---|
-| R5-00 | implemented | schema 0.7 diagnosis contracts, canonical examples, compatibility rules, and ADR-060 through ADR-066 are locally verified; remote release evidence remains pending |
-| R5-01 | implemented | versioned bounded taxonomy and compiled rule registry |
-| R5-02 | implemented | typed observable-source references and exact artifact resolution |
-| R5-03 | implemented | deterministic evidence-sufficiency levels with no speculative probability |
-| R5-04 | implemented | pure rule-based run classification and R5.1 closure |
-| R5-05 | implemented | verified run-diagnosis application service and content-addressed artifact bundle |
-| R5-06 | implemented | recurrence grouping across comparable cells and exact deployment versions |
-| R5-07 | implemented | normalized JSON and static HTML diagnostic reporting |
-| R5-08 | implemented | bounded diagnose/generate/verify CLI and R5.2 closure |
-| R5-09 | implemented | runner-authoritative bottleneck observation projection |
-| R5-10 | implemented | explicit reassignment, queueing, duplicate-work, idle-time, and managed-tool metrics |
-| R5-11 | implemented | controlled agent-ablation contribution reduction using R4 controls |
-| R5-12 | implemented | contribution and bottleneck report integration and R5.3 closure |
-| R5-13 | implemented | deterministic diagnosis tests, adversarial inputs, and dedicated CI gate |
-| R5-14 | active | local release gates and remote evidence remain required before R5 is complete |
+| R5-00 | complete | schema 0.7 diagnosis contracts, canonical examples, compatibility rules, and ADR-060 through ADR-066 are verified |
+| R5-01 | complete | versioned bounded taxonomy and compiled rule registry |
+| R5-02 | complete | typed observable-source references and exact artifact resolution |
+| R5-03 | complete | deterministic evidence-sufficiency levels with no speculative probability |
+| R5-04 | complete | pure rule-based run classification and R5.1 closure |
+| R5-05 | complete | verified run-diagnosis application service and content-addressed artifact bundle |
+| R5-06 | complete | recurrence grouping across comparable cells and exact deployment versions |
+| R5-07 | complete | normalized JSON and static HTML diagnostic reporting |
+| R5-08 | complete | bounded diagnose/generate/verify CLI and R5.2 closure |
+| R5-09 | complete | runner-authoritative bottleneck observation projection |
+| R5-10 | complete | explicit reassignment, queueing, duplicate-work, idle-time, and managed-tool metrics |
+| R5-11 | complete | controlled agent-ablation contribution reduction using R4 controls |
+| R5-12 | complete | contribution and bottleneck report integration and R5.3 closure |
+| R5-13 | complete | deterministic diagnosis tests, adversarial inputs, and dedicated CI gate |
+| R5-14 | complete | evidence revision `e22e71b` passed canonical local gates and all ten GitHub Actions jobs in run `31343374320` |
 
 The R5/v0.5 release name is independent from persisted schema versions. R5-00 selects additive schema `0.7` for diagnosis artifacts. Existing source artifacts remain byte-immutable and are never rewritten to simulate compatibility.
 
-R5-00 local evidence includes offline meta-schema and canonical-example validation, fail-closed malformed and private-field cases, the canonical quality and security gates, adversarial protocol regression, and the R4 benchmark-science gate. The milestone remains `implemented`, not `complete`, until its dedicated revision passes the remaining release gates and GitHub Actions. No functional R5 classifier, resolver, report writer, verifier, or CLI command is claimed by this contract milestone.
+R5 completion evidence includes offline meta-schema and canonical-example validation, fail-closed malformed and private-field cases, the canonical quality and security gates, adversarial protocol regression, the R4 benchmark-science gate, the dedicated R5 gate, the 108-cell E2E, and the non-publishing RC. Exact revisions, commands, hashes, remote jobs, and limitations are recorded in `R5_COMPLETION_EVIDENCE.md`.
 
 ## 2. Baseline audit
 

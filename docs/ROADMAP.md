@@ -29,7 +29,7 @@ Several of these are intentionally narrow foundations. The current delivery stat
 - event, entity, evidence completeness, task, utilization, graceful-degradation, attack-path, timeline, structured-conclusion, technique, duplicate-work, causally useful communication, measured-duration, verified-cost, and cross-run stability metrics exist;
 - deterministic benchmark JSON and static HTML reports preserve comparisons, attribution, limitations, and exact artifact hashes;
 - single-agent, two-agent, and supervisor-specialist reference deployments have normative topology artifacts, controlled topology experiments, fail-closed equivalence checks, topology-aware observable metrics, and experimental topology-dependent contribution analysis;
-- diagnosis and experiment safety contracts exist, but artifact registries, end-to-end validation workflows, broader evidence-backed classification, and the bounded prompt-analysis lifecycle remain future R5 implementation and R6 work;
+- evidence-backed diagnosis, recurrence, bottleneck, and controlled-contribution analysis are complete; artifact registries, controlled change validation, and the bounded prompt-analysis lifecycle remain future R6 work;
 - canonical repository scripts and bounded least-privilege GitHub workflows are implemented; live merge and protected-tag enforcement are administrator-attested.
 
 ## 3. Prioritization rules
@@ -175,7 +175,7 @@ Current state: R3 is complete. Commits `f0f6119`, `dbfce2c`, and `2d34517` imple
 
 **Objective:** improve validity, coverage, and reviewability of the benchmark itself.
 
-Current state: R4 is complete. Implementation revision `f9559a6` provides schema 0.6 contracts, expanded episode coverage, nine independent content-addressed approvals, statistical policy, contributor safety, explicit topologies, controlled equivalence, topology metrics, controlled paired reduction, CLI reporting, and the 108-cell E2E gate. All nine canonical GitHub Actions jobs passed in run `31321445726`; exact commands, artifact hashes, limitations, and ADR status are recorded in `R4_COMPLETION_EVIDENCE.md`. R2 and R3 completion evidence remain unchanged; the later R2.4 external-enforcement closure is recorded independently. R5 is the next implementation milestone.
+Current state: R4 is complete. Implementation revision `f9559a6` provides schema 0.6 contracts, expanded episode coverage, nine independent content-addressed approvals, statistical policy, contributor safety, explicit topologies, controlled equivalence, topology metrics, controlled paired reduction, CLI reporting, and the 108-cell E2E gate. All nine canonical GitHub Actions jobs passed in run `31321445726`; exact commands, artifact hashes, limitations, and ADR status are recorded in `R4_COMPLETION_EVIDENCE.md`. R2 and R3 completion evidence remain unchanged; the later R2.4 external-enforcement closure is recorded independently. R5 was completed subsequently and does not alter this R4 evidence.
 
 #### R4.1 — Episode coverage expansion
 
@@ -230,7 +230,7 @@ Current state: R4 is complete. Implementation revision `f9559a6` provides schema
 
 The governed pull-request sequence, contracts, tests, risks, and release gates for R5.1 through R5.3 are defined in `R5_IMPLEMENTATION_PLAN.md`.
 
-Current state: R5.1 through R5.3 are implemented locally. R5 release closure remains active until the evidence revision passes every canonical local gate, the dedicated evidence-backed-diagnosis job, all other required GitHub Actions jobs, and the protected release-candidate dry run. R2, R3, and R4 completion evidence remains unchanged. The R2.4 external-enforcement caveat is closed by the separate administrator attestation and protected release-candidate evidence.
+Current state: R5 is complete. Evidence revision `e22e71b` implements schema 0.7 diagnosis contracts, the bounded taxonomy and compiled registry, exact typed attribution, deterministic recurrence, bottleneck and controlled-contribution analysis, content-addressed JSON/static-HTML bundles, offline verification, CLI integration, and the dedicated CI gate. All ten GitHub Actions jobs passed in run `31343374320`; exact local gates, artifact hashes, limitations, and ADR status are recorded in `R5_COMPLETION_EVIDENCE.md`. R2, R3, and R4 completion evidence remains unchanged. The former R2.4 external-enforcement caveat remains closed by its separate administrator attestation. R6 is the next implementation milestone.
 
 #### R5.1 — Versioned taxonomy and attribution
 
@@ -254,6 +254,8 @@ Current state: R5.1 through R5.3 are implemented locally. R5 release closure rem
 - avoid universal agent rankings that ignore assigned roles.
 
 **Release exit criteria:** the same artifact set produces byte-equivalent rule-based diagnoses, unsupported claims are absent, and reports never contain or request private chain of thought.
+
+Completion evidence: the 108-cell matrix completed without failed, pending, or non-comparable cells; offline verification accepted all 108 runs and 1,302 diagnostic artifacts; generated and packaged artifact scans were clean; and the non-publishing RC recorded the exact evidence revision. Controlled contribution remains unavailable without an eligible experiment and, when available, remains experimental and topology-dependent.
 
 ### v0.6 — Controlled improvement workflow
 
@@ -432,6 +434,6 @@ Every roadmap initiative must be delivered through a small reviewable pull reque
 12. rollback behavior;
 13. known limitations.
 
-The completed R4 implementation plan and the defined R5 implementation plan address these requirements for their initiatives. The future R6.4 implementation plan must address every item above before implementation begins; this roadmap does not substitute for that detailed plan.
+The completed R4 and R5 implementation plans address these requirements for their initiatives. The future R6.4 implementation plan must address every item above before implementation begins; this roadmap does not substitute for that detailed plan.
 
 An initiative is not complete while any required quality gate fails. Scope changes must update this roadmap and the corresponding implementation plan before implementation begins.
