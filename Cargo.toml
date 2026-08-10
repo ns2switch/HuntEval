@@ -1,6 +1,7 @@
 [workspace]
 members = [
     "crates/hunteval-cli",
+    "crates/hunteval-commercial",
     "crates/hunteval-domain",
     "crates/hunteval-duckdb",
     "crates/hunteval-evaluation",

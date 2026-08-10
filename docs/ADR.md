@@ -499,3 +499,87 @@ The pure Python SDK provides strict public contract models, bounded local reader
 **Status:** Accepted.
 
 Rust and Python validate the same immutable schema and protocol fixture inventory. Compatibility follows normative schema/protocol semantics and canonical vectors rather than implementation object layout. Python supports version 3.11 or newer for the initial R7 package; changing language or contract support requires an updated compatibility index and package version.
+
+## ADR-084 — Keep framework connectors as optional protocol peers
+
+**Status:** Accepted.
+
+Framework packages remain outside the Rust core and base Python dependency set. Connectors depend only on a small structural interface and translate observable activity into the existing deployment protocol. Framework-native tools cannot replace HuntEval-managed scored tools.
+
+## ADR-085 — Use one bounded framework lifecycle vocabulary
+
+**Status:** Accepted.
+
+CrewAI, LangGraph, AutoGen, Google ADK, Semantic Kernel, and generic MCP clients share task, delegation, tool, evidence, finding, resource, and terminal operations. Framework-only state is not promoted into a normative universal model.
+
+## ADR-086 — Preserve unavailable framework observations
+
+**Status:** Accepted.
+
+Connectors emit a topology or resource observation only when the framework supplies an authoritative observable event. Display text, hidden state, scheduling assumptions, and private reasoning never create inferred metrics.
+
+## ADR-087 — Isolate framework dependencies and support claims
+
+**Status:** Accepted.
+
+The SDK uses dependency-free structural adapters. Exact framework packages are installed separately and become supported only after their exact versions pass the published conformance matrix. Fixture conformance alone is labeled implemented, not release-complete.
+
+## ADR-088 — Require deterministic doubles before provider smoke tests
+
+**Status:** Accepted.
+
+Every connector first passes provider-free lifecycle, malformed-input, process-failure, replay, and package-isolation fixtures. Provider-backed smoke tests are optional, non-scored, secret-safe, and cannot replace deterministic evidence.
+
+## ADR-089 — Make MCP a bounded adapter, never an authority
+
+**Status:** Accepted.
+
+The MCP surface is one run-bound local session with a fixed `hunteval.*` tool catalog. Sampling, elicitation, roots, server-provided prompts, arbitrary resources, dynamic tools, and remote transports remain unavailable. MCP calls retain the deployment protocol, runner policy, budgets, and managed-tool authority.
+
+## ADR-090 — Keep commercial transport out of the evaluation core
+
+**Status:** Accepted.
+
+Commercial transport policy and adapters live in the infrastructure-only `hunteval-commercial` crate. Domain, evaluation, scoring, and reporting crates have no dependency on vendor schemas, HTTP clients, authentication libraries, or credentials.
+
+## ADR-091 — Represent credentials only by opaque references
+
+**Status:** Accepted.
+
+Policies and public audit artifacts contain a validated secret-reference identity and its one-way hash, never a token, cookie, password, client secret, or authorization header. Runtime resolution requires a future supervised worker channel.
+
+## ADR-092 — Expose finite read-only operation catalogs
+
+**Status:** Accepted.
+
+Each platform has a typed allowlist. URL, method, origin, headers, credentials, and mutation operations are not agent-controlled request fields. Cross-platform and undeclared operations fail before transport execution.
+
+## ADR-093 — Make deterministic replay the required offline baseline
+
+**Status:** Accepted.
+
+Synthetic fixtures bind exact request and response hashes. Changed request arguments require a new reviewed fixture. Offline replay performs no DNS, socket, credential, provider, or tenant access.
+
+## ADR-094 — Separate live conformance from ordinary CI
+
+**Status:** Accepted.
+
+Live-read-only conformance requires protected environments, explicit approval, least-privilege non-production credentials, and bounded attestations. Forks and untrusted branches receive neither credentials nor live execution.
+
+## ADR-095 — Keep remote observations distinct from asserted evidence
+
+**Status:** Accepted.
+
+Vendor records and classifications remain untrusted source-provenanced observations. An evaluated deployment must explicitly cite them before they become submission evidence. Vendor output is never HuntEval ground truth.
+
+## ADR-096 — Evaluate native agents only through documented exports
+
+**Status:** Accepted.
+
+Platform-native agent attribution requires stable public identifiers for actions, evidence, results, and terminal state. UI scraping, browser automation, private endpoints, and inferred hidden activity are prohibited; missing observations remain unavailable.
+
+## ADR-097 — Defer production scored SIEM execution and mutation
+
+**Status:** Accepted.
+
+Pre-v1.0 commercial connectors permit deterministic replay and, after external enforcement exists, authorized non-scored live-read-only conformance. Production scored execution, response actions, remediation, containment, and every remote mutation remain unavailable.

@@ -9,15 +9,40 @@ from .contracts import (
     ExtensionResolution,
     RetrievalAuditEvent,
 )
+from .commercial import (
+    CommercialConnectorError,
+    CommercialFixture,
+    CommercialRequest,
+    CommercialResult,
+    FixtureReplayConnector,
+    build_fixture,
+)
 from .crewai import CrewAIAdapter, CrewAIAdapterConfig, CrewAIContext, CrewFactory, CrewLike
+from .autogen import AutoGenAdapter, AutoGenTeamFactory, AutoGenTeamLike
+from .framework import FrameworkAdapterConfig, FrameworkContext
+from .google_adk import GoogleAdkAdapter, GoogleAdkFactory, GoogleAdkRunnerLike
+from .langgraph import LangGraphAdapter, LangGraphFactory, LangGraphLike
+from .mcp import MCP_PROTOCOL_REVISION, McpProtocolError, McpSession
 from .models import AnalyticalCorpus, CorpusSource, ExtensionManifest
 from .protocol import DeploymentPeer, FinalSubmissionMessage, ProtocolError, RegistrationMessage
+from .semantic_kernel import (
+    SemanticKernelFactory,
+    SemanticKernelLike,
+    SemanticKernelPreviewAdapter,
+)
 from .tool_contracts import ManagedToolAdapterRequest, ManagedToolAdapterResponse
 
 __all__ = [
     "AnalyticalCorpus",
     "AnalyticalQuery",
     "AnalyticalResult",
+    "AutoGenAdapter",
+    "AutoGenTeamFactory",
+    "AutoGenTeamLike",
+    "CommercialConnectorError",
+    "CommercialFixture",
+    "CommercialRequest",
+    "CommercialResult",
     "CorpusSource",
     "CrewAIAdapter",
     "CrewAIAdapterConfig",
@@ -30,12 +55,28 @@ __all__ = [
     "ExtensionConformanceResult",
     "ExtensionResolution",
     "FinalSubmissionMessage",
+    "FixtureReplayConnector",
+    "FrameworkAdapterConfig",
+    "FrameworkContext",
+    "GoogleAdkAdapter",
+    "GoogleAdkFactory",
+    "GoogleAdkRunnerLike",
+    "LangGraphAdapter",
+    "LangGraphFactory",
+    "LangGraphLike",
+    "MCP_PROTOCOL_REVISION",
     "ManagedToolAdapterRequest",
     "ManagedToolAdapterResponse",
+    "McpProtocolError",
+    "McpSession",
     "ProtocolError",
     "RegistrationMessage",
     "RetrievalAuditEvent",
+    "SemanticKernelFactory",
+    "SemanticKernelLike",
+    "SemanticKernelPreviewAdapter",
     "VerifiedPublicArtifact",
     "read_public_artifact",
     "read_verified_json",
+    "build_fixture",
 ]
