@@ -106,3 +106,24 @@ impl From<TransportError> for EngineError {
         }
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use std::io;
+
+    use super::{EngineError, TransportError};
+    use crate::RunFailureKind;
+
+    #[test]
+    fn closed_deployment_input_is_a_process_crash() {
+        let error = TransportError::Write(io::Error::new(
+            io::ErrorKind::BrokenPipe,
+            "deployment closed input",
+        ));
+
+        assert_eq!(
+            EngineError::from(error).kind(),
+            RunFailureKind::ProcessCrash
+        );
+    }
+}

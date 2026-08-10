@@ -16,6 +16,7 @@ use hunteval_sandbox::{
 use thiserror::Error;
 
 const MAX_STDERR_BYTES: usize = 64 * 1024;
+const TERMINAL_STATUS_GRACE: Duration = Duration::from_millis(100);
 
 pub(super) struct ProtocolProcess {
     child: SupervisedChild,
@@ -84,8 +85,10 @@ impl ProtocolProcess {
         let mut bytes = serde_json::to_vec(message).map_err(TransportError::Encode)?;
         bytes.push(b'\n');
         let input = self.input.as_mut().ok_or(TransportError::MissingPipe)?;
-        input.write_all(&bytes).map_err(TransportError::Write)?;
-        input.flush().map_err(TransportError::Write)
+        if let Err(error) = input.write_all(&bytes).and_then(|()| input.flush()) {
+            return Err(self.terminal_error_with_grace(TransportError::Write(error)));
+        }
+        Ok(())
     }
 
     pub(super) fn receive(&mut self) -> Result<ProtocolEnvelope, TransportError> {
@@ -140,13 +143,32 @@ impl ProtocolProcess {
     fn receive_error(&mut self, error: mpsc::RecvTimeoutError) -> TransportError {
         match error {
             mpsc::RecvTimeoutError::Timeout => TransportError::Timeout,
-            mpsc::RecvTimeoutError::Disconnected => self
-                .child
-                .try_wait()
-                .ok()
-                .flatten()
-                .and_then(classify_exit_status)
-                .map_or(TransportError::EarlyEof, TransportError::ResourceLimit),
+            mpsc::RecvTimeoutError::Disconnected => {
+                self.terminal_error_with_grace(TransportError::EarlyEof)
+            }
+        }
+    }
+
+    fn terminal_error_with_grace(&mut self, fallback: TransportError) -> TransportError {
+        let grace_deadline = Instant::now() + TERMINAL_STATUS_GRACE;
+        loop {
+            match self.child.try_wait() {
+                Ok(Some(status)) if status.success() => return TransportError::EarlyEof,
+                Ok(Some(status)) => {
+                    if let Some(limit) = classify_exit_status(status) {
+                        return TransportError::ResourceLimit(limit);
+                    }
+                    return TransportError::Exit {
+                        code: status.code(),
+                        diagnostics: self.read_stderr(),
+                    };
+                }
+                Ok(None) if Instant::now() < grace_deadline && Instant::now() < self.deadline => {
+                    thread::sleep(Duration::from_millis(2));
+                }
+                Ok(None) => return fallback,
+                Err(error) => return TransportError::Sandbox(error),
+            }
         }
     }
 }
@@ -260,7 +282,11 @@ impl TransportError {
     pub(super) const fn is_process_failure(&self) -> bool {
         matches!(
             self,
-            Self::Sandbox(_) | Self::EarlyEof | Self::Exit { .. } | Self::ResourceLimit(_)
+            Self::Sandbox(_)
+                | Self::Write(_)
+                | Self::EarlyEof
+                | Self::Exit { .. }
+                | Self::ResourceLimit(_)
         )
     }
 }
