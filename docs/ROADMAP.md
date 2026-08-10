@@ -29,7 +29,7 @@ Several of these are intentionally narrow foundations. The current delivery stat
 - event, entity, evidence completeness, task, utilization, graceful-degradation, attack-path, timeline, structured-conclusion, technique, duplicate-work, causally useful communication, measured-duration, verified-cost, and cross-run stability metrics exist;
 - deterministic benchmark JSON and static HTML reports preserve comparisons, attribution, limitations, and exact artifact hashes;
 - single-agent, two-agent, and supervisor-specialist reference deployments have normative topology artifacts, controlled topology experiments, fail-closed equivalence checks, topology-aware observable metrics, and experimental topology-dependent contribution analysis;
-- evidence-backed diagnosis, recurrence, bottleneck, and controlled-contribution analysis are complete; artifact registries, controlled change validation, and the bounded prompt-analysis lifecycle remain future R6 work;
+- evidence-backed diagnosis, recurrence, bottleneck, and controlled-contribution analysis are complete; R6 artifact registries, controlled change validation, recommendation lifecycle, and bounded prompt-analysis capabilities are implemented locally with remote release evidence pending;
 - canonical repository scripts and bounded least-privilege GitHub workflows are implemented; live merge and protected-tag enforcement are administrator-attested.
 
 ## 3. Prioritization rules
@@ -261,7 +261,7 @@ Completion evidence: the 108-cell matrix completed without failed, pending, or n
 
 **Objective:** make improvement hypotheses reproducible from artifact registration through human-approved validation.
 
-The governed pull-request sequence, contracts, security boundaries, tests, migration, rollback, and release gates for R6.1 through R6.4 are defined in `R6_IMPLEMENTATION_PLAN.md`. R6-00 has implemented the schema 0.8 contract freeze and accepted its architecture decisions locally; runtime R6 capabilities remain planned, and R6-00 is not complete until its revision passes the canonical GitHub Actions gates.
+The governed pull-request sequence, contracts, security boundaries, tests, migration, rollback, and release gates for R6.1 through R6.4 are defined in `R6_IMPLEMENTATION_PLAN.md`. Revision `079bf45` implements R6 locally, including schema 0.8 runtime contracts, the canonical benchmark-backed experiment service, lifecycle and review controls, prompt/configuration analysis, reporting, offline verification, and the dedicated CI gate. R6 remains active rather than complete until all canonical GitHub Actions jobs pass on the evidence revision.
 
 #### R6.1 — Artifact registry and safe diffs
 
@@ -436,6 +436,6 @@ Every roadmap initiative must be delivered through a small reviewable pull reque
 12. rollback behavior;
 13. known limitations.
 
-The completed R4 and R5 implementation plans address these requirements for their initiatives. `R6_IMPLEMENTATION_PLAN.md` addresses them for the planned R6.1 through R6.4 sequence; no R6 implementation begins until its R6-00 contract and ADR decisions are accepted.
+The completed R4 and R5 implementation plans address these requirements for their initiatives. `R6_IMPLEMENTATION_PLAN.md` records the locally implemented R6.1 through R6.4 sequence; R6 release closure still requires remote evidence on the exact implementation revision.
 
 An initiative is not complete while any required quality gate fails. Scope changes must update this roadmap and the corresponding implementation plan before implementation begins.

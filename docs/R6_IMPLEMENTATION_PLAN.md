@@ -15,7 +15,7 @@ R6 covers:
 - a versioned prompt/configuration failure taxonomy and evidence-backed prompt improvement analysis;
 - optional candidate patch suggestions that remain separate artifacts and never mutate or adopt deployment instructions automatically.
 
-R2, R3, R4, and R5 remain complete with their recorded evidence. The R2.4 external-enforcement caveat remains closed by the separate administrator attestation. Existing schemas 0.3 through 0.7, protocol behavior, metric vectors, scoring profiles, statistical policy, topology controls, diagnostic artifacts, and completion evidence remain authoritative and byte-immutable. R6-00 has implemented the schema 0.8 contract freeze locally; runtime R6 capabilities remain planned, and release completion still requires the evidence defined below.
+R2, R3, R4, and R5 remain complete with their recorded evidence. The R2.4 external-enforcement caveat remains closed by the separate administrator attestation. Existing schemas 0.3 through 0.7, protocol behavior, metric vectors, scoring profiles, statistical policy, topology controls, diagnostic artifacts, and completion evidence remain authoritative and byte-immutable. Revision `079bf45` implements R6 locally. Release completion still requires all canonical GitHub Actions jobs on the evidence revision, so no R6 milestone is marked complete yet.
 
 ### Delivery status
 
@@ -24,27 +24,27 @@ Status is evidence-based. `planned` makes no implementation claim. `implemented`
 | Milestone | Status | Outcome or dependency |
 |---|---|---|
 | R6-00 | implemented | schema 0.8 contracts, canonical examples, compatibility rules, and accepted ADR decisions; remote gates pending |
-| R6-01 | planned | bounded content-addressed artifact registry |
-| R6-02 | planned | structured baseline/candidate diff with exact changed-variable proof |
-| R6-03 | planned | immutable-section enforcement and benchmark-answer leakage checks |
-| R6-04 | planned | controlled-artifact equivalence and R6.1 closure |
-| R6-05 | planned | evaluator-only partition policy and hidden-test isolation |
-| R6-06 | planned | paired experiment orchestration through the existing benchmark service |
-| R6-07 | planned | constraint-first validation decision with uncertainty and verified resources |
-| R6-08 | planned | experiment CLI, resume, offline verification, and R6.2 closure |
-| R6-09 | planned | append-only recommendation lifecycle and deterministic projection |
-| R6-10 | planned | explicit human review and externally confirmed adoption records |
-| R6-11 | planned | invalidation, lifecycle reporting, and R6.3 closure |
-| R6-12 | planned | versioned prompt/configuration failure taxonomy and compiled mapping registry |
-| R6-13 | planned | exact artifact inspection and bounded weakness hypotheses |
-| R6-14 | planned | safe suggested-change artifact without in-place modification |
-| R6-15 | planned | controlled A/B linkage, recommendation reporting, and R6.4 closure |
-| R6-16 | planned | deterministic end-to-end improvement workflow and dedicated CI gate |
-| R6-17 | planned | R6 release closure and exact implementation evidence |
+| R6-01 | implemented | bounded content-addressed artifact registry with deterministic inventory and verification |
+| R6-02 | implemented | deterministic structured diff with immutable-change rejection |
+| R6-03 | implemented | full immutable coverage and bounded answer-leakage checks with safe reason codes |
+| R6-04 | implemented | digest-bound fail-closed controlled equivalence |
+| R6-05 | implemented | evaluator-only partition authorization and single-use sealed final assessment |
+| R6-06 | implemented | paired orchestration through the canonical benchmark service and journal |
+| R6-07 | implemented | constraint-first decision preserving raw pairs, missing values, and provenance |
+| R6-08 | implemented | additive validate/run/resume/status/verify CLI and offline bundle verification |
+| R6-09 | implemented | append-only hash-linked lifecycle and deterministic state projection |
+| R6-10 | implemented | explicit human review and separately confirmed external adoption records |
+| R6-11 | implemented | digest-bound invalidation and stage-separated JSON/static-HTML reporting |
+| R6-12 | implemented | fourteen-category taxonomy with exact compiled-registry agreement |
+| R6-13 | implemented | observable-source resolution and bounded weakness hypotheses |
+| R6-14 | implemented | separate non-authoritative suggestion materialization without in-place writes |
+| R6-15 | implemented | controlled evidence linkage and content-addressed auditable bundles |
+| R6-16 | implemented | deterministic R6 end-to-end test and dedicated local/GitHub Actions gate |
+| R6-17 | implemented | local closure evidence recorded; canonical remote jobs pending |
 
 The R6/v0.6 release name is independent from persisted schema versions. R6-00 selects additive schema `0.8` through accepted ADR-067. Existing artifacts are never rewritten to simulate compatibility.
 
-## 2. Baseline audit
+## 2. Baseline audit at plan approval
 
 The repository already provides the following R6 foundations:
 
@@ -57,7 +57,7 @@ The repository already provides the following R6 foundations:
 7. A narrow in-memory experiment prototype validates one changed variable, three immutable hash categories, training/validation separation, metric regression, verified cost, and mandatory human review.
 8. Deployment registrations record prompt hashes, while resolved benchmark inputs already bind configuration, episode, scoring, execution, schema, and relevant binary digests.
 
-The audit also identifies gaps that R6 must close:
+The audit identified the following gaps before implementation. Revision `079bf45` closes them through the owning milestones and tests recorded in the delivery table; they are retained here as the historical design input:
 
 1. There is no persisted versioned artifact registry or structural artifact contract.
 2. Existing deployment manifests do not expose a normative section inventory that can distinguish mutable instructions from immutable policy.
@@ -109,11 +109,12 @@ The canonical gates remain:
 HUNTEVAL_SKIP_FUZZ_SMOKE=1 ./scripts/ci/r3-adversarial.sh
 ./scripts/ci/r4-science.sh
 ./scripts/ci/r5-diagnosis.sh
+./scripts/ci/r6-improvement.sh
 ./scripts/ci/e2e.sh
 git diff --check
 ```
 
-R6-16 adds one deterministic controlled-improvement gate. Once added, it becomes mandatory locally and in GitHub Actions.
+R6-16 adds the deterministic controlled-improvement gate shown above. It is mandatory locally and in GitHub Actions.
 
 ## 4. Architecture and dependency direction
 
@@ -144,9 +145,9 @@ hunteval-sandbox and filesystem/process adapters
 
 No provider-specific, SIEM-specific, LLM-specific, or agent-framework-specific dependency is added. A new crate requires an ADR and dependency-direction proof; the initial plan keeps R6 within the existing boundaries and splits submodules by cohesion.
 
-## 5. Decisions proposed for R6-00
+## 5. Decisions accepted in R6-00
 
-R6-00 is documentation and contract work. It proposes ADR-067 through ADR-075 without modifying accepted ADR-001 through ADR-066.
+R6-00 accepted ADR-067 through ADR-075 without modifying accepted ADR-001 through ADR-066. Revision `079bf45` implements their runtime behavior and tests.
 
 ### ADR-067 — Add immutable controlled-improvement contracts
 

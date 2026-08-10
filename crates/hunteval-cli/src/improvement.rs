@@ -1,8 +1,5 @@
-use std::{path::Path, process::ExitCode};
+use std::process::ExitCode;
 
-use hunteval_domain::{
-    ImprovementEquivalenceResult, ImprovementEquivalenceStatus, ImprovementExperiment, Sha256Digest,
-};
 use hunteval_runner::ImprovementVerificationStatus;
 
 use crate::{
@@ -19,7 +16,7 @@ pub(crate) fn execute(command: ImprovementCommand) -> Result<ExitCode, Box<dyn s
             benchmark_manifest,
             artifact_root,
         } => {
-            validate_inputs(
+            hunteval_runner::validate_improvement_inputs(
                 &experiment,
                 &equivalence,
                 &candidate_artifact,
@@ -41,7 +38,7 @@ pub(crate) fn execute(command: ImprovementCommand) -> Result<ExitCode, Box<dyn s
             duckdb_worker,
             schema_contract,
         } => {
-            validate_inputs(
+            hunteval_runner::validate_improvement_inputs(
                 &experiment,
                 &equivalence,
                 &candidate_artifact,
@@ -65,7 +62,12 @@ pub(crate) fn execute(command: ImprovementCommand) -> Result<ExitCode, Box<dyn s
             candidate_artifact,
             retry,
         } => {
-            validate_inputs(&experiment, &equivalence, &candidate_artifact, None)?;
+            hunteval_runner::validate_improvement_inputs(
+                &experiment,
+                &equivalence,
+                &candidate_artifact,
+                None,
+            )?;
             benchmark::resume(&benchmark_directory, retry)
         }
         ImprovementCommand::Status {
@@ -95,51 +97,4 @@ pub(crate) fn execute(command: ImprovementCommand) -> Result<ExitCode, Box<dyn s
             )
         }
     }
-}
-
-fn validate_inputs(
-    experiment_path: &Path,
-    equivalence_path: &Path,
-    candidate_path: &Path,
-    benchmark: Option<(&Path, &Path)>,
-) -> Result<(), Box<dyn std::error::Error>> {
-    let experiment_bytes = safe_read(experiment_path, 1024 * 1024)?;
-    let equivalence_bytes = safe_read(equivalence_path, 1024 * 1024)?;
-    let candidate_bytes = safe_read(candidate_path, 1024 * 1024)?;
-    let experiment: ImprovementExperiment = serde_json::from_slice(&experiment_bytes)?;
-    experiment.validate()?;
-    let equivalence: ImprovementEquivalenceResult = serde_json::from_slice(&equivalence_bytes)?;
-    if equivalence.status != ImprovementEquivalenceStatus::Eligible
-        || equivalence.experiment_sha256 != Sha256Digest::from_bytes(&experiment_bytes)
-        || experiment.candidate_artifact_sha256 != Sha256Digest::from_bytes(&candidate_bytes)
-    {
-        return Err(std::io::Error::other("improvement inputs are ineligible or stale").into());
-    }
-    if let Some((manifest, artifact_root)) = benchmark {
-        let definition = hunteval_runner::resolve_benchmark(manifest, artifact_root)?;
-        let cell_ids = definition
-            .cells()?
-            .into_iter()
-            .map(|cell| cell.cell_id.to_string())
-            .collect::<std::collections::BTreeSet<_>>();
-        if experiment.paired_cells.iter().any(|pair| {
-            !cell_ids.contains(&pair.baseline_cell_id)
-                || !cell_ids.contains(&pair.candidate_cell_id)
-        }) {
-            return Err(std::io::Error::other("improvement pairs do not resolve").into());
-        }
-    }
-    Ok(())
-}
-
-fn safe_read(path: &Path, maximum: u64) -> Result<Vec<u8>, Box<dyn std::error::Error>> {
-    let metadata = std::fs::symlink_metadata(path)?;
-    if metadata.file_type().is_symlink()
-        || !metadata.is_file()
-        || metadata.len() == 0
-        || metadata.len() > maximum
-    {
-        return Err(std::io::Error::other("input is not a bounded regular file").into());
-    }
-    Ok(std::fs::read(path)?)
 }

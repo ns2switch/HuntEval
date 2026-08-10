@@ -102,3 +102,35 @@ target/debug/hunteval diagnose verify artifacts/benchmark-diagnosis --format jso
 Generation refuses an existing destination, a destination inside the source, symbolic-link inputs or output parents, oversized artifacts, digest drift, malformed replay, and unsupported schema versions. The bundle retains bounded copies of every public source referenced by a displayed claim, including run trajectories and completed-cell results; it never copies evaluator-only inputs. Verification checks the bundle identity, unique safe inventory, media types, exact sizes and hashes, canonical taxonomy and classifier-registry hashes, typed diagnosis documents, report validation, and every report-owned artifact and claim-source digest. Exit code `0` means the offline bundle verified; malformed, incomplete, stale, or tampered bundles return `1`.
 
 Run reports separate observation, classification, unvalidated hypothesis, and available bottleneck measurements. Benchmark reports group recurrence only within exact deployment/configuration cohorts and retain every excluded cell. Recurrence is descriptive, and controlled contribution remains experimental and topology-dependent. No diagnosis command changes a deployment artifact or affects the authoritative raw metric vector.
+
+## Controlled improvement
+
+R6 validates one explicitly registered candidate variable against an equivalent paired benchmark matrix. The CLI refuses stale candidates, ineligible equivalence results, unresolved pairs, links, oversized inputs, and hidden-test selection controls.
+
+```bash
+target/debug/hunteval improvement validate \
+  --experiment artifacts/improvement-experiment.json \
+  --equivalence artifacts/improvement-equivalence.json \
+  --candidate-artifact artifacts/candidate-instruction.json \
+  --benchmark-manifest examples/cloud-mvp-benchmark.yaml
+
+target/debug/hunteval improvement run \
+  --experiment artifacts/improvement-experiment.json \
+  --equivalence artifacts/improvement-equivalence.json \
+  --candidate-artifact artifacts/candidate-instruction.json \
+  --benchmark-manifest examples/cloud-mvp-benchmark.yaml \
+  --output runs/controlled-improvement --jobs 2
+
+target/debug/hunteval improvement resume runs/controlled-improvement \
+  --experiment artifacts/improvement-experiment.json \
+  --equivalence artifacts/improvement-equivalence.json \
+  --candidate-artifact artifacts/candidate-instruction.json \
+  --retry interrupted
+
+target/debug/hunteval improvement status runs/controlled-improvement --format json
+target/debug/hunteval improvement verify artifacts/improvement-bundle --format json
+```
+
+Execution delegates every cell to the canonical benchmark service, preserving its sandbox, managed-tool mediation, budgets, attempt history, failures, resume behavior, scoring profile, and raw metric vector. The improvement decision is constraint-first: missing or unverifiable measurements cannot satisfy a hard constraint and are never imputed.
+
+There is deliberately no CLI operation that edits or adopts deployment instructions. A suggestion is a separate non-authoritative artifact. `validated` requires a passing controlled decision, `approved` requires an explicit human-decision artifact, and `adopted` records a separately confirmed external action. Changing any bound candidate or control digest invalidates the prior validation.

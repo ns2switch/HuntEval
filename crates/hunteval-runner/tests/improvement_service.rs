@@ -150,3 +150,40 @@ fn improvement_orchestration_reuses_canonical_benchmark_service()
     assert!(summary.all_pairs_terminal);
     Ok(())
 }
+
+#[test]
+fn file_validation_binds_exact_experiment_and_candidate_bytes()
+-> Result<(), Box<dyn std::error::Error>> {
+    let mut experiment: ImprovementExperiment = serde_json::from_slice(include_bytes!(
+        "../../../examples/contracts/v0.8/improvement-experiment.json"
+    ))?;
+    let candidate = b"bounded candidate instructions";
+    experiment.candidate_artifact_sha256 = Sha256Digest::from_bytes(candidate);
+    let experiment_bytes = serde_json::to_vec(&experiment)?;
+
+    let mut equivalence: ImprovementEquivalenceResult = serde_json::from_slice(include_bytes!(
+        "../../../examples/contracts/v0.8/improvement-equivalence-result.json"
+    ))?;
+    equivalence.experiment_id = experiment.id.clone();
+    equivalence.experiment_sha256 = Sha256Digest::from_bytes(&experiment_bytes);
+    equivalence.artifact_diff_sha256 = experiment.artifact_diff_sha256;
+    equivalence.declared_changed_variable = experiment.changed_variable.clone();
+    equivalence.actual_changed_variables = BTreeSet::from([experiment.changed_variable.clone()]);
+    let equivalence_bytes = serde_json::to_vec(&equivalence)?;
+
+    let temp = tempfile::tempdir()?;
+    let experiment_path = temp.path().join("experiment.json");
+    let equivalence_path = temp.path().join("equivalence.json");
+    let candidate_path = temp.path().join("candidate.json");
+    fs::write(&experiment_path, experiment_bytes)?;
+    fs::write(&equivalence_path, equivalence_bytes)?;
+    fs::write(&candidate_path, candidate)?;
+
+    validate_improvement_inputs(&experiment_path, &equivalence_path, &candidate_path, None)?;
+    fs::write(&candidate_path, b"changed candidate instructions")?;
+    assert_eq!(
+        validate_improvement_inputs(&experiment_path, &equivalence_path, &candidate_path, None,),
+        Err(ImprovementInputError::IneligibleOrStale)
+    );
+    Ok(())
+}

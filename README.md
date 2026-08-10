@@ -151,11 +151,13 @@ Scored execution against production SIEMs, unrestricted deployment network acces
 
 ## Project status
 
-R2 through R5 are complete. They provide the local benchmark loop, hardened sandbox and protocol, benchmark-science and topology experiments, and evidence-backed diagnosis. R6, the controlled improvement workflow, has started with its schema 0.8 contract freeze; the runtime artifact registry is the next implementation milestone.
+R2 through R5 are complete. R6 is implemented locally and adds content-addressed artifact comparison, controlled baseline/candidate experiments, evidence-backed recommendations, explicit human review, and offline-verifiable improvement bundles. R6 remains an active release until the implementation revision passes GitHub Actions; HuntEval never adopts a suggested change automatically.
 
 - [Roadmap through v1.0](docs/ROADMAP.md)
 - [R5 completion evidence](docs/R5_COMPLETION_EVIDENCE.md)
 - [R6 implementation plan](docs/R6_IMPLEMENTATION_PLAN.md)
+- [Controlled improvement use case](docs/USE_CASE_CONTROLLED_IMPROVEMENT.md)
+- [R6 local implementation evidence](docs/R6_COMPLETION_EVIDENCE.md)
 
 ## Development
 
@@ -167,6 +169,7 @@ Run the same authoritative quality gates used by GitHub Actions:
 HUNTEVAL_SKIP_FUZZ_SMOKE=1 ./scripts/ci/r3-adversarial.sh
 ./scripts/ci/r4-science.sh
 ./scripts/ci/r5-diagnosis.sh
+./scripts/ci/r6-improvement.sh
 ./scripts/ci/e2e.sh
 ```
 
