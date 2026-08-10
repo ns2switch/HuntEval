@@ -10,6 +10,8 @@ mod digest;
 mod episode;
 mod error;
 mod evidence;
+mod extension;
+mod extension_tool;
 mod id;
 mod improvement;
 mod metrics;
@@ -49,6 +51,12 @@ pub use evidence::{
     Confidence, Evidence, FinalSubmission, FinalSubmissionArtifact, Finding, FindingSeverity,
     SubmissionStatus, TimeRange, TimelineEntry,
 };
+pub use extension::{
+    ExtensionCapability, ExtensionCapabilityPolicy, ExtensionConformanceResult,
+    ExtensionConformanceStatus, ExtensionKind, ExtensionLimits, ExtensionManifest,
+    ExtensionNetworkPolicy, ExtensionResolution, ExtensionResolutionStatus,
+};
+pub use extension_tool::{ManagedToolAdapterRequest, ManagedToolAdapterResponse};
 pub use id::{
     ActionId, AgentId, BenchmarkAttemptId, BenchmarkId, DatasetReviewId, DeploymentId, EpisodeId,
     EventId, EvidenceId, FaultProfileId, FindingId, HypothesisId, IdValidationError, MessageId,

@@ -22,6 +22,7 @@ Run locally with a new absolute output directory:
 ./scripts/ci/r5-diagnosis.sh
 ./scripts/ci/r6-improvement.sh
 ./scripts/ci/e2e.sh
+./scripts/ci/r7-extensions.sh
 ./scripts/ci/release-candidate.sh /tmp/hunteval-rc
 (cd /tmp/hunteval-rc && sha256sum -c SHA256SUMS)
 ```
@@ -30,4 +31,4 @@ An authorized release maintainer may create a unique annotated tag matching `v*-
 
 ## Evidence and rollback
 
-Record the revision, tag, workflow URL, stable and fuzz toolchains, sandbox capability report, execution-policy hash, sandbox and resource-launcher hashes, protocol compatibility index and fuzz corpus hashes, conformance result hash, benchmark manifest hash, dataset hashes, deployment hashes, scoring-profile hash, runner and worker hashes, schema 0.8, improvement-policy, taxonomy, registry, diff, equivalence, validation, lifecycle, review/adoption, report and bundle hashes, normalized result digest, run-verification and secret-scan result hashes, `SHA256SUMS`, known limitations, and ADR status changes. If any value or gate differs, discard the candidate, fix through a reviewed commit, and use a new tag. Never overwrite or delete an existing candidate tag as a correction mechanism.
+Record the revision, tag, workflow URL, stable and fuzz toolchains, Python support version, sandbox capability report, execution-policy hash, sandbox and resource-launcher hashes, protocol compatibility index and fuzz corpus hashes, conformance result hash, benchmark manifest hash, dataset hashes, deployment hashes, scoring-profile hash, runner and worker hashes, schemas 0.8 and 0.9, improvement-policy, taxonomy, registry, diff, equivalence, validation, lifecycle, review/adoption, analytical corpus/index/query/audit hashes, extension manifest/policy/resolution/conformance hashes, SDK compatibility and wheel hashes, report and bundle hashes, normalized result digest, run-verification and secret-scan result hashes, `SHA256SUMS`, known limitations, and ADR status changes. If any value or gate differs, discard the candidate, fix through a reviewed commit, and use a new tag. Never overwrite or delete an existing candidate tag as a correction mechanism.

@@ -1,5 +1,6 @@
 //! Deterministic reports derived only from normalized trusted artifacts.
 
+mod analytical;
 mod benchmark;
 mod diagnostic;
 mod html;
@@ -7,6 +8,7 @@ mod improvement;
 mod topology;
 mod types;
 
+pub use analytical::{AnalyticalReport, AnalyticalReportMatch};
 pub use benchmark::{
     ArtifactDigestReference, BenchmarkArtifact, BenchmarkCellSummary, BenchmarkClaim,
     BenchmarkClaimSource, BenchmarkConstraintSummary, BenchmarkDeploymentSummary,

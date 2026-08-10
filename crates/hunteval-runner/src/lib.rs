@@ -9,11 +9,15 @@ mod budget;
 mod dataset_review;
 mod diagnostics;
 mod episode_loader;
+mod extension;
 mod faults;
 mod hashing;
 mod improvement;
 mod knowledge;
+mod knowledge_artifacts;
+mod knowledge_audit;
 mod managed_tool;
+mod managed_tool_adapter;
 mod orchestrator;
 mod policy;
 mod process;
@@ -48,6 +52,10 @@ pub use diagnostics::{
     generate_run_diagnosis, verify_diagnostic_bundle,
 };
 pub use episode_loader::{ArtifactDigests, EpisodeLoadError, EpisodePackage, PublicEpisodePackage};
+pub use extension::{
+    ExtensionServiceError, check_extension, conform_extension, resolve_extension,
+    validate_extension_manifest,
+};
 pub use faults::FaultController;
 pub use hashing::{HashingError, hash_file};
 pub use hunteval_reporting::ReportFormat;
@@ -55,6 +63,13 @@ pub use hunteval_sandbox::{ResolvedExecutionPolicy, SandboxCapabilityReport, pro
 pub use hunteval_sandbox::{SecretScanPolicy, SecretScanResult, SecretScanStatus, scan_paths};
 pub use improvement::*;
 pub use knowledge::{KnowledgeController, KnowledgeControllerError};
+pub use knowledge_artifacts::{
+    AnalyticalCorpusLoadError, build_analytical_index, load_analytical_corpus,
+    query_analytical_index, render_analytical_result, validate_analytical_manifest,
+};
+pub use knowledge_audit::{
+    AnalyticalAuditError, query_analytical_index_audited, verify_retrieval_audit,
+};
 pub use managed_tool::{ManagedTool, ManagedToolError, ManagedToolOutput};
 pub use orchestrator::{OrchestratorError, RunConfig, RunOrchestrator, RunTerminalStatus};
 pub use policy::{IsolationPolicy, PolicyError};

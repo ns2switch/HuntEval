@@ -1,0 +1,7 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema","$id":"https://hunteval.dev/schemas/v0.9/managed-tool-adapter-response.schema.json","title":"HuntEval managed-tool adapter response v0.9",
+  "oneOf":[
+    {"type":"object","additionalProperties":false,"required":["status","schema_version","request_id","result"],"properties":{"status":{"const":"success"},"schema_version":{"const":"0.9"},"request_id":{"$ref":"common.schema.json#/$defs/identifier"},"result":{}}},
+    {"type":"object","additionalProperties":false,"required":["status","schema_version","request_id","reason_code"],"properties":{"status":{"const":"error"},"schema_version":{"const":"0.9"},"request_id":{"$ref":"common.schema.json#/$defs/identifier"},"reason_code":{"$ref":"common.schema.json#/$defs/reason_code"}}}
+  ]
+}

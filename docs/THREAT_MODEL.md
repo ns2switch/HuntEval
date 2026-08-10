@@ -13,6 +13,9 @@ HuntEval must protect:
 - prompt and configuration artifacts;
 - run trajectories and reports;
 - contributor-supplied datasets and knowledge documents.
+- verified analytical corpora, indexes, queries, and citations;
+- third-party extension manifests, executables, and capability policies;
+- Python SDK packages and cross-language fixtures.
 
 ## 2. Trust boundaries
 
@@ -29,6 +32,7 @@ Trusted HuntEval runner
 ```
 
 The evaluated deployment, model output, retrieved documents, episode-authored knowledge, and generated SQL are untrusted.
+Third-party adapters, analytical source text, query input, Python-authored artifacts, and package contents are also untrusted. Evaluator analytical corpora are a separate trusted-use scope and are never deployment-visible.
 
 ## 3. Adversaries and failure sources
 
@@ -264,6 +268,33 @@ The evaluated deployment, model output, retrieved documents, episode-authored kn
 - HuntEval exposes no write port that modifies a registered baseline or active deployment as a side effect of recommendation, validation, review, or adoption recording;
 - normalized reports and bundles reject private paths, hidden feedback, secrets, active content, and uncited stage claims.
 
+### 4.12 Analytical-corpus scope confusion
+
+**Threat:** Evaluator history, diagnostic evidence, or hidden benchmark context becomes available to an evaluated deployment through local search.
+
+**Mitigations:**
+
+- one mandatory corpus scope with no mixed inventories;
+- evaluator analytics and deployment-visible knowledge use separate composition paths;
+- deployment-visible corpora accept authored public documents only;
+- exact source hashes and successful public verification are required before indexing;
+- query authorization binds the exact corpus scope and index digest;
+- cross-scope requests fail without revealing rejected matches.
+
+### 4.13 Malicious or over-privileged extensions
+
+**Threat:** A third-party adapter requests undeclared access, bypasses managed tools, changes executable bytes, or escapes resource boundaries.
+
+**Mitigations:**
+
+- exact executable, manifest, capability-policy, and resolution hashes;
+- out-of-process execution through the existing sandbox and supervisor;
+- deny-by-default capability intersection with no manifest self-authorization;
+- scored network access remains denied;
+- scored tools remain runner-mediated;
+- executable and policy preflight covers digest drift and excess capability; supervised deployment and managed-tool conformance cover bounded protocol flows, malformed output, timeout, crash, transcript identity, and process cleanup;
+- Python SDK helpers contain no runner, evaluator, provider, or direct-tool authority.
+
 ## 5. MVP security requirements
 
 - No deployment network access by default.
@@ -297,3 +328,6 @@ The test suite must include:
 - hidden-test membership, feedback, and repeated-oracle request rejection;
 - undeclared-variable, stale-candidate, forged-validation, forged-approval, and unconfirmed-adoption tests;
 - deterministic recommendation lifecycle replay and changed-candidate invalidation.
+- evaluator/deployment corpus separation, digest drift, dangling citation, and cross-scope query rejection;
+- extension capability escalation, executable mismatch, malformed manifest, process failure, and direct-tool bypass;
+- Python/Rust malformed-fixture agreement, path confinement, package-content, and protocol-state tests.

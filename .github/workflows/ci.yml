@@ -319,7 +319,7 @@ jobs:
   controlled-improvement:
     name: Controlled improvement
     runs-on: ubuntu-22.04
-    timeout-minutes: 45
+    timeout-minutes: 60
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
@@ -355,6 +355,49 @@ jobs:
           if-no-files-found: error
           retention-days: 3
 
+  knowledge-extensions:
+    name: Knowledge and extensions
+    runs-on: ubuntu-22.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
+        with:
+          python-version: '3.11'
+      - name: Install pinned Rust toolchain and host capability
+        run: |
+          rustup toolchain install 1.93.1 --profile minimal --component clippy,rustfmt
+          sudo apt-get update
+          sudo apt-get install --yes bubblewrap
+          python3 --version
+      - uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
+        with:
+          path: |
+            ~/.cargo/registry/index
+            ~/.cargo/registry/cache
+            ~/.cargo/git/db
+            target
+          key: rust-ubuntu-22.04-${{ runner.os }}-${{ runner.arch }}-1.93.1-x86_64-unknown-linux-gnu-r7-${{ hashFiles('Cargo.lock') }}
+      - name: Run R7 knowledge and extension gates
+        run: |
+          mkdir -p .ci-artifacts
+          set -o pipefail
+          ./scripts/ci/r7-extensions.sh |& tee .ci-artifacts/knowledge-extensions.log
+          cargo run --quiet -p hunteval-cli -- system secret-scan \
+            --root . --format json -- .ci-artifacts/knowledge-extensions.log \
+            > .ci-artifacts/knowledge-extensions-secret-scan.json
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        if: always()
+        with:
+          name: knowledge-extensions-log
+          path: |
+            .ci-artifacts/knowledge-extensions.log
+            .ci-artifacts/knowledge-extensions-secret-scan.json
+          if-no-files-found: error
+          retention-days: 3
+
   package:
     name: Package
     runs-on: ubuntu-22.04
@@ -363,8 +406,13 @@ jobs:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
+        with:
+          python-version: '3.11'
       - name: Install pinned Rust toolchain
-        run: rustup toolchain install 1.93.1 --profile minimal --component clippy,rustfmt
+        run: |
+          rustup toolchain install 1.93.1 --profile minimal --component clippy,rustfmt
+          python3 --version
       - name: Build uncached release-candidate dry run
         run: |
           ./scripts/ci/cache-parity.sh

@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "hunteval-sdk"
+version = "0.1.0"
+description = "Typed offline contract helpers for HuntEval"
+requires-python = ">=3.11"
+license = "Apache-2.0"
+dependencies = []
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pyright]
+include = ["src", "tests"]
+typeCheckingMode = "strict"

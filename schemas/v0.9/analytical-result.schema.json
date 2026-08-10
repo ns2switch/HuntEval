@@ -1,0 +1,4 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema","$id":"https://hunteval.dev/schemas/v0.9/analytical-result.schema.json","title":"HuntEval analytical result v0.9","type":"object","additionalProperties":false,
+  "required":["schema_version","query_sha256","index_sha256","matches"],"properties":{"schema_version":{"const":"0.9"},"query_sha256":{"$ref":"common.schema.json#/$defs/sha256"},"index_sha256":{"$ref":"common.schema.json#/$defs/sha256"},"matches":{"type":"array","maxItems":100,"items":{"type":"object","additionalProperties":false,"required":["source_id","source_kind","artifact_sha256","field","excerpt"],"properties":{"source_id":{"$ref":"common.schema.json#/$defs/identifier"},"source_kind":{"$ref":"common.schema.json#/$defs/source_kind"},"artifact_sha256":{"$ref":"common.schema.json#/$defs/sha256"},"field":{"$ref":"common.schema.json#/$defs/identifier"},"excerpt":{"type":"string","maxLength":240}}}}}
+}

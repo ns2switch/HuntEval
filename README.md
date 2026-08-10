@@ -76,6 +76,31 @@ Verify that the host supports scored execution:
 target/debug/hunteval system check --format json
 ```
 
+The optional pure Python contract SDK requires Python 3.11 or newer and can be installed locally with:
+
+```bash
+python3 -m pip install ./sdk/python
+```
+
+It provides typed public models, digest-verifying artifact readers, and a bounded deployment-protocol peer. It does not execute benchmarks, evaluate results, or call scored tools directly.
+
+Validate the included R7 analytical corpus and extension examples:
+
+```bash
+target/debug/hunteval knowledge validate examples/contracts/v0.9/analytical-corpus-manifest.json
+target/debug/hunteval knowledge build \
+  examples/contracts/v0.9/analytical-corpus-manifest.json \
+  --root .
+target/debug/hunteval knowledge query \
+  examples/contracts/v0.9/analytical-corpus-manifest.json \
+  examples/contracts/v0.9/analytical-query.json \
+  --root . \
+  --audit /tmp/hunteval-retrieval-audit.jsonl
+target/debug/hunteval extension validate \
+  examples/contracts/v0.9/extension-manifest.json \
+  --policy examples/contracts/v0.9/extension-capability-policy.json
+```
+
 ## Run your first investigation
 
 The repository includes deterministic fixtures and reference deployments, so you can run an offline investigation immediately:
@@ -151,13 +176,17 @@ Scored execution against production SIEMs, unrestricted deployment network acces
 
 ## Project status
 
-R2 through R6 are complete. R6 adds content-addressed artifact comparison, controlled baseline/candidate experiments, evidence-backed recommendations, explicit human review, and offline-verifiable improvement bundles. HuntEval never adopts a suggested change automatically. R7 knowledge and extension interfaces are the next roadmap milestone.
+R2 through R7 are complete. HuntEval provides the offline benchmark loop, topology science, evidence-backed diagnosis, controlled improvements, artifact-grounded local search, stable extension contracts, a Python SDK, and a CrewAI connector. HuntEval never adopts a suggested change automatically.
 
 - [Roadmap through v1.0](docs/ROADMAP.md)
 - [R5 completion evidence](docs/R5_COMPLETION_EVIDENCE.md)
 - [R6 implementation plan](docs/R6_IMPLEMENTATION_PLAN.md)
 - [Controlled improvement use case](docs/USE_CASE_CONTROLLED_IMPROVEMENT.md)
 - [R6 completion evidence](docs/R6_COMPLETION_EVIDENCE.md)
+- [R7 implementation plan](docs/R7_IMPLEMENTATION_PLAN.md)
+- [Knowledge and extensions use case](docs/USE_CASE_KNOWLEDGE_EXTENSIONS.md)
+- [CrewAI connector](docs/CREWAI_CONNECTOR.md)
+- [R7 completion evidence](docs/R7_COMPLETION_EVIDENCE.md)
 
 ## Development
 
@@ -170,6 +199,7 @@ HUNTEVAL_SKIP_FUZZ_SMOKE=1 ./scripts/ci/r3-adversarial.sh
 ./scripts/ci/r4-science.sh
 ./scripts/ci/r5-diagnosis.sh
 ./scripts/ci/r6-improvement.sh
+./scripts/ci/r7-extensions.sh
 ./scripts/ci/e2e.sh
 ```
 
