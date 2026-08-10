@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema", "$id": "https://hunteval.dev/schemas/v0.8/human-decision.schema.json",
+  "title": "HuntEval explicit human decision v0.8", "type": "object", "additionalProperties": false,
+  "required": ["schema_version", "id", "recommendation_id", "candidate_artifact_sha256", "experiment_sha256", "validation_decision_sha256", "improvement_policy_sha256", "reviewer_id", "reviewed_at", "decision", "reason_codes", "explicit_confirmation"],
+  "properties": {
+    "schema_version": {"const": "0.8"}, "id": {"$ref": "common.schema.json#/$defs/identifier"}, "recommendation_id": {"$ref": "common.schema.json#/$defs/identifier"},
+    "candidate_artifact_sha256": {"$ref": "common.schema.json#/$defs/sha256"}, "experiment_sha256": {"$ref": "common.schema.json#/$defs/sha256"},
+    "validation_decision_sha256": {"$ref": "common.schema.json#/$defs/sha256"}, "improvement_policy_sha256": {"$ref": "common.schema.json#/$defs/sha256"},
+    "reviewer_id": {"$ref": "common.schema.json#/$defs/identifier"}, "reviewed_at": {"$ref": "common.schema.json#/$defs/utc_timestamp"},
+    "decision": {"enum": ["approve", "reject"]}, "reason_codes": {"$ref": "common.schema.json#/$defs/reason_codes"}, "explicit_confirmation": {"const": true}
+  }
+}

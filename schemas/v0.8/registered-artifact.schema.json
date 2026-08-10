@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hunteval.dev/schemas/v0.8/registered-artifact.schema.json",
+  "title": "HuntEval registered artifact v0.8",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "id", "kind", "media_type", "sha256", "size_bytes", "label", "provenance", "structured_artifact_sha256"],
+  "properties": {
+    "schema_version": {"const": "0.8"},
+    "id": {"$ref": "common.schema.json#/$defs/identifier"},
+    "kind": {"$ref": "common.schema.json#/$defs/artifact_kind"},
+    "media_type": {"$ref": "common.schema.json#/$defs/media_type"},
+    "sha256": {"$ref": "common.schema.json#/$defs/sha256"},
+    "size_bytes": {"type": "integer", "minimum": 1, "maximum": 16777216},
+    "label": {"$ref": "common.schema.json#/$defs/safe_label"},
+    "provenance": {"enum": ["repository", "generated_candidate", "external_registration"]},
+    "structured_artifact_sha256": {"oneOf": [{"$ref": "common.schema.json#/$defs/sha256"}, {"type": "null"}]}
+  }
+}

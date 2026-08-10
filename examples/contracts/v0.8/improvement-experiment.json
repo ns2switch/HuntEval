@@ -1,0 +1,15 @@
+{
+  "schema_version": "0.8", "id": "experiment-supervisor-ownership", "lineage_id": "lineage-supervisor-ownership",
+  "baseline_artifact_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "candidate_artifact_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+  "artifact_diff_sha256": "1111111111111111111111111111111111111111111111111111111111111111", "improvement_policy_sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+  "partition_policy_sha256": "3333333333333333333333333333333333333333333333333333333333333333", "scoring_profile_sha256": "4444444444444444444444444444444444444444444444444444444444444444",
+  "statistical_policy_sha256": "5555555555555555555555555555555555555555555555555555555555555555", "changed_variable": "supervisor_instruction_artifact",
+  "control_hashes": {
+    "episode_set": "6666666666666666666666666666666666666666666666666666666666666666", "seed_set": "7777777777777777777777777777777777777777777777777777777777777777",
+    "budgets": "8888888888888888888888888888888888888888888888888888888888888888", "models": "9999999999999999999999999999999999999999999999999999999999999999",
+    "topology": "abababababababababababababababababababababababababababababababab", "managed_tool_policy": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "execution_policy": "cdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcd", "schemas": "dededededededededededededededededededededededededededededededede",
+    "runtime_binaries": "efefefefefefefefefefefefefefefefefefefefefefefefefefefefefefefef"
+  },
+  "paired_cells": [{"baseline_cell_id": "cell:baseline-001", "candidate_cell_id": "cell:candidate-001"}], "candidate_frozen": true
+}

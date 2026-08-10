@@ -1,0 +1,11 @@
+{
+  "schema_version": "0.8", "id": "report-supervisor-ownership", "recommendation_id": "recommendation-supervisor-ownership", "status": "validated",
+  "baseline_artifact_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "candidate_artifact_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+  "experiment_sha256": "1010101010101010101010101010101010101010101010101010101010101010", "equivalence_sha256": "1212121212121212121212121212121212121212121212121212121212121212",
+  "validation_decision_sha256": "1515151515151515151515151515151515151515151515151515151515151515",
+  "sections": [
+    {"id": "observation-duplicate-tasks", "stage": "observation", "text": "Duplicate task creation recurred in comparable runs.", "sources": [{"kind": "diagnostic_source", "artifact_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "reference_id": "run-r6-example-001"}]},
+    {"id": "experimental-support", "stage": "experimental_support", "text": "The exact candidate passed the declared controlled validation policy.", "sources": [{"kind": "validation_decision", "artifact_sha256": "1515151515151515151515151515151515151515151515151515151515151515", "reference_id": "decision-supervisor-ownership"}]}
+  ],
+  "limitations": ["topology_dependent", "human_approval_required"]
+}

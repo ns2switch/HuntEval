@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hunteval.dev/schemas/v0.8/artifact-registry.schema.json",
+  "title": "HuntEval artifact registry v0.8",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "id", "artifacts"],
+  "properties": {
+    "schema_version": {"const": "0.8"},
+    "id": {"$ref": "common.schema.json#/$defs/identifier"},
+    "artifacts": {"type": "array", "minItems": 1, "maxItems": 1024, "items": {"$ref": "registered-artifact.schema.json"}}
+  }
+}

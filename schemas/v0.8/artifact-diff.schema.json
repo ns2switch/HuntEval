@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hunteval.dev/schemas/v0.8/artifact-diff.schema.json",
+  "title": "HuntEval safe artifact diff v0.8",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "id", "baseline_artifact_sha256", "candidate_artifact_sha256", "changed_variable", "operations", "immutable_policy_status", "reason_codes"],
+  "properties": {
+    "schema_version": {"const": "0.8"},
+    "id": {"$ref": "common.schema.json#/$defs/identifier"},
+    "baseline_artifact_sha256": {"$ref": "common.schema.json#/$defs/sha256"},
+    "candidate_artifact_sha256": {"$ref": "common.schema.json#/$defs/sha256"},
+    "changed_variable": {"$ref": "common.schema.json#/$defs/identifier"},
+    "operations": {"type": "array", "minItems": 1, "maxItems": 128, "items": {"$ref": "#/$defs/operation"}},
+    "immutable_policy_status": {"enum": ["passed", "rejected"]},
+    "reason_codes": {"$ref": "common.schema.json#/$defs/reason_codes"}
+  },
+  "$defs": {
+    "operation": {
+      "type": "object", "additionalProperties": false,
+      "required": ["operation", "section_id", "section_class", "baseline_sha256", "candidate_sha256"],
+      "properties": {
+        "operation": {"enum": ["add_section", "replace_section", "remove_section", "add_constraint"]},
+        "section_id": {"$ref": "common.schema.json#/$defs/section_id"},
+        "section_class": {"$ref": "common.schema.json#/$defs/mutable_section_class"},
+        "baseline_sha256": {"oneOf": [{"$ref": "common.schema.json#/$defs/sha256"}, {"type": "null"}]},
+        "candidate_sha256": {"oneOf": [{"$ref": "common.schema.json#/$defs/sha256"}, {"type": "null"}]}
+      }
+    }
+  }
+}

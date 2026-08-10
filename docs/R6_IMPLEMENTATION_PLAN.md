@@ -15,7 +15,7 @@ R6 covers:
 - a versioned prompt/configuration failure taxonomy and evidence-backed prompt improvement analysis;
 - optional candidate patch suggestions that remain separate artifacts and never mutate or adopt deployment instructions automatically.
 
-R2, R3, R4, and R5 remain complete with their recorded evidence. The R2.4 external-enforcement caveat remains closed by the separate administrator attestation. Existing schemas 0.3 through 0.7, protocol behavior, metric vectors, scoring profiles, statistical policy, topology controls, diagnostic artifacts, and completion evidence remain authoritative and byte-immutable. R6 is planned work and no item in this document is implementation evidence.
+R2, R3, R4, and R5 remain complete with their recorded evidence. The R2.4 external-enforcement caveat remains closed by the separate administrator attestation. Existing schemas 0.3 through 0.7, protocol behavior, metric vectors, scoring profiles, statistical policy, topology controls, diagnostic artifacts, and completion evidence remain authoritative and byte-immutable. R6-00 has implemented the schema 0.8 contract freeze locally; runtime R6 capabilities remain planned, and release completion still requires the evidence defined below.
 
 ### Delivery status
 
@@ -23,7 +23,7 @@ Status is evidence-based. `planned` makes no implementation claim. `implemented`
 
 | Milestone | Status | Outcome or dependency |
 |---|---|---|
-| R6-00 | planned | schema 0.8 contracts, canonical examples, compatibility rules, and proposed ADR decisions |
+| R6-00 | implemented | schema 0.8 contracts, canonical examples, compatibility rules, and accepted ADR decisions; remote gates pending |
 | R6-01 | planned | bounded content-addressed artifact registry |
 | R6-02 | planned | structured baseline/candidate diff with exact changed-variable proof |
 | R6-03 | planned | immutable-section enforcement and benchmark-answer leakage checks |
@@ -42,7 +42,7 @@ Status is evidence-based. `planned` makes no implementation claim. `implemented`
 | R6-16 | planned | deterministic end-to-end improvement workflow and dedicated CI gate |
 | R6-17 | planned | R6 release closure and exact implementation evidence |
 
-The R6/v0.6 release name is independent from persisted schema versions. R6-00 is expected to select additive schema `0.8`; that choice becomes normative only when R6-00 is reviewed and accepted. Existing artifacts are never rewritten to simulate compatibility.
+The R6/v0.6 release name is independent from persisted schema versions. R6-00 selects additive schema `0.8` through accepted ADR-067. Existing artifacts are never rewritten to simulate compatibility.
 
 ## 2. Baseline audit
 
@@ -245,7 +245,7 @@ Compatibility is additive:
 7. **Negative and malformed tests:** unknown versions/fields/states, missing bounds, private fields, invalid digests, illegal lifecycle transitions, mutable safety classifications, hidden partition fields, and unbounded collections.
 8. **Deterministic/replay tests:** canonical example serialization and lifecycle projection fixtures are byte-stable.
 9. **Acceptance and gates:** all open questions in section 16 are resolved or explicitly deferred with safe unavailable behavior; schema/meta-schema, documentation, policy, secret-scan, and canonical gates pass.
-10. **Documentation/ADR:** ADR-067 through ADR-075 are reviewed with accepted or explicitly proposed status and no accepted earlier ADR is weakened.
+10. **Documentation/ADR:** ADR-067 through ADR-075 are accepted and no accepted earlier ADR is weakened.
 11. **Migration:** compatibility matrices state that no old artifact gains inferred structure, validation, approval, adoption, or partition membership.
 12. **Rollback:** remove only unimplemented schema 0.8 writer registration while retaining the reviewed plan; no persisted earlier artifact changes.
 13. **Known limitation:** R6-00 defines contracts and decisions only and provides no runtime R6 capability.
@@ -640,26 +640,26 @@ R6 is complete only when:
 
 Completion evidence must record exact commands, revisions, toolchain, schema/policy/taxonomy/registry hashes, baseline and candidate hashes, diff/equivalence/experiment/decision hashes, paired sample accounting, lifecycle and human-decision hashes, report/bundle/verifier hashes, secret-scan results, known limitations, and ADR status changes.
 
-## 16. Open architectural questions for R6-00
+## 16. R6-00 architecture resolutions
 
-R6-00 must resolve these questions before production implementation:
+R6-00 resolves the contract questions as follows:
 
-1. What exact schema 0.8 structured-artifact representation preserves resolved instruction bytes while providing stable section identities without inferring Markdown structure?
-2. Which section classes are mutable in the first release, and is removal permitted for every mutable class or only for explicitly optional sections?
-3. Which exact artifact kinds are eligible as the single experimental variable in R6.1?
-4. How is a final hidden-test assessment sealed and rate-limited so it cannot become iterative selection feedback?
-5. Which validation constraints are mandatory for every experiment, and which remain author-selected through a versioned improvement policy?
-6. Does `validated` require a conclusive statistical claim, or may a policy explicitly permit a descriptive result that passes conservative regression constraints?
-7. How are reviewer identity and external adoption attested before signed artifacts are introduced in v0.8 or later?
-8. Which R5 classification codes initially map to each prompt/configuration weakness, and what independent source families are required?
-9. Which suggested-change operations can be emitted deterministically without embedding a provider or model dependency?
-10. Should the legacy in-memory experiment API remain under an explicit legacy module or be removed once all consumers migrate to schema 0.8?
+1. A schema 0.8 structured artifact is JSON with an explicit ordered section inventory, stable identifiers, policy-owned classes, exact content, and section hashes. HuntEval does not infer Markdown structure.
+2. The initial mutable classes are task planning, evidence requirements, delegation strategy, stopping conditions, communication format, error recovery, and output contract. A versioned policy explicitly allows operations; removal is eligible only for a mutable class when the policy allows it and the resulting artifact remains structurally valid.
+3. Instruction, deployment-configuration, output-contract, tool-description, and coordination-policy artifacts may become the single variable after explicit structure and registration. `other_configuration` remains provenance-only until a later contract assigns safe semantics.
+4. One final assessment is authorized for one frozen candidate digest and lineage. Its membership and episode-level results remain evaluator-only, and it cannot authorize another candidate in that lineage.
+5. Every improvement policy requires at least one minimum-quality constraint and one maximum-regression constraint. Resource, resilience, and verified-cost constraints are selected explicitly where applicable; immutable safety, leakage, partition isolation, and human review are unconditional gates.
+6. A versioned policy may accept a descriptive result only when conservative constraints pass. The report must retain descriptive claim strength; `validated` never becomes a conclusive or transferable claim by implication.
+7. Schema 0.8 records a bounded reviewer identifier, UTC time, exact hashes, and explicit confirmation. This is an auditable assertion rather than a cryptographic signature; signing remains future work.
+8. The canonical weakness taxonomy records initial R5 diagnostic-code and source-family requirements for all fourteen roadmap categories. Executable agreement is deferred to the compiled registry in R6-12.
+9. Deterministic suggestions may use `add_section`, `replace_section`, `remove_section`, or `add_constraint` only when both the improvement policy and weakness definition allow the operation.
+10. The narrow in-memory experiment API remains legacy-only until R6-07 migrates its focused tests, then it is removed rather than serialized or treated as schema 0.8 evidence.
 
-Answers that change a trust boundary, persisted contract, hidden-test policy, or adoption semantics require an accepted ADR before implementation.
+Any later change to these trust boundaries, persisted contracts, hidden-test policy, or adoption semantics requires a new ADR.
 
 ## 17. Proposed ADR updates
 
-R6-00 should add ADR-067 through ADR-075 as proposed in section 5. Implementation milestones update each ADR to `Accepted` only with its owning contracts and tests:
+R6-00 adds ADR-067 through ADR-075 as accepted contract decisions. Owning implementation milestones must preserve them and add their runtime tests:
 
 - R6-00: ADR-067 contract version and compatibility;
 - R6-01/R6-02: ADR-068 registration and structural diff;

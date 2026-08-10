@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hunteval.dev/schemas/v0.8/recommendation.schema.json",
+  "title": "HuntEval auditable improvement recommendation v0.8",
+  "type": "object", "additionalProperties": false,
+  "required": ["schema_version", "id", "target", "issue_code", "observed_evidence", "suspected_weakness", "target_artifact", "target_section", "suggested_change", "expected_effects", "possible_trade_offs", "validation", "status"],
+  "properties": {
+    "schema_version": {"const": "0.8"}, "id": {"$ref": "common.schema.json#/$defs/identifier"},
+    "target": {"type": "object", "additionalProperties": false, "required": ["kind", "id"], "properties": {"kind": {"enum": ["agent", "deployment"]}, "id": {"$ref": "common.schema.json#/$defs/identifier"}}},
+    "issue_code": {"$ref": "common.schema.json#/$defs/reason_code"},
+    "observed_evidence": {"type": "array", "minItems": 1, "maxItems": 128, "items": {"$ref": "https://hunteval.dev/schemas/v0.7/diagnostic-source-reference.schema.json"}},
+    "suspected_weakness": {"type": "object", "additionalProperties": false, "required": ["code", "evidence_sufficiency"], "properties": {"code": {"$ref": "common.schema.json#/$defs/reason_code"}, "evidence_sufficiency": {"enum": ["direct", "corroborated", "controlled"]}}},
+    "target_artifact": {"$ref": "common.schema.json#/$defs/artifact_reference"}, "target_section": {"$ref": "common.schema.json#/$defs/section_id"},
+    "suggested_change": {"type": "object", "additionalProperties": false, "required": ["operation", "rationale"], "properties": {"operation": {"enum": ["add_section", "replace_section", "remove_section", "add_constraint"]}, "rationale": {"$ref": "common.schema.json#/$defs/bounded_text"}}},
+    "expected_effects": {"$ref": "common.schema.json#/$defs/reason_codes"}, "possible_trade_offs": {"$ref": "common.schema.json#/$defs/reason_codes"},
+    "validation": {"type": "object", "additionalProperties": false, "required": ["required", "experiment_id"], "properties": {"required": {"const": true}, "experiment_id": {"oneOf": [{"$ref": "common.schema.json#/$defs/identifier"}, {"type": "null"}]}}},
+    "status": {"const": "proposed"}
+  }
+}

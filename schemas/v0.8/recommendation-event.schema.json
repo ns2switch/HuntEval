@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema", "$id": "https://hunteval.dev/schemas/v0.8/recommendation-event.schema.json",
+  "title": "HuntEval recommendation lifecycle event v0.8", "type": "object", "additionalProperties": false,
+  "required": ["schema_version", "recommendation_id", "sequence", "timestamp", "previous_event_sha256", "event", "candidate_artifact_sha256", "caused_by_artifact_sha256", "reason_code", "validation_decision_sha256", "human_decision_sha256", "adoption_record_sha256"],
+  "properties": {
+    "schema_version": {"const": "0.8"}, "recommendation_id": {"$ref": "common.schema.json#/$defs/identifier"},
+    "sequence": {"type": "integer", "minimum": 1}, "timestamp": {"$ref": "common.schema.json#/$defs/utc_timestamp"},
+    "previous_event_sha256": {"oneOf": [{"$ref": "common.schema.json#/$defs/sha256"}, {"type": "null"}]},
+    "event": {"enum": ["proposed", "testing", "validated", "rejected", "approved", "adopted", "invalidated", "superseded"]},
+    "candidate_artifact_sha256": {"$ref": "common.schema.json#/$defs/sha256"}, "caused_by_artifact_sha256": {"$ref": "common.schema.json#/$defs/sha256"},
+    "reason_code": {"$ref": "common.schema.json#/$defs/reason_code"},
+    "validation_decision_sha256": {"oneOf": [{"$ref": "common.schema.json#/$defs/sha256"}, {"type": "null"}]},
+    "human_decision_sha256": {"oneOf": [{"$ref": "common.schema.json#/$defs/sha256"}, {"type": "null"}]},
+    "adoption_record_sha256": {"oneOf": [{"$ref": "common.schema.json#/$defs/sha256"}, {"type": "null"}]}
+  },
+  "allOf": [
+    {"if": {"properties": {"event": {"const": "validated"}}}, "then": {"properties": {"validation_decision_sha256": {"$ref": "common.schema.json#/$defs/sha256"}}}},
+    {"if": {"properties": {"event": {"const": "approved"}}}, "then": {"properties": {"validation_decision_sha256": {"$ref": "common.schema.json#/$defs/sha256"}, "human_decision_sha256": {"$ref": "common.schema.json#/$defs/sha256"}}}},
+    {"if": {"properties": {"event": {"const": "adopted"}}}, "then": {"properties": {"validation_decision_sha256": {"$ref": "common.schema.json#/$defs/sha256"}, "human_decision_sha256": {"$ref": "common.schema.json#/$defs/sha256"}, "adoption_record_sha256": {"$ref": "common.schema.json#/$defs/sha256"}}}}
+  ]
+}

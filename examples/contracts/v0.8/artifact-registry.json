@@ -1,0 +1,8 @@
+{
+  "schema_version": "0.8", "id": "registry-r6-example",
+  "artifacts": [{
+    "schema_version": "0.8", "id": "supervisor-instructions-v2", "kind": "instruction", "media_type": "application/json",
+    "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "size_bytes": 2048, "label": "supervisor instructions v2",
+    "provenance": "repository", "structured_artifact_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+  }]
+}

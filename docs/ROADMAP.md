@@ -261,7 +261,7 @@ Completion evidence: the 108-cell matrix completed without failed, pending, or n
 
 **Objective:** make improvement hypotheses reproducible from artifact registration through human-approved validation.
 
-The governed pull-request sequence, contracts, security boundaries, tests, migration, rollback, and release gates for R6.1 through R6.4 are defined in `R6_IMPLEMENTATION_PLAN.md`. All R6 milestones remain planned; this plan does not constitute implementation evidence.
+The governed pull-request sequence, contracts, security boundaries, tests, migration, rollback, and release gates for R6.1 through R6.4 are defined in `R6_IMPLEMENTATION_PLAN.md`. R6-00 has implemented the schema 0.8 contract freeze and accepted its architecture decisions locally; runtime R6 capabilities remain planned, and R6-00 is not complete until its revision passes the canonical GitHub Actions gates.
 
 #### R6.1 — Artifact registry and safe diffs
 

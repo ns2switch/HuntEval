@@ -151,7 +151,7 @@ Scored execution against production SIEMs, unrestricted deployment network acces
 
 ## Project status
 
-R2 through R5 are complete. They provide the local benchmark loop, hardened sandbox and protocol, benchmark-science and topology experiments, and evidence-backed diagnosis. R6, the controlled improvement workflow, is the next planned release.
+R2 through R5 are complete. They provide the local benchmark loop, hardened sandbox and protocol, benchmark-science and topology experiments, and evidence-backed diagnosis. R6, the controlled improvement workflow, has started with its schema 0.8 contract freeze; the runtime artifact registry is the next implementation milestone.
 
 - [Roadmap through v1.0](docs/ROADMAP.md)
 - [R5 completion evidence](docs/R5_COMPLETION_EVIDENCE.md)

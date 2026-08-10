@@ -247,6 +247,23 @@ The evaluated deployment, model output, retrieved documents, episode-authored kn
 - R5 hypotheses remain unvalidated and cannot be represented as approved changes without a future R6 approval artifact;
 - normalized diagnostic JSON is authoritative and static HTML must escape untrusted text and prohibit active content.
 
+### 4.17 Controlled-improvement policy bypass and hidden-test oracle
+
+**Threat:** A candidate reclassifies or removes safety controls, changes an undeclared variable, embeds benchmark answers, extracts hidden-test feedback through repeated selection attempts, retains stale validation after mutation, forges human approval, or causes HuntEval to modify an active deployment.
+
+**Mitigations:**
+
+- schema 0.8 registers exact bounded regular bytes and requires explicit structure before a candidate can be compared;
+- the improvement policy owns a fixed immutable inventory covering authorization, tool access, filesystem, network, data handling, ground-truth isolation, benchmark constraints, output integrity, and security controls;
+- typed diff operations can target only mutable classes, and any second or undeclared experimental variable makes equivalence ineligible;
+- answer-leakage checks return bounded safe status without matched private values, and hidden-test membership and feedback remain unavailable during generation and selection;
+- the candidate is frozen before a sealed final assessment, which cannot feed another candidate in the same lineage;
+- baseline, candidate, policies, experiment, schemas, and relevant binaries are content-addressed, so any changed byte invalidates prior validation;
+- lifecycle events are append-only and cannot emit `validated`, `approved`, or `adopted` without the exact preceding decision artifacts;
+- human approval requires explicit confirmation over exact hashes, while adoption records only a separately confirmed external action;
+- HuntEval exposes no write port that modifies a registered baseline or active deployment as a side effect of recommendation, validation, review, or adoption recording;
+- normalized reports and bundles reject private paths, hidden feedback, secrets, active content, and uncited stage claims.
+
 ## 5. MVP security requirements
 
 - No deployment network access by default.
@@ -276,3 +293,7 @@ The test suite must include:
 - completed, partial, tampered, oversized, symlinked, and hard-linked run verification;
 - redaction and secret-scanner non-disclosure tests;
 - protocol property, retained corpus, bounded fuzz, and hostile live-process tests.
+- immutable-section removal, rename, reclassification, and encoded answer-leakage tests;
+- hidden-test membership, feedback, and repeated-oracle request rejection;
+- undeclared-variable, stale-candidate, forged-validation, forged-approval, and unconfirmed-adoption tests;
+- deterministic recommendation lifecycle replay and changed-candidate invalidation.
