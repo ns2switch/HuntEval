@@ -4,6 +4,7 @@ mod diagnosis;
 mod diagnostics;
 mod evaluator;
 mod experiments;
+mod improvement;
 mod input;
 mod metrics;
 mod profile;
@@ -29,6 +30,7 @@ pub use experiments::{
     CandidateConstraint, ExperimentError, ExperimentManifest, ExperimentObservation, Partition,
     ValidationDecision, validate_candidate, validate_experiment_manifest,
 };
+pub use improvement::*;
 pub use input::{
     EvaluationProvenance, ObservedAction, ObservedEvidence, ObservedFinding, ObservedMessage,
     ObservedRun, ObservedTask, ObservedTaskTransition, ObservedToolOutcome, SubmittedTimelineEntry,

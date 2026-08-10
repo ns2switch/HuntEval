@@ -2,6 +2,7 @@
 
 mod args;
 mod benchmark;
+mod improvement;
 
 use std::process::ExitCode;
 
@@ -40,6 +41,7 @@ fn execute(cli: Cli) -> Result<ExitCode, Box<dyn std::error::Error>> {
         Some(Command::Benchmark { command }) => benchmark::execute(command),
         Some(Command::Dataset { command }) => execute_dataset(command),
         Some(Command::Diagnose { command }) => execute_diagnose(command),
+        Some(Command::Improvement { command }) => improvement::execute(command),
         Some(Command::Report { command }) => execute_report(command),
     }
 }
