@@ -55,7 +55,16 @@ Content identities at implementation revision:
 
 The quality gate includes formatting, dependency-direction policy, production-file size policy, clippy with warnings denied, the full workspace test suite, and Rust documentation generation. The security gate passed dependency audit, sandbox capability checks, workspace policy, isolation, SQL policy, worker failure/isolation, untrusted-knowledge, adversarial protocol, run-verification, and deployment-conformance checks. Its final secret scan initially reported `incomplete` solely because the dirty Git index still selected the two deleted pre-R6 experiment-prototype files; after staging the exact final tree, the repeated scan was `clean` across 646 artifacts with no findings or incomplete reasons. The public end-to-end gate completed all 108 benchmark cells and verified its report, topology, diagnosis, run, secret-scan, and R2 compatibility artifacts by SHA-256.
 
-The non-publishing package dry-run and remote workflow evidence remain pending at this point. Both are required before changing any R6 milestone from `implemented` to `complete`.
+The non-publishing package dry-run passed from the clean closure revision `131cbccb493e192995d4ed9371103e3b1315880d`. The packaged schema 0.3 through 0.8 directories, taxonomy, documentation, and four release binaries passed the package-local secret scan and `SHA256SUMS` verification. Exact local package identities were:
+
+| Package evidence | SHA-256 |
+|---|---|
+| `hunteval-rc-131cbccb493e-x86_64-unknown-linux-gnu.tar.gz` | `66e08f2ca1c3be21ffe5c4cb65e0cb69d9df5c451caf88d2438a9e7492660919` |
+| `secret-scan.json` | `a079cd0448eea65b7b2bb92d95023da4b7960de17c0b7691a3fca8e8fa287727` |
+| `SHA256SUMS` | `f6fabbc3517d9e161cad1d20ec5862fbb52213f3e6a2233a3b2525fb36e9b340` |
+| `verification.txt` | `7e83e076aadf329bb50b82b370c828fea8bc55a3dfa9025d5d57d247a32d1bbe` |
+
+Remote workflow evidence remains pending and is required before changing any R6 milestone from `implemented` to `complete`.
 
 ## Known limitations
 
