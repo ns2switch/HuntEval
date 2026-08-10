@@ -72,17 +72,17 @@ def main() -> None:
         if isinstance(item, dict) and item.get("context")
     )
     missing = REQUIRED_CHECKS.difference(checks)
-    reviews = protection.get("required_pull_request_reviews") or {}
+    reviews = protection.get("required_pull_request_reviews")
     if missing:
         fail(f"required checks are missing: {', '.join(sorted(missing))}")
     if not status_checks.get("strict"):
         fail("required checks do not require an up-to-date branch")
-    if reviews.get("required_approving_review_count", 0) < 1:
-        fail("at least one approving review is required")
-    if not reviews.get("require_code_owner_reviews"):
-        fail("CODEOWNER review is not required")
-    if not reviews.get("dismiss_stale_reviews"):
-        fail("stale approvals are not dismissed")
+    if not isinstance(reviews, dict):
+        fail("pull requests are not required")
+    if reviews.get("required_approving_review_count") != 0:
+        fail("solo-maintainer policy requires zero approving reviews")
+    if reviews.get("require_code_owner_reviews"):
+        fail("solo-maintainer policy cannot require self-approval as CODEOWNER")
     if not protection.get("enforce_admins", {}).get("enabled"):
         fail("branch protection does not include administrators")
     if protection.get("allow_force_pushes", {}).get("enabled"):
