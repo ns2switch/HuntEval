@@ -151,13 +151,13 @@ Scored execution against production SIEMs, unrestricted deployment network acces
 
 ## Project status
 
-R2 through R5 are complete. R6 is implemented locally and adds content-addressed artifact comparison, controlled baseline/candidate experiments, evidence-backed recommendations, explicit human review, and offline-verifiable improvement bundles. R6 remains an active release until the implementation revision passes GitHub Actions; HuntEval never adopts a suggested change automatically.
+R2 through R6 are complete. R6 adds content-addressed artifact comparison, controlled baseline/candidate experiments, evidence-backed recommendations, explicit human review, and offline-verifiable improvement bundles. HuntEval never adopts a suggested change automatically. R7 knowledge and extension interfaces are the next roadmap milestone.
 
 - [Roadmap through v1.0](docs/ROADMAP.md)
 - [R5 completion evidence](docs/R5_COMPLETION_EVIDENCE.md)
 - [R6 implementation plan](docs/R6_IMPLEMENTATION_PLAN.md)
 - [Controlled improvement use case](docs/USE_CASE_CONTROLLED_IMPROVEMENT.md)
-- [R6 local implementation evidence](docs/R6_COMPLETION_EVIDENCE.md)
+- [R6 completion evidence](docs/R6_COMPLETION_EVIDENCE.md)
 
 ## Development
 

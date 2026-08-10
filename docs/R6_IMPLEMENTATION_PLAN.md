@@ -15,7 +15,7 @@ R6 covers:
 - a versioned prompt/configuration failure taxonomy and evidence-backed prompt improvement analysis;
 - optional candidate patch suggestions that remain separate artifacts and never mutate or adopt deployment instructions automatically.
 
-R2, R3, R4, and R5 remain complete with their recorded evidence. The R2.4 external-enforcement caveat remains closed by the separate administrator attestation. Existing schemas 0.3 through 0.7, protocol behavior, metric vectors, scoring profiles, statistical policy, topology controls, diagnostic artifacts, and completion evidence remain authoritative and byte-immutable. Revision `079bf45` implements R6 locally. Release completion still requires all canonical GitHub Actions jobs on the evidence revision, so no R6 milestone is marked complete yet.
+R2, R3, R4, and R5 remain complete with their recorded evidence. The R2.4 external-enforcement caveat remains closed by the separate administrator attestation. Existing schemas 0.3 through 0.7, protocol behavior, metric vectors, scoring profiles, statistical policy, topology controls, diagnostic artifacts, and completion evidence remain authoritative and byte-immutable. Runtime revision `079bf45` and governance revision `aacf27c` complete R6. All eleven canonical GitHub Actions jobs passed in run `31376156815`.
 
 ### Delivery status
 
@@ -23,24 +23,24 @@ Status is evidence-based. `planned` makes no implementation claim. `implemented`
 
 | Milestone | Status | Outcome or dependency |
 |---|---|---|
-| R6-00 | implemented | schema 0.8 contracts, canonical examples, compatibility rules, and accepted ADR decisions; remote gates pending |
-| R6-01 | implemented | bounded content-addressed artifact registry with deterministic inventory and verification |
-| R6-02 | implemented | deterministic structured diff with immutable-change rejection |
-| R6-03 | implemented | full immutable coverage and bounded answer-leakage checks with safe reason codes |
-| R6-04 | implemented | digest-bound fail-closed controlled equivalence |
-| R6-05 | implemented | evaluator-only partition authorization and single-use sealed final assessment |
-| R6-06 | implemented | paired orchestration through the canonical benchmark service and journal |
-| R6-07 | implemented | constraint-first decision preserving raw pairs, missing values, and provenance |
-| R6-08 | implemented | additive validate/run/resume/status/verify CLI and offline bundle verification |
-| R6-09 | implemented | append-only hash-linked lifecycle and deterministic state projection |
-| R6-10 | implemented | explicit human review and separately confirmed external adoption records |
-| R6-11 | implemented | digest-bound invalidation and stage-separated JSON/static-HTML reporting |
-| R6-12 | implemented | fourteen-category taxonomy with exact compiled-registry agreement |
-| R6-13 | implemented | observable-source resolution and bounded weakness hypotheses |
-| R6-14 | implemented | separate non-authoritative suggestion materialization without in-place writes |
-| R6-15 | implemented | controlled evidence linkage and content-addressed auditable bundles |
-| R6-16 | implemented | deterministic R6 end-to-end test and dedicated local/GitHub Actions gate |
-| R6-17 | implemented | local closure evidence recorded; canonical remote jobs pending |
+| R6-00 | complete | schema 0.8 contracts, canonical examples, compatibility rules, and accepted ADR decisions |
+| R6-01 | complete | bounded content-addressed artifact registry with deterministic inventory and verification |
+| R6-02 | complete | deterministic structured diff with immutable-change rejection |
+| R6-03 | complete | full immutable coverage and bounded answer-leakage checks with safe reason codes |
+| R6-04 | complete | digest-bound fail-closed controlled equivalence |
+| R6-05 | complete | evaluator-only partition authorization and single-use sealed final assessment |
+| R6-06 | complete | paired orchestration through the canonical benchmark service and journal |
+| R6-07 | complete | constraint-first decision preserving raw pairs, missing values, and provenance |
+| R6-08 | complete | additive validate/run/resume/status/verify CLI and offline bundle verification |
+| R6-09 | complete | append-only hash-linked lifecycle and deterministic state projection |
+| R6-10 | complete | explicit human review and separately confirmed external adoption records |
+| R6-11 | complete | digest-bound invalidation and stage-separated JSON/static-HTML reporting |
+| R6-12 | complete | fourteen-category taxonomy with exact compiled-registry agreement |
+| R6-13 | complete | observable-source resolution and bounded weakness hypotheses |
+| R6-14 | complete | separate non-authoritative suggestion materialization without in-place writes |
+| R6-15 | complete | controlled evidence linkage and content-addressed auditable bundles |
+| R6-16 | complete | deterministic R6 end-to-end test and dedicated local/GitHub Actions gate |
+| R6-17 | complete | local, package, protected-branch, and eleven-job remote closure evidence recorded |
 
 The R6/v0.6 release name is independent from persisted schema versions. R6-00 selects additive schema `0.8` through accepted ADR-067. Existing artifacts are never rewritten to simulate compatibility.
 
@@ -686,6 +686,7 @@ cargo test --workspace
 HUNTEVAL_SKIP_FUZZ_SMOKE=1 ./scripts/ci/r3-adversarial.sh
 ./scripts/ci/r4-science.sh
 ./scripts/ci/r5-diagnosis.sh
+./scripts/ci/r6-improvement.sh
 ./scripts/ci/e2e.sh
 git diff --check
 ```

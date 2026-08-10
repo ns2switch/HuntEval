@@ -1,8 +1,8 @@
-# R6 local implementation evidence
+# R6 completion evidence
 
 ## Status
 
-R6 is implemented locally at revision `079bf459c72b4a3c3dcc23c0121482d260d2c84d`. It is not marked complete because the eleven canonical GitHub Actions jobs have not yet passed on the final documentation evidence revision.
+R6/v0.6 controlled improvement is complete. Runtime revision `079bf459c72b4a3c3dcc23c0121482d260d2c84d` implements the behavior below. Governance revision `aacf27c8d346fb58226dd8bb99a803c6b652b88a` adds `Controlled improvement` to the committed required-check policy and passed all eleven canonical GitHub Actions jobs in run [31376156815](https://github.com/ns2switch/HuntEval/actions/runs/31376156815).
 
 R2, R3, R4, and R5 remain complete with their recorded evidence. Their commit references, GitHub Actions evidence, schemas, and exit criteria are unchanged. The former R2.4 external-enforcement caveat remains closed by its separate administrator attestation.
 
@@ -64,7 +64,7 @@ The non-publishing package dry-run passed from the clean closure revision `131cb
 | `SHA256SUMS` | `f6fabbc3517d9e161cad1d20ec5862fbb52213f3e6a2233a3b2525fb36e9b340` |
 | `verification.txt` | `7e83e076aadf329bb50b82b370c828fea8bc55a3dfa9025d5d57d247a32d1bbe` |
 
-Remote workflow evidence remains pending and is required before changing any R6 milestone from `implemented` to `complete`.
+GitHub Actions run [31376156815](https://github.com/ns2switch/HuntEval/actions/runs/31376156815) passed Policy, Quality, Tests, Security, Adversarial protocol, End-to-end, Documentation, Benchmark science, Evidence-backed diagnosis, Controlled improvement, and Package on `aacf27c8d346fb58226dd8bb99a803c6b652b88a`. The live `main` protection was updated to require all eleven checks with strict up-to-date-branch enforcement, and the committed live-settings verifier passed against that configuration and the existing protected-tag rulesets.
 
 ## Known limitations
 
