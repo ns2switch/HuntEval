@@ -4,6 +4,7 @@ set -euo pipefail
 source "$(dirname "$0")/common.sh"
 require_rust_toolchain
 
+cargo build --workspace --bins
 cargo test -p hunteval-domain --test schema_v07 --test diagnosis_v07
 cargo test -p hunteval-evaluation \
     --test diagnostic_taxonomy \
