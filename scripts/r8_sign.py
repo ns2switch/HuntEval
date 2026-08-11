@@ -65,11 +65,11 @@ def policy(path: pathlib.Path) -> dict:
         fail("signature validity interval is invalid")
     if value["valid_from_epoch"] >= value["valid_until_epoch"]:
         fail("signature validity interval is empty")
-    with tempfile.NamedTemporaryFile(mode="w", encoding="utf-8") as public_key:
-        public_key.write(value["public_key"] + "\n")
-        public_key.flush()
+    with tempfile.TemporaryDirectory() as directory:
+        public_key = pathlib.Path(directory) / "public-key.pub"
+        public_key.write_text(value["public_key"] + "\n", encoding="utf-8", newline="\n")
         result = subprocess.run(
-            ["ssh-keygen", "-lf", public_key.name, "-E", "sha256"],
+            ["ssh-keygen", "-lf", str(public_key), "-E", "sha256"],
             check=False,
             capture_output=True,
             text=True,
@@ -153,9 +153,13 @@ def verify(args: argparse.Namespace) -> None:
         args.workflow,
     ):
         fail("signature workflow identity does not match policy")
-    with tempfile.NamedTemporaryFile(mode="w", encoding="utf-8") as allowed:
-        allowed.write(f'{value["signer_identity"]} {value["public_key"]}\n')
-        allowed.flush()
+    with tempfile.TemporaryDirectory() as directory:
+        allowed = pathlib.Path(directory) / "allowed-signers"
+        allowed.write_text(
+            f'{value["signer_identity"]} {value["public_key"]}\n',
+            encoding="utf-8",
+            newline="\n",
+        )
         with artifact.open("rb") as content:
             result = subprocess.run(
                 [
@@ -163,7 +167,7 @@ def verify(args: argparse.Namespace) -> None:
                     "-Y",
                     "verify",
                     "-f",
-                    allowed.name,
+                    str(allowed),
                     "-I",
                     value["signer_identity"],
                     "-n",
