@@ -18,6 +18,9 @@ REQUIRED_CHECKS = {
     "Security",
     "End-to-end",
     "Documentation",
+    "Framework connectors",
+    "Upstream framework conformance",
+    "Commercial connector replay",
     "Package",
 }
 RELEASE_TAG_PATTERN = "refs/tags/v*"

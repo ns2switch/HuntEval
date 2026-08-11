@@ -10,6 +10,13 @@ requires-python = ">=3.11"
 license = "Apache-2.0"
 dependencies = []
 
+[project.optional-dependencies]
+autogen = ["autogen-agentchat==0.7.5"]
+crewai = ["crewai==1.15.5"]
+google-adk = ["google-adk==2.6.3"]
+langgraph = ["langgraph==1.2.10"]
+semantic-kernel = ["semantic-kernel==1.44.1", "protobuf>=5,<7"]
+
 [tool.setuptools.packages.find]
 where = ["src"]
 

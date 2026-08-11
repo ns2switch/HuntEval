@@ -35,6 +35,12 @@ impl From<SecretReference> for String {
 }
 
 impl SecretReference {
+    /// Resolver-facing opaque name; it is an identity, never secret material.
+    #[must_use]
+    pub fn as_str(&self) -> &str {
+        &self.0
+    }
+
     /// One-way identity safe for public audit records.
     #[must_use]
     pub fn identity_sha256(&self) -> String {

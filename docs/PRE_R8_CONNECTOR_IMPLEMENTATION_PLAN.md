@@ -21,15 +21,15 @@ Status is evidence-based. `planned` makes no implementation claim. `implemented`
 
 | Group | Status | Outcome |
 |---|---|---|
-| G0 | in progress | code boundaries exist; governance, ADRs, compatibility, and threat models remain open |
+| G0 | implemented | code boundaries, compatibility policy, threat models, exact candidate-version inventory, and accepted ADR-084 through ADR-097 exist |
 | G1 | implemented | common framework lifecycle and CrewAI regression baseline pass focused tests |
 | G2 | implemented | native structural adapters pass deterministic fixture conformance |
 | G3 | implemented | bounded MCP session and fixed catalog pass focused adversarial tests |
-| G4 | planned | paired framework and topology evidence |
+| G4 | in progress | five adapters pass an equivalent deterministic supervisor-worker matrix; full scored benchmark evidence remains open |
 | G5 | in progress | local connector CI and guides exist; release closure remains open |
-| G6 | in progress | offline fixture and replay foundation exists; network and secret foundations remain open |
-| G7 | in progress | platform catalogs and generic replay exist; live vendor adapters remain open |
-| G8 | in progress | normalized offline result and replay CI exist; protected live workflow remains open |
+| G6 | implemented | worker, HTTPS, network policy, secret framing, fixtures, and replay pass local adversarial tests; external egress certification remains open |
+| G7 | implemented | finite vendor request and normalization adapters exist; authorized live conformance remains open |
+| G8 | in progress | normalized replay CI and a protected live workflow exist; protected environments, live runs, and closure evidence remain open |
 | G9 | planned | v0.7.2 release closure |
 
 No G0 through G9 group is complete. Current evidence is local and offline.

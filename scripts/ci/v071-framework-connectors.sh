@@ -9,6 +9,7 @@ python3 -c 'import sys; raise SystemExit(0 if sys.version_info >= (3, 11) else "
 PYTHONPATH=sdk/python/src python3 -m unittest \
     sdk/python/tests/test_crewai.py \
     sdk/python/tests/test_framework_connectors.py \
+    sdk/python/tests/test_framework_matrix.py \
     sdk/python/tests/test_mcp.py \
     -v
 python3 -m compileall -q sdk/python/src sdk/python/tests

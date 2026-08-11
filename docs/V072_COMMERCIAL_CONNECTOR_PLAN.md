@@ -23,18 +23,18 @@ Status is evidence-based. `planned` makes no implementation claim. `in progress`
 | Milestone | Status | Outcome |
 |---|---|---|
 | P72-00 | in progress | finite read-only catalogs, network contracts, threat-model delta, and ADR-090 through ADR-097 exist; vendor feasibility and current-API review remain open |
-| P72-01 | in progress | runner-owned deny-by-default policy contracts and address validation exist; the supervised live connector worker and host enforcement remain open |
-| P72-02 | in progress | opaque secret references and public one-way identities exist; runtime resolution, authentication lifecycle, zeroization, canary redaction, and audit integration remain open |
+| P72-01 | implemented | correlated gateway, HTTPS transport, pinned-address checks, zero-retry single-page policy, one-call worker, and live harness exist; external host enforcement and process-tree integration remain open |
+| P72-02 | in progress | opaque references, separate bearer framing, one-shot resolution, zeroization, and canary tests exist; platform token issuance and protected secret-broker integration remain open |
 | P72-03 | in progress | content-addressed synthetic fixtures and deterministic replay exist; recording sanitizer remains open |
-| P72-04 | in progress | CrowdStrike offline operation catalog and replay exist; adapter, scopes, and live evidence remain open |
-| P72-05 | in progress | Google SecOps offline operation catalog and replay exist; adapter, scopes, and live evidence remain open |
-| P72-06 | in progress | Sentinel offline catalog and replay exist; connector and Security Copilot decision remain open |
-| P72-07 | in progress | Elastic offline catalog and replay exist; connector and agent-output decision remain open |
-| P72-08 | in progress | Cortex offline catalog and replay exist; connector and native-agent decision remain open |
-| P72-09 | in progress | normalized offline result and replay CI exist; matrices and protected live workflow remain open |
+| P72-04 | implemented | CrowdStrike read-only builders, normalizer, offline replay, and live harness path exist; scope review and tenant evidence remain open |
+| P72-05 | implemented | Google SecOps read-only builders, normalizer, offline replay, and live harness path exist; token issuance and tenant evidence remain open |
+| P72-06 | implemented | Sentinel read-only builders, normalizer, and offline replay exist; Security Copilot decision and tenant evidence remain open |
+| P72-07 | implemented | Elastic read-only builders, normalizer, and offline replay exist; native agent-output decision and tenant evidence remain open |
+| P72-08 | implemented | Cortex read-only builders, normalizer, and offline replay exist; native-agent decision and tenant evidence remain open |
+| P72-09 | in progress | normalized results, correlation, replay CI, and bounded live attestations exist; protected live workflow and matrices remain open |
 | P72-10 | in progress | documentation, package inclusion, and local gates exist; migration, rollback, protected evidence, and release closure remain open |
 
-No P72 milestone is complete. No network worker, secret-value handling, live connector, or production-scored mode exists. `implemented` and `in progress` describe local code only and are not live-support claims.
+No P72 milestone is complete. The worker and transport are implemented but not enabled as supported live connectors because external egress enforcement, token issuance, authorized tenants, and protected evidence remain absent. No production-scored mode exists. `implemented` and `in progress` describe local code only and are not live-support claims.
 
 ## 3. Operating modes
 

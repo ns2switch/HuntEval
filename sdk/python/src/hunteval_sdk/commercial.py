@@ -13,18 +13,13 @@ from .commercial_catalog import operations_for
 MAX_ARGUMENT_BYTES = 65_536
 MAX_RECORDS = 10_000
 FORBIDDEN_ARGUMENT_FIELDS = {
-    "authorization",
-    "cookie",
     "endpoint",
     "headers",
     "host",
     "method",
-    "password",
-    "secret",
-    "token",
     "url",
 }
-FORBIDDEN_RESPONSE_FIELDS = {"authorization", "cookie", "password", "secret", "token"}
+FORBIDDEN_RESPONSE_FIELDS: set[str] = set()
 
 
 class CommercialConnectorError(ValueError):
@@ -190,7 +185,7 @@ def _validate_json(value: Any, forbidden: set[str], depth: int) -> None:
         if len(value) > 4_096:
             raise CommercialConnectorError("commercial object exceeds property limits")
         for key, nested in value.items():
-            if not isinstance(key, str) or key.lower() in forbidden:
+            if not isinstance(key, str) or key.lower() in forbidden or _sensitive_key(key):
                 raise CommercialConnectorError("commercial value contains a prohibited field")
             _validate_json(nested, forbidden, depth + 1)
         return
@@ -209,3 +204,21 @@ def _canonical(value: Mapping[str, Any]) -> bytes:
     return json.dumps(
         value, sort_keys=True, separators=(",", ":"), allow_nan=False
     ).encode("utf-8")
+
+
+def _sensitive_key(value: str) -> bool:
+    normalized = "".join(character for character in value.lower() if character.isalnum())
+    return normalized in {
+        "authorization",
+        "bearer",
+        "cookie",
+        "credential",
+        "password",
+        "secret",
+        "setcookie",
+        "token",
+        "accesstoken",
+        "refreshtoken",
+        "clientsecret",
+        "apikey",
+    } or normalized.endswith(("password", "secret", "token"))

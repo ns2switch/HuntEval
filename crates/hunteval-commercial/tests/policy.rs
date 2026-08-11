@@ -32,6 +32,30 @@ impl ReadOnlyTransport for FixtureTransport {
     }
 }
 
+#[derive(Debug)]
+struct SensitiveResponseTransport;
+
+impl ReadOnlyTransport for SensitiveResponseTransport {
+    fn resolve(&self, _: &str) -> Result<Vec<ResolvedAddress>, CommercialError> {
+        Ok(vec![ResolvedAddress(IpAddr::from([8, 8, 8, 8]))])
+    }
+
+    fn execute(
+        &self,
+        _: &CommercialPolicy,
+        _: &CommercialRequest,
+    ) -> Result<CommercialResponse, CommercialError> {
+        Ok(CommercialResponse {
+            records: vec![BTreeMap::from([(
+                "access_token".into(),
+                "remote-secret".into(),
+            )])],
+            truncated: false,
+            more_available: false,
+        })
+    }
+}
+
 fn policy() -> CommercialPolicy {
     CommercialPolicy {
         policy_version: "0.1".into(),
@@ -169,5 +193,31 @@ fn credentials_are_required_only_for_live_read_only_mode() {
     assert_eq!(
         invalid_fixture.validate(),
         Err(CommercialError::InvalidPolicy)
+    );
+}
+
+#[test]
+fn sensitive_request_and_response_field_variants_fail_closed() {
+    let mut sensitive_request = request();
+    sensitive_request
+        .arguments
+        .insert("client_secret".into(), "not-allowed".into());
+    let mut service = CommercialService::new(
+        policy(),
+        FixtureTransport {
+            address: IpAddr::from([8, 8, 8, 8]),
+        },
+    )
+    .unwrap_or_else(|error| unreachable!("valid policy fixture: {error}"));
+    assert_eq!(
+        service.execute(&sensitive_request),
+        Err(CommercialError::DeniedOperation)
+    );
+
+    let mut service = CommercialService::new(policy(), SensitiveResponseTransport)
+        .unwrap_or_else(|error| unreachable!("valid policy fixture: {error}"));
+    assert_eq!(
+        service.execute(&request()),
+        Err(CommercialError::InvalidResponse)
     );
 }

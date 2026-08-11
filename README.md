@@ -91,17 +91,17 @@ The Python SDK provides one framework-neutral lifecycle and adapters for common 
 | Integration | Current status |
 |---|---|
 | CrewAI | supported R7 baseline |
-| LangGraph | implemented with deterministic fixture conformance |
-| AutoGen AgentChat | implemented with deterministic fixture conformance |
-| Google ADK | implemented locally; remote A2A is disabled |
-| Semantic Kernel | preview with deterministic fixture conformance |
+| LangGraph | implemented with local exact-package and fixture conformance |
+| AutoGen AgentChat | implemented with local exact-package and fixture conformance |
+| Google ADK | implemented with local exact-package conformance; remote A2A is disabled |
+| Semantic Kernel | preview with local exact-package and fixture conformance |
 | MCP | bounded local `stdio` interoperability |
 
 Adapters receive only public run inputs and translate observable tasks, delegation, managed-tool requests, evidence, findings, and the final submission into HuntEval's process protocol. HuntEval retains control of scored tools, budgets, validation, and provenance. Framework scratchpads and private chain of thought are neither requested nor recorded.
 
-Start with the [framework and MCP connector guide](docs/FRAMEWORK_CONNECTORS.md). Exact upstream-version certification remains pending for every new adapter except the existing CrewAI baseline.
+Start with the [framework and MCP connector guide](docs/FRAMEWORK_CONNECTORS.md). The pinned upstream versions pass isolated local Python 3.11 public-surface checks; protected CI, provider and full scored benchmark evidence remain pending.
 
-HuntEval also includes deterministic offline connector previews for CrowdStrike Falcon, Google Security Operations, Microsoft Sentinel, Elastic Security, and Cortex XSIAM. These previews replay content-addressed synthetic fixtures and perform no DNS, network, credential, or tenant access. See the [commercial connector guide](docs/COMMERCIAL_CONNECTORS.md) for the supported read-only operation families and current limitations.
+HuntEval also includes deterministic offline connector previews for CrowdStrike Falcon, Google Security Operations, Microsoft Sentinel, Elastic Security, and Cortex XSIAM. These previews replay content-addressed synthetic fixtures and perform no DNS, network, credential, or tenant access. A fail-closed sanitizer can convert explicitly reviewed private recording fields into revalidated synthetic fixtures without retaining source values. See the [commercial connector guide](docs/COMMERCIAL_CONNECTORS.md) for the supported read-only operation families and current limitations.
 
 Validate the included R7 analytical corpus and extension examples:
 
@@ -197,7 +197,7 @@ Scored execution against production SIEMs, unrestricted deployment network acces
 
 R2 through R7 are complete. HuntEval provides the offline benchmark loop, topology science, evidence-backed diagnosis, controlled improvements, artifact-grounded local search, stable extension contracts, a Python SDK, and a CrewAI connector.
 
-The local v0.7.1 framework/MCP implementation and the v0.7.2 commercial offline safety foundation now exist and have dedicated CI gates. They are not release-complete: exact upstream-framework conformance, a supervised live transport worker, runtime secret handling, authorized non-production tenant evidence, and protected closure evidence remain pending. No commercial connector currently performs live or production-scored execution. HuntEval never adopts a suggested change automatically.
+The local v0.7.1 framework/MCP implementation and the v0.7.2 commercial gateway, worker, HTTPS transport, vendor mappings, recording sanitizer, and offline safety foundation now exist and have dedicated CI gates. They are not release-complete: protected upstream-framework execution, full scored paired benchmarks, migration rehearsal against a published package, externally enforced live egress, platform token issuance, authorized non-production tenant evidence, and protected closure evidence remain pending. No commercial connector is currently certified for live or production-scored execution. HuntEval never adopts a suggested change automatically.
 
 - [Roadmap through v1.0](docs/ROADMAP.md)
 - [R5 completion evidence](docs/R5_COMPLETION_EVIDENCE.md)
@@ -216,6 +216,7 @@ The local v0.7.1 framework/MCP implementation and the v0.7.2 commercial offline 
 - [v0.7.2 commercial platform connector plan](docs/V072_COMMERCIAL_CONNECTOR_PLAN.md)
 - [Commercial connector preview guide](docs/COMMERCIAL_CONNECTORS.md)
 - [v0.7.2 local implementation evidence](docs/V072_IMPLEMENTATION_EVIDENCE.md)
+- [R8 release-candidate implementation plan](docs/R8_IMPLEMENTATION_PLAN.md)
 
 ## Development
 
