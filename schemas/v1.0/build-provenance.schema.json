@@ -12,7 +12,7 @@
     "rust_toolchain": {"type": "string", "minLength": 1, "maxLength": 64},
     "source_date_epoch": {"type": "integer", "minimum": 0},
     "target": {"type": "string", "minLength": 1, "maxLength": 128},
-    "network_used": {"const": false},
+    "network_used": {"type": "boolean"},
     "materials": {
       "type": "object", "additionalProperties": false,
       "required": ["cargo_lock_sha256", "compatibility_matrix_sha256", "interface_inventory_sha256", "platform_target_matrix_sha256"],

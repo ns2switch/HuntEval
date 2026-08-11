@@ -16,6 +16,8 @@ Use a clean protected revision and a new absolute output directory:
 
 The Linux rehearsal builds the Rust binaries and Python wheel, creates deterministic package and dependency evidence, generates an SPDX 2.3 SBOM, scans public package contents, computes checksums, installs the archive into a new confined directory, runs a CLI smoke check, signs the release evidence with an ephemeral rehearsal identity, and verifies the detached signature offline. The protected release-candidate workflow performs the equivalent native package, install, smoke, evidence-signing, and verification path for Linux x86_64, macOS Intel, macOS Apple Silicon, and Windows x86_64. The rehearsal identities are not production release identities.
 
+Build provenance records network use explicitly. Native clean-runner candidates declare network use because Cargo and the isolated Python build backend may retrieve locked or pinned dependencies. Supply-chain fixtures that run from pre-provisioned inputs declare network isolation. The evidence builder has no implicit default: omitting both declarations fails closed.
+
 Verify downloaded evidence before using any binary:
 
 ```bash

@@ -196,6 +196,7 @@ def build(output: pathlib.Path, target: str, runner: str) -> None:
             sys.executable, "scripts/r8_supply_chain.py", "build", "--package-root", str(package),
             "--output", str(output / "evidence"), "--metadata", str(metadata), "--revision", revision,
             "--target", target, "--rust-toolchain", rust_version, "--epoch", epoch,
+            "--network-used",
         ])
         run([
             sys.executable,
@@ -204,7 +205,6 @@ def build(output: pathlib.Path, target: str, runner: str) -> None:
             "wheel",
             "--disable-pip-version-check",
             "--no-deps",
-            "--no-build-isolation",
             "--wheel-dir",
             str(output),
             "./sdk/python",

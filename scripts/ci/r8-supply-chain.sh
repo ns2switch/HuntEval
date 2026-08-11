@@ -19,7 +19,8 @@ python3 scripts/r8_supply_chain.py build \
     --revision "$(git rev-parse --verify HEAD)" \
     --target x86_64-unknown-linux-gnu \
     --rust-toolchain "$HUNTEVAL_RUST_VERSION" \
-    --epoch "$(git show -s --format=%ct HEAD)"
+    --epoch "$(git show -s --format=%ct HEAD)" \
+    --network-isolated
 python3 scripts/r8_supply_chain.py verify --root "$temporary/evidence"
 
 cp -R "$temporary/evidence" "$temporary/first"
@@ -31,7 +32,8 @@ python3 scripts/r8_supply_chain.py build \
     --revision "$(git rev-parse --verify HEAD)" \
     --target x86_64-unknown-linux-gnu \
     --rust-toolchain "$HUNTEVAL_RUST_VERSION" \
-    --epoch "$(git show -s --format=%ct HEAD)"
+    --epoch "$(git show -s --format=%ct HEAD)" \
+    --network-isolated
 diff -ru "$temporary/first" "$temporary/evidence"
 
 echo "R8 supply-chain evidence gate passed"

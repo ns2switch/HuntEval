@@ -54,9 +54,13 @@ with tempfile.TemporaryDirectory() as directory:
         target="x86_64-unknown-linux-gnu",
         rust_toolchain="1.93.1",
         epoch=0,
+        network_used=False,
     )
     MODULE.build(arguments)
     MODULE.verify_directory(output)
+    provenance = json.loads((output / "build-provenance.json").read_text(encoding="utf-8"))
+    if provenance["network_used"] is not False:
+        raise SystemExit("isolated supply-chain fixture did not preserve network provenance")
 
     inventory = output / "package-inventory.json"
     original = inventory.read_bytes()

@@ -102,7 +102,9 @@ def dependency_evidence(metadata: dict, revision: str, epoch: int) -> tuple[dict
         source = package.get("source") or "workspace"
         dependencies.append({"name": name, "source": source, "version": version})
         licenses.append({"license": license_expression, "name": name, "version": version})
-    created = datetime.datetime.fromtimestamp(epoch, datetime.UTC).strftime("%Y-%m-%dT%H:%M:%SZ")
+    created = datetime.datetime.fromtimestamp(epoch, datetime.timezone.utc).strftime(
+        "%Y-%m-%dT%H:%M:%SZ"
+    )
     namespace = f"https://hunteval.dev/spdx/{revision}"
     sbom = {
         "SPDXID": "SPDXRef-DOCUMENT",
@@ -163,7 +165,7 @@ def build(args: argparse.Namespace) -> None:
         "source_date_epoch": args.epoch,
         "target": args.target,
         "materials": materials,
-        "network_used": False,
+        "network_used": args.network_used,
     }
     artifacts = {
         "package-inventory.json": inventory,
@@ -218,6 +220,9 @@ def verify_directory(root: pathlib.Path) -> None:
     inventory = read_json(root / "package-inventory.json")
     if not isinstance(inventory, dict) or inventory.get("schema_version") != "1.0":
         fail("invalid package inventory")
+    provenance = read_json(root / "build-provenance.json")
+    if not isinstance(provenance, dict) or not isinstance(provenance.get("network_used"), bool):
+        fail("build provenance must declare whether network access was used")
 
 
 def main() -> None:
@@ -231,6 +236,9 @@ def main() -> None:
     build_parser.add_argument("--target", required=True)
     build_parser.add_argument("--rust-toolchain", required=True)
     build_parser.add_argument("--epoch", required=True, type=int)
+    network = build_parser.add_mutually_exclusive_group(required=True)
+    network.add_argument("--network-used", action="store_true")
+    network.add_argument("--network-isolated", action="store_false", dest="network_used")
     verify_parser = commands.add_parser("verify")
     verify_parser.add_argument("--root", required=True)
     args = parser.parse_args()
