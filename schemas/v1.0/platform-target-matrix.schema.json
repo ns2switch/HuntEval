@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hunteval.dev/schemas/v1.0/platform-target-matrix.schema.json",
+  "title": "HuntEval native platform target matrix v1.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "targets"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "targets": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 16,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["target", "os", "architecture", "runner", "archive_format", "binary_suffix", "support_level", "scored_execution", "sandbox_backend", "validation_state", "native_gate_required", "limitations"],
+        "properties": {
+          "target": {"type": "string", "pattern": "^[a-z0-9_.-]{1,128}$"},
+          "os": {"enum": ["linux", "macos", "windows"]},
+          "architecture": {"enum": ["x86_64", "aarch64"]},
+          "runner": {"type": "string", "pattern": "^[a-z0-9_.-]{1,128}$"},
+          "archive_format": {"enum": ["tar.gz", "zip"]},
+          "binary_suffix": {"enum": ["", ".exe"]},
+          "support_level": {"enum": ["candidate", "preview", "unavailable"]},
+          "scored_execution": {"type": "boolean"},
+          "sandbox_backend": {"enum": ["linux_bubblewrap", "unavailable"]},
+          "validation_state": {"enum": ["local_passed", "pending_native_ci", "native_ci_passed"]},
+          "native_gate_required": {"const": true},
+          "limitations": {
+            "type": "array",
+            "minItems": 0,
+            "maxItems": 16,
+            "items": {"type": "string", "minLength": 1, "maxLength": 256}
+          }
+        }
+      }
+    }
+  }
+}

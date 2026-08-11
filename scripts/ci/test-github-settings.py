@@ -24,6 +24,8 @@ CHECKS = [
     "Framework connectors",
     "Upstream framework conformance",
     "Commercial connector replay",
+    "R8 compatibility",
+    "R8 supply chain",
     "Package",
 ]
 TAG_PATTERN = "refs/tags/v*"

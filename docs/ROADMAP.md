@@ -376,7 +376,7 @@ The coordinated pre-R8 sequence is defined in `PRE_R8_CONNECTOR_IMPLEMENTATION_P
 
 **Objective:** add secure, auditable access to authorized read-only observations from commercial threat-hunting platforms without granting evaluated deployments unrestricted network access or changing pre-v1.0 scoring boundaries.
 
-The coordinated pre-R8 sequence is defined in `PRE_R8_CONNECTOR_IMPLEMENTATION_PLAN.md`; the detailed v0.7.2 requirements and evidence-based milestone statuses are defined in `V072_COMMERCIAL_CONNECTOR_PLAN.md`. Deterministic offline catalogs, replay, the bounded network worker, secret framing, and finite vendor adapters exist, but external egress certification, authorized live conformance, and v0.7.2 closure remain incomplete. v0.7.2 follows v0.7.1 and must finish before v0.8 decides which connector interfaces are stable enough to freeze.
+The coordinated pre-R8 sequence is defined in `PRE_R8_CONNECTOR_IMPLEMENTATION_PLAN.md`; the detailed v0.7.2 requirements and evidence-based milestone statuses are defined in `V072_COMMERCIAL_CONNECTOR_PLAN.md`. Deterministic offline catalogs, replay, the bounded network worker, secret framing, and finite vendor adapters exist, but external egress certification, authorized live conformance, and v0.7.2 closure remain incomplete. v0.7.2 follows v0.7.1. Its interfaces must satisfy their release gate before entering the v1.0 stable freeze set; while they remain pending, roadmap governance may permit other R8 work only if those interfaces are excluded explicitly.
 
 - implement a supervised, runner-owned, deny-by-default network worker with a finite versioned operation catalog;
 - keep credentials as opaque runtime references and exclude secret values and raw tenant identifiers from artifacts;
@@ -392,17 +392,18 @@ The coordinated pre-R8 sequence is defined in `PRE_R8_CONNECTOR_IMPLEMENTATION_P
 
 **Objective:** freeze and audit the interfaces intended for v1.0.
 
-The governed implementation sequence, compatibility and security boundaries, review requirements, pull-request order, migration and rollback behavior, and exact release gates are defined in `R8_IMPLEMENTATION_PLAN.md`. R8 remains planned and begins only after the v0.7.1 and v0.7.2 prerequisites satisfy their release gates or roadmap governance explicitly revises those prerequisites.
+The governed implementation sequence, compatibility and security boundaries, review requirements, pull-request order, migration and rollback behavior, and exact release gates are defined in `R8_IMPLEMENTATION_PLAN.md`. On 2026-08-11, roadmap governance authorized R8-00 inventory and freeze-policy work while v0.7.1 and v0.7.2 remain pending. R8-00 is in progress; their pending interfaces are excluded from the stable freeze set, neither pre-R8 milestone is completed by this decision, and R8 closure still requires the release dependencies to be satisfied or revised explicitly.
 
 - publish a protocol and schema compatibility matrix;
 - provide migrations or explicit rejection behavior for older artifacts;
 - complete an independent security and reproducibility review;
 - produce SBOMs, dependency audit results, checksums, and signed release artifacts;
+- build, install, smoke-test, sign, and verify the declared Linux, macOS Intel, macOS Apple Silicon, and Windows package targets on native runners while keeping non-Linux scored execution unavailable;
 - package the CLI and worker for supported platforms;
 - document installation, operations, governance, disclosure, benchmark review, and release procedures;
 - run the official benchmark pack from a clean environment using only published instructions.
 
-**Exit criteria:** no unresolved P0 defect, no undocumented compatibility break, no failing quality or verification gate, and one reproducible release-candidate dry run from source checkout to signed reports.
+**Exit criteria:** no unresolved P0 defect, no undocumented compatibility break, no failing quality or verification gate, every declared package target has exact native evidence at its stated support level, and one reproducible release-candidate dry run from source checkout to signed reports. Packaging alone never creates a scored-execution support claim.
 
 ### v1.0 — Stable evaluation platform
 
@@ -439,8 +440,11 @@ v0.7 complete extension foundation
   -> v0.7.1 framework connector pack
        -> v0.7.2 commercial platform connector preview
 
-v0.2 through v0.7.2 exit criteria
-  -> v0.8 release candidate
+explicit roadmap governance
+  -> v0.8 R8-00 inventory work (pending interfaces excluded)
+
+v0.2 through v0.7.2 exit criteria, or an explicit dependency revision
+  -> v0.8 release-candidate closure
        -> v1.0 stable platform
 ```
 
@@ -478,6 +482,6 @@ Every roadmap initiative must be delivered through a small reviewable pull reque
 12. rollback behavior;
 13. known limitations.
 
-The completed R4, R5, R6, and R7 implementation plans address these requirements for their initiatives. `R7_COMPLETION_EVIDENCE.md` records the exact R7 closure evidence and known limitations. The in-progress v0.7.1 and v0.7.2 plans and the planned `R8_IMPLEMENTATION_PLAN.md` apply the same governance requirements without making a completion claim.
+The completed R4, R5, R6, and R7 implementation plans address these requirements for their initiatives. `R7_COMPLETION_EVIDENCE.md` records the exact R7 closure evidence and known limitations. The in-progress v0.7.1, v0.7.2, and R8-00 work applies the same governance requirements without making a completion claim for any of those milestones.
 
 An initiative is not complete while any required quality gate fails. Scope changes must update this roadmap and the corresponding implementation plan before implementation begins.

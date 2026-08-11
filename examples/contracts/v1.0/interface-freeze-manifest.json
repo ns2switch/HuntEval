@@ -1,0 +1,30 @@
+{
+  "schema_version": "1.0",
+  "inventory_sha256": "002eb890ba8a28b1baef4a6b773c48a49f576582209e841881b12b23b3f4abf8",
+  "eligible_interfaces": [
+    "artifact.public-run-result",
+    "benchmark.official-cloud-v1",
+    "cli.hunteval-r7",
+    "connector.crewai-r7",
+    "diagnosis.evidence-backed-v0.7",
+    "extension.managed-tool-v0.9",
+    "improvement.controlled-v0.8",
+    "knowledge.analytical-v0.9",
+    "metric.raw-vector-v0.4",
+    "platform.linux-x86_64",
+    "protocol.deployment-jsonl",
+    "report.normalized-v0.4",
+    "schema.contract-families",
+    "scoring.versioned-profile-v0.4",
+    "sdk.python-r7",
+    "topology.deployment-v0.6"
+  ],
+  "exclusions": [
+    {"interface_id": "connector.commercial-v0.7.2", "reason_code": "precondition_pending"},
+    {"interface_id": "connector.framework-pack-v0.7.1", "reason_code": "preview"},
+    {"interface_id": "connector.mcp-v0.7.1", "reason_code": "preview"},
+    {"interface_id": "platform.macos-aarch64", "reason_code": "preview"},
+    {"interface_id": "platform.macos-x86_64", "reason_code": "preview"},
+    {"interface_id": "platform.windows-x86_64", "reason_code": "preview"}
+  ]
+}

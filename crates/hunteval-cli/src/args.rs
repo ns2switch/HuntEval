@@ -4,6 +4,20 @@ use clap::{Args, Parser, Subcommand, ValueEnum};
 
 use crate::r7_args::{ExtensionCommand, KnowledgeCommand};
 
+const MAXIMUM_SECRET_SCAN_FILE_BYTES: u64 = 512 * 1024 * 1024;
+
+fn parse_secret_scan_file_bytes(value: &str) -> Result<u64, String> {
+    let parsed = value
+        .parse::<u64>()
+        .map_err(|_| "secret-scan file bound must be an integer".to_owned())?;
+    if parsed == 0 || parsed > MAXIMUM_SECRET_SCAN_FILE_BYTES {
+        return Err(format!(
+            "secret-scan file bound must be between 1 and {MAXIMUM_SECRET_SCAN_FILE_BYTES} bytes"
+        ));
+    }
+    Ok(parsed)
+}
+
 #[derive(Debug, Parser)]
 #[command(author, version, about)]
 pub(crate) struct Cli {
@@ -198,6 +212,12 @@ pub(crate) enum SystemCommand {
     SecretScan {
         #[arg(long, default_value = ".")]
         root: PathBuf,
+        #[arg(
+            long,
+            default_value_t = 128 * 1024 * 1024,
+            value_parser = parse_secret_scan_file_bytes
+        )]
+        maximum_file_bytes: u64,
         #[arg(required = true)]
         paths: Vec<PathBuf>,
         #[arg(long, value_enum, default_value_t = OutputFormatArgument::Text)]

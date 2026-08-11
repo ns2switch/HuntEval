@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hunteval.dev/schemas/v1.0/signature-inventory.schema.json",
+  "title": "HuntEval detached signature inventory v1.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "artifact_sha256", "signature_sha256", "policy_sha256", "signer_identity", "key_fingerprint", "namespace"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "artifact_sha256": {"$ref": "#/$defs/digest"},
+    "signature_sha256": {"$ref": "#/$defs/digest"},
+    "policy_sha256": {"$ref": "#/$defs/digest"},
+    "signer_identity": {"type": "string", "minLength": 1, "maxLength": 128},
+    "key_fingerprint": {"type": "string", "maxLength": 128},
+    "namespace": {"const": "hunteval-release"}
+  },
+  "$defs": {"digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"}}
+}

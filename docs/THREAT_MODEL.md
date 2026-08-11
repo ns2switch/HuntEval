@@ -330,6 +330,63 @@ Framework callbacks, MCP clients, vendor responses, DNS results, and commercial 
 - executable and policy preflight covers digest drift and excess capability; supervised deployment and managed-tool conformance cover bounded protocol flows, malformed output, timeout, crash, transcript identity, and process cleanup;
 - Python SDK helpers contain no runner, evaluator, provider, or direct-tool authority.
 
+### 4.18 False stability and compatibility claims
+
+**Threat:** An incomplete, private, unbounded, unverifiable, or precondition-blocked interface is presented as stable for v1.0, or a release inventory silently changes identity through ordering or undocumented fields.
+
+**Mitigations:**
+
+- the R8 inventory and freeze manifest are strict versioned public contracts with unknown-field rejection and bounded values;
+- every stable-candidate or retained interface requires a public projection, satisfied precondition, named owner, authority, trust boundary, documented parser and bounds, canonical fixture, and verification gate;
+- pending pre-R8 connector interfaces remain preview or blocked and are absent from the stable freeze set;
+- duplicate identities, unsafe fixture paths, unsupported versions, unexplained preview states, and malformed entries fail closed;
+- deterministic normalization and SHA-256 bind the complete inventory independently of input order;
+- a freeze classification does not grant runtime, network, tool, signing, or publication authority;
+- compatibility claims remain unavailable until R8-01 supplies explicit supported combinations and rejection semantics.
+
+### 4.19 Supply-chain and package substitution
+
+**Threat:** A candidate includes unexpected, private, secret-bearing, unlicensed, stale, hard-linked, or modified files, or presents incomplete SBOM and provenance evidence as authorization.
+
+**Mitigations:**
+
+- package construction starts from a clean locked revision and a new output root;
+- bounded deterministic inventories bind path, mode, size, and SHA-256 for every packaged file;
+- private, ground-truth, environment, repository, build-output, linked, special, and oversized members fail closed;
+- dependency and license reports and an SPDX 2.3 SBOM are derived from locked Cargo metadata;
+- normalized provenance binds revision, toolchain, target, source epoch, lockfile, compatibility matrix, and interface inventory;
+- the release manifest is a content-addressed candidate root and explicitly records that production was not published;
+- two-build comparison and post-generation verification detect changed evidence;
+- SBOM, provenance, inventory, and signature success never grant runtime or publication authority.
+
+### 4.20 Signature identity and trust-policy substitution
+
+**Threat:** Valid signature bytes from the wrong key, repository, ref, workflow, identity, validity interval, or revoked signer are accepted, or a modified policy is paired with an old signature.
+
+**Mitigations:**
+
+- signatures are detached and namespace-bound to `hunteval-release`;
+- the inventory binds artifact, signature, and exact policy hashes plus the key fingerprint and signer identity;
+- offline verification requires the expected repository, ref, workflow, identity, validity interval, and revocation policy;
+- policy/public-key fingerprint mismatch, altered bytes, wrong workflow identity, expiration, revocation, missing bundle, and duplicate or unknown fields fail closed;
+- signing keys remain outside source, ordinary CI inputs, packages, logs, and evaluated deployments;
+- local rehearsal uses an explicitly non-production ephemeral identity and cannot authorize v1.0 publication.
+
+### 4.21 Archive extraction and release-workflow escalation
+
+**Threat:** A hostile tar/ZIP archive traverses the destination, creates links or devices, uses encrypted or duplicate members, expands without bounds, overwrites an installation, preserves unsafe permissions, substitutes one OS/architecture for another, or a release workflow publishes or mutates a candidate without human authority.
+
+**Mitigations:**
+
+- installation accepts only a regular archive and a new absolute non-root destination;
+- every member is normalized below one `hunteval/` root and duplicate, traversal, symlink, hard-link, encrypted ZIP, device, FIFO, unsupported, oversized, and missing members fail closed;
+- extraction occurs inside a new temporary sibling with no-follow exclusive file creation, fixed permissions, required-member verification, and atomic rename;
+- the versioned platform matrix binds target, operating system, architecture, native runner, archive format, executable suffix, support level, sandbox state, and validation state; each job rejects a non-native target;
+- macOS and Windows packages remain preview and cannot claim scored execution or a sandbox from build, install, or smoke evidence alone;
+- workflows retain read-only repository permission, pinned actions, immutable tag policy, bounded uploads, and no publication step;
+- candidate rehearsal builds, verifies, installs, smokes, signs, and re-verifies but records `production_release_published=false`;
+- the closure verifier rejects absent independent reviews, protected checks, immutable rehearsal evidence, dependency decisions, and artifact hashes.
+
 ## 5. MVP security requirements
 
 - No deployment network access by default.

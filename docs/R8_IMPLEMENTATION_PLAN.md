@@ -4,7 +4,7 @@
 
 This document turns the normative v0.8 roadmap scope into a reviewable implementation sequence. R8 is the release-candidate milestone: it freezes and audits the interfaces intended for v1.0, proves compatibility and migration behavior, produces reproducible verifiable packages, completes independent security and reproducibility review, and rehearses the official benchmark from a clean environment using only published instructions.
 
-R8 does not redesign HuntEval or reopen completed R2 through R7 work. R2 through R7 remain complete with their recorded evidence. v0.7.1 and v0.7.2 remain separate preconditions and must satisfy their release gates, or be revised through roadmap governance, before R8-00 can freeze their interfaces. No R8 implementation or completion evidence exists yet.
+R8 does not redesign HuntEval or reopen completed R2 through R7 work. R2 through R7 remain complete with their recorded evidence. v0.7.1 and v0.7.2 remain separate preconditions. On 2026-08-11, roadmap governance authorized R8-00 inventory and freeze-policy work while those connector milestones remain pending. Their pending interfaces are excluded from the stable freeze set, the authorization does not complete either precondition, and R8 cannot close until the release dependency is satisfied or revised explicitly. R8-00 implementation is in progress; no R8 milestone is complete.
 
 R8 does not publish v1.0, enable production-scored SIEM execution, introduce unrestricted network access, add autonomous prompt adoption, create a hosted service, or collect private chain of thought. A release-candidate artifact is not a production release.
 
@@ -14,18 +14,18 @@ Status is evidence-based. `planned` makes no implementation claim. `in progress`
 
 | Milestone | Status | Outcome |
 |---|---|---|
-| R8-00 | planned | precondition audit, release inventory, freeze policy, and accepted architecture decisions |
-| R8-01 | planned | normative protocol, schema, CLI, artifact, SDK, connector, and platform compatibility matrix |
-| R8-02 | planned | deterministic migration and explicit rejection behavior for retained artifacts |
-| R8-03 | planned | reproducible build provenance, package inventories, SBOMs, dependency/license evidence, and checksums |
-| R8-04 | planned | bounded signing and offline verification for release artifacts and reports |
-| R8-05 | planned | installable CLI, worker, schema, taxonomy, and Python SDK candidates for every declared target |
-| R8-06 | planned | independent security review, remediation, and residual-risk decision |
-| R8-07 | planned | independent reproducibility review and clean-room rebuild evidence |
-| R8-08 | planned | official benchmark-pack freeze, review, provenance, and clean-run acceptance |
-| R8-09 | planned | installation, operations, governance, disclosure, benchmark-review, and release documentation |
-| R8-10 | planned | protected release-candidate pipeline and end-to-end non-publishing rehearsal |
-| R8-11 | planned | exact R8 closure evidence and v1.0 readiness decision |
+| R8-00 | implemented | versioned release inventory, fail-closed freeze validator, freeze policy, and accepted architecture decisions; protected closure evidence remains pending |
+| R8-01 | implemented | normative machine-readable compatibility matrix and deterministic human projection with pending interfaces unavailable or preview |
+| R8-02 | implemented | declared in-memory adaptation/read-as-is edges, typed rejection, and content-addressed non-overwriting migration receipts |
+| R8-03 | implemented | deterministic package inventory, SPDX SBOM, dependency/license reports, normalized provenance, release manifest, checksums, and tamper gate |
+| R8-04 | implemented | detached SSH signature policy, isolated rehearsal signer, offline verifier, identity binding, validity, revocation, and tamper fixtures |
+| R8-05 | implemented | bounded atomic tar/ZIP installer, deterministic native packager, platform matrix, permission normalization, required-member verification, and adversarial fixtures; protected preview-target evidence remains pending |
+| R8-06 | blocked | review template and gates exist; a separately identified independent security reviewer is required |
+| R8-07 | blocked | clean-room procedure exists; a separately identified independent reproducibility reviewer is required |
+| R8-08 | in progress | versioned official cloud-pack root and benchmark card exist; independent review and clean candidate run remain pending |
+| R8-09 | implemented | installation, verification, migration, rollback, incident, disclosure, benchmark, and release procedures are documented |
+| R8-10 | in progress | protected non-publishing workflow and end-to-end rehearsal script exist; exact clean protected run evidence remains pending |
+| R8-11 | in progress | versioned evidence index and fail-closed closure verifier exist; required external evidence remains pending |
 
 No R8 milestone is complete.
 
@@ -61,7 +61,7 @@ R8-00 must freeze an explicit inventory. At minimum, one candidate contains:
 - detached signatures and verification material selected by the accepted signing ADR;
 - a bounded release manifest linking revision, toolchains, targets, artifacts, hashes, signatures, reviews, known limitations, and release status.
 
-The initial scored support target remains Linux with the required Bubblewrap capabilities. `x86_64-unknown-linux-gnu` may be the only supported R8 target if it is the only target that passes the complete sandbox and end-to-end suite. Any additional architecture is `experimental` or `unsupported` until it passes the same target-specific gates; cross-compilation alone is insufficient.
+The initial scored support target remains Linux with the required Bubblewrap capabilities. The normative target matrix contains `x86_64-unknown-linux-gnu` as the scored candidate plus `x86_64-apple-darwin`, `aarch64-apple-darwin`, and `x86_64-pc-windows-msvc` as package previews. Preview targets make no scored-execution or sandbox claim. Each must build, package, install, smoke-test, hash, sign, and verify on its declared native protected runner; cross-compilation alone is insufficient and missing evidence remains unavailable rather than inferred.
 
 ## 5. Architecture and dependency direction
 
@@ -112,7 +112,7 @@ R8-00 must accept, revise, or reject the following proposed decisions before imp
 10. **Documentation and ADR changes:** accept the R8 ADR set, update the roadmap cross-reference, threat model, and compatibility policy.
 11. **Migration behavior:** existing support statements remain authoritative until explicitly classified by the accepted inventory.
 12. **Rollback behavior:** revert the freeze manifest without changing historical artifacts or completed evidence.
-13. **Known limitations:** R8-00 is blocked until v0.7.1 and v0.7.2 satisfy their release gates or roadmap governance explicitly revises those prerequisites.
+13. **Known limitations:** governance permits inventory and freeze-policy work while v0.7.1 and v0.7.2 remain pending, but their interfaces cannot be classified as stable and R8 closure remains blocked unless those release dependencies are satisfied or revised explicitly.
 
 ### R8-01 — Normative compatibility matrix
 
@@ -180,19 +180,19 @@ R8-00 must accept, revise, or reject the following proposed decisions before imp
 
 ### R8-05 — Supported-target packaging and installation
 
-1. **Objective and user-visible outcome:** install and remove the complete candidate predictably on every declared supported target.
-2. **Affected contracts and compatibility:** bind binaries, workers, schemas, taxonomies, SDK, licenses, and runtime capability requirements to the release manifest.
+1. **Objective and user-visible outcome:** install and remove native candidates predictably on Linux x86_64, macOS Intel, macOS Apple Silicon, and Windows x86_64 without overstating scored support.
+2. **Affected contracts and compatibility:** bind binaries, workers, schemas, taxonomies, SDK, licenses, runtime capability requirements, archive format, native runner, architecture, support level, and validation state to the platform matrix and release evidence.
 3. **Security impact:** use fixed file permissions, no privileged post-install scripts, no inherited secrets, safe paths, and fail-closed sandbox checks.
 4. **Ground-truth-isolation impact:** installers contain no evaluator-private or hidden benchmark artifacts.
-5. **Positive tests:** clean native target installs run `system check`, CLI smoke, worker handshake, schema validation, Python import, and offline fixture verification.
+5. **Positive tests:** clean native installs run CLI smoke, worker discovery, schema validation, wheel inspection, checksum verification, detached-signature verification, and offline fixture verification; the official scored benchmark remains Linux-only until an equivalent sandbox exists.
 6. **Negative tests:** unsupported OS/architecture, missing Bubblewrap, changed worker, unsafe destination, existing-file collision, and insufficient isolation fail clearly.
 7. **Malformed-input tests:** corrupt archives, duplicate paths, traversal entries, invalid permissions, symlinks, and missing manifest members are rejected.
-8. **Deterministic/replay tests:** package inventory and install result are stable for the same target artifact.
-9. **Exact quality gates:** native target matrix, archive extraction adversarial tests, install/uninstall smoke, package secret scan, and section 11 gates.
+8. **Deterministic/replay tests:** tar and ZIP package inventories and install results are stable for the same target artifact.
+9. **Exact quality gates:** native build/install/smoke on `ubuntu-22.04`, `macos-15-intel`, `macos-15` arm64, and `windows-2022`; archive extraction adversarial tests, package secret scan, checksum/signature verification, wheel inspection, and section 11 gates.
 10. **Documentation and ADR changes:** publish supported targets, prerequisites, installation, verification, upgrade, uninstall, and limitations.
 11. **Migration behavior:** upgrades preserve user-owned run artifacts and require explicit migration of authored manifests where needed.
 12. **Rollback behavior:** reinstall the last trusted immutable package; never downgrade or rewrite stored artifacts silently.
-13. **Known limitations:** scored execution is supported only where all Linux isolation capabilities pass; packaging does not imply scored support on other systems.
+13. **Known limitations:** macOS and Windows remain package previews without scored-execution sandboxes; only targets with complete native protected evidence may advance, and packaging does not imply scored support.
 
 ### R8-06 — Independent security review
 
@@ -264,7 +264,7 @@ R8-00 must accept, revise, or reject the following proposed decisions before imp
 2. **Affected contracts and compatibility:** the workflow consumes only R8 release, compatibility, provenance, package, signature, review, and benchmark contracts.
 3. **Security impact:** use minimal permissions, pinned actions, protected environments for signing, no fork secrets, isolated jobs, bounded artifacts, and immutable tags.
 4. **Ground-truth-isolation impact:** uploaded artifacts are allowlisted and secret/private scanned; entire run or evaluator directories are prohibited.
-5. **Positive tests:** protected tag or approved dispatch builds, signs, installs, runs, verifies, uploads bounded evidence, and records exact workflow identity.
+5. **Positive tests:** a protected immutable candidate matrix builds, installs, smoke-tests, signs, verifies, and uploads bounded evidence separately on all four native targets; Linux additionally runs the official scored benchmark and offline report verification.
 6. **Negative tests:** unprotected ref, missing approval, stale base, dirty source, failed prerequisite, secret canary, duplicate tag, and artifact mismatch prevent completion.
 7. **Malformed-input tests:** hostile archives, manifests, SBOMs, signatures, reports, and workflow inputs fail before publication or upload.
 8. **Deterministic/replay tests:** repeat the dry run under a new immutable candidate identity and compare declared reproducible outputs.
@@ -293,10 +293,13 @@ R8-00 must accept, revise, or reject the following proposed decisions before imp
 ## 8. Dependency graph and delivery waves
 
 ```text
-v0.7.1 complete + v0.7.2 complete
-  -> R8-00 preconditions/inventory/ADRs
+explicit governance authorization
+  -> R8-00 inventory/ADRs (pending pre-R8 interfaces excluded)
        -> R8-01 compatibility matrix
             -> R8-02 migration/rejection tooling
+
+v0.7.1 complete + v0.7.2 complete, or an explicit dependency revision
+  -> R8 closure eligibility
 
 R8-00
   -> R8-03 supply-chain evidence
@@ -386,13 +389,13 @@ HUNTEVAL_SKIP_FUZZ_SMOKE=1 ./scripts/ci/r3-adversarial.sh
 git diff --check
 ```
 
-The final candidate rehearsal additionally runs `release-candidate.sh` or its reviewed R8 replacement from a clean protected revision into a new absolute output directory, verifies all checksums and signatures offline, installs the resulting packages in a fresh environment, runs the official benchmark pack, and verifies the complete bounded evidence bundle.
+The final candidate rehearsal additionally runs `r8_candidate.py` on each declared native runner from the same clean protected revision into new absolute output directories. Every target verifies checksums and signatures, installs into a fresh environment, and smoke-tests the CLI. Linux additionally runs the official benchmark pack and verifies the complete bounded evidence bundle.
 
 ## 12. Release closure criteria
 
 R8 is complete only when:
 
-- v0.7.1 and v0.7.2 prerequisites are complete or their unmet requirements were revised before R8-00 through roadmap governance;
+- v0.7.1 and v0.7.2 prerequisites are complete or their unmet release dependencies were explicitly revised through roadmap governance before R8 closure;
 - every intended v1.0 interface has an explicit stability class, owner, version range, compatibility fixtures, and migration or rejection behavior;
 - there is no unresolved P0/Critical defect, undocumented compatibility break, failing or skipped required gate, unsupported target claim, or unverifiable release artifact;
 - package builds, SBOMs, dependency/license evidence, provenance, checksums, signatures, and offline verification pass for every supported target;

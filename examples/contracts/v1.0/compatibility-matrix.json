@@ -1,0 +1,144 @@
+{
+  "schema_version": "1.0",
+  "matrix_id": "r8-v1-candidate",
+  "inventory_sha256": "002eb890ba8a28b1baef4a6b773c48a49f576582209e841881b12b23b3f4abf8",
+  "baseline_revision": "4ac1ab77218e40ebb9f9bb4297d6e02fa6462f16",
+  "rules": [
+    {
+      "combination_id": "commercial-preview",
+      "components": [
+        {
+          "interface_id": "connector.commercial-v0.7.2",
+          "version": "0.7.2 preview",
+          "fixture_sha256": "81814cdf57b9642cfdfa06b0b3c3da7f83362c1ffba8e8965b7234ed88abd696"
+        }
+      ],
+      "status": "unavailable",
+      "rejection_reason": "external_conformance_pending",
+      "limitations": [
+        "Authorized tenant, protected runner, and externally enforced egress evidence remain pending."
+      ]
+    },
+    {
+      "combination_id": "crewai-retained",
+      "components": [
+        {
+          "interface_id": "connector.crewai-r7",
+          "version": "R7 compatibility baseline",
+          "fixture_sha256": "dc59fda2da91603f1a1f9bca0e0fe165eae6bd04aad6ed614c337f084b20ed9c"
+        },
+        {
+          "interface_id": "sdk.python-r7",
+          "version": "0.1.0",
+          "fixture_sha256": "72926404650110277bf82c86a53b48f9b7f240ecfefc9e97b319ab445a9f4d2f"
+        }
+      ],
+      "status": "retained",
+      "rejection_reason": null,
+      "limitations": []
+    },
+    {
+      "combination_id": "framework-pack-preview",
+      "components": [
+        {
+          "interface_id": "connector.framework-pack-v0.7.1",
+          "version": "0.7.1",
+          "fixture_sha256": "e59d2e8e8d2505d3d998f723546e4ad2d892bd0fb4612e503199f3bb79b1fec3"
+        }
+      ],
+      "status": "preview",
+      "rejection_reason": "release_closure_pending",
+      "limitations": [
+        "Full scored paired benchmark and published-package rollback evidence remain pending."
+      ]
+    },
+    {
+      "combination_id": "linux-core-supported",
+      "components": [
+        {
+          "interface_id": "cli.hunteval-r7",
+          "version": "R7 command surface",
+          "fixture_sha256": "4a15b1d8a2a2cefe6646d856e6b8531dee6351a4ba4920a0d0f1941a2bcdef56"
+        },
+        {
+          "interface_id": "platform.linux-x86_64",
+          "version": "x86_64-unknown-linux-gnu with Bubblewrap",
+          "fixture_sha256": "0da48025ad4d76bb9fb0390516810f840689bc60a884322905f4c13e772fefe6"
+        },
+        {
+          "interface_id": "protocol.deployment-jsonl",
+          "version": "0.3",
+          "fixture_sha256": "ff8530e9e4699409051d9e84e81b7fd070e42ee0a053eb04623dea1da349d33d"
+        },
+        {
+          "interface_id": "schema.contract-families",
+          "version": "0.3 through 0.9",
+          "fixture_sha256": "72926404650110277bf82c86a53b48f9b7f240ecfefc9e97b319ab445a9f4d2f"
+        }
+      ],
+      "status": "supported",
+      "rejection_reason": null,
+      "limitations": []
+    },
+    {
+      "combination_id": "macos-aarch64-package-preview",
+      "components": [
+        {
+          "interface_id": "platform.macos-aarch64",
+          "version": "aarch64-apple-darwin",
+          "fixture_sha256": "3f02dc15d9aaa26d0dd8ce50b7e8e7cee12b22b36f8c8fa6026f774d63a306af"
+        }
+      ],
+      "status": "preview",
+      "rejection_reason": "native_ci_pending",
+      "limitations": [
+        "Package preview only; scored execution and sandbox capability are unavailable."
+      ]
+    },
+    {
+      "combination_id": "macos-x86_64-package-preview",
+      "components": [
+        {
+          "interface_id": "platform.macos-x86_64",
+          "version": "x86_64-apple-darwin",
+          "fixture_sha256": "3f02dc15d9aaa26d0dd8ce50b7e8e7cee12b22b36f8c8fa6026f774d63a306af"
+        }
+      ],
+      "status": "preview",
+      "rejection_reason": "native_ci_pending",
+      "limitations": [
+        "Package preview only; scored execution and sandbox capability are unavailable."
+      ]
+    },
+    {
+      "combination_id": "mcp-preview",
+      "components": [
+        {
+          "interface_id": "connector.mcp-v0.7.1",
+          "version": "MCP 2025-11-25",
+          "fixture_sha256": "c462cc2b603c13d31bda27818bfea8703c3e6b078cf118616a1f9610b4cfab10"
+        }
+      ],
+      "status": "preview",
+      "rejection_reason": "release_closure_pending",
+      "limitations": [
+        "v0.7.1 release closure remains pending."
+      ]
+    },
+    {
+      "combination_id": "windows-x86_64-package-preview",
+      "components": [
+        {
+          "interface_id": "platform.windows-x86_64",
+          "version": "x86_64-pc-windows-msvc",
+          "fixture_sha256": "3f02dc15d9aaa26d0dd8ce50b7e8e7cee12b22b36f8c8fa6026f774d63a306af"
+        }
+      ],
+      "status": "preview",
+      "rejection_reason": "native_ci_pending",
+      "limitations": [
+        "Package preview only; scored execution and sandbox capability are unavailable."
+      ]
+    }
+  ]
+}

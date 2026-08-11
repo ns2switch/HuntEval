@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hunteval.dev/schemas/v1.0/signature-policy.schema.json",
+  "title": "HuntEval detached signature policy v1.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "signer_identity", "namespace", "public_key", "key_fingerprint", "repository", "ref", "workflow", "valid_from_epoch", "valid_until_epoch", "revoked_fingerprints"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "signer_identity": {"type": "string", "minLength": 1, "maxLength": 128},
+    "namespace": {"const": "hunteval-release"},
+    "public_key": {"type": "string", "minLength": 32, "maxLength": 1024},
+    "key_fingerprint": {"type": "string", "pattern": "^SHA256:[A-Za-z0-9+/]+$"},
+    "repository": {"type": "string", "minLength": 1, "maxLength": 256},
+    "ref": {"type": "string", "minLength": 1, "maxLength": 256},
+    "workflow": {"type": "string", "minLength": 1, "maxLength": 128},
+    "valid_from_epoch": {"type": "integer", "minimum": 0},
+    "valid_until_epoch": {"type": "integer", "minimum": 1},
+    "revoked_fingerprints": {"type": "array", "maxItems": 128, "uniqueItems": true, "items": {"type": "string", "maxLength": 128}}
+  }
+}

@@ -211,6 +211,60 @@ fn parses_json_system_check() -> Result<(), clap::Error> {
 }
 
 #[test]
+fn secret_scan_file_bound_is_explicit_and_bounded() -> Result<(), clap::Error> {
+    let default = Cli::try_parse_from(["hunteval", "system", "secret-scan", "artifact"])?;
+    assert!(matches!(
+        default.command,
+        Some(Command::System {
+            command: SystemCommand::SecretScan {
+                maximum_file_bytes: 134_217_728,
+                ..
+            }
+        })
+    ));
+    let maximum = Cli::try_parse_from([
+        "hunteval",
+        "system",
+        "secret-scan",
+        "--maximum-file-bytes",
+        "536870912",
+        "artifact",
+    ])?;
+    assert!(matches!(
+        maximum.command,
+        Some(Command::System {
+            command: SystemCommand::SecretScan {
+                maximum_file_bytes: 536_870_912,
+                ..
+            }
+        })
+    ));
+    assert!(
+        Cli::try_parse_from([
+            "hunteval",
+            "system",
+            "secret-scan",
+            "--maximum-file-bytes",
+            "0",
+            "artifact",
+        ])
+        .is_err()
+    );
+    assert!(
+        Cli::try_parse_from([
+            "hunteval",
+            "system",
+            "secret-scan",
+            "--maximum-file-bytes",
+            "536870913",
+            "artifact",
+        ])
+        .is_err()
+    );
+    Ok(())
+}
+
+#[test]
 fn preserves_legacy_run_and_parses_run_verification() -> Result<(), clap::Error> {
     let legacy = Cli::try_parse_from([
         "hunteval",

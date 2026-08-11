@@ -2,7 +2,7 @@
 
 ## 1. Purpose and release position
 
-This document defines the governed implementation sequence for v0.7.2 commercial security-platform connectors. It follows the completed R7 release and the in-progress v0.7.1 framework connector pack. It must finish before v0.8 decides which interfaces are stable enough to freeze for v1.0.
+This document defines the governed implementation sequence for v0.7.2 commercial security-platform connectors. It follows the completed R7 release and the in-progress v0.7.1 framework connector pack. It must finish before its interfaces can enter the v1.0 stable freeze set. The governed R8-00 inventory may proceed while this work remains pending only by excluding these interfaces from that set.
 
 The user-visible outcome is a secure, auditable way to evaluate agent deployments against authorized read-only observations from commercial threat-hunting platforms while retaining HuntEval ownership of protocol enforcement, budgets, provenance, scoring, and public artifacts.
 

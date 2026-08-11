@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hunteval.dev/schemas/v1.0/migration-receipt.schema.json",
+  "title": "HuntEval migration receipt v1.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "edge_id", "source_sha256", "target_sha256", "implementation"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "edge_id": {"type": "string", "pattern": "^[a-z0-9._-]+$", "maxLength": 128},
+    "source_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "target_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "implementation": {"type": "string", "pattern": "^[a-z0-9._-]+$", "maxLength": 128}
+  }
+}

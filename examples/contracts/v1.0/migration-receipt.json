@@ -1,0 +1,7 @@
+{
+  "schema_version": "1.0",
+  "edge_id": "scoring-profile-0.3-to-0.4",
+  "source_sha256": "ed3cba98ce6dbc4e360756ce6f527b96bb4c872b245b270afdd078d9a2dd1f88",
+  "target_sha256": "f49e1c009ca684ccd54336fd7c40d1ce7df4a2d52ba6ef65a4afd20556476f1d",
+  "implementation": "runner-scoring-profile-loader"
+}

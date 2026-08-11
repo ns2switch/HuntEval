@@ -583,3 +583,63 @@ Platform-native agent attribution requires stable public identifiers for actions
 **Status:** Accepted.
 
 Pre-v1.0 commercial connectors permit deterministic replay and, after external enforcement exists, authorized non-scored live-read-only conformance. Production scored execution, response actions, remediation, containment, and every remote mutation remain unavailable.
+
+## ADR-098 — Classify every candidate interface before freezing it
+
+**Status:** Accepted.
+
+R8 uses a versioned, machine-readable inventory with `stable_candidate`, `retained`, `preview`, `experimental`, and `blocked` classifications. Stability requires a public projection, documented ownership, authority, trust boundary, bounds, parser behavior, canonical fixture, verification gate, and satisfied preconditions. On 2026-08-11 roadmap governance authorized R8-00 inventory work while the pre-R8 connector milestones remain pending; that authorization does not complete those milestones, and their pending interfaces cannot enter the freeze manifest as stable.
+
+## ADR-099 — Root each candidate in a content-addressed release manifest
+
+**Status:** Accepted.
+
+The future R8 release manifest will be the bounded content-addressed root of one immutable candidate artifact graph. It will identify the source revision, declared target, toolchains, packages, inventories, hashes, signatures, reviews, limitations, and candidate status without treating filenames or transport locations as identities.
+
+## ADR-100 — Treat SBOM and provenance as evidence, not authorization
+
+**Status:** Accepted.
+
+R8 will emit normalized machine-readable SBOM, package-inventory, dependency, license, checksum, and build-provenance evidence. These artifacts are untrusted inputs to verification and review; none grants execution, publication, network, signing, or benchmark authority.
+
+## ADR-101 — Use detached signatures with offline-verifiable policy
+
+**Status:** Accepted.
+
+Candidate signatures will be detached from immutable content and bound to explicit signer identity and repository/ref/workflow policy. Verification must work from bounded recorded material without network access. Signature success complements, and never replaces, content hashes, authorization policy, secret isolation, or review.
+
+## ADR-102 — Declare target support only from native evidence
+
+**Status:** Accepted.
+
+A target is supported only after its native sandbox, protocol, package, installation, verification, and end-to-end gates pass. Cross-compilation or archive construction alone is insufficient. R8 records Linux x86_64 as the scored candidate and macOS x86_64, macOS aarch64, and Windows x86_64 as preview package targets. A preview target has no scored-execution or sandbox claim and cannot advance until its exact native protected gate passes; targets lacking equivalent evidence remain preview or unavailable with an explicit reason.
+
+## ADR-103 — Require deterministic migration or typed rejection
+
+**Status:** Accepted.
+
+Every retained artifact family must have a declared deterministic migration edge or a stable typed rejection. Migration creates a new content-addressed artifact and receipt without overwriting source bytes, broadening authority, or converting evaluator-private data into a public projection.
+
+## ADR-104 — Freeze benchmark packs by manifest and content hash
+
+**Status:** Accepted.
+
+An official benchmark pack is identified by a versioned manifest that resolves each included public artifact by exact content hash. Hidden-test membership and ground truth remain outside public packages and evaluated-deployment observations.
+
+## ADR-105 — Separate independent review from implementation authorship
+
+**Status:** Accepted.
+
+R8 closure requires security and reproducibility review evidence produced independently from the implementation under review. Findings, dispositions, residual risks, reviewer identity, reviewed revision, and artifact hashes are recorded; unresolved critical findings block closure.
+
+## ADR-106 — Separate non-publishing candidate creation from release approval
+
+**Status:** Accepted.
+
+Ordinary R8 candidate construction is reproducible and non-publishing. Publishing v1.0 is a separate protected action requiring explicit human authorization after the exact candidate and closure evidence have passed all release gates.
+
+## ADR-107 — Preserve historical readers during rollback
+
+**Status:** Accepted.
+
+Rollback may disable a new writer, migration, package, or compatibility declaration, but it retains historical readers, fixtures, verifiers, and evidence. Rollback never mutates or silently replaces an existing candidate, signature, report, or frozen artifact.

@@ -13,7 +13,7 @@ The user-visible outcome is a coherent extension layer with three entry paths:
 2. a bounded Model Context Protocol (MCP) server for frameworks without a native connector;
 3. runner-owned read-only connectors for selected commercial threat-hunting platforms.
 
-R7 remains complete and unchanged. v0.7.1 and v0.7.2 are in progress and make no completion claim. R8 begins only after both additions satisfy their release gates or roadmap governance explicitly removes or defers an unmet requirement.
+R7 remains complete and unchanged. v0.7.1 and v0.7.2 are in progress and make no completion claim. On 2026-08-11, roadmap governance authorized R8-00 inventory and freeze-policy work while both additions remain pending; their interfaces are excluded from the stable freeze set. R8 closure still requires both additions to satisfy their release gates or roadmap governance to revise an unmet dependency explicitly.
 
 ### Delivery status
 
@@ -292,7 +292,7 @@ The detailed PR identifiers remain authoritative. The coordinated order is:
 7. P72-04 through P72-08: vendor connectors, parallel where safe;
 8. P72-09: normalized evidence and both CI workflows;
 9. P72-10: v0.7.2 closure;
-10. R8 begins only after the exact completion evidence revisions are accepted.
+10. R8 closure occurs only after the exact completion evidence revisions are accepted or the dependency is revised explicitly through roadmap governance.
 
 No pull request may combine a common contract change with multiple vendor implementations. Every connector must be independently removable and reviewable.
 

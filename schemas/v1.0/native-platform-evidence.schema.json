@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hunteval.dev/schemas/v1.0/native-platform-evidence.schema.json",
+  "title": "HuntEval native platform evidence v1.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "target", "runner", "matrix_sha256", "archive", "archive_sha256", "native_smoke_passed", "production_published"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "target": {"type": "string", "pattern": "^[a-z0-9_.-]{1,128}$"},
+    "runner": {"type": "string", "pattern": "^[a-z0-9_.-]{1,128}$"},
+    "matrix_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "archive": {"type": "string", "pattern": "^[A-Za-z0-9_.-]{1,256}$"},
+    "archive_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "native_smoke_passed": {"const": true},
+    "production_published": {"const": false}
+  }
+}

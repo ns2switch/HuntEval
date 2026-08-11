@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.0",
+  "targets": [
+    {
+      "target": "x86_64-unknown-linux-gnu",
+      "os": "linux",
+      "architecture": "x86_64",
+      "runner": "ubuntu-22.04",
+      "archive_format": "tar.gz",
+      "binary_suffix": "",
+      "support_level": "candidate",
+      "scored_execution": true,
+      "sandbox_backend": "linux_bubblewrap",
+      "validation_state": "local_passed",
+      "native_gate_required": true,
+      "limitations": ["Protected native CI and independent R8 review remain pending."]
+    },
+    {
+      "target": "x86_64-apple-darwin",
+      "os": "macos",
+      "architecture": "x86_64",
+      "runner": "macos-15-intel",
+      "archive_format": "tar.gz",
+      "binary_suffix": "",
+      "support_level": "preview",
+      "scored_execution": false,
+      "sandbox_backend": "unavailable",
+      "validation_state": "pending_native_ci",
+      "native_gate_required": true,
+      "limitations": ["No macOS scored-execution sandbox is declared.", "Native protected rehearsal evidence is pending."]
+    },
+    {
+      "target": "aarch64-apple-darwin",
+      "os": "macos",
+      "architecture": "aarch64",
+      "runner": "macos-15",
+      "archive_format": "tar.gz",
+      "binary_suffix": "",
+      "support_level": "preview",
+      "scored_execution": false,
+      "sandbox_backend": "unavailable",
+      "validation_state": "pending_native_ci",
+      "native_gate_required": true,
+      "limitations": ["No macOS scored-execution sandbox is declared.", "Native protected rehearsal evidence is pending."]
+    },
+    {
+      "target": "x86_64-pc-windows-msvc",
+      "os": "windows",
+      "architecture": "x86_64",
+      "runner": "windows-2022",
+      "archive_format": "zip",
+      "binary_suffix": ".exe",
+      "support_level": "preview",
+      "scored_execution": false,
+      "sandbox_backend": "unavailable",
+      "validation_state": "pending_native_ci",
+      "native_gate_required": true,
+      "limitations": ["No Windows scored-execution sandbox is declared.", "Native protected rehearsal evidence is pending."]
+    }
+  ]
+}

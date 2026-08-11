@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hunteval.dev/schemas/v1.0/r8-evidence-index.schema.json",
+  "title": "HuntEval R8 evidence index v1.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "revision", "pre_r8_dependency", "milestones", "security_review", "reproducibility_review", "github", "candidate_rehearsal", "native_targets", "production_published", "artifacts", "known_limitations"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "revision": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "pre_r8_dependency": {"enum": ["pending", "satisfied", "revised"]},
+    "milestones": {
+      "type": "object",
+      "minProperties": 12,
+      "maxProperties": 12,
+      "additionalProperties": {"enum": ["planned", "in_progress", "implemented", "blocked", "complete"]},
+      "required": ["r8-00", "r8-01", "r8-02", "r8-03", "r8-04", "r8-05", "r8-06", "r8-07", "r8-08", "r8-09", "r8-10", "r8-11"]
+    },
+    "security_review": {"enum": ["pending", "failed", "passed"]},
+    "reproducibility_review": {"enum": ["pending", "failed", "passed"]},
+    "github": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "run_url", "required_checks"],
+      "properties": {
+        "status": {"enum": ["pending", "failed", "passed"]},
+        "run_url": {"type": ["string", "null"], "maxLength": 512},
+        "required_checks": {"type": "array", "maxItems": 64, "uniqueItems": true, "items": {"type": "string", "minLength": 1, "maxLength": 128}}
+      }
+    },
+    "candidate_rehearsal": {"enum": ["pending", "failed", "passed"]},
+    "native_targets": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["x86_64-unknown-linux-gnu", "x86_64-apple-darwin", "aarch64-apple-darwin", "x86_64-pc-windows-msvc"],
+      "properties": {
+        "x86_64-unknown-linux-gnu": {"$ref": "#/$defs/nativeTarget"},
+        "x86_64-apple-darwin": {"$ref": "#/$defs/nativeTarget"},
+        "aarch64-apple-darwin": {"$ref": "#/$defs/nativeTarget"},
+        "x86_64-pc-windows-msvc": {"$ref": "#/$defs/nativeTarget"}
+      }
+    },
+    "production_published": {"const": false},
+    "artifacts": {"type": "array", "maxItems": 256, "uniqueItems": true, "items": {"type": "string", "pattern": "^[0-9a-f]{64}$"}},
+    "known_limitations": {"type": "array", "minItems": 1, "maxItems": 64, "items": {"type": "string", "minLength": 1, "maxLength": 256}}
+  },
+  "$defs": {
+    "nativeTarget": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "run_url", "artifact_hashes"],
+      "properties": {
+        "status": {"enum": ["pending", "failed", "passed"]},
+        "run_url": {"type": ["string", "null"], "maxLength": 512},
+        "artifact_hashes": {"type": "array", "maxItems": 32, "uniqueItems": true, "items": {"type": "string", "pattern": "^[0-9a-f]{64}$"}}
+      }
+    }
+  }
+}
