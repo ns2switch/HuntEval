@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "inventory_sha256": "002eb890ba8a28b1baef4a6b773c48a49f576582209e841881b12b23b3f4abf8",
+  "inventory_sha256": "66dd9ca9d147249435f47ef26219768c0d7e5f2b2bb8dad5cad8055ee6c8c1f8",
   "eligible_interfaces": [
     "artifact.public-run-result",
     "benchmark.official-cloud-v1",

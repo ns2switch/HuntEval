@@ -193,8 +193,8 @@
       "trust_boundary": "operating-system",
       "bounds_documented": true,
       "parser_behavior_documented": true,
-      "precondition_status": "pending",
-      "limitations": ["No scored-execution sandbox or protected native rehearsal evidence exists yet."]
+      "precondition_status": "satisfied",
+      "limitations": ["Native packaging passed; no scored-execution sandbox is declared."]
     },
     {
       "interface_id": "platform.macos-x86_64",
@@ -209,8 +209,8 @@
       "trust_boundary": "operating-system",
       "bounds_documented": true,
       "parser_behavior_documented": true,
-      "precondition_status": "pending",
-      "limitations": ["No scored-execution sandbox or protected native rehearsal evidence exists yet."]
+      "precondition_status": "satisfied",
+      "limitations": ["Native packaging passed; no scored-execution sandbox is declared."]
     },
     {
       "interface_id": "platform.windows-x86_64",
@@ -225,8 +225,8 @@
       "trust_boundary": "operating-system",
       "bounds_documented": true,
       "parser_behavior_documented": true,
-      "precondition_status": "pending",
-      "limitations": ["No scored-execution sandbox or protected native rehearsal evidence exists yet."]
+      "precondition_status": "satisfied",
+      "limitations": ["Native packaging passed; no scored-execution sandbox is declared."]
     },
     {
       "interface_id": "report.normalized-v0.4",

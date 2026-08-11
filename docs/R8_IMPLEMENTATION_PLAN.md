@@ -4,7 +4,7 @@
 
 This document turns the normative v0.8 roadmap scope into a reviewable implementation sequence. R8 is the release-candidate milestone: it freezes and audits the interfaces intended for v1.0, proves compatibility and migration behavior, produces reproducible verifiable packages, completes independent security and reproducibility review, and rehearses the official benchmark from a clean environment using only published instructions.
 
-R8 does not redesign HuntEval or reopen completed R2 through R7 work. R2 through R7 remain complete with their recorded evidence. v0.7.1 and v0.7.2 remain separate preconditions. On 2026-08-11, roadmap governance authorized R8-00 inventory and freeze-policy work while those connector milestones remain pending. Their pending interfaces are excluded from the stable freeze set, the authorization does not complete either precondition, and R8 cannot close until the release dependency is satisfied or revised explicitly. R8-00 implementation is in progress; no R8 milestone is complete.
+R8 does not redesign HuntEval or reopen completed R2 through R7 work. R2 through R7 remain complete with their recorded evidence. v0.7.1 and v0.7.2 remain governed by separate release gates. On 2026-08-11, roadmap governance first authorized R8-00 work while those connector milestones remained pending and subsequently revised the R8 closure dependency: pending framework, MCP, and commercial interfaces remain excluded from the stable freeze set but no longer block closure of the R8 core candidate. This revision does not complete either connector milestone, change its support status, or authorize live commercial execution.
 
 R8 does not publish v1.0, enable production-scored SIEM execution, introduce unrestricted network access, add autonomous prompt adoption, create a hosted service, or collect private chain of thought. A release-candidate artifact is not a production release.
 
@@ -14,20 +14,20 @@ Status is evidence-based. `planned` makes no implementation claim. `in progress`
 
 | Milestone | Status | Outcome |
 |---|---|---|
-| R8-00 | implemented | versioned release inventory, fail-closed freeze validator, freeze policy, and accepted architecture decisions; protected closure evidence remains pending |
-| R8-01 | implemented | normative machine-readable compatibility matrix and deterministic human projection with pending interfaces unavailable or preview |
-| R8-02 | implemented | declared in-memory adaptation/read-as-is edges, typed rejection, and content-addressed non-overwriting migration receipts |
-| R8-03 | implemented | deterministic package inventory, SPDX SBOM, dependency/license reports, normalized provenance, release manifest, checksums, and tamper gate |
-| R8-04 | implemented | detached SSH signature policy, isolated rehearsal signer, offline verifier, identity binding, validity, revocation, and tamper fixtures |
-| R8-05 | implemented | bounded atomic tar/ZIP installer, deterministic native packager, platform matrix, permission normalization, required-member verification, and adversarial fixtures; protected preview-target evidence remains pending |
+| R8-00 | complete | versioned release inventory, fail-closed freeze validator, freeze policy, accepted architecture decisions, and protected evidence |
+| R8-01 | complete | normative machine-readable compatibility matrix and deterministic human projection with pending interfaces unavailable or preview |
+| R8-02 | complete | declared in-memory adaptation/read-as-is edges, typed rejection, and content-addressed non-overwriting migration receipts |
+| R8-03 | complete | deterministic package inventory, SPDX SBOM, dependency/license reports, normalized provenance, release manifest, checksums, and tamper gate |
+| R8-04 | complete | detached SSH signature policy, isolated rehearsal signer, offline verifier, identity binding, validity, revocation, and tamper fixtures |
+| R8-05 | complete | bounded atomic tar/ZIP installer, deterministic native packager, four-target native evidence, permission normalization, required-member verification, and adversarial fixtures |
 | R8-06 | blocked | review template and gates exist; a separately identified independent security reviewer is required |
 | R8-07 | blocked | clean-room procedure exists; a separately identified independent reproducibility reviewer is required |
-| R8-08 | in progress | versioned official cloud-pack root and benchmark card exist; independent review and clean candidate run remain pending |
+| R8-08 | in progress | versioned official cloud-pack root, benchmark card, and exact-revision 108-cell CI run exist; independent review remains pending |
 | R8-09 | implemented | installation, verification, migration, rollback, incident, disclosure, benchmark, and release procedures are documented |
-| R8-10 | in progress | protected non-publishing workflow and end-to-end rehearsal script exist; exact clean protected run evidence remains pending |
+| R8-10 | in progress | protected four-target non-publishing rehearsal passed on `v0.8.0-rc.5`; final review-bound candidate evidence remains pending |
 | R8-11 | in progress | versioned evidence index and fail-closed closure verifier exist; required external evidence remains pending |
 
-No R8 milestone is complete.
+R8-00 through R8-05 are complete. R8 as a release milestone remains open and fail-closed on R8-06, R8-07, and the final evidence-bound candidate.
 
 ## 3. Mandatory delivery rules
 

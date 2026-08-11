@@ -392,7 +392,7 @@ The coordinated pre-R8 sequence is defined in `PRE_R8_CONNECTOR_IMPLEMENTATION_P
 
 **Objective:** freeze and audit the interfaces intended for v1.0.
 
-The governed implementation sequence, compatibility and security boundaries, review requirements, pull-request order, migration and rollback behavior, and exact release gates are defined in `R8_IMPLEMENTATION_PLAN.md`. On 2026-08-11, roadmap governance authorized R8-00 inventory and freeze-policy work while v0.7.1 and v0.7.2 remain pending. R8-00 is in progress; their pending interfaces are excluded from the stable freeze set, neither pre-R8 milestone is completed by this decision, and R8 closure still requires the release dependencies to be satisfied or revised explicitly.
+The governed implementation sequence, compatibility and security boundaries, review requirements, pull-request order, migration and rollback behavior, and exact release gates are defined in `R8_IMPLEMENTATION_PLAN.md`. On 2026-08-11, roadmap governance authorized R8 work while v0.7.1 and v0.7.2 remain pending, excluded their pending interfaces from the stable freeze set, and revised the dependency so those separate preview releases no longer block closure of the R8 core candidate. This does not complete either connector milestone or broaden its support status. R8-00 through R8-05 are complete; R8 remains open pending independent security and reproducibility reviews and a final evidence-bound candidate.
 
 - publish a protocol and schema compatibility matrix;
 - provide migrations or explicit rejection behavior for older artifacts;
@@ -443,7 +443,7 @@ v0.7 complete extension foundation
 explicit roadmap governance
   -> v0.8 R8-00 inventory work (pending interfaces excluded)
 
-v0.2 through v0.7.2 exit criteria, or an explicit dependency revision
+v0.2 through v0.7 complete; v0.7.1 and v0.7.2 pending interfaces excluded by explicit dependency revision
   -> v0.8 release-candidate closure
        -> v1.0 stable platform
 ```

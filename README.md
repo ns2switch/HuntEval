@@ -199,7 +199,7 @@ R2 through R7 are complete. HuntEval provides the offline benchmark loop, topolo
 
 The local v0.7.1 framework/MCP implementation and the v0.7.2 commercial gateway, worker, HTTPS transport, vendor mappings, recording sanitizer, and offline safety foundation now exist and have dedicated CI gates. They are not release-complete: protected upstream-framework execution, full scored paired benchmarks, migration rehearsal against a published package, externally enforced live egress, platform token issuance, authorized non-production tenant evidence, and protected closure evidence remain pending. No commercial connector is currently certified for live or production-scored execution. HuntEval never adopts a suggested change automatically.
 
-R8 implementation is in progress. The versioned interface freeze, compatibility matrix, migration inventory, supply-chain evidence, offline signature verifier, safe tar/ZIP installer, official benchmark-pack root, and non-publishing release rehearsal are implemented locally. The native package matrix covers Linux x86_64 plus preview packages for macOS Intel, macOS Apple Silicon, and Windows x86_64; only Linux currently claims scored execution. R8 is not complete: independent security and reproducibility reviews, protected native workflow evidence, the pre-R8 dependency decision, and one immutable candidate rehearsal remain required.
+R8 closure is in progress. R8-00 through R8-05 are complete, all 17 protected checks passed on candidate revision `47cf61d`, and the immutable `v0.8.0-rc.5` rehearsal built, installed, signed, and verified native packages on Linux x86_64, macOS Intel, macOS Apple Silicon, and Windows x86_64. Only Linux claims scored execution; the other platforms remain package previews. The pending v0.7.1/v0.7.2 interfaces remain outside the stable freeze. R8 is not complete until independent security and reproducibility reviews pass and a final candidate binds those review records.
 
 - [Roadmap through v1.0](docs/ROADMAP.md)
 - [R5 completion evidence](docs/R5_COMPLETION_EVIDENCE.md)
@@ -221,6 +221,7 @@ R8 implementation is in progress. The versioned interface freeze, compatibility 
 - [R8 release-candidate implementation plan](docs/R8_IMPLEMENTATION_PLAN.md)
 - [R8 compatibility matrix](docs/R8_COMPATIBILITY.md)
 - [R8 candidate operations](docs/R8_OPERATIONS.md)
+- [R8 candidate evidence](docs/R8_CANDIDATE_EVIDENCE.md)
 - [Official benchmark card](docs/OFFICIAL_BENCHMARK_CARD.md)
 
 ## Development

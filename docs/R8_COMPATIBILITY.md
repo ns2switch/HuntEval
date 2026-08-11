@@ -8,10 +8,10 @@ Compatibility does not grant runtime authority or certify deployment quality.
 | crewai-retained | retained | connector.crewai-r7@R7 compatibility baseline, sdk.python-r7@0.1.0 | none |
 | framework-pack-preview | preview | connector.framework-pack-v0.7.1@0.7.1 | release_closure_pending |
 | linux-core-supported | supported | cli.hunteval-r7@R7 command surface, platform.linux-x86_64@x86_64-unknown-linux-gnu with Bubblewrap, protocol.deployment-jsonl@0.3, schema.contract-families@0.3 through 0.9 | none |
-| macos-aarch64-package-preview | preview | platform.macos-aarch64@aarch64-apple-darwin | native_ci_pending |
-| macos-x86_64-package-preview | preview | platform.macos-x86_64@x86_64-apple-darwin | native_ci_pending |
+| macos-aarch64-package-preview | preview | platform.macos-aarch64@aarch64-apple-darwin | scored_execution_unavailable |
+| macos-x86_64-package-preview | preview | platform.macos-x86_64@x86_64-apple-darwin | scored_execution_unavailable |
 | mcp-preview | preview | connector.mcp-v0.7.1@MCP 2025-11-25 | release_closure_pending |
-| windows-x86_64-package-preview | preview | platform.windows-x86_64@x86_64-pc-windows-msvc | native_ci_pending |
+| windows-x86_64-package-preview | preview | platform.windows-x86_64@x86_64-pc-windows-msvc | scored_execution_unavailable |
 
 ## Semantics
 
