@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hunteval.dev/schemas/v1.0/build-provenance.schema.json",
+  "title": "HuntEval normalized build provenance v1.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "builder", "revision", "rust_toolchain", "source_date_epoch", "target", "materials", "network_used"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "builder": {"const": "scripts/r8_supply_chain.py"},
+    "revision": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "rust_toolchain": {"type": "string", "minLength": 1, "maxLength": 64},
+    "source_date_epoch": {"type": "integer", "minimum": 0},
+    "target": {"type": "string", "minLength": 1, "maxLength": 128},
+    "network_used": {"const": false},
+    "materials": {
+      "type": "object", "additionalProperties": false,
+      "required": ["cargo_lock_sha256", "compatibility_matrix_sha256", "interface_inventory_sha256", "platform_target_matrix_sha256"],
+      "properties": {
+        "cargo_lock_sha256": {"$ref": "#/$defs/digest"},
+        "compatibility_matrix_sha256": {"$ref": "#/$defs/digest"},
+        "interface_inventory_sha256": {"$ref": "#/$defs/digest"},
+        "platform_target_matrix_sha256": {"$ref": "#/$defs/digest"}
+      }
+    }
+  },
+  "$defs": {"digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"}}
+}

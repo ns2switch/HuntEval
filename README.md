@@ -199,6 +199,8 @@ R2 through R7 are complete. HuntEval provides the offline benchmark loop, topolo
 
 The local v0.7.1 framework/MCP implementation and the v0.7.2 commercial gateway, worker, HTTPS transport, vendor mappings, recording sanitizer, and offline safety foundation now exist and have dedicated CI gates. They are not release-complete: protected upstream-framework execution, full scored paired benchmarks, migration rehearsal against a published package, externally enforced live egress, platform token issuance, authorized non-production tenant evidence, and protected closure evidence remain pending. No commercial connector is currently certified for live or production-scored execution. HuntEval never adopts a suggested change automatically.
 
+R8 implementation is in progress. The versioned interface freeze, compatibility matrix, migration inventory, supply-chain evidence, offline signature verifier, safe tar/ZIP installer, official benchmark-pack root, and non-publishing release rehearsal are implemented locally. The native package matrix covers Linux x86_64 plus preview packages for macOS Intel, macOS Apple Silicon, and Windows x86_64; only Linux currently claims scored execution. R8 is not complete: independent security and reproducibility reviews, protected native workflow evidence, the pre-R8 dependency decision, and one immutable candidate rehearsal remain required.
+
 - [Roadmap through v1.0](docs/ROADMAP.md)
 - [R5 completion evidence](docs/R5_COMPLETION_EVIDENCE.md)
 - [R6 implementation plan](docs/R6_IMPLEMENTATION_PLAN.md)
@@ -217,6 +219,9 @@ The local v0.7.1 framework/MCP implementation and the v0.7.2 commercial gateway,
 - [Commercial connector preview guide](docs/COMMERCIAL_CONNECTORS.md)
 - [v0.7.2 local implementation evidence](docs/V072_IMPLEMENTATION_EVIDENCE.md)
 - [R8 release-candidate implementation plan](docs/R8_IMPLEMENTATION_PLAN.md)
+- [R8 compatibility matrix](docs/R8_COMPATIBILITY.md)
+- [R8 candidate operations](docs/R8_OPERATIONS.md)
+- [Official benchmark card](docs/OFFICIAL_BENCHMARK_CARD.md)
 
 ## Development
 

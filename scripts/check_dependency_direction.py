@@ -14,6 +14,7 @@ ALLOWED_LOCAL_DEPENDENCIES: dict[str, set[str]] = {
     "hunteval-sandbox": set(),
     "hunteval-protocol": {"hunteval-domain"},
     "hunteval-reference-deployment": {"hunteval-domain", "hunteval-protocol"},
+    "hunteval-release": set(),
     "hunteval-duckdb": {"hunteval-domain", "hunteval-sandbox"},
     "hunteval-evaluation": {"hunteval-domain"},
     "hunteval-statistics": {"hunteval-domain"},

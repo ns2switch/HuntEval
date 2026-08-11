@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hunteval.dev/schemas/v1.0/release-interface-inventory.schema.json",
+  "title": "HuntEval release interface inventory v1.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "inventory_id", "baseline_revision", "pre_r8_status", "interfaces"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "inventory_id": {"$ref": "#/$defs/identifier"},
+    "baseline_revision": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "pre_r8_status": {"$ref": "#/$defs/precondition"},
+    "interfaces": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 512,
+      "items": {"$ref": "#/$defs/interface"}
+    }
+  },
+  "$defs": {
+    "identifier": {"type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-z0-9._-]+$"},
+    "bounded_text": {"type": "string", "minLength": 1, "maxLength": 256},
+    "precondition": {"enum": ["satisfied", "pending", "unavailable"]},
+    "interface": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "interface_id", "kind", "owner", "stability", "version_range",
+        "fixture_path", "verification_gate", "projection", "authority",
+        "trust_boundary", "bounds_documented", "parser_behavior_documented",
+        "precondition_status", "limitations"
+      ],
+      "properties": {
+        "interface_id": {"$ref": "#/$defs/identifier"},
+        "kind": {"enum": ["artifact", "cli", "commercial_connector", "extension", "framework_connector", "knowledge", "metric", "platform", "protocol", "report", "schema", "scoring_profile", "sdk", "topology"]},
+        "owner": {"$ref": "#/$defs/identifier"},
+        "stability": {"enum": ["stable_candidate", "retained", "preview", "experimental", "blocked"]},
+        "version_range": {"$ref": "#/$defs/bounded_text"},
+        "fixture_path": {"type": ["string", "null"], "maxLength": 256, "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\).+$"},
+        "verification_gate": {"anyOf": [{"$ref": "#/$defs/identifier"}, {"type": "null"}]},
+        "projection": {"enum": ["public", "evaluator_private", "mixed"]},
+        "authority": {"$ref": "#/$defs/identifier"},
+        "trust_boundary": {"$ref": "#/$defs/identifier"},
+        "bounds_documented": {"type": "boolean"},
+        "parser_behavior_documented": {"type": "boolean"},
+        "precondition_status": {"$ref": "#/$defs/precondition"},
+        "limitations": {"type": "array", "maxItems": 32, "items": {"$ref": "#/$defs/bounded_text"}}
+      }
+    }
+  }
+}

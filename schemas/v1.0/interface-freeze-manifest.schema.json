@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hunteval.dev/schemas/v1.0/interface-freeze-manifest.schema.json",
+  "title": "HuntEval interface freeze manifest v1.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "inventory_sha256", "eligible_interfaces", "exclusions"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "inventory_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "eligible_interfaces": {
+      "type": "array",
+      "maxItems": 512,
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^[a-z0-9._-]+$"}
+    },
+    "exclusions": {
+      "type": "array",
+      "maxItems": 512,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["interface_id", "reason_code"],
+        "properties": {
+          "interface_id": {"type": "string", "pattern": "^[a-z0-9._-]+$"},
+          "reason_code": {"enum": ["preview", "experimental", "precondition_pending", "precondition_unavailable"]}
+        }
+      }
+    }
+  }
+}

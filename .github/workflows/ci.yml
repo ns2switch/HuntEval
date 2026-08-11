@@ -472,6 +472,62 @@ jobs:
           if-no-files-found: error
           retention-days: 3
 
+  r8-compatibility:
+    name: R8 compatibility
+    runs-on: ubuntu-22.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+      - name: Install pinned Rust toolchain
+        run: rustup toolchain install 1.93.1 --profile minimal --component clippy,rustfmt
+      - uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
+        with:
+          path: |
+            ~/.cargo/registry/index
+            ~/.cargo/registry/cache
+            ~/.cargo/git/db
+            target
+          key: rust-ubuntu-22.04-${{ runner.os }}-${{ runner.arch }}-1.93.1-x86_64-unknown-linux-gnu-all-features-${{ hashFiles('Cargo.lock') }}-r8-compatibility
+      - name: Validate the R8 interface inventory and freeze manifest
+        run: |
+          mkdir -p .ci-artifacts
+          set -o pipefail
+          ./scripts/ci/r8-compatibility.sh |& tee .ci-artifacts/r8-compatibility.log
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        if: always()
+        with:
+          name: r8-compatibility-log
+          path: .ci-artifacts/r8-compatibility.log
+          if-no-files-found: error
+          retention-days: 3
+
+  r8-supply-chain:
+    name: R8 supply chain
+    runs-on: ubuntu-22.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+      - name: Install pinned Rust toolchain
+        run: rustup toolchain install 1.93.1 --profile minimal --component clippy,rustfmt
+      - name: Verify reproducible supply-chain, signature, and installer fixtures
+        run: |
+          mkdir -p .ci-artifacts
+          set -o pipefail
+          ./scripts/ci/r8-supply-chain.sh |& tee .ci-artifacts/r8-supply-chain.log
+          ./scripts/ci/r8-signature-fixtures.sh |& tee -a .ci-artifacts/r8-supply-chain.log
+          ./scripts/ci/r8-package.sh |& tee -a .ci-artifacts/r8-supply-chain.log
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        if: always()
+        with:
+          name: r8-supply-chain-log
+          path: .ci-artifacts/r8-supply-chain.log
+          if-no-files-found: error
+          retention-days: 3
+
   package:
     name: Package
     runs-on: ubuntu-22.04
@@ -490,7 +546,7 @@ jobs:
       - name: Build uncached release-candidate dry run
         run: |
           ./scripts/ci/cache-parity.sh
-          ./scripts/ci/release-candidate.sh "${{ runner.temp }}/hunteval-rc"
+          ./scripts/ci/r8-release.sh "${{ runner.temp }}/hunteval-rc"
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: release-candidate-${{ github.sha }}

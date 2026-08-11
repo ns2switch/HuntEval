@@ -2,7 +2,7 @@
 
 ## 1. Purpose and release position
 
-This document defines the governed implementation sequence for the v0.7.1 framework connector pack. It extends the completed R7 release without reopening or changing any R7 completion claim. It must finish before v0.7.2 commercial platform connectors and before v0.8 freezes interfaces intended for v1.0.
+This document defines the governed implementation sequence for the v0.7.1 framework connector pack. It extends the completed R7 release without reopening or changing any R7 completion claim. It must finish before v0.7.2 commercial platform connector closure and before its interfaces can enter the v1.0 stable freeze set. The governed R8-00 inventory may proceed while this work remains pending only by excluding these interfaces from that set.
 
 The user-visible outcome is that equivalent HuntEval deployments can be authored with multiple agent frameworks and evaluated through the same process-neutral protocol, scored-tool mediation, topology artifacts, budgets, and reporting semantics.
 

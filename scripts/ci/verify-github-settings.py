@@ -21,6 +21,8 @@ REQUIRED_CHECKS = {
     "Framework connectors",
     "Upstream framework conformance",
     "Commercial connector replay",
+    "R8 compatibility",
+    "R8 supply chain",
     "Package",
 }
 RELEASE_TAG_PATTERN = "refs/tags/v*"

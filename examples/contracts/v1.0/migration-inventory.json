@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.0",
+  "inventory_id": "r8-migration-inventory",
+  "compatibility_matrix_sha256": "77b3db844e8ed2c5c28c39334d6f0f5d8d9f14fdb94e7a15e9f602cef9e6da2c",
+  "edges": [
+    {
+      "edge_id": "benchmark-manifest-0.3-to-0.4",
+      "artifact_family": "benchmark-manifest",
+      "source_version": "0.3",
+      "target_version": "0.4",
+      "action": "adapt_in_memory",
+      "implementation": "runner-benchmark-loader",
+      "fixture_path": "examples/cloud-mvp-benchmark.yaml",
+      "reason_code": null
+    },
+    {
+      "edge_id": "future-schema-rejected",
+      "artifact_family": "schema-future-major",
+      "source_version": "2.0",
+      "target_version": null,
+      "action": "reject",
+      "implementation": null,
+      "fixture_path": null,
+      "reason_code": "unsupported_future_major"
+    },
+    {
+      "edge_id": "protocol-0.3-read-as-is",
+      "artifact_family": "protocol-message",
+      "source_version": "0.3",
+      "target_version": "0.3",
+      "action": "read_as_is",
+      "implementation": "protocol-v0.3-reader",
+      "fixture_path": "examples/contracts/protocol-transcript.json",
+      "reason_code": null
+    },
+    {
+      "edge_id": "scoring-profile-0.3-to-0.4",
+      "artifact_family": "scoring-profile",
+      "source_version": "0.3",
+      "target_version": "0.4",
+      "action": "adapt_in_memory",
+      "implementation": "runner-scoring-profile-loader",
+      "fixture_path": "examples/scoring-profile-balanced-v0.3.yaml",
+      "reason_code": null
+    }
+  ]
+}
