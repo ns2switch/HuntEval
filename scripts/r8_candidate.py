@@ -47,6 +47,20 @@ def write_json(path: pathlib.Path, value: object) -> None:
     path.write_text(json.dumps(value, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
 
+def verify_secret_scan_result(path: pathlib.Path, returncode: int) -> None:
+    if returncode == 0:
+        return
+    try:
+        value = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, UnicodeError, json.JSONDecodeError):
+        fail("release secret scan failed without a valid normalized result")
+    status = value.get("status") if isinstance(value, dict) else None
+    reasons = value.get("incomplete_reasons", []) if isinstance(value, dict) else []
+    findings = value.get("findings", []) if isinstance(value, dict) else []
+    rules = sorted({item.get("rule_id") for item in findings if isinstance(item, dict) and isinstance(item.get("rule_id"), str)})
+    fail(f"release secret scan rejected the package: status={status}, reasons={reasons}, rules={rules}")
+
+
 def stage(root: pathlib.Path, suffix: str) -> None:
     (root / "bin").mkdir(parents=True)
     (root / "docs").mkdir()
@@ -183,8 +197,26 @@ def build(output: pathlib.Path, target: str, runner: str) -> None:
         stage(package, entry["binary_suffix"])
         files = [path.relative_to(package).as_posix() for path in sorted(package.rglob("*")) if path.is_file()]
         cli = package / "bin" / f"hunteval{entry['binary_suffix']}"
-        with (output / "secret-scan.json").open("w", encoding="utf-8") as scan:
-            run([str(cli), "system", "secret-scan", "--root", str(package), "--format", "json", "--", *files], stdout=scan)
+        secret_scan = output / "secret-scan.json"
+        with secret_scan.open("w", encoding="utf-8") as scan:
+            result = subprocess.run(
+                [
+                    str(cli),
+                    "system",
+                    "secret-scan",
+                    "--root",
+                    str(package),
+                    "--maximum-file-bytes",
+                    str(512 * 1024 * 1024),
+                    "--format",
+                    "json",
+                    "--",
+                    *files,
+                ],
+                check=False,
+                stdout=scan,
+            )
+        verify_secret_scan_result(secret_scan, result.returncode)
         extension = ".tar.gz" if entry["archive_format"] == "tar.gz" else ".zip"
         archive_name = f"hunteval-rc-{revision[:12]}-{target}{extension}"
         archive = output / archive_name

@@ -18,6 +18,8 @@ The Linux rehearsal builds the Rust binaries and Python wheel, creates determini
 
 Build provenance records network use explicitly. Native clean-runner candidates declare network use because Cargo and the isolated Python build backend may retrieve locked or pinned dependencies. Supply-chain fixtures that run from pre-provisioned inputs declare network isolation. The evidence builder has no implicit default: omitting both declarations fails closed.
 
+The native package scan raises the per-file scanner bound from its 128 MiB default to the explicit 512 MiB package-member ceiling so that statically linked Windows binaries remain scannable. The CLI rejects zero, unbounded, or larger values, and any incomplete scan still rejects the candidate.
+
 Verify downloaded evidence before using any binary:
 
 ```bash

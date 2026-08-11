@@ -233,14 +233,15 @@ fn execute_system(command: SystemCommand) -> Result<ExitCode, Box<dyn std::error
         }
         SystemCommand::SecretScan {
             root,
+            maximum_file_bytes,
             paths,
             format,
         } => {
-            let result = hunteval_runner::scan_paths(
-                &root,
-                &paths,
-                &hunteval_runner::SecretScanPolicy::default(),
-            );
+            let policy = hunteval_runner::SecretScanPolicy {
+                maximum_file_bytes,
+                ..hunteval_runner::SecretScanPolicy::default()
+            };
+            let result = hunteval_runner::scan_paths(&root, &paths, &policy);
             match format {
                 OutputFormatArgument::Json => {
                     println!("{}", serde_json::to_string(&result)?);
