@@ -27,6 +27,23 @@ pub enum CommercialError {
     TransportFailure,
 }
 
+impl CommercialError {
+    /// Stable public reason code without transport, endpoint, or secret detail.
+    #[must_use]
+    pub const fn reason_code(&self) -> &'static str {
+        match self {
+            Self::InvalidPolicy => "invalid_policy",
+            Self::InvalidOrigin => "invalid_origin",
+            Self::DeniedAddress => "denied_address",
+            Self::InvalidSecretReference => "invalid_secret_reference",
+            Self::DeniedOperation => "denied_operation",
+            Self::InvalidRequest => "invalid_request",
+            Self::InvalidResponse => "invalid_response",
+            Self::TransportFailure => "transport_failure",
+        }
+    }
+}
+
 /// Request with no URL, method, headers, or credential fields.
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
@@ -155,10 +172,8 @@ fn forbidden_request_value(key: &str, value: &Value, depth: usize) -> bool {
 }
 
 fn forbidden_response_value(key: &str, value: &Value, depth: usize) -> bool {
-    matches!(
-        key.to_ascii_lowercase().as_str(),
-        "authorization" | "cookie" | "password" | "secret" | "token"
-    ) || depth > 16
+    sensitive_key(key)
+        || depth > 16
         || match value {
             Value::Object(values) => values.iter().any(|(nested_key, nested)| {
                 forbidden_response_value(nested_key, nested, depth + 1)
@@ -171,17 +186,34 @@ fn forbidden_response_value(key: &str, value: &Value, depth: usize) -> bool {
 }
 
 fn forbidden_key(value: &str) -> bool {
+    sensitive_key(value)
+        || matches!(
+            value.to_ascii_lowercase().as_str(),
+            "endpoint" | "headers" | "host" | "method" | "url"
+        )
+}
+
+fn sensitive_key(value: &str) -> bool {
+    let normalized = value
+        .bytes()
+        .filter(|byte| byte.is_ascii_alphanumeric())
+        .map(|byte| byte.to_ascii_lowercase())
+        .collect::<Vec<_>>();
     matches!(
-        value.to_ascii_lowercase().as_str(),
-        "authorization"
-            | "cookie"
-            | "endpoint"
-            | "headers"
-            | "host"
-            | "method"
-            | "password"
-            | "secret"
-            | "token"
-            | "url"
-    )
+        normalized.as_slice(),
+        b"authorization"
+            | b"bearer"
+            | b"cookie"
+            | b"credential"
+            | b"password"
+            | b"secret"
+            | b"setcookie"
+            | b"token"
+            | b"accesstoken"
+            | b"refreshtoken"
+            | b"clientsecret"
+            | b"apikey"
+    ) || normalized.ends_with(b"password")
+        || normalized.ends_with(b"secret")
+        || normalized.ends_with(b"token")
 }

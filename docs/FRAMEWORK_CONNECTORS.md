@@ -9,15 +9,17 @@ The Python SDK currently implements these dependency-free structural adapters:
 | Adapter | Status | Entry point |
 |---|---|---|
 | CrewAI | supported R7 baseline | `CrewAIAdapter` |
-| LangGraph | implemented, fixture conformance only | `LangGraphAdapter` |
-| AutoGen AgentChat | implemented, fixture conformance only | `AutoGenAdapter` |
-| Google ADK | implemented, fixture conformance only | `GoogleAdkAdapter` |
-| Semantic Kernel | preview, fixture conformance only | `SemanticKernelPreviewAdapter` |
+| LangGraph | implemented; local exact-package and fixture conformance | `LangGraphAdapter` |
+| AutoGen AgentChat | implemented; local exact-package and fixture conformance | `AutoGenAdapter` |
+| Google ADK | implemented against `Runner.run`; local exact-package and fixture conformance | `GoogleAdkAdapter` |
+| Semantic Kernel | preview; local exact-package and fixture conformance | `SemanticKernelPreviewAdapter` |
 | generic MCP client | implemented, local fixture conformance only | `McpSession` |
 
-`implemented` does not mean release-complete. Exact upstream-version conformance, provider-backed smoke tests, paired benchmark evidence, packaging evidence, protected-branch configuration, and completion evidence remain required by `V071_FRAMEWORK_CONNECTOR_PLAN.md`.
+`implemented` does not mean release-complete. The exact upstream versions pass the local isolated Python 3.11 public-surface harness. Protected execution, provider-backed smoke tests where appropriate, full scored paired benchmark evidence, migration/rollback rehearsal against a published package, protected-branch configuration, and completion evidence remain required by `V071_FRAMEWORK_CONNECTOR_PLAN.md`.
 
 The base SDK has no mandatory dependency on any framework. Applications supply an object satisfying the documented structural protocol and install the framework version selected by the future support matrix.
+
+Exact candidate packages are isolated behind the `autogen`, `crewai`, `google-adk`, `langgraph`, and `semantic-kernel` optional dependency groups. `scripts/ci/v071-upstream-frameworks.sh` installs each group into its own Python 3.11 environment and verifies the public callable surface used by the adapter. Passing that surface check does not replace lifecycle, provider, benchmark, or security conformance.
 
 ## Common lifecycle
 
@@ -30,6 +32,8 @@ The base SDK has no mandatory dependency on any framework. Applications supply a
 - public run inputs and structured final submission.
 
 Framework callbacks cannot retrieve evaluator-only fields or ground truth through this API. Missing framework observations remain unavailable.
+
+The focused gate also runs one equivalent supervisor-worker lifecycle through CrewAI, LangGraph, AutoGen, Google ADK, and Semantic Kernel. It fixes the public run identity, objective, seed, agent budget, topology, managed tool, and expected protocol sequence. This proves connector-level control preservation only; it does not measure provider behavior, investigation quality, framework overhead, or scored benchmark performance.
 
 ## MCP interoperability
 

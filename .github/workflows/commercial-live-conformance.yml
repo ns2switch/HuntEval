@@ -1,0 +1,81 @@
+name: Commercial live conformance
+
+on:
+  workflow_dispatch:
+    inputs:
+      platform:
+        description: Protected environment and platform under test
+        required: true
+        type: choice
+        options:
+          - crowdstrike_falcon
+          - google_secops
+          - microsoft_sentinel
+          - elastic_security
+          - cortex_xsiam
+
+permissions:
+  contents: read
+
+concurrency:
+  group: commercial-live-${{ inputs.platform }}
+  cancel-in-progress: false
+
+jobs:
+  conformance:
+    name: Commercial live conformance (${{ inputs.platform }})
+    environment: commercial-live-${{ inputs.platform }}
+    runs-on: [self-hosted, linux, x64, hunteval-commercial-egress]
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+      - name: Install pinned Rust toolchain
+        run: rustup toolchain install 1.93.1 --profile minimal
+      - name: Build isolated commercial worker
+        run: cargo build --locked --release -p hunteval-commercial --bin hunteval-commercial-worker
+      - name: Materialize protected inputs
+        env:
+          COMMAND_JSON: ${{ secrets.COMMERCIAL_COMMAND_JSON }}
+          BEARER_TOKEN: ${{ secrets.COMMERCIAL_BEARER_TOKEN }}
+          EGRESS_ENFORCEMENT_JSON: ${{ secrets.COMMERCIAL_EGRESS_ENFORCEMENT_JSON }}
+        run: |
+          umask 077
+          mkdir -p .commercial-live-private .ci-artifacts
+          python3 - <<'PY'
+          import os
+          from pathlib import Path
+
+          values = {
+              "command.json": "COMMAND_JSON",
+              "bearer.token": "BEARER_TOKEN",
+              "egress.json": "EGRESS_ENFORCEMENT_JSON",
+          }
+          root = Path(".commercial-live-private")
+          for filename, variable in values.items():
+              value = os.environ.get(variable, "")
+              if not value:
+                  raise SystemExit(f"protected input is absent: {variable}")
+              (root / filename).write_text(value, encoding="utf-8")
+          PY
+      - name: Run bounded read-only conformance
+        run: |
+          ./scripts/ci/v072-live-conformance.sh \
+            .commercial-live-private/command.json \
+            .commercial-live-private/bearer.token \
+            target/release/hunteval-commercial-worker \
+            .commercial-live-private/egress.json \
+            .ci-artifacts/commercial-live-${{ inputs.platform }}.json
+      - name: Remove protected inputs
+        if: always()
+        run: |
+          find .commercial-live-private -type f -exec shred -u -- {} + 2>/dev/null || true
+          rmdir .commercial-live-private 2>/dev/null || true
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        if: success()
+        with:
+          name: commercial-live-${{ inputs.platform }}
+          path: .ci-artifacts/commercial-live-${{ inputs.platform }}.json
+          if-no-files-found: error
+          retention-days: 7

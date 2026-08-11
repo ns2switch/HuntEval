@@ -1,6 +1,12 @@
 import unittest
 
-from hunteval_sdk import CommercialRequest, FixtureReplayConnector, build_fixture
+from hunteval_sdk import (
+    CommercialRequest,
+    FixtureReplayConnector,
+    RecordingSanitizationPolicy,
+    build_fixture,
+    sanitize_recording,
+)
 from hunteval_sdk.commercial_catalog import READ_ONLY_OPERATIONS
 
 
@@ -91,6 +97,88 @@ class CommercialConnectorTests(unittest.TestCase):
                     "truncated": False,
                     "more_available": False,
                 },
+            )
+
+        for field in ["access_token", "client-secret", "servicePassword", "api_key"]:
+            with self.subTest(field=field):
+                with self.assertRaisesRegex(ValueError, "prohibited field"):
+                    build_fixture(
+                        "leaking-fixture",
+                        request,
+                        {
+                            "records": [{field: "must-not-persist"}],
+                            "truncated": False,
+                            "more_available": False,
+                        },
+                    )
+
+    def test_private_recording_is_deterministically_sanitized_before_replay(self) -> None:
+        request = CommercialRequest(
+            "crowdstrike_falcon",
+            "detections_search",
+            "tenant-test",
+            "region-test",
+            {"limit": 1},
+        )
+        policy = RecordingSanitizationPolicy(
+            "falcon-detection-v1",
+            frozenset({"source_id", "classification", "severity", "hostname"}),
+            frozenset({"observed"}),
+        )
+        recording = {
+            "records": [
+                {
+                    "source_id": "vendor-tenant-detection-9821",
+                    "classification": "observed",
+                    "severity": 87,
+                    "hostname": "private-host.example",
+                }
+            ],
+            "truncated": False,
+            "more_available": False,
+        }
+        first = sanitize_recording("falcon-synthetic", request, recording, policy)
+        second = sanitize_recording("falcon-synthetic", request, recording, policy)
+        self.assertEqual(first, second)
+        self.assertNotIn("vendor-tenant", str(first.fixture.response))
+        self.assertNotIn("private-host", str(first.fixture.response))
+        self.assertEqual(first.fixture.response["records"][0]["classification"], "observed")
+        replay = FixtureReplayConnector(
+            request.platform, {request.sha256: first.fixture}
+        ).execute(request)
+        self.assertEqual(replay.response_sha256, first.fixture.response_sha256)
+
+    def test_sanitizer_rejects_undeclared_and_sensitive_fields(self) -> None:
+        request = CommercialRequest(
+            "google_secops", "udm_search", "tenant-test", "region-test", {"limit": 1}
+        )
+        policy = RecordingSanitizationPolicy(
+            "secops-event-v1", frozenset({"source_id"})
+        )
+        for record in [
+            {"source_id": "event-1", "customer_name": "private"},
+            {"source_id": "event-1", "access_token": "secret"},
+        ]:
+            with self.subTest(record=record):
+                with self.assertRaisesRegex(ValueError, "undeclared field"):
+                    sanitize_recording(
+                        "secops-synthetic",
+                        request,
+                        {
+                            "records": [record],
+                            "truncated": False,
+                            "more_available": False,
+                        },
+                        policy,
+                    )
+
+        with self.assertRaisesRegex(ValueError, "unsafe"):
+            RecordingSanitizationPolicy(
+                "unsafe-policy", frozenset({"source_id", "client_secret"})
+            )
+        with self.assertRaisesRegex(ValueError, "literal inventory"):
+            RecordingSanitizationPolicy(
+                "unsafe-literal", frozenset({"source_id"}), frozenset({"tenant-name"})
             )
 
 

@@ -78,10 +78,25 @@ class FakeRunner:
     def __init__(self, context: object) -> None:
         self.context = context
 
-    def run(self, *, inputs: object) -> dict[str, object]:
-        if inputs["tables"] != ["public_events"]:
-            raise AssertionError("ADK public input mapping is invalid")
-        return exercise_context(self.context)
+    def run(
+        self,
+        *,
+        user_id: str,
+        session_id: str,
+        new_message: object,
+        state_delta: object = None,
+        run_config: object = None,
+    ) -> object:
+        if (
+            user_id != "agent-1"
+            or session_id != "run-framework-1"
+            or new_message != {"text": "Find suspicious activity"}
+            or state_delta is not None
+            or run_config is not None
+        ):
+            raise AssertionError("ADK public Runner mapping is invalid")
+        exercise_context(self.context)
+        return iter([{"author": "agent-1", "final": True}])
 
 
 class FakeOrchestration:
@@ -156,7 +171,14 @@ class FrameworkConnectorTests(unittest.TestCase):
             ),
             (
                 "google-adk",
-                lambda config: GoogleAdkAdapter(config, FakeRunner),
+                lambda config: GoogleAdkAdapter(
+                    config,
+                    FakeRunner,
+                    lambda objective: {"text": objective},
+                    lambda _context, events: submission()
+                    if events == ({"author": "agent-1", "final": True},)
+                    else {},
+                ),
             ),
             (
                 "semantic-kernel",

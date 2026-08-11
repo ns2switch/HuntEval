@@ -22,16 +22,16 @@ Status is evidence-based. `planned` makes no implementation claim. `in progress`
 
 | Milestone | Status | Outcome |
 |---|---|---|
-| F71-00 | in progress | code boundaries, support matrix, threat-model delta, and ADR-084 through ADR-089 exist; exact upstream public-API conformance remains open |
+| F71-00 | implemented | code boundaries, support matrix, threat-model delta, exact candidate-version inventory and local public-API conformance, and accepted ADR-084 through ADR-089 exist |
 | F71-01 | implemented | framework-neutral connector lifecycle and observable-event mapping with focused tests |
 | F71-02 | implemented | CrewAI uses the common lifecycle without fixture regression |
 | F71-03 | implemented | dependency-free LangGraph structural adapter and deterministic fixture conformance |
 | F71-04 | implemented | async-capable AutoGen AgentChat structural adapter and deterministic fixture conformance |
-| F71-05 | implemented | local Google ADK structural adapter; remote A2A remains unavailable |
+| F71-05 | implemented | adapter aligned to the public local Google ADK `Runner.run` event stream; remote A2A remains unavailable |
 | F71-06 | implemented | bounded Semantic Kernel preview structural adapter and status enforcement |
 | F71-07 | implemented | bounded MCP session, fixed tool catalog, stdio processor, and adversarial focused tests |
-| F71-08 | planned | cross-framework paired benchmark and topology-equivalence evidence |
-| F71-09 | implemented | guides, package inventory, and local/Actions CI gates exist; migration rehearsal, exact upstream support evidence, protected-gate evidence, and release closure remain open |
+| F71-08 | in progress | five adapters preserve equivalent controls and protocol activity in a deterministic supervisor-worker matrix; full scored benchmark evidence remains open |
+| F71-09 | implemented | guides, exact optional dependency groups, upstream conformance harness, package inventory, and local/Actions CI gates exist; full protected matrix, migration rehearsal, and release closure remain open |
 
 No F71 milestone is complete. Current implementation evidence is local and does not establish upstream-version or provider-backed support. `implemented` is not a release-support claim.
 

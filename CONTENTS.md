@@ -33,6 +33,7 @@ All tracked source code, documentation, schemas, fixtures, and examples are writ
 - `docs/ROADMAP.md`, `docs/R2_IMPLEMENTATION_PLAN.md`, `docs/R3_IMPLEMENTATION_PLAN.md`, and `docs/R3_COMPLETION_EVIDENCE.md`: current roadmap and completed R2/R3 plans and evidence
 - `docs/R4_IMPLEMENTATION_PLAN.md` through `docs/R7_IMPLEMENTATION_PLAN.md`: completed milestone plans and their associated evidence
 - `docs/PRE_R8_CONNECTOR_IMPLEMENTATION_PLAN.md`, `docs/V071_FRAMEWORK_CONNECTOR_PLAN.md`, and `docs/V072_COMMERCIAL_CONNECTOR_PLAN.md`: in-progress framework, MCP, and commercial connector delivery sequence
+- `docs/R8_IMPLEMENTATION_PLAN.md`: planned compatibility freeze, supply-chain verification, independent review, official benchmark, and release-candidate delivery sequence
 - `docs/FRAMEWORK_CONNECTORS.md`, `docs/COMMERCIAL_CONNECTORS.md`, and `docs/CONNECTOR_SUPPORT_MATRIX.md`: connector behavior, security boundaries, and exact support status
 - `docs/BENCHMARK_CLI.md` and `docs/USE_CASE_CLOUD_DEPLOYMENT_COMPARISON.md`: operational benchmark reference and end-to-end example
 - `docs/GITHUB_OPERATIONS.md`, `docs/GITHUB_SETTINGS_ATTESTATION.md`, and `docs/RELEASE_CHECKLIST.md`: delivery controls, administrator evidence, and non-publishing release-candidate procedure

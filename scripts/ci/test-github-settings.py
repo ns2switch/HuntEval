@@ -21,6 +21,9 @@ CHECKS = [
     "Security",
     "End-to-end",
     "Documentation",
+    "Framework connectors",
+    "Upstream framework conformance",
+    "Commercial connector replay",
     "Package",
 ]
 TAG_PATTERN = "refs/tags/v*"

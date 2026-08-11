@@ -244,11 +244,14 @@ Framework callbacks, MCP clients, vendor responses, DNS results, and commercial 
 
 - finite typed read-only platform and operation catalogs;
 - runner-owned exact HTTPS origins with IP literals, paths, user information, and caller-selected transport fields rejected;
-- connection-time validation rejecting loopback, private, link-local, multicast, documentation, metadata, and mapped private addresses;
-- opaque secret references and one-way public identities, never secret values;
+- DNS results validated and pinned into the Rustls client before connection, rejecting loopback, private, link-local, multicast, documentation, metadata, and mapped private addresses;
+- proxies and redirects disabled, certificate verification mandatory, identity response encoding required, and response bytes bounded before JSON parsing;
+- opaque secret references, separate one-call bearer framing, one-way public identities, owned-buffer zeroization, and secret-reflection rejection;
+- a correlated gateway that preserves request/action provenance while keeping URL, method, path templates, headers, and authentication outside the agent contract;
 - strict request, response, record, time, and count limits;
 - content-addressed synthetic offline fixtures and no network in required replay CI;
-- live execution unavailable until a supervised worker proves TLS, DNS, redirect, proxy, secret, and host-enforcement requirements;
+- a bounded live harness persists no raw response and requires an exact worker-bound host egress-enforcement attestation;
+- supported live execution unavailable until protected non-production evidence proves the external enforcement and least-privilege token path;
 - no mutation or production scored SIEM mode before v1.0.
 
 ### 4.15 Topology and dataset-science metadata abuse
