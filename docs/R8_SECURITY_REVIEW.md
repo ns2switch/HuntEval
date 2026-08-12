@@ -10,7 +10,7 @@
 
 The independent reviewer must inspect every public parser and trust boundary, including protocol framing, SQL policy, process isolation, ground-truth projections, diagnostic and improvement artifacts, analytical scopes, framework and commercial connectors, migration receipts, archive extraction, package allowlists, SBOM/provenance inputs, detached signatures, CI permissions, and release artifacts.
 
-The reviewer must run the documented security, adversarial, connector, supply-chain, installer, signature, and malformed-input gates against one exact revision and record tool and corpus hashes. Traversal, symlink, hard-link, decompression, SSRF, injection, secret, process-tree, protocol, migration, signature-substitution, revocation, stale-provenance, and private-data publication cases must fail closed.
+The reviewer must run the documented security, adversarial, connector, supply-chain, installer, signature, Trivy source/candidate, and malformed-input gates against one exact revision and record tool, vulnerability-database, result, and corpus hashes. Traversal, symlink, hard-link, decompression, SSRF, injection, secret, process-tree, protocol, migration, signature-substitution, revocation, stale-provenance, vulnerable dependency, misconfiguration, and private-data publication cases must fail closed.
 
 ## Findings and disposition
 

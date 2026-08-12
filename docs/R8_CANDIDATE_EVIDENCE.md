@@ -30,6 +30,7 @@ The downloaded artifacts were independently re-read during closure preparation. 
 - `R8_SECURITY_REVIEW.md` still requires a separately identified reviewer and exact findings disposition.
 - `R8_REPRODUCIBILITY_REVIEW.md` still requires a separately identified reviewer to execute the documented empty-cache clean-room procedure.
 - after those reviews, a new immutable evidence-bound candidate must pass on the final closure revision;
+- Trivy integration postdates `v0.8.0-rc.5`; the final candidate must produce passing source and four-target candidate reports and record their exact hashes;
 - only then may `R8_COMPLETION_EVIDENCE.md` be created and R8 be marked complete.
 
 Failure of either review or of the final candidate rejects that candidate. Corrections require a reviewed commit and a new immutable tag; existing tags and artifacts are never replaced.

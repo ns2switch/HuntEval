@@ -353,7 +353,9 @@ Framework callbacks, MCP clients, vendor responses, DNS results, and commercial 
 - package construction starts from a clean locked revision and a new output root;
 - bounded deterministic inventories bind path, mode, size, and SHA-256 for every packaged file;
 - private, ground-truth, environment, repository, build-output, linked, special, and oversized members fail closed;
-- dependency and license reports and an SPDX 2.3 SBOM are derived from locked Cargo metadata;
+- dependency and license reports and an SPDX 2.3 SBOM with canonical Cargo purl references are derived from locked Cargo metadata;
+- pinned Trivy source and native-candidate scans reject `HIGH` and `CRITICAL` vulnerabilities and repository misconfigurations without silently omitting unfixed findings;
+- Trivy reports remain run-specific evidence because the external vulnerability database changes independently of source bytes; scanner or database failure blocks the workflow;
 - normalized provenance binds revision, toolchain, target, source epoch, lockfile, compatibility matrix, and interface inventory;
 - the release manifest is a content-addressed candidate root and explicitly records that production was not published;
 - two-build comparison and post-generation verification detect changed evidence;

@@ -38,7 +38,7 @@ with tempfile.TemporaryDirectory() as directory:
                         "name": "hunteval-test",
                         "version": "1.0.0",
                         "license": "Apache-2.0",
-                        "source": None,
+                        "source": "registry+https://github.com/rust-lang/crates.io-index",
                     }
                 ]
             }
@@ -61,6 +61,20 @@ with tempfile.TemporaryDirectory() as directory:
     provenance = json.loads((output / "build-provenance.json").read_text(encoding="utf-8"))
     if provenance["network_used"] is not False:
         raise SystemExit("isolated supply-chain fixture did not preserve network provenance")
+    sbom = json.loads((output / "sbom.spdx.json").read_text(encoding="utf-8"))
+    if sbom["packages"][0]["externalRefs"] != [
+        {
+            "referenceCategory": "PACKAGE-MANAGER",
+            "referenceLocator": "pkg:cargo/hunteval-test@1.0.0",
+            "referenceType": "purl",
+        }
+    ]:
+        raise SystemExit("SBOM package is not discoverable through its Cargo purl")
+    malformed_sbom = json.loads(json.dumps(sbom))
+    malformed_sbom["packages"][0]["externalRefs"][0]["referenceLocator"] = (
+        "pkg:cargo/substituted@9.9.9"
+    )
+    expect_failure("substituted SBOM purl", lambda: MODULE.verify_sbom(malformed_sbom))
 
     inventory = output / "package-inventory.json"
     original = inventory.read_bytes()
