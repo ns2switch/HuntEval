@@ -15,7 +15,7 @@ The Python SDK currently implements these dependency-free structural adapters:
 | Semantic Kernel | preview; local exact-package and fixture conformance | `SemanticKernelPreviewAdapter` |
 | generic MCP client | implemented, local fixture conformance only | `McpSession` |
 
-`implemented` does not mean release-complete. The exact upstream versions pass the local isolated Python 3.11 public-surface harness. Protected execution, provider-backed smoke tests where appropriate, full scored paired benchmark evidence, migration/rollback rehearsal against a published package, protected-branch configuration, and completion evidence remain required by `V071_FRAMEWORK_CONNECTOR_PLAN.md`.
+`implemented` does not mean release-complete. The exact upstream versions pass the local isolated Python 3.11 public-surface harness. Protected execution, provider-backed smoke tests where appropriate, full scored paired benchmark evidence, migration/rollback rehearsal against a published package, protected-branch configuration, and completion evidence remain required before v0.7.1 can close.
 
 The base SDK has no mandatory dependency on any framework. Applications supply an object satisfying the documented structural protocol and install the framework version selected by the future support matrix.
 
