@@ -1,0 +1,7 @@
+{
+  "episode_id": "gcp-cloud-010",
+  "private_ground_truth_sha256": "7b98a3c07712764b536b2c22ad6cf46cebd56c93f77eabeb1355013b5b72470c",
+  "private_reference_query_sha256": "13018d7d1ae9ddd1f9e169cac6e41a3b551777400dc475495398126c244c522e",
+  "review_status": "pending_independent_review",
+  "schema_version": "1.0"
+}

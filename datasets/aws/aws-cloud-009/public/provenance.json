@@ -1,0 +1,22 @@
+{
+  "content_hashes": {
+    "public_classification": "bc1c5968757c195690c869de8b564ad1baf42c2f4d01776ac77340a97d2ad536",
+    "public_manifest": "cee81c091098487259f75daa698378669fb6a2df2d803f10431712e5afe2f55a",
+    "public_telemetry": "aa06d30ef0cfe086cc741881d8ce9bc82bf240aab31a29b7977cc9948a905772",
+    "source_events": "af828aca8e72024b24546aa88cf4cb550ff9d811417af3e72a7318cd506914f2"
+  },
+  "episode_id": "aws-cloud-009",
+  "event_volume_tier": "small",
+  "generation_seed": 7009,
+  "generator": "hunteval-fixture-tool",
+  "generator_version": "0.1.0",
+  "provider": "aws",
+  "schema_version": "1.0",
+  "services": [
+    "CloudTrail",
+    "IAM",
+    "STS"
+  ],
+  "source_template_sha256": "c2b0812b5cddbe3a61b412d243748eee06bb3730da4913204f258f2ca7f7715e",
+  "toolchain": "rust-1.93.1"
+}

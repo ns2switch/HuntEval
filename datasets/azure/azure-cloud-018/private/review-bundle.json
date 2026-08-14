@@ -1,0 +1,48 @@
+{
+  "schema_version": "0.6",
+  "episode_id": "azure-cloud-018",
+  "validation_result_sha256": "75c80cb9e3fe70d077d03e57bc025213deaeecc0ca457be518e4fc5a5e042e1b",
+  "review_policy_sha256": "d7b32ea129bf68b65fa612c906eb17cd3b6d97d48869a8561eec96af5bc60a0f",
+  "files": [
+    {
+      "label": "public_manifest",
+      "sha256": "88336390971f7f758e035df60592c166277144f4ef9203be9f7c88e29421bcb2",
+      "visibility": "public"
+    },
+    {
+      "label": "public_classification",
+      "sha256": "9ecdb4dea0684113f51c6756e37c0c6cf7f9e52e791c253d84204701f2748c5b",
+      "visibility": "public"
+    },
+    {
+      "label": "private_ground_truth",
+      "sha256": "bf26664956d1ecfdb0a158442e49f477de75ea6e10dfeb90e94842b17aecbbf8",
+      "visibility": "reviewer_only"
+    },
+    {
+      "label": "private_reference_query",
+      "sha256": "5fba2964cf5f9055e6e80ff905a341cc6e65d02c20f2aa112b9b0e3095292bef",
+      "visibility": "reviewer_only"
+    },
+    {
+      "label": "source_events",
+      "sha256": "7b74994a1d5ea6e4558e734bf8d18d06d4091eb1ffa8d90d7fb8b0c706f2052a",
+      "visibility": "reviewer_only"
+    },
+    {
+      "label": "private_provenance",
+      "sha256": "769eca1680ded55818e4b6e5e94781f332b1b7dfcb0b681193be9ec3a41d3f44",
+      "visibility": "reviewer_only"
+    },
+    {
+      "label": "public_provenance",
+      "sha256": "574c2b4188f3147a3fe29efac2bef9c27d967f549822d52b11424228cef1fd42",
+      "visibility": "public"
+    },
+    {
+      "label": "public_telemetry_000",
+      "sha256": "14660ec02c8d9b53ce4f12a8b218a17748bc55a9b2799772c9232a8026b3f531",
+      "visibility": "public"
+    }
+  ]
+}

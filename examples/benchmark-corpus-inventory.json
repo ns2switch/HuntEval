@@ -1,0 +1,1576 @@
+{
+  "schema_version": "1.0",
+  "visibility": "public",
+  "baseline_only": false,
+  "summary": {
+    "episode_count": 54,
+    "providers": {
+      "aws": 18,
+      "azure": 18,
+      "gcp": 18
+    },
+    "difficulty": {
+      "advanced": 12,
+      "intermediate": 21,
+      "introductory": 12,
+      "unavailable": 9
+    },
+    "event_volume_tiers": {
+      "large": 12,
+      "medium": 12,
+      "small": 30
+    },
+    "multi_stage_episodes": 30,
+    "cross_boundary_episodes": 16
+  },
+  "episodes": [
+    {
+      "episode_id": "aws-cloud-007",
+      "provider": "aws",
+      "category": "administrative_activity_review",
+      "difficulty": "introductory",
+      "required_capabilities": [
+        "identity_analysis",
+        "benign_disambiguation",
+        "evidence_correlation"
+      ],
+      "investigation_shapes": [
+        "single_stage",
+        "ambiguous_alternative"
+      ],
+      "telemetry_tables": [
+        "aws_cloudtrail"
+      ],
+      "cloud_services": [
+        "CloudTrail",
+        "IAM",
+        "STS"
+      ],
+      "event_count": 16,
+      "event_volume_tier": "small",
+      "investigation_duration_minutes": 30,
+      "boundary_type": "single_scope",
+      "boundary_count": 1,
+      "classification_available": true
+    },
+    {
+      "episode_id": "aws-cloud-008",
+      "provider": "aws",
+      "category": "automation_activity_review",
+      "difficulty": "introductory",
+      "required_capabilities": [
+        "identity_analysis",
+        "cross_boundary_correlation",
+        "benign_disambiguation",
+        "evidence_correlation"
+      ],
+      "investigation_shapes": [
+        "single_stage",
+        "cross_boundary",
+        "ambiguous_alternative"
+      ],
+      "telemetry_tables": [
+        "aws_cloudtrail"
+      ],
+      "cloud_services": [
+        "CloudTrail",
+        "IAM",
+        "STS"
+      ],
+      "event_count": 16,
+      "event_volume_tier": "small",
+      "investigation_duration_minutes": 30,
+      "boundary_type": "cross_scope",
+      "boundary_count": 2,
+      "classification_available": true
+    },
+    {
+      "episode_id": "aws-cloud-009",
+      "provider": "aws",
+      "category": "credential_activity_review",
+      "difficulty": "introductory",
+      "required_capabilities": [
+        "identity_analysis",
+        "evidence_correlation"
+      ],
+      "investigation_shapes": [
+        "single_stage",
+        "ambiguous_alternative"
+      ],
+      "telemetry_tables": [
+        "aws_cloudtrail"
+      ],
+      "cloud_services": [
+        "CloudTrail",
+        "IAM",
+        "STS"
+      ],
+      "event_count": 16,
+      "event_volume_tier": "small",
+      "investigation_duration_minutes": 30,
+      "boundary_type": "single_scope",
+      "boundary_count": 1,
+      "classification_available": true
+    },
+    {
+      "episode_id": "aws-cloud-010",
+      "provider": "aws",
+      "category": "permission_change_review",
+      "difficulty": "introductory",
+      "required_capabilities": [
+        "identity_analysis",
+        "evidence_correlation"
+      ],
+      "investigation_shapes": [
+        "single_stage",
+        "ambiguous_alternative"
+      ],
+      "telemetry_tables": [
+        "aws_cloudtrail"
+      ],
+      "cloud_services": [
+        "CloudTrail",
+        "IAM",
+        "STS"
+      ],
+      "event_count": 16,
+      "event_volume_tier": "small",
+      "investigation_duration_minutes": 30,
+      "boundary_type": "single_scope",
+      "boundary_count": 1,
+      "classification_available": true
+    },
+    {
+      "episode_id": "aws-cloud-011",
+      "provider": "aws",
+      "category": "credential_persistence_review",
+      "difficulty": "intermediate",
+      "required_capabilities": [
+        "identity_analysis",
+        "timeline_reconstruction",
+        "attack_path_analysis",
+        "evidence_correlation"
+      ],
+      "investigation_shapes": [
+        "multi_stage",
+        "ambiguous_alternative"
+      ],
+      "telemetry_tables": [
+        "aws_cloudtrail"
+      ],
+      "cloud_services": [
+        "CloudTrail",
+        "IAM",
+        "STS"
+      ],
+      "event_count": 28,
+      "event_volume_tier": "medium",
+      "investigation_duration_minutes": 135,
+      "boundary_type": "single_scope",
+      "boundary_count": 1,
+      "classification_available": true
+    },
+    {
+      "episode_id": "aws-cloud-012",
+      "provider": "aws",
+      "category": "boundary_role_activity",
+      "difficulty": "advanced",
+      "required_capabilities": [
+        "identity_analysis",
+        "timeline_reconstruction",
+        "cross_boundary_correlation",
+        "attack_path_analysis",
+        "evidence_correlation"
+      ],
+      "investigation_shapes": [
+        "multi_stage",
+        "cross_boundary",
+        "ambiguous_alternative"
+      ],
+      "telemetry_tables": [
+        "aws_cloudtrail"
+      ],
+      "cloud_services": [
+        "CloudTrail",
+        "IAM",
+        "STS",
+        "Organizations"
+      ],
+      "event_count": 40,
+      "event_volume_tier": "large",
+      "investigation_duration_minutes": 390,
+      "boundary_type": "cross_scope",
+      "boundary_count": 2,
+      "classification_available": true
+    },
+    {
+      "episode_id": "aws-cloud-013",
+      "provider": "aws",
+      "category": "boundary_data_activity",
+      "difficulty": "intermediate",
+      "required_capabilities": [
+        "identity_analysis",
+        "timeline_reconstruction",
+        "cross_boundary_correlation",
+        "attack_path_analysis",
+        "evidence_correlation"
+      ],
+      "investigation_shapes": [
+        "multi_stage",
+        "cross_boundary",
+        "ambiguous_alternative"
+      ],
+      "telemetry_tables": [
+        "aws_cloudtrail"
+      ],
+      "cloud_services": [
+        "CloudTrail",
+        "STS",
+        "S3",
+        "KMS"
+      ],
+      "event_count": 40,
+      "event_volume_tier": "large",
+      "investigation_duration_minutes": 390,
+      "boundary_type": "cross_scope",
+      "boundary_count": 2,
+      "classification_available": true
+    },
+    {
+      "episode_id": "aws-cloud-014",
+      "provider": "aws",
+      "category": "secret_access_review",
+      "difficulty": "intermediate",
+      "required_capabilities": [
+        "identity_analysis",
+        "timeline_reconstruction",
+        "attack_path_analysis",
+        "evidence_correlation"
+      ],
+      "investigation_shapes": [
+        "multi_stage",
+        "ambiguous_alternative"
+      ],
+      "telemetry_tables": [
+        "aws_cloudtrail"
+      ],
+      "cloud_services": [
+        "CloudTrail",
+        "IAM",
+        "SecretsManager"
+      ],
+      "event_count": 28,
+      "event_volume_tier": "medium",
+      "investigation_duration_minutes": 135,
+      "boundary_type": "single_scope",
+      "boundary_count": 1,
+      "classification_available": true
+    },
+    {
+      "episode_id": "aws-cloud-015",
+      "provider": "aws",
+      "category": "key_usage_review",
+      "difficulty": "intermediate",
+      "required_capabilities": [
+        "identity_analysis",
+        "timeline_reconstruction",
+        "attack_path_analysis",
+        "evidence_correlation"
+      ],
+      "investigation_shapes": [
+        "multi_stage",
+        "ambiguous_alternative"
+      ],
+      "telemetry_tables": [
+        "aws_cloudtrail"
+      ],
+      "cloud_services": [
+        "CloudTrail",
+        "IAM",
+        "KMS"
+      ],
+      "event_count": 28,
+      "event_volume_tier": "medium",
+      "investigation_duration_minutes": 135,
+      "boundary_type": "single_scope",
+      "boundary_count": 1,
+      "classification_available": true
+    },
+    {
+      "episode_id": "aws-cloud-016",
+      "provider": "aws",
+      "category": "storage_access_review",
+      "difficulty": "intermediate",
+      "required_capabilities": [
+        "timeline_reconstruction",
+        "attack_path_analysis",
+        "evidence_correlation"
+      ],
+      "investigation_shapes": [
+        "multi_stage",
+        "ambiguous_alternative"
+      ],
+      "telemetry_tables": [
+        "aws_cloudtrail"
+      ],
+      "cloud_services": [
+        "CloudTrail",
+        "S3"
+      ],
+      "event_count": 28,
+      "event_volume_tier": "medium",
+      "investigation_duration_minutes": 135,
+      "boundary_type": "single_scope",
+      "boundary_count": 1,
+      "classification_available": true
+    },
+    {
+      "episode_id": "aws-cloud-017",
+      "provider": "aws",
+      "category": "serverless_control_review",
+      "difficulty": "intermediate",
+      "required_capabilities": [
+        "timeline_reconstruction",
+        "attack_path_analysis",
+        "evidence_correlation"
+      ],
+      "investigation_shapes": [
+        "multi_stage",
+        "ambiguous_alternative"
+      ],
+      "telemetry_tables": [
+        "aws_cloudtrail"
+      ],
+      "cloud_services": [
+        "CloudTrail",
+        "IAM",
+        "Lambda"
+      ],
+      "event_count": 40,
+      "event_volume_tier": "large",
+      "investigation_duration_minutes": 390,
+      "boundary_type": "single_scope",
+      "boundary_count": 1,
+      "classification_available": true
+    },
+    {
+      "episode_id": "aws-cloud-018",
+      "provider": "aws",
+      "category": "container_control_review",
+      "difficulty": "advanced",
+      "required_capabilities": [
+        "identity_analysis",
+        "timeline_reconstruction",
+        "cross_boundary_correlation",
+        "attack_path_analysis",
+        "evidence_correlation"
+      ],
+      "investigation_shapes": [
+        "multi_stage",
+        "cross_boundary",
+        "ambiguous_alternative"
+      ],
+      "telemetry_tables": [
+        "aws_cloudtrail"
+      ],
+      "cloud_services": [
+        "CloudTrail",
+        "IAM",
+        "EKS"
+      ],
+      "event_count": 40,
+      "event_volume_tier": "large",
+      "investigation_duration_minutes": 390,
+      "boundary_type": "cross_scope",
+      "boundary_count": 2,
+      "classification_available": true
+    },
+    {
+      "episode_id": "aws-iam-001",
+      "provider": "aws",
+      "category": "identity_and_access",
+      "difficulty": "unavailable",
+      "required_capabilities": [],
+      "investigation_shapes": [],
+      "telemetry_tables": [
+        "aws_cloudtrail"
+      ],
+      "cloud_services": [
+        "CloudTrail",
+        "IAM",
+        "STS"
+      ],
+      "event_count": 10,
+      "event_volume_tier": "small",
+      "investigation_duration_minutes": 75,
+      "boundary_type": "cross_scope",
+      "boundary_count": 2,
+      "classification_available": false
+    },
+    {
+      "episode_id": "aws-iam-002",
+      "provider": "aws",
+      "category": "privilege_escalation",
+      "difficulty": "unavailable",
+      "required_capabilities": [],
+      "investigation_shapes": [],
+      "telemetry_tables": [
+        "aws_cloudtrail"
+      ],
+      "cloud_services": [
+        "CloudTrail",
+        "IAM",
+        "STS"
+      ],
+      "event_count": 6,
+      "event_volume_tier": "small",
+      "investigation_duration_minutes": 5,
+      "boundary_type": "single_scope",
+      "boundary_count": 1,
+      "classification_available": false
+    },
+    {
+      "episode_id": "aws-iam-003",
+      "provider": "aws",
+      "category": "persistence_credential_creation",
+      "difficulty": "unavailable",
+      "required_capabilities": [],
+      "investigation_shapes": [],
+      "telemetry_tables": [
+        "aws_cloudtrail"
+      ],
+      "cloud_services": [
+        "CloudTrail",
+        "IAM",
+        "STS"
+      ],
+      "event_count": 6,
+      "event_volume_tier": "small",
+      "investigation_duration_minutes": 5,
+      "boundary_type": "single_scope",
+      "boundary_count": 1,
+      "classification_available": false
+    },
+    {
+      "episode_id": "aws-iam-004",
+      "provider": "aws",
+      "category": "identity_activity_review",
+      "difficulty": "intermediate",
+      "required_capabilities": [
+        "identity_analysis",
+        "benign_disambiguation"
+      ],
+      "investigation_shapes": [
+        "single_stage",
+        "ambiguous_alternative"
+      ],
+      "telemetry_tables": [
+        "aws_cloudtrail"
+      ],
+      "cloud_services": [
+        "CloudTrail",
+        "IAM",
+        "STS"
+      ],
+      "event_count": 6,
+      "event_volume_tier": "small",
+      "investigation_duration_minutes": 5,
+      "boundary_type": "single_scope",
+      "boundary_count": 1,
+      "classification_available": true
+    },
+    {
+      "episode_id": "aws-iam-005",
+      "provider": "aws",
+      "category": "multi_stage_identity_attack",
+      "difficulty": "advanced",
+      "required_capabilities": [
+        "identity_analysis",
+        "timeline_reconstruction",
+        "attack_path_analysis",
+        "evidence_correlation"
+      ],
+      "investigation_shapes": [
+        "multi_stage",
+        "ambiguous_alternative"
+      ],
+      "telemetry_tables": [
+        "aws_cloudtrail"
+      ],
+      "cloud_services": [
+        "CloudTrail",
+        "IAM",
+        "STS"
+      ],
+      "event_count": 8,
+      "event_volume_tier": "small",
+      "investigation_duration_minutes": 7,
+      "boundary_type": "single_scope",
+      "boundary_count": 1,
+      "classification_available": true
+    },
+    {
+      "episode_id": "aws-iam-006",
+      "provider": "aws",
+      "category": "cross_boundary_identity_attack",
+      "difficulty": "advanced",
+      "required_capabilities": [
+        "identity_analysis",
+        "timeline_reconstruction",
+        "cross_boundary_correlation",
+        "attack_path_analysis"
+      ],
+      "investigation_shapes": [
+        "multi_stage",
+        "cross_boundary",
+        "ambiguous_alternative"
+      ],
+      "telemetry_tables": [
+        "aws_cloudtrail"
+      ],
+      "cloud_services": [
+        "CloudTrail",
+        "IAM",
+        "STS"
+      ],
+      "event_count": 8,
+      "event_volume_tier": "small",
+      "investigation_duration_minutes": 7,
+      "boundary_type": "cross_scope",
+      "boundary_count": 2,
+      "classification_available": true
+    },
+    {
+      "episode_id": "azure-cloud-007",
+      "provider": "azure",
+      "category": "administrative_activity_review",
+      "difficulty": "introductory",
+      "required_capabilities": [
+        "identity_analysis",
+        "benign_disambiguation",
+        "evidence_correlation"
+      ],
+      "investigation_shapes": [
+        "single_stage",
+        "ambiguous_alternative"
+      ],
+      "telemetry_tables": [
+        "azure_activity"
+      ],
+      "cloud_services": [
+        "EntraID",
+        "AzureActivity",
+        "RBAC"
+      ],
+      "event_count": 16,
+      "event_volume_tier": "small",
+      "investigation_duration_minutes": 30,
+      "boundary_type": "single_scope",
+      "boundary_count": 1,
+      "classification_available": true
+    },
+    {
+      "episode_id": "azure-cloud-008",
+      "provider": "azure",
+      "category": "automation_activity_review",
+      "difficulty": "introductory",
+      "required_capabilities": [
+        "identity_analysis",
+        "cross_boundary_correlation",
+        "benign_disambiguation",
+        "evidence_correlation"
+      ],
+      "investigation_shapes": [
+        "single_stage",
+        "cross_boundary",
+        "ambiguous_alternative"
+      ],
+      "telemetry_tables": [
+        "azure_activity"
+      ],
+      "cloud_services": [
+        "EntraID",
+        "AzureActivity",
+        "RBAC"
+      ],
+      "event_count": 16,
+      "event_volume_tier": "small",
+      "investigation_duration_minutes": 30,
+      "boundary_type": "cross_scope",
+      "boundary_count": 2,
+      "classification_available": true
+    },
+    {
+      "episode_id": "azure-cloud-009",
+      "provider": "azure",
+      "category": "credential_activity_review",
+      "difficulty": "introductory",
+      "required_capabilities": [
+        "identity_analysis",
+        "evidence_correlation"
+      ],
+      "investigation_shapes": [
+        "single_stage",
+        "ambiguous_alternative"
+      ],
+      "telemetry_tables": [
+        "azure_activity"
+      ],
+      "cloud_services": [
+        "EntraID",
+        "AzureActivity",
+        "RBAC"
+      ],
+      "event_count": 16,
+      "event_volume_tier": "small",
+      "investigation_duration_minutes": 30,
+      "boundary_type": "single_scope",
+      "boundary_count": 1,
+      "classification_available": true
+    },
+    {
+      "episode_id": "azure-cloud-010",
+      "provider": "azure",
+      "category": "permission_change_review",
+      "difficulty": "introductory",
+      "required_capabilities": [
+        "identity_analysis",
+        "evidence_correlation"
+      ],
+      "investigation_shapes": [
+        "single_stage",
+        "ambiguous_alternative"
+      ],
+      "telemetry_tables": [
+        "azure_activity"
+      ],
+      "cloud_services": [
+        "EntraID",
+        "AzureActivity",
+        "RBAC"
+      ],
+      "event_count": 16,
+      "event_volume_tier": "small",
+      "investigation_duration_minutes": 30,
+      "boundary_type": "single_scope",
+      "boundary_count": 1,
+      "classification_available": true
+    },
+    {
+      "episode_id": "azure-cloud-011",
+      "provider": "azure",
+      "category": "credential_persistence_review",
+      "difficulty": "intermediate",
+      "required_capabilities": [
+        "identity_analysis",
+        "timeline_reconstruction",
+        "attack_path_analysis",
+        "evidence_correlation"
+      ],
+      "investigation_shapes": [
+        "multi_stage",
+        "ambiguous_alternative"
+      ],
+      "telemetry_tables": [
+        "azure_activity"
+      ],
+      "cloud_services": [
+        "EntraID",
+        "AzureActivity",
+        "RBAC"
+      ],
+      "event_count": 28,
+      "event_volume_tier": "medium",
+      "investigation_duration_minutes": 135,
+      "boundary_type": "single_scope",
+      "boundary_count": 1,
+      "classification_available": true
+    },
+    {
+      "episode_id": "azure-cloud-012",
+      "provider": "azure",
+      "category": "boundary_role_activity",
+      "difficulty": "advanced",
+      "required_capabilities": [
+        "identity_analysis",
+        "timeline_reconstruction",
+        "cross_boundary_correlation",
+        "attack_path_analysis",
+        "evidence_correlation"
+      ],
+      "investigation_shapes": [
+        "multi_stage",
+        "cross_boundary",
+        "ambiguous_alternative"
+      ],
+      "telemetry_tables": [
+        "azure_activity"
+      ],
+      "cloud_services": [
+        "EntraID",
+        "AzureActivity",
+        "RBAC",
+        "ManagedIdentity"
+      ],
+      "event_count": 40,
+      "event_volume_tier": "large",
+      "investigation_duration_minutes": 390,
+      "boundary_type": "cross_scope",
+      "boundary_count": 2,
+      "classification_available": true
+    },
+    {
+      "episode_id": "azure-cloud-013",
+      "provider": "azure",
+      "category": "boundary_data_activity",
+      "difficulty": "intermediate",
+      "required_capabilities": [
+        "identity_analysis",
+        "timeline_reconstruction",
+        "cross_boundary_correlation",
+        "attack_path_analysis",
+        "evidence_correlation"
+      ],
+      "investigation_shapes": [
+        "multi_stage",
+        "cross_boundary",
+        "ambiguous_alternative"
+      ],
+      "telemetry_tables": [
+        "azure_activity"
+      ],
+      "cloud_services": [
+        "AzureActivity",
+        "ManagedIdentity",
+        "StorageAccounts",
+        "KeyVault"
+      ],
+      "event_count": 40,
+      "event_volume_tier": "large",
+      "investigation_duration_minutes": 390,
+      "boundary_type": "cross_scope",
+      "boundary_count": 2,
+      "classification_available": true
+    },
+    {
+      "episode_id": "azure-cloud-014",
+      "provider": "azure",
+      "category": "secret_access_review",
+      "difficulty": "intermediate",
+      "required_capabilities": [
+        "identity_analysis",
+        "timeline_reconstruction",
+        "attack_path_analysis",
+        "evidence_correlation"
+      ],
+      "investigation_shapes": [
+        "multi_stage",
+        "ambiguous_alternative"
+      ],
+      "telemetry_tables": [
+        "azure_activity"
+      ],
+      "cloud_services": [
+        "EntraID",
+        "AzureActivity",
+        "KeyVault"
+      ],
+      "event_count": 28,
+      "event_volume_tier": "medium",
+      "investigation_duration_minutes": 135,
+      "boundary_type": "single_scope",
+      "boundary_count": 1,
+      "classification_available": true
+    },
+    {
+      "episode_id": "azure-cloud-015",
+      "provider": "azure",
+      "category": "key_usage_review",
+      "difficulty": "intermediate",
+      "required_capabilities": [
+        "identity_analysis",
+        "timeline_reconstruction",
+        "attack_path_analysis",
+        "evidence_correlation"
+      ],
+      "investigation_shapes": [
+        "multi_stage",
+        "ambiguous_alternative"
+      ],
+      "telemetry_tables": [
+        "azure_activity"
+      ],
+      "cloud_services": [
+        "EntraID",
+        "AzureActivity",
+        "KeyVault"
+      ],
+      "event_count": 28,
+      "event_volume_tier": "medium",
+      "investigation_duration_minutes": 135,
+      "boundary_type": "single_scope",
+      "boundary_count": 1,
+      "classification_available": true
+    },
+    {
+      "episode_id": "azure-cloud-016",
+      "provider": "azure",
+      "category": "storage_access_review",
+      "difficulty": "intermediate",
+      "required_capabilities": [
+        "timeline_reconstruction",
+        "attack_path_analysis",
+        "evidence_correlation"
+      ],
+      "investigation_shapes": [
+        "multi_stage",
+        "ambiguous_alternative"
+      ],
+      "telemetry_tables": [
+        "azure_activity"
+      ],
+      "cloud_services": [
+        "AzureActivity",
+        "StorageAccounts"
+      ],
+      "event_count": 28,
+      "event_volume_tier": "medium",
+      "investigation_duration_minutes": 135,
+      "boundary_type": "single_scope",
+      "boundary_count": 1,
+      "classification_available": true
+    },
+    {
+      "episode_id": "azure-cloud-017",
+      "provider": "azure",
+      "category": "serverless_control_review",
+      "difficulty": "intermediate",
+      "required_capabilities": [
+        "timeline_reconstruction",
+        "attack_path_analysis",
+        "evidence_correlation"
+      ],
+      "investigation_shapes": [
+        "multi_stage",
+        "ambiguous_alternative"
+      ],
+      "telemetry_tables": [
+        "azure_activity"
+      ],
+      "cloud_services": [
+        "AzureActivity",
+        "EntraID",
+        "AzureFunctions"
+      ],
+      "event_count": 40,
+      "event_volume_tier": "large",
+      "investigation_duration_minutes": 390,
+      "boundary_type": "single_scope",
+      "boundary_count": 1,
+      "classification_available": true
+    },
+    {
+      "episode_id": "azure-cloud-018",
+      "provider": "azure",
+      "category": "container_control_review",
+      "difficulty": "advanced",
+      "required_capabilities": [
+        "identity_analysis",
+        "timeline_reconstruction",
+        "cross_boundary_correlation",
+        "attack_path_analysis",
+        "evidence_correlation"
+      ],
+      "investigation_shapes": [
+        "multi_stage",
+        "cross_boundary",
+        "ambiguous_alternative"
+      ],
+      "telemetry_tables": [
+        "azure_activity"
+      ],
+      "cloud_services": [
+        "AzureActivity",
+        "EntraID",
+        "AKS"
+      ],
+      "event_count": 40,
+      "event_volume_tier": "large",
+      "investigation_duration_minutes": 390,
+      "boundary_type": "cross_scope",
+      "boundary_count": 2,
+      "classification_available": true
+    },
+    {
+      "episode_id": "azure-iam-001",
+      "provider": "azure",
+      "category": "identity_compromise",
+      "difficulty": "unavailable",
+      "required_capabilities": [],
+      "investigation_shapes": [],
+      "telemetry_tables": [
+        "azure_activity"
+      ],
+      "cloud_services": [
+        "EntraID",
+        "AzureActivity",
+        "RBAC"
+      ],
+      "event_count": 6,
+      "event_volume_tier": "small",
+      "investigation_duration_minutes": 5,
+      "boundary_type": "single_scope",
+      "boundary_count": 1,
+      "classification_available": false
+    },
+    {
+      "episode_id": "azure-iam-002",
+      "provider": "azure",
+      "category": "privilege_escalation",
+      "difficulty": "unavailable",
+      "required_capabilities": [],
+      "investigation_shapes": [],
+      "telemetry_tables": [
+        "azure_activity"
+      ],
+      "cloud_services": [
+        "EntraID",
+        "AzureActivity",
+        "RBAC"
+      ],
+      "event_count": 6,
+      "event_volume_tier": "small",
+      "investigation_duration_minutes": 5,
+      "boundary_type": "single_scope",
+      "boundary_count": 1,
+      "classification_available": false
+    },
+    {
+      "episode_id": "azure-iam-003",
+      "provider": "azure",
+      "category": "persistence_credential_creation",
+      "difficulty": "unavailable",
+      "required_capabilities": [],
+      "investigation_shapes": [],
+      "telemetry_tables": [
+        "azure_activity"
+      ],
+      "cloud_services": [
+        "EntraID",
+        "AzureActivity",
+        "RBAC"
+      ],
+      "event_count": 6,
+      "event_volume_tier": "small",
+      "investigation_duration_minutes": 5,
+      "boundary_type": "single_scope",
+      "boundary_count": 1,
+      "classification_available": false
+    },
+    {
+      "episode_id": "azure-iam-004",
+      "provider": "azure",
+      "category": "identity_activity_review",
+      "difficulty": "intermediate",
+      "required_capabilities": [
+        "identity_analysis",
+        "benign_disambiguation"
+      ],
+      "investigation_shapes": [
+        "single_stage",
+        "ambiguous_alternative"
+      ],
+      "telemetry_tables": [
+        "azure_activity"
+      ],
+      "cloud_services": [
+        "EntraID",
+        "AzureActivity",
+        "RBAC"
+      ],
+      "event_count": 6,
+      "event_volume_tier": "small",
+      "investigation_duration_minutes": 5,
+      "boundary_type": "single_scope",
+      "boundary_count": 1,
+      "classification_available": true
+    },
+    {
+      "episode_id": "azure-iam-005",
+      "provider": "azure",
+      "category": "multi_stage_identity_attack",
+      "difficulty": "advanced",
+      "required_capabilities": [
+        "identity_analysis",
+        "timeline_reconstruction",
+        "attack_path_analysis",
+        "evidence_correlation"
+      ],
+      "investigation_shapes": [
+        "multi_stage",
+        "ambiguous_alternative"
+      ],
+      "telemetry_tables": [
+        "azure_activity"
+      ],
+      "cloud_services": [
+        "EntraID",
+        "AzureActivity",
+        "RBAC"
+      ],
+      "event_count": 8,
+      "event_volume_tier": "small",
+      "investigation_duration_minutes": 7,
+      "boundary_type": "single_scope",
+      "boundary_count": 1,
+      "classification_available": true
+    },
+    {
+      "episode_id": "azure-iam-006",
+      "provider": "azure",
+      "category": "cross_boundary_identity_attack",
+      "difficulty": "advanced",
+      "required_capabilities": [
+        "identity_analysis",
+        "timeline_reconstruction",
+        "cross_boundary_correlation",
+        "attack_path_analysis"
+      ],
+      "investigation_shapes": [
+        "multi_stage",
+        "cross_boundary",
+        "ambiguous_alternative"
+      ],
+      "telemetry_tables": [
+        "azure_activity"
+      ],
+      "cloud_services": [
+        "EntraID",
+        "AzureActivity",
+        "RBAC"
+      ],
+      "event_count": 8,
+      "event_volume_tier": "small",
+      "investigation_duration_minutes": 7,
+      "boundary_type": "cross_scope",
+      "boundary_count": 2,
+      "classification_available": true
+    },
+    {
+      "episode_id": "gcp-cloud-007",
+      "provider": "gcp",
+      "category": "administrative_activity_review",
+      "difficulty": "introductory",
+      "required_capabilities": [
+        "identity_analysis",
+        "benign_disambiguation",
+        "evidence_correlation"
+      ],
+      "investigation_shapes": [
+        "single_stage",
+        "ambiguous_alternative"
+      ],
+      "telemetry_tables": [
+        "gcp_audit"
+      ],
+      "cloud_services": [
+        "CloudAuditLogs",
+        "IAM",
+        "ServiceAccounts"
+      ],
+      "event_count": 16,
+      "event_volume_tier": "small",
+      "investigation_duration_minutes": 30,
+      "boundary_type": "single_scope",
+      "boundary_count": 1,
+      "classification_available": true
+    },
+    {
+      "episode_id": "gcp-cloud-008",
+      "provider": "gcp",
+      "category": "automation_activity_review",
+      "difficulty": "introductory",
+      "required_capabilities": [
+        "identity_analysis",
+        "cross_boundary_correlation",
+        "benign_disambiguation",
+        "evidence_correlation"
+      ],
+      "investigation_shapes": [
+        "single_stage",
+        "cross_boundary",
+        "ambiguous_alternative"
+      ],
+      "telemetry_tables": [
+        "gcp_audit"
+      ],
+      "cloud_services": [
+        "CloudAuditLogs",
+        "IAM",
+        "ServiceAccounts"
+      ],
+      "event_count": 16,
+      "event_volume_tier": "small",
+      "investigation_duration_minutes": 30,
+      "boundary_type": "cross_scope",
+      "boundary_count": 2,
+      "classification_available": true
+    },
+    {
+      "episode_id": "gcp-cloud-009",
+      "provider": "gcp",
+      "category": "credential_activity_review",
+      "difficulty": "introductory",
+      "required_capabilities": [
+        "identity_analysis",
+        "evidence_correlation"
+      ],
+      "investigation_shapes": [
+        "single_stage",
+        "ambiguous_alternative"
+      ],
+      "telemetry_tables": [
+        "gcp_audit"
+      ],
+      "cloud_services": [
+        "CloudAuditLogs",
+        "IAM",
+        "ServiceAccounts"
+      ],
+      "event_count": 16,
+      "event_volume_tier": "small",
+      "investigation_duration_minutes": 30,
+      "boundary_type": "single_scope",
+      "boundary_count": 1,
+      "classification_available": true
+    },
+    {
+      "episode_id": "gcp-cloud-010",
+      "provider": "gcp",
+      "category": "permission_change_review",
+      "difficulty": "introductory",
+      "required_capabilities": [
+        "identity_analysis",
+        "evidence_correlation"
+      ],
+      "investigation_shapes": [
+        "single_stage",
+        "ambiguous_alternative"
+      ],
+      "telemetry_tables": [
+        "gcp_audit"
+      ],
+      "cloud_services": [
+        "CloudAuditLogs",
+        "IAM",
+        "ServiceAccounts"
+      ],
+      "event_count": 16,
+      "event_volume_tier": "small",
+      "investigation_duration_minutes": 30,
+      "boundary_type": "single_scope",
+      "boundary_count": 1,
+      "classification_available": true
+    },
+    {
+      "episode_id": "gcp-cloud-011",
+      "provider": "gcp",
+      "category": "credential_persistence_review",
+      "difficulty": "intermediate",
+      "required_capabilities": [
+        "identity_analysis",
+        "timeline_reconstruction",
+        "attack_path_analysis",
+        "evidence_correlation"
+      ],
+      "investigation_shapes": [
+        "multi_stage",
+        "ambiguous_alternative"
+      ],
+      "telemetry_tables": [
+        "gcp_audit"
+      ],
+      "cloud_services": [
+        "CloudAuditLogs",
+        "IAM",
+        "ServiceAccounts"
+      ],
+      "event_count": 28,
+      "event_volume_tier": "medium",
+      "investigation_duration_minutes": 135,
+      "boundary_type": "single_scope",
+      "boundary_count": 1,
+      "classification_available": true
+    },
+    {
+      "episode_id": "gcp-cloud-012",
+      "provider": "gcp",
+      "category": "boundary_role_activity",
+      "difficulty": "advanced",
+      "required_capabilities": [
+        "identity_analysis",
+        "timeline_reconstruction",
+        "cross_boundary_correlation",
+        "attack_path_analysis",
+        "evidence_correlation"
+      ],
+      "investigation_shapes": [
+        "multi_stage",
+        "cross_boundary",
+        "ambiguous_alternative"
+      ],
+      "telemetry_tables": [
+        "gcp_audit"
+      ],
+      "cloud_services": [
+        "CloudAuditLogs",
+        "IAM",
+        "ServiceAccountCredentials"
+      ],
+      "event_count": 40,
+      "event_volume_tier": "large",
+      "investigation_duration_minutes": 390,
+      "boundary_type": "cross_scope",
+      "boundary_count": 2,
+      "classification_available": true
+    },
+    {
+      "episode_id": "gcp-cloud-013",
+      "provider": "gcp",
+      "category": "boundary_data_activity",
+      "difficulty": "intermediate",
+      "required_capabilities": [
+        "identity_analysis",
+        "timeline_reconstruction",
+        "cross_boundary_correlation",
+        "attack_path_analysis",
+        "evidence_correlation"
+      ],
+      "investigation_shapes": [
+        "multi_stage",
+        "cross_boundary",
+        "ambiguous_alternative"
+      ],
+      "telemetry_tables": [
+        "gcp_audit"
+      ],
+      "cloud_services": [
+        "CloudAuditLogs",
+        "IAM",
+        "CloudStorage",
+        "CloudKMS"
+      ],
+      "event_count": 40,
+      "event_volume_tier": "large",
+      "investigation_duration_minutes": 390,
+      "boundary_type": "cross_scope",
+      "boundary_count": 2,
+      "classification_available": true
+    },
+    {
+      "episode_id": "gcp-cloud-014",
+      "provider": "gcp",
+      "category": "secret_access_review",
+      "difficulty": "intermediate",
+      "required_capabilities": [
+        "identity_analysis",
+        "timeline_reconstruction",
+        "attack_path_analysis",
+        "evidence_correlation"
+      ],
+      "investigation_shapes": [
+        "multi_stage",
+        "ambiguous_alternative"
+      ],
+      "telemetry_tables": [
+        "gcp_audit"
+      ],
+      "cloud_services": [
+        "CloudAuditLogs",
+        "IAM",
+        "SecretManager"
+      ],
+      "event_count": 28,
+      "event_volume_tier": "medium",
+      "investigation_duration_minutes": 135,
+      "boundary_type": "single_scope",
+      "boundary_count": 1,
+      "classification_available": true
+    },
+    {
+      "episode_id": "gcp-cloud-015",
+      "provider": "gcp",
+      "category": "key_usage_review",
+      "difficulty": "intermediate",
+      "required_capabilities": [
+        "identity_analysis",
+        "timeline_reconstruction",
+        "attack_path_analysis",
+        "evidence_correlation"
+      ],
+      "investigation_shapes": [
+        "multi_stage",
+        "ambiguous_alternative"
+      ],
+      "telemetry_tables": [
+        "gcp_audit"
+      ],
+      "cloud_services": [
+        "CloudAuditLogs",
+        "IAM",
+        "CloudKMS"
+      ],
+      "event_count": 28,
+      "event_volume_tier": "medium",
+      "investigation_duration_minutes": 135,
+      "boundary_type": "single_scope",
+      "boundary_count": 1,
+      "classification_available": true
+    },
+    {
+      "episode_id": "gcp-cloud-016",
+      "provider": "gcp",
+      "category": "storage_access_review",
+      "difficulty": "intermediate",
+      "required_capabilities": [
+        "timeline_reconstruction",
+        "attack_path_analysis",
+        "evidence_correlation"
+      ],
+      "investigation_shapes": [
+        "multi_stage",
+        "ambiguous_alternative"
+      ],
+      "telemetry_tables": [
+        "gcp_audit"
+      ],
+      "cloud_services": [
+        "CloudAuditLogs",
+        "CloudStorage"
+      ],
+      "event_count": 28,
+      "event_volume_tier": "medium",
+      "investigation_duration_minutes": 135,
+      "boundary_type": "single_scope",
+      "boundary_count": 1,
+      "classification_available": true
+    },
+    {
+      "episode_id": "gcp-cloud-017",
+      "provider": "gcp",
+      "category": "serverless_control_review",
+      "difficulty": "intermediate",
+      "required_capabilities": [
+        "timeline_reconstruction",
+        "attack_path_analysis",
+        "evidence_correlation"
+      ],
+      "investigation_shapes": [
+        "multi_stage",
+        "ambiguous_alternative"
+      ],
+      "telemetry_tables": [
+        "gcp_audit"
+      ],
+      "cloud_services": [
+        "CloudAuditLogs",
+        "IAM",
+        "CloudFunctions",
+        "CloudRun"
+      ],
+      "event_count": 40,
+      "event_volume_tier": "large",
+      "investigation_duration_minutes": 390,
+      "boundary_type": "single_scope",
+      "boundary_count": 1,
+      "classification_available": true
+    },
+    {
+      "episode_id": "gcp-cloud-018",
+      "provider": "gcp",
+      "category": "container_control_review",
+      "difficulty": "advanced",
+      "required_capabilities": [
+        "identity_analysis",
+        "timeline_reconstruction",
+        "cross_boundary_correlation",
+        "attack_path_analysis",
+        "evidence_correlation"
+      ],
+      "investigation_shapes": [
+        "multi_stage",
+        "cross_boundary",
+        "ambiguous_alternative"
+      ],
+      "telemetry_tables": [
+        "gcp_audit"
+      ],
+      "cloud_services": [
+        "CloudAuditLogs",
+        "IAM",
+        "GKE"
+      ],
+      "event_count": 40,
+      "event_volume_tier": "large",
+      "investigation_duration_minutes": 390,
+      "boundary_type": "cross_scope",
+      "boundary_count": 2,
+      "classification_available": true
+    },
+    {
+      "episode_id": "gcp-iam-001",
+      "provider": "gcp",
+      "category": "identity_compromise",
+      "difficulty": "unavailable",
+      "required_capabilities": [],
+      "investigation_shapes": [],
+      "telemetry_tables": [
+        "gcp_audit"
+      ],
+      "cloud_services": [
+        "CloudAuditLogs",
+        "IAM",
+        "ServiceAccounts"
+      ],
+      "event_count": 6,
+      "event_volume_tier": "small",
+      "investigation_duration_minutes": 5,
+      "boundary_type": "single_scope",
+      "boundary_count": 1,
+      "classification_available": false
+    },
+    {
+      "episode_id": "gcp-iam-002",
+      "provider": "gcp",
+      "category": "privilege_escalation",
+      "difficulty": "unavailable",
+      "required_capabilities": [],
+      "investigation_shapes": [],
+      "telemetry_tables": [
+        "gcp_audit"
+      ],
+      "cloud_services": [
+        "CloudAuditLogs",
+        "IAM",
+        "ServiceAccounts"
+      ],
+      "event_count": 6,
+      "event_volume_tier": "small",
+      "investigation_duration_minutes": 5,
+      "boundary_type": "single_scope",
+      "boundary_count": 1,
+      "classification_available": false
+    },
+    {
+      "episode_id": "gcp-iam-003",
+      "provider": "gcp",
+      "category": "persistence_credential_creation",
+      "difficulty": "unavailable",
+      "required_capabilities": [],
+      "investigation_shapes": [],
+      "telemetry_tables": [
+        "gcp_audit"
+      ],
+      "cloud_services": [
+        "CloudAuditLogs",
+        "IAM",
+        "ServiceAccounts"
+      ],
+      "event_count": 6,
+      "event_volume_tier": "small",
+      "investigation_duration_minutes": 5,
+      "boundary_type": "single_scope",
+      "boundary_count": 1,
+      "classification_available": false
+    },
+    {
+      "episode_id": "gcp-iam-004",
+      "provider": "gcp",
+      "category": "identity_activity_review",
+      "difficulty": "intermediate",
+      "required_capabilities": [
+        "identity_analysis",
+        "benign_disambiguation"
+      ],
+      "investigation_shapes": [
+        "single_stage",
+        "ambiguous_alternative"
+      ],
+      "telemetry_tables": [
+        "gcp_audit"
+      ],
+      "cloud_services": [
+        "CloudAuditLogs",
+        "IAM",
+        "ServiceAccounts"
+      ],
+      "event_count": 6,
+      "event_volume_tier": "small",
+      "investigation_duration_minutes": 5,
+      "boundary_type": "single_scope",
+      "boundary_count": 1,
+      "classification_available": true
+    },
+    {
+      "episode_id": "gcp-iam-005",
+      "provider": "gcp",
+      "category": "multi_stage_identity_attack",
+      "difficulty": "advanced",
+      "required_capabilities": [
+        "identity_analysis",
+        "timeline_reconstruction",
+        "attack_path_analysis",
+        "evidence_correlation"
+      ],
+      "investigation_shapes": [
+        "multi_stage",
+        "ambiguous_alternative"
+      ],
+      "telemetry_tables": [
+        "gcp_audit"
+      ],
+      "cloud_services": [
+        "CloudAuditLogs",
+        "IAM",
+        "ServiceAccounts"
+      ],
+      "event_count": 8,
+      "event_volume_tier": "small",
+      "investigation_duration_minutes": 7,
+      "boundary_type": "single_scope",
+      "boundary_count": 1,
+      "classification_available": true
+    },
+    {
+      "episode_id": "gcp-iam-006",
+      "provider": "gcp",
+      "category": "cross_boundary_identity_attack",
+      "difficulty": "advanced",
+      "required_capabilities": [
+        "identity_analysis",
+        "timeline_reconstruction",
+        "cross_boundary_correlation",
+        "attack_path_analysis"
+      ],
+      "investigation_shapes": [
+        "multi_stage",
+        "cross_boundary",
+        "ambiguous_alternative"
+      ],
+      "telemetry_tables": [
+        "gcp_audit"
+      ],
+      "cloud_services": [
+        "CloudAuditLogs",
+        "IAM",
+        "ServiceAccounts"
+      ],
+      "event_count": 8,
+      "event_volume_tier": "small",
+      "investigation_duration_minutes": 7,
+      "boundary_type": "cross_scope",
+      "boundary_count": 2,
+      "classification_available": true
+    }
+  ]
+}

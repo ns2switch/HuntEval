@@ -26,5 +26,6 @@ Use these guides to install HuntEval, connect an agent deployment, run a benchma
 
 - [Metrics and ranking](METRICS_AND_RANKING.md)
 - [Official benchmark card](OFFICIAL_BENCHMARK_CARD.md)
+- [R8 corpus expansion plan and status](BENCHMARK_CORPUS_EXPANSION_PLAN.md)
 - [Platform compatibility](R8_COMPATIBILITY.md)
 - [Roadmap](ROADMAP.md)

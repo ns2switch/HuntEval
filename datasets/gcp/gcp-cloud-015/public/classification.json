@@ -1,0 +1,15 @@
+{
+  "capabilities": [
+    "attack_path_analysis",
+    "evidence_correlation",
+    "identity_analysis",
+    "timeline_reconstruction"
+  ],
+  "difficulty": "intermediate",
+  "episode_id": "gcp-cloud-015",
+  "investigation_shapes": [
+    "ambiguous_alternative",
+    "multi_stage"
+  ],
+  "schema_version": "0.6"
+}

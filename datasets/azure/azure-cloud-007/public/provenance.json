@@ -1,0 +1,22 @@
+{
+  "content_hashes": {
+    "public_classification": "8d0271448b45476e034ebc88ef6af5b6507dcdeec3ab9660a9efe05195bd8422",
+    "public_manifest": "361c752d147b42126dfc7d9189cb819f38ed1fa949a6c54745dfd5c352eee9d8",
+    "public_telemetry": "e29dc481cf5aeacbec3933a78a3b113433de2f12985493be53aad9b4dc9f7efb",
+    "source_events": "0856805c2e343fcfd1fcac74a6120a167f640b0538d7cb4612d8e0390abd3bf9"
+  },
+  "episode_id": "azure-cloud-007",
+  "event_volume_tier": "small",
+  "generation_seed": 7007,
+  "generator": "hunteval-fixture-tool",
+  "generator_version": "0.1.0",
+  "provider": "azure",
+  "schema_version": "1.0",
+  "services": [
+    "EntraID",
+    "AzureActivity",
+    "RBAC"
+  ],
+  "source_template_sha256": "280cee554725a2bfe53a6e0cef2cd96e6d20769823ac9bbadf55f2958b0dfe0d",
+  "toolchain": "rust-1.93.1"
+}

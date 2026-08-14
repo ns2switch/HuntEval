@@ -1,0 +1,40 @@
+{
+  "acceptable_conclusions": [
+    "The correlated control-plane sequence supports a malicious cloud activity finding."
+  ],
+  "acceptable_submission_statuses": [
+    "confirmed_malicious_activity",
+    "suspicious_activity"
+  ],
+  "episode_id": "azure-cloud-009",
+  "expected_attack_path": [
+    "evt-0006",
+    "evt-0008"
+  ],
+  "expected_attack_techniques": [
+    "T1078.004"
+  ],
+  "expected_timeline_windows": [
+    {
+      "earliest": "2026-02-11T00:10:00Z",
+      "event_id": "evt-0006",
+      "latest": "2026-02-11T00:10:00Z"
+    },
+    {
+      "earliest": "2026-02-11T00:14:00Z",
+      "event_id": "evt-0008",
+      "latest": "2026-02-11T00:14:00Z"
+    }
+  ],
+  "malicious_entity_ids": [
+    "azure-principal-investigation",
+    "azure:AzureActivity:resource-001",
+    "azure:EntraID:resource-001"
+  ],
+  "malicious_event_ids": [
+    "evt-0006",
+    "evt-0008"
+  ],
+  "minimum_evidence_items": 2,
+  "schema_version": "0.4"
+}

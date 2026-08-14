@@ -1,0 +1,178 @@
+[
+  {
+    "account_id": "aws-scope-001",
+    "event_id": "evt-0001",
+    "event_name": "ListUsers",
+    "event_time": "2026-02-10T00:00:00Z",
+    "principal": "aws-routine-operator",
+    "provider": "aws",
+    "resource": "aws:CloudTrail:resource-001",
+    "source_ip": "198.51.100.10",
+    "user_agent": "provider-console/1.0"
+  },
+  {
+    "account_id": "aws-scope-001",
+    "event_id": "evt-0002",
+    "event_name": "DescribeRegions",
+    "event_time": "2026-02-10T00:02:00Z",
+    "principal": "aws-routine-operator",
+    "provider": "aws",
+    "resource": "aws:CloudTrail:resource-001",
+    "source_ip": "198.51.100.11",
+    "user_agent": "provider-console/1.0"
+  },
+  {
+    "account_id": "aws-scope-001",
+    "event_id": "evt-0003",
+    "event_name": "GetAccountSummary",
+    "event_time": "2026-02-10T00:04:00Z",
+    "principal": "aws-routine-operator",
+    "provider": "aws",
+    "resource": "aws:CloudTrail:resource-001",
+    "source_ip": "198.51.100.12",
+    "user_agent": "provider-console/1.0"
+  },
+  {
+    "account_id": "aws-scope-001",
+    "event_id": "evt-0004",
+    "event_name": "ListBuckets",
+    "event_time": "2026-02-10T00:06:00Z",
+    "principal": "aws-routine-operator",
+    "provider": "aws",
+    "resource": "aws:CloudTrail:resource-001",
+    "source_ip": "198.51.100.13",
+    "user_agent": "provider-console/1.0"
+  },
+  {
+    "account_id": "aws-scope-001",
+    "event_id": "evt-0005",
+    "event_name": "AssumeRole",
+    "event_time": "2026-02-10T00:08:00Z",
+    "principal": "aws-authorized-automation",
+    "provider": "aws",
+    "resource": "aws:CloudTrail:resource-001",
+    "source_ip": "198.51.100.44",
+    "user_agent": "approved-automation/3.2"
+  },
+  {
+    "account_id": "aws-scope-001",
+    "event_id": "evt-0006",
+    "event_name": "ListFunctions",
+    "event_time": "2026-02-10T00:10:00Z",
+    "principal": "aws-routine-operator",
+    "provider": "aws",
+    "resource": "aws:CloudTrail:resource-001",
+    "source_ip": "198.51.100.15",
+    "user_agent": "provider-console/1.0"
+  },
+  {
+    "account_id": "aws-scope-001",
+    "event_id": "evt-0007",
+    "event_name": "ListUsers",
+    "event_time": "2026-02-10T00:12:00Z",
+    "principal": "aws-routine-operator",
+    "provider": "aws",
+    "resource": "aws:IAM:resource-001",
+    "source_ip": "198.51.100.16",
+    "user_agent": "provider-console/1.0"
+  },
+  {
+    "account_id": "aws-scope-001",
+    "event_id": "evt-0008",
+    "event_name": "DescribeRegions",
+    "event_time": "2026-02-10T00:14:00Z",
+    "principal": "aws-routine-operator",
+    "provider": "aws",
+    "resource": "aws:IAM:resource-001",
+    "source_ip": "198.51.100.17",
+    "user_agent": "provider-console/1.0"
+  },
+  {
+    "account_id": "aws-scope-002",
+    "event_id": "evt-0009",
+    "event_name": "GetAccountSummary",
+    "event_time": "2026-02-10T00:16:00Z",
+    "principal": "aws-routine-operator",
+    "provider": "aws",
+    "resource": "aws:IAM:resource-002",
+    "source_ip": "198.51.100.18",
+    "user_agent": "provider-console/1.0"
+  },
+  {
+    "account_id": "aws-scope-002",
+    "event_id": "evt-0010",
+    "event_name": "ListBuckets",
+    "event_time": "2026-02-10T00:18:00Z",
+    "principal": "aws-routine-operator",
+    "provider": "aws",
+    "resource": "aws:IAM:resource-002",
+    "source_ip": "198.51.100.19",
+    "user_agent": "provider-console/1.0"
+  },
+  {
+    "account_id": "aws-scope-002",
+    "event_id": "evt-0011",
+    "event_name": "CreateAccessKey",
+    "event_time": "2026-02-10T00:20:00Z",
+    "principal": "aws-authorized-automation",
+    "provider": "aws",
+    "resource": "aws:IAM:resource-002",
+    "source_ip": "198.51.100.44",
+    "user_agent": "approved-automation/3.2"
+  },
+  {
+    "account_id": "aws-scope-002",
+    "event_id": "evt-0012",
+    "event_name": "ListFunctions",
+    "event_time": "2026-02-10T00:22:00Z",
+    "principal": "aws-routine-operator",
+    "provider": "aws",
+    "resource": "aws:IAM:resource-002",
+    "source_ip": "198.51.100.21",
+    "user_agent": "provider-console/1.0"
+  },
+  {
+    "account_id": "aws-scope-002",
+    "event_id": "evt-0013",
+    "event_name": "ListUsers",
+    "event_time": "2026-02-10T00:24:00Z",
+    "principal": "aws-routine-operator",
+    "provider": "aws",
+    "resource": "aws:STS:resource-002",
+    "source_ip": "198.51.100.22",
+    "user_agent": "provider-console/1.0"
+  },
+  {
+    "account_id": "aws-scope-002",
+    "event_id": "evt-0014",
+    "event_name": "DescribeRegions",
+    "event_time": "2026-02-10T00:26:00Z",
+    "principal": "aws-routine-operator",
+    "provider": "aws",
+    "resource": "aws:STS:resource-002",
+    "source_ip": "198.51.100.23",
+    "user_agent": "provider-console/1.0"
+  },
+  {
+    "account_id": "aws-scope-002",
+    "event_id": "evt-0015",
+    "event_name": "GetAccountSummary",
+    "event_time": "2026-02-10T00:28:00Z",
+    "principal": "aws-routine-operator",
+    "provider": "aws",
+    "resource": "aws:STS:resource-002",
+    "source_ip": "198.51.100.24",
+    "user_agent": "provider-console/1.0"
+  },
+  {
+    "account_id": "aws-scope-002",
+    "event_id": "evt-0016",
+    "event_name": "ListBuckets",
+    "event_time": "2026-02-10T00:30:00Z",
+    "principal": "aws-routine-operator",
+    "provider": "aws",
+    "resource": "aws:STS:resource-002",
+    "source_ip": "198.51.100.25",
+    "user_agent": "provider-console/1.0"
+  }
+]

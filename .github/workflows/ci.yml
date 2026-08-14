@@ -235,6 +235,54 @@ jobs:
           if-no-files-found: error
           retention-days: 3
 
+  r8-corpus:
+    name: R8 expanded corpus
+    runs-on: ubuntu-22.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+      - name: Install pinned Rust toolchain and host capability
+        run: |
+          rustup toolchain install 1.93.1 --profile minimal --component clippy,rustfmt
+          sudo apt-get update
+          sudo apt-get install --yes bubblewrap
+      - uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
+        with:
+          path: |
+            ~/.cargo/registry/index
+            ~/.cargo/registry/cache
+            ~/.cargo/git/db
+            target
+          key: rust-ubuntu-22.04-${{ runner.os }}-${{ runner.arch }}-1.93.1-x86_64-unknown-linux-gnu-r8-corpus-${{ hashFiles('Cargo.lock') }}
+      - name: Validate and execute the expanded corpus
+        env:
+          HUNTEVAL_R8_CORPUS_OUTPUT: ${{ github.workspace }}/.ci-artifacts/r8-corpus
+        run: ./scripts/ci/r8-corpus.sh
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        if: always()
+        with:
+          name: r8-expanded-corpus-results
+          path: |
+            .ci-artifacts/r8-corpus/public-corpus-inventory.json
+            .ci-artifacts/r8-corpus/corpus-quality.json
+            .ci-artifacts/r8-corpus/corpus-quality-secret-scan.json
+            .ci-artifacts/r8-corpus/e2e/validation.json
+            .ci-artifacts/r8-corpus/e2e/run-summary.json
+            .ci-artifacts/r8-corpus/e2e/status.json
+            .ci-artifacts/r8-corpus/e2e/comparison.json
+            .ci-artifacts/r8-corpus/e2e/benchmark-report.json
+            .ci-artifacts/r8-corpus/e2e/benchmark-report.html
+            .ci-artifacts/r8-corpus/e2e/verification.json
+            .ci-artifacts/r8-corpus/e2e/run-verification.jsonl
+            .ci-artifacts/r8-corpus/e2e/generated-secret-scan.json
+            .ci-artifacts/r8-corpus/e2e/diagnostic-verification.json
+            .ci-artifacts/r8-corpus/e2e/r2-evidence.json
+            .ci-artifacts/r8-corpus/e2e/SHA256SUMS
+          if-no-files-found: error
+          retention-days: 3
+
   documentation:
     name: Documentation
     runs-on: ubuntu-22.04

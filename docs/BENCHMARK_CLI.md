@@ -14,6 +14,17 @@ target/debug/hunteval benchmark compare runs/cloud-mvp \
   --right two-agent-scripted
 ```
 
+The R8 expanded corpus remains a pre-promotion candidate while independent episode review and the additive official-pack contract decision are pending. It can be validated and exercised without changing the historical official candidate:
+
+```bash
+target/debug/hunteval benchmark validate examples/cloud-expanded-benchmark.yaml
+target/debug/hunteval benchmark run examples/cloud-expanded-benchmark.yaml \
+  --output runs/cloud-expanded-r8 \
+  --jobs 2
+```
+
+This resolves 54 episodes across three deployments and paired seeds 11 and 29, for 324 explicit cells. A successful local run does not make the expanded corpus release-eligible.
+
 `benchmark run` requires a new output directory. It resolves and hashes every matrix input before scheduling, binds the exact deployment executable into cell identity, mediates scored SQL through the isolated DuckDB worker, and writes an append-only journal. `--jobs` is bounded to 1–256. `--fail-fast` stops scheduling new batches after a failed batch without discarding unrelated terminal outcomes.
 
 An interrupted controller leaves its current attempt recoverable. Resume without retrying other failures with:

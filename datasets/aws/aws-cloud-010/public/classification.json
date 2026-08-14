@@ -1,0 +1,13 @@
+{
+  "capabilities": [
+    "evidence_correlation",
+    "identity_analysis"
+  ],
+  "difficulty": "introductory",
+  "episode_id": "aws-cloud-010",
+  "investigation_shapes": [
+    "ambiguous_alternative",
+    "single_stage"
+  ],
+  "schema_version": "0.6"
+}

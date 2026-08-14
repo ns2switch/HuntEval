@@ -1,0 +1,73 @@
+{
+  "acceptable_conclusions": [
+    "The correlated control-plane sequence supports a malicious cloud activity finding."
+  ],
+  "acceptable_submission_statuses": [
+    "confirmed_malicious_activity",
+    "suspicious_activity"
+  ],
+  "episode_id": "gcp-cloud-018",
+  "expected_attack_path": [
+    "evt-0014",
+    "evt-0016",
+    "evt-0018",
+    "evt-0020",
+    "evt-0022",
+    "evt-0024"
+  ],
+  "expected_attack_techniques": [
+    "T1078.004",
+    "T1098.006"
+  ],
+  "expected_timeline_windows": [
+    {
+      "earliest": "2026-02-12T02:10:00Z",
+      "event_id": "evt-0014",
+      "latest": "2026-02-12T02:10:00Z"
+    },
+    {
+      "earliest": "2026-02-12T02:30:00Z",
+      "event_id": "evt-0016",
+      "latest": "2026-02-12T02:30:00Z"
+    },
+    {
+      "earliest": "2026-02-12T02:50:00Z",
+      "event_id": "evt-0018",
+      "latest": "2026-02-12T02:50:00Z"
+    },
+    {
+      "earliest": "2026-02-12T03:10:00Z",
+      "event_id": "evt-0020",
+      "latest": "2026-02-12T03:10:00Z"
+    },
+    {
+      "earliest": "2026-02-12T03:30:00Z",
+      "event_id": "evt-0022",
+      "latest": "2026-02-12T03:30:00Z"
+    },
+    {
+      "earliest": "2026-02-12T03:50:00Z",
+      "event_id": "evt-0024",
+      "latest": "2026-02-12T03:50:00Z"
+    }
+  ],
+  "malicious_entity_ids": [
+    "gcp-principal-investigation",
+    "gcp:CloudAuditLogs:resource-001",
+    "gcp:CloudAuditLogs:resource-002",
+    "gcp:GKE:resource-001",
+    "gcp:GKE:resource-002",
+    "gcp:IAM:resource-001",
+    "gcp:IAM:resource-002"
+  ],
+  "malicious_event_ids": [
+    "evt-0014",
+    "evt-0016",
+    "evt-0018",
+    "evt-0020",
+    "evt-0022",
+    "evt-0024"
+  ],
+  "minimum_evidence_items": 6,
+  "schema_version": "0.4"
+}

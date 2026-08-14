@@ -1,0 +1,178 @@
+[
+  {
+    "account_id": "gcp-scope-001",
+    "event_id": "evt-0001",
+    "event_name": "ProjectsGet",
+    "event_time": "2026-02-12T00:00:00Z",
+    "principal": "gcp-routine-operator",
+    "provider": "gcp",
+    "resource": "gcp:CloudAuditLogs:resource-001",
+    "source_ip": "198.51.100.10",
+    "user_agent": "provider-console/1.0"
+  },
+  {
+    "account_id": "gcp-scope-001",
+    "event_id": "evt-0002",
+    "event_name": "ServiceAccountsList",
+    "event_time": "2026-02-12T00:02:00Z",
+    "principal": "gcp-routine-operator",
+    "provider": "gcp",
+    "resource": "gcp:CloudAuditLogs:resource-001",
+    "source_ip": "198.51.100.11",
+    "user_agent": "provider-console/1.0"
+  },
+  {
+    "account_id": "gcp-scope-001",
+    "event_id": "evt-0003",
+    "event_name": "GetIamPolicy",
+    "event_time": "2026-02-12T00:04:00Z",
+    "principal": "gcp-routine-operator",
+    "provider": "gcp",
+    "resource": "gcp:CloudAuditLogs:resource-001",
+    "source_ip": "198.51.100.12",
+    "user_agent": "provider-console/1.0"
+  },
+  {
+    "account_id": "gcp-scope-001",
+    "event_id": "evt-0004",
+    "event_name": "StorageBucketsGet",
+    "event_time": "2026-02-12T00:06:00Z",
+    "principal": "gcp-routine-operator",
+    "provider": "gcp",
+    "resource": "gcp:CloudAuditLogs:resource-001",
+    "source_ip": "198.51.100.13",
+    "user_agent": "provider-console/1.0"
+  },
+  {
+    "account_id": "gcp-scope-001",
+    "event_id": "evt-0005",
+    "event_name": "GenerateAccessToken",
+    "event_time": "2026-02-12T00:08:00Z",
+    "principal": "gcp-authorized-automation",
+    "provider": "gcp",
+    "resource": "gcp:CloudAuditLogs:resource-001",
+    "source_ip": "198.51.100.44",
+    "user_agent": "approved-automation/3.2"
+  },
+  {
+    "account_id": "gcp-scope-001",
+    "event_id": "evt-0006",
+    "event_name": "FunctionsGet",
+    "event_time": "2026-02-12T00:10:00Z",
+    "principal": "gcp-routine-operator",
+    "provider": "gcp",
+    "resource": "gcp:CloudAuditLogs:resource-001",
+    "source_ip": "198.51.100.15",
+    "user_agent": "provider-console/1.0"
+  },
+  {
+    "account_id": "gcp-scope-001",
+    "event_id": "evt-0007",
+    "event_name": "ProjectsGet",
+    "event_time": "2026-02-12T00:12:00Z",
+    "principal": "gcp-routine-operator",
+    "provider": "gcp",
+    "resource": "gcp:IAM:resource-001",
+    "source_ip": "198.51.100.16",
+    "user_agent": "provider-console/1.0"
+  },
+  {
+    "account_id": "gcp-scope-001",
+    "event_id": "evt-0008",
+    "event_name": "ServiceAccountsList",
+    "event_time": "2026-02-12T00:14:00Z",
+    "principal": "gcp-routine-operator",
+    "provider": "gcp",
+    "resource": "gcp:IAM:resource-001",
+    "source_ip": "198.51.100.17",
+    "user_agent": "provider-console/1.0"
+  },
+  {
+    "account_id": "gcp-scope-002",
+    "event_id": "evt-0009",
+    "event_name": "GetIamPolicy",
+    "event_time": "2026-02-12T00:16:00Z",
+    "principal": "gcp-routine-operator",
+    "provider": "gcp",
+    "resource": "gcp:IAM:resource-002",
+    "source_ip": "198.51.100.18",
+    "user_agent": "provider-console/1.0"
+  },
+  {
+    "account_id": "gcp-scope-002",
+    "event_id": "evt-0010",
+    "event_name": "StorageBucketsGet",
+    "event_time": "2026-02-12T00:18:00Z",
+    "principal": "gcp-routine-operator",
+    "provider": "gcp",
+    "resource": "gcp:IAM:resource-002",
+    "source_ip": "198.51.100.19",
+    "user_agent": "provider-console/1.0"
+  },
+  {
+    "account_id": "gcp-scope-002",
+    "event_id": "evt-0011",
+    "event_name": "CreateServiceAccountKey",
+    "event_time": "2026-02-12T00:20:00Z",
+    "principal": "gcp-authorized-automation",
+    "provider": "gcp",
+    "resource": "gcp:IAM:resource-002",
+    "source_ip": "198.51.100.44",
+    "user_agent": "approved-automation/3.2"
+  },
+  {
+    "account_id": "gcp-scope-002",
+    "event_id": "evt-0012",
+    "event_name": "FunctionsGet",
+    "event_time": "2026-02-12T00:22:00Z",
+    "principal": "gcp-routine-operator",
+    "provider": "gcp",
+    "resource": "gcp:IAM:resource-002",
+    "source_ip": "198.51.100.21",
+    "user_agent": "provider-console/1.0"
+  },
+  {
+    "account_id": "gcp-scope-002",
+    "event_id": "evt-0013",
+    "event_name": "ProjectsGet",
+    "event_time": "2026-02-12T00:24:00Z",
+    "principal": "gcp-routine-operator",
+    "provider": "gcp",
+    "resource": "gcp:ServiceAccounts:resource-002",
+    "source_ip": "198.51.100.22",
+    "user_agent": "provider-console/1.0"
+  },
+  {
+    "account_id": "gcp-scope-002",
+    "event_id": "evt-0014",
+    "event_name": "ServiceAccountsList",
+    "event_time": "2026-02-12T00:26:00Z",
+    "principal": "gcp-routine-operator",
+    "provider": "gcp",
+    "resource": "gcp:ServiceAccounts:resource-002",
+    "source_ip": "198.51.100.23",
+    "user_agent": "provider-console/1.0"
+  },
+  {
+    "account_id": "gcp-scope-002",
+    "event_id": "evt-0015",
+    "event_name": "GetIamPolicy",
+    "event_time": "2026-02-12T00:28:00Z",
+    "principal": "gcp-routine-operator",
+    "provider": "gcp",
+    "resource": "gcp:ServiceAccounts:resource-002",
+    "source_ip": "198.51.100.24",
+    "user_agent": "provider-console/1.0"
+  },
+  {
+    "account_id": "gcp-scope-002",
+    "event_id": "evt-0016",
+    "event_name": "StorageBucketsGet",
+    "event_time": "2026-02-12T00:30:00Z",
+    "principal": "gcp-routine-operator",
+    "provider": "gcp",
+    "resource": "gcp:ServiceAccounts:resource-002",
+    "source_ip": "198.51.100.25",
+    "user_agent": "provider-console/1.0"
+  }
+]

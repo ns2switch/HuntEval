@@ -1,0 +1,178 @@
+[
+  {
+    "account_id": "azure-scope-001",
+    "event_id": "evt-0001",
+    "event_name": "UserRead",
+    "event_time": "2026-02-11T00:00:00Z",
+    "principal": "azure-routine-operator",
+    "provider": "azure",
+    "resource": "azure:EntraID:resource-001",
+    "source_ip": "198.51.100.10",
+    "user_agent": "provider-console/1.0"
+  },
+  {
+    "account_id": "azure-scope-001",
+    "event_id": "evt-0002",
+    "event_name": "SubscriptionRead",
+    "event_time": "2026-02-11T00:02:00Z",
+    "principal": "azure-routine-operator",
+    "provider": "azure",
+    "resource": "azure:EntraID:resource-001",
+    "source_ip": "198.51.100.11",
+    "user_agent": "provider-console/1.0"
+  },
+  {
+    "account_id": "azure-scope-001",
+    "event_id": "evt-0003",
+    "event_name": "ResourceGroupRead",
+    "event_time": "2026-02-11T00:04:00Z",
+    "principal": "azure-routine-operator",
+    "provider": "azure",
+    "resource": "azure:EntraID:resource-001",
+    "source_ip": "198.51.100.12",
+    "user_agent": "provider-console/1.0"
+  },
+  {
+    "account_id": "azure-scope-001",
+    "event_id": "evt-0004",
+    "event_name": "VaultRead",
+    "event_time": "2026-02-11T00:06:00Z",
+    "principal": "azure-routine-operator",
+    "provider": "azure",
+    "resource": "azure:EntraID:resource-001",
+    "source_ip": "198.51.100.13",
+    "user_agent": "provider-console/1.0"
+  },
+  {
+    "account_id": "azure-scope-001",
+    "event_id": "evt-0005",
+    "event_name": "RoleAssignmentWrite",
+    "event_time": "2026-02-11T00:08:00Z",
+    "principal": "azure-authorized-automation",
+    "provider": "azure",
+    "resource": "azure:EntraID:resource-001",
+    "source_ip": "198.51.100.44",
+    "user_agent": "approved-automation/3.2"
+  },
+  {
+    "account_id": "azure-scope-001",
+    "event_id": "evt-0006",
+    "event_name": "RoleAssignmentWrite",
+    "event_time": "2026-02-11T00:10:00Z",
+    "principal": "azure-principal-investigation",
+    "provider": "azure",
+    "resource": "azure:EntraID:resource-001",
+    "source_ip": "203.0.113.80",
+    "user_agent": "unrecognized-client/2.0"
+  },
+  {
+    "account_id": "azure-scope-001",
+    "event_id": "evt-0007",
+    "event_name": "UserRead",
+    "event_time": "2026-02-11T00:12:00Z",
+    "principal": "azure-routine-operator",
+    "provider": "azure",
+    "resource": "azure:AzureActivity:resource-001",
+    "source_ip": "198.51.100.16",
+    "user_agent": "provider-console/1.0"
+  },
+  {
+    "account_id": "azure-scope-001",
+    "event_id": "evt-0008",
+    "event_name": "DirectoryRoleMemberAdd",
+    "event_time": "2026-02-11T00:14:00Z",
+    "principal": "azure-principal-investigation",
+    "provider": "azure",
+    "resource": "azure:AzureActivity:resource-001",
+    "source_ip": "203.0.113.80",
+    "user_agent": "unrecognized-client/2.0"
+  },
+  {
+    "account_id": "azure-scope-001",
+    "event_id": "evt-0009",
+    "event_name": "ResourceGroupRead",
+    "event_time": "2026-02-11T00:16:00Z",
+    "principal": "azure-routine-operator",
+    "provider": "azure",
+    "resource": "azure:AzureActivity:resource-001",
+    "source_ip": "198.51.100.18",
+    "user_agent": "provider-console/1.0"
+  },
+  {
+    "account_id": "azure-scope-001",
+    "event_id": "evt-0010",
+    "event_name": "VaultRead",
+    "event_time": "2026-02-11T00:18:00Z",
+    "principal": "azure-routine-operator",
+    "provider": "azure",
+    "resource": "azure:AzureActivity:resource-001",
+    "source_ip": "198.51.100.19",
+    "user_agent": "provider-console/1.0"
+  },
+  {
+    "account_id": "azure-scope-001",
+    "event_id": "evt-0011",
+    "event_name": "DirectoryRoleMemberAdd",
+    "event_time": "2026-02-11T00:20:00Z",
+    "principal": "azure-authorized-automation",
+    "provider": "azure",
+    "resource": "azure:AzureActivity:resource-001",
+    "source_ip": "198.51.100.44",
+    "user_agent": "approved-automation/3.2"
+  },
+  {
+    "account_id": "azure-scope-001",
+    "event_id": "evt-0012",
+    "event_name": "FunctionRead",
+    "event_time": "2026-02-11T00:22:00Z",
+    "principal": "azure-routine-operator",
+    "provider": "azure",
+    "resource": "azure:AzureActivity:resource-001",
+    "source_ip": "198.51.100.21",
+    "user_agent": "provider-console/1.0"
+  },
+  {
+    "account_id": "azure-scope-001",
+    "event_id": "evt-0013",
+    "event_name": "UserRead",
+    "event_time": "2026-02-11T00:24:00Z",
+    "principal": "azure-routine-operator",
+    "provider": "azure",
+    "resource": "azure:EntraID:resource-001",
+    "source_ip": "198.51.100.22",
+    "user_agent": "provider-console/1.0"
+  },
+  {
+    "account_id": "azure-scope-001",
+    "event_id": "evt-0014",
+    "event_name": "SubscriptionRead",
+    "event_time": "2026-02-11T00:26:00Z",
+    "principal": "azure-routine-operator",
+    "provider": "azure",
+    "resource": "azure:EntraID:resource-001",
+    "source_ip": "198.51.100.23",
+    "user_agent": "provider-console/1.0"
+  },
+  {
+    "account_id": "azure-scope-001",
+    "event_id": "evt-0015",
+    "event_name": "ResourceGroupRead",
+    "event_time": "2026-02-11T00:28:00Z",
+    "principal": "azure-routine-operator",
+    "provider": "azure",
+    "resource": "azure:EntraID:resource-001",
+    "source_ip": "198.51.100.24",
+    "user_agent": "provider-console/1.0"
+  },
+  {
+    "account_id": "azure-scope-001",
+    "event_id": "evt-0016",
+    "event_name": "VaultRead",
+    "event_time": "2026-02-11T00:30:00Z",
+    "principal": "azure-routine-operator",
+    "provider": "azure",
+    "resource": "azure:EntraID:resource-001",
+    "source_ip": "198.51.100.25",
+    "user_agent": "provider-console/1.0"
+  }
+]
