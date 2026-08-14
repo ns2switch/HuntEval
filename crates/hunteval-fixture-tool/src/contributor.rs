@@ -117,7 +117,8 @@ pub fn validate_episode(
     let package_bytes = bounded_read(&root.join("package.yaml"))?;
     let package: PackageIndex = serde_yaml_ng::from_slice(&package_bytes)
         .map_err(|_| FixtureGenerationError::MalformedContributorPackage)?;
-    if package.schema_version != "0.3" || package.public_root != "public" {
+    if !matches!(package.schema_version.as_str(), "0.3" | "0.4") || package.public_root != "public"
+    {
         return Err(FixtureGenerationError::MalformedContributorPackage);
     }
     let mut checks = Vec::new();
@@ -128,6 +129,7 @@ pub fn validate_episode(
         &package.private_ground_truth,
         &mut checks,
     );
+    check_answer_leakage(root, &package.private_ground_truth, &mut checks);
     check_required(root, "public_manifest", "public/manifest.yaml", &mut checks);
     check_required(root, "source_events", "source/events.json", &mut checks);
     check_required(
@@ -161,6 +163,49 @@ pub fn validate_episode(
         status,
         package_sha256: Some(Sha256Digest::from_bytes(package_bytes)),
         checks,
+    })
+}
+
+fn check_answer_leakage(root: &Path, truth_relative: &str, checks: &mut Vec<ContributorCheck>) {
+    let result = safe_child(root, truth_relative)
+        .ok()
+        .filter(|path| path.is_file())
+        .and_then(|path| bounded_read(&path).ok())
+        .and_then(|bytes| serde_json::from_slice::<GroundTruth>(&bytes).ok())
+        .map(|truth| public_metadata_is_answer_free(root, &truth));
+    let status = match result {
+        None => ContributorCheckStatus::Unavailable,
+        Some(true) => ContributorCheckStatus::Passed,
+        Some(false) => ContributorCheckStatus::Failed,
+    };
+    checks.push(check("answer_leakage", status, "answer_leakage_detected"));
+}
+
+fn public_metadata_is_answer_free(root: &Path, truth: &GroundTruth) -> bool {
+    let mut forbidden = vec![
+        "ground_truth".to_owned(),
+        "ground-truth".to_owned(),
+        "reference_query".to_owned(),
+        "reference-query".to_owned(),
+        "private/".to_owned(),
+        "evaluator_note".to_owned(),
+    ];
+    forbidden.extend(truth.malicious_event_ids.iter().map(ToString::to_string));
+    forbidden.extend(truth.malicious_entity_ids.iter().map(ToString::to_string));
+    forbidden.extend(truth.expected_attack_techniques.iter().cloned());
+
+    [
+        "public/manifest.yaml",
+        "public/classification.json",
+        "public/provenance.json",
+    ]
+    .into_iter()
+    .filter_map(|relative| bounded_read(&root.join(relative)).ok())
+    .all(|bytes| {
+        let text = String::from_utf8_lossy(&bytes).to_ascii_lowercase();
+        forbidden
+            .iter()
+            .all(|needle| !text.contains(&needle.to_ascii_lowercase()))
     })
 }
 

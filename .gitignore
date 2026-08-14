@@ -1,5 +1,8 @@
 /target/
 /runs/
+/doc_interna/
+/prompts/
+/AGENTS.md
 __pycache__/
 *.py[cod]
 .venv/

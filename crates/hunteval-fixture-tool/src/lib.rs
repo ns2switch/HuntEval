@@ -19,6 +19,10 @@ use thiserror::Error;
 mod catalog;
 mod contributor;
 mod contributor_output;
+mod expanded_catalog;
+mod expanded_package;
+mod expanded_provider;
+mod inventory;
 mod package;
 
 pub use contributor::{
@@ -26,6 +30,8 @@ pub use contributor::{
     ContributorValidationStatus, ScaffoldRequest, scaffold_episode, validate_episode,
 };
 pub use contributor_output::{build_review_bundle_manifest, render_public_documentation};
+pub use expanded_package::generate_expanded as generate_expanded_catalog;
+pub use inventory::{write_corpus_inventory, write_corpus_inventory_markdown};
 pub use package::generate_all;
 
 /// One provider-native synthetic CloudTrail row without ground-truth labels.
@@ -116,6 +122,8 @@ pub enum FixtureGenerationError {
     Io(#[from] std::io::Error),
     #[error("fixture source is not valid JSON")]
     Json(#[from] serde_json::Error),
+    #[error("fixture source is not valid YAML")]
+    Yaml(#[from] serde_yaml_ng::Error),
     #[error("fixture Arrow data is invalid")]
     Arrow(#[from] arrow_schema::ArrowError),
     #[error("fixture Parquet output failed")]

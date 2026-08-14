@@ -1,4 +1,4 @@
-use std::path::Path;
+use std::{fs, path::Path};
 
 use hunteval_domain::{EpisodeId, Sha256Digest};
 use serde::Serialize;
@@ -24,6 +24,7 @@ struct ReviewBundleManifest {
     schema_version: String,
     episode_id: EpisodeId,
     validation_result_sha256: Sha256Digest,
+    review_policy_sha256: Sha256Digest,
     files: Vec<ReviewFile>,
 }
 
@@ -56,7 +57,7 @@ pub fn build_review_bundle_manifest(
     result: &ContributorValidationResult,
 ) -> Result<Vec<u8>, FixtureGenerationError> {
     let validation_bytes = serde_json::to_vec(result)?;
-    let files = [
+    let mut files = [
         (
             "public_manifest",
             "public/manifest.yaml",
@@ -82,6 +83,16 @@ pub fn build_review_bundle_manifest(
             "source/events.json",
             ReviewVisibility::ReviewerOnly,
         ),
+        (
+            "private_provenance",
+            "private/provenance.json",
+            ReviewVisibility::ReviewerOnly,
+        ),
+        (
+            "public_provenance",
+            "public/provenance.json",
+            ReviewVisibility::Public,
+        ),
     ]
     .into_iter()
     .filter_map(|(label, relative, visibility)| {
@@ -96,6 +107,7 @@ pub fn build_review_bundle_manifest(
         })
     })
     .collect::<Result<Vec<_>, FixtureGenerationError>>()?;
+    append_public_telemetry(root, &mut files)?;
     if files.is_empty() {
         return Err(FixtureGenerationError::MalformedContributorPackage);
     }
@@ -103,9 +115,34 @@ pub fn build_review_bundle_manifest(
         schema_version: "0.6".to_owned(),
         episode_id: result.episode_id.clone(),
         validation_result_sha256: Sha256Digest::from_bytes(validation_bytes),
+        review_policy_sha256: Sha256Digest::from_bytes(include_bytes!(
+            "../../../policies/dataset-review-v1.json"
+        )),
         files,
     };
     let mut bytes = serde_json::to_vec_pretty(&manifest)?;
     bytes.push(b'\n');
     Ok(bytes)
+}
+
+fn append_public_telemetry(
+    root: &Path,
+    files: &mut Vec<ReviewFile>,
+) -> Result<(), FixtureGenerationError> {
+    let telemetry_root = root.join("public/telemetry");
+    if !telemetry_root.is_dir() {
+        return Ok(());
+    }
+    let mut paths = fs::read_dir(telemetry_root)?
+        .map(|entry| entry.map(|value| value.path()))
+        .collect::<Result<Vec<_>, _>>()?;
+    paths.sort();
+    for (index, path) in paths.into_iter().enumerate() {
+        files.push(ReviewFile {
+            label: format!("public_telemetry_{index:03}"),
+            sha256: Sha256Digest::from_bytes(bounded_read(&path)?),
+            visibility: ReviewVisibility::Public,
+        });
+    }
+    Ok(())
 }

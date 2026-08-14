@@ -1,0 +1,16 @@
+{
+  "capabilities": [
+    "benign_disambiguation",
+    "cross_boundary_correlation",
+    "evidence_correlation",
+    "identity_analysis"
+  ],
+  "difficulty": "introductory",
+  "episode_id": "azure-cloud-008",
+  "investigation_shapes": [
+    "ambiguous_alternative",
+    "cross_boundary",
+    "single_stage"
+  ],
+  "schema_version": "0.6"
+}

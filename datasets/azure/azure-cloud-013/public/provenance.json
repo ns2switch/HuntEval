@@ -1,0 +1,23 @@
+{
+  "content_hashes": {
+    "public_classification": "37d9bb9941339895379e7ad5a425f4998464e59657483d4484b6ae67dbb552c4",
+    "public_manifest": "3d71d284a0f5b0ff6ce6fdc533f4f8fc15040512ab9aceb4a0a2827c9056bf38",
+    "public_telemetry": "27ffca0d362647b7aa6658502799bc81019023bfad1fb7a50068073aacaee772",
+    "source_events": "aaeace45ba5e910fed6756f3bb72b9eff5136f3f07afb63dd5747d31668c04a2"
+  },
+  "episode_id": "azure-cloud-013",
+  "event_volume_tier": "large",
+  "generation_seed": 7013,
+  "generator": "hunteval-fixture-tool",
+  "generator_version": "0.1.0",
+  "provider": "azure",
+  "schema_version": "1.0",
+  "services": [
+    "AzureActivity",
+    "ManagedIdentity",
+    "StorageAccounts",
+    "KeyVault"
+  ],
+  "source_template_sha256": "bc37d71afc568143b335cf400100a97ef1f4169ad902a1a9e3397e91e7491266",
+  "toolchain": "rust-1.93.1"
+}

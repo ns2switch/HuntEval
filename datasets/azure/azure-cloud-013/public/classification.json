@@ -1,0 +1,17 @@
+{
+  "capabilities": [
+    "attack_path_analysis",
+    "cross_boundary_correlation",
+    "evidence_correlation",
+    "identity_analysis",
+    "timeline_reconstruction"
+  ],
+  "difficulty": "intermediate",
+  "episode_id": "azure-cloud-013",
+  "investigation_shapes": [
+    "ambiguous_alternative",
+    "cross_boundary",
+    "multi_stage"
+  ],
+  "schema_version": "0.6"
+}

@@ -11,6 +11,7 @@ import os
 import pathlib
 import stat
 import sys
+import urllib.parse
 
 MAX_FILES = 4096
 MAX_FILE_BYTES = 512 * 1024 * 1024
@@ -101,7 +102,14 @@ def dependency_evidence(metadata: dict, revision: str, epoch: int) -> tuple[dict
             fail("dependency has missing identity or license")
         source = package.get("source") or "workspace"
         dependencies.append({"name": name, "source": source, "version": version})
-        licenses.append({"license": license_expression, "name": name, "version": version})
+        licenses.append(
+            {
+                "license": license_expression,
+                "name": name,
+                "source": source,
+                "version": version,
+            }
+        )
     created = datetime.datetime.fromtimestamp(epoch, datetime.timezone.utc).strftime(
         "%Y-%m-%dT%H:%M:%SZ"
     )
@@ -112,17 +120,7 @@ def dependency_evidence(metadata: dict, revision: str, epoch: int) -> tuple[dict
         "dataLicense": "CC0-1.0",
         "documentNamespace": namespace,
         "name": "HuntEval R8 candidate dependencies",
-        "packages": [
-            {
-                "SPDXID": f"SPDXRef-Package-{index}",
-                "downloadLocation": "NOASSERTION",
-                "licenseConcluded": item["license"],
-                "licenseDeclared": item["license"],
-                "name": item["name"],
-                "versionInfo": item["version"],
-            }
-            for index, item in enumerate(licenses, start=1)
-        ],
+        "packages": [sbom_package(index, item) for index, item in enumerate(licenses, start=1)],
         "spdxVersion": "SPDX-2.3",
     }
     return (
@@ -130,6 +128,35 @@ def dependency_evidence(metadata: dict, revision: str, epoch: int) -> tuple[dict
         {"schema_version": "1.0", "licenses": licenses},
         sbom,
     )
+
+
+def cargo_purl(name: str, version: str) -> str:
+    encoded_name = urllib.parse.quote(name, safe="")
+    encoded_version = urllib.parse.quote(version, safe="")
+    return f"pkg:cargo/{encoded_name}@{encoded_version}"
+
+
+def sbom_package(index: int, item: dict) -> dict:
+    source = item["source"]
+    registry = source.startswith("registry+")
+    package = {
+        "SPDXID": f"SPDXRef-Package-{index}",
+        "downloadLocation": source.removeprefix("registry+") if registry else "NOASSERTION",
+        "licenseConcluded": item["license"],
+        "licenseDeclared": item["license"],
+        "name": item["name"],
+        "sourceInfo": source,
+        "versionInfo": item["version"],
+    }
+    if registry:
+        package["externalRefs"] = [
+            {
+                "referenceCategory": "PACKAGE-MANAGER",
+                "referenceLocator": cargo_purl(item["name"], item["version"]),
+                "referenceType": "purl",
+            }
+        ]
+    return package
 
 
 def build(args: argparse.Namespace) -> None:
@@ -223,6 +250,44 @@ def verify_directory(root: pathlib.Path) -> None:
     provenance = read_json(root / "build-provenance.json")
     if not isinstance(provenance, dict) or not isinstance(provenance.get("network_used"), bool):
         fail("build provenance must declare whether network access was used")
+    verify_sbom(read_json(root / "sbom.spdx.json"))
+
+
+def verify_sbom(value: object) -> None:
+    if not isinstance(value, dict) or value.get("spdxVersion") != "SPDX-2.3":
+        fail("SBOM has an unsupported format")
+    packages = value.get("packages")
+    if not isinstance(packages, list) or not packages or len(packages) > MAX_FILES:
+        fail("SBOM package inventory is empty or oversized")
+    for package in packages:
+        if not isinstance(package, dict):
+            fail("SBOM contains a malformed package")
+        name = package.get("name")
+        version = package.get("versionInfo")
+        source = package.get("sourceInfo")
+        references = package.get("externalRefs")
+        if (
+            not isinstance(name, str)
+            or not name
+            or not isinstance(version, str)
+            or not version
+            or not isinstance(source, str)
+            or not source
+        ):
+            fail("SBOM package identity is incomplete")
+        expected = (
+            [
+                {
+                    "referenceCategory": "PACKAGE-MANAGER",
+                    "referenceLocator": cargo_purl(name, version),
+                    "referenceType": "purl",
+                }
+            ]
+            if source.startswith("registry+")
+            else None
+        )
+        if references != expected:
+            fail("SBOM package is not bound to its canonical Cargo purl")
 
 
 def main() -> None:

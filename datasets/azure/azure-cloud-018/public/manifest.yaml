@@ -1,0 +1,31 @@
+schema_version: "0.4"
+id: azure-cloud-018
+title: "Synthetic azure cloud activity investigation 018"
+provider: azure
+category: container_control_review
+objective:
+  primary: "Investigate unusual cloud control-plane activity and determine the evidence-supported outcome."
+  secondary:
+    - "Correlate identities, resources, services, and administrative boundaries."
+    - "Preserve event and entity provenance and document plausible benign alternatives."
+telemetry:
+  tables:
+    - name: azure_activity
+      path: telemetry/activity.parquet
+knowledge:
+  documents: []
+limits:
+  max_agents: 3
+  max_parallel_agents: 2
+  max_parallel_tool_calls: 1
+  max_outstanding_tasks: 12
+  max_delegation_depth: 2
+  max_tool_calls: 14
+  max_sql_queries: 12
+  max_retrieved_documents: 0
+  max_messages: 60
+  max_duration_seconds: 180
+  max_tokens: 30000
+  max_estimated_cost: null
+fault_profile: null
+benign_evaluation: false

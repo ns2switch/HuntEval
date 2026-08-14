@@ -1,0 +1,4 @@
+schema_version: "0.4"
+episode_id: azure-cloud-010
+public_root: public
+private_ground_truth: private/ground-truth.json

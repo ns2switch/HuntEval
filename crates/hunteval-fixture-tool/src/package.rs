@@ -20,6 +20,7 @@ pub fn generate_all(dataset_root: &Path) -> Result<(), FixtureGenerationError> {
             &root.join("public/telemetry").join(spec.telemetry_file),
         )?;
     }
+    crate::expanded_package::generate_expanded(dataset_root)?;
     Ok(())
 }
 

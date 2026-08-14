@@ -1,0 +1,16 @@
+{
+  "acceptable_conclusions": [
+    "The unusual activity is consistent with authorized administration or automation."
+  ],
+  "acceptable_submission_statuses": [
+    "no_malicious_activity"
+  ],
+  "episode_id": "azure-cloud-007",
+  "expected_attack_path": [],
+  "expected_attack_techniques": [],
+  "expected_timeline_windows": [],
+  "malicious_entity_ids": [],
+  "malicious_event_ids": [],
+  "minimum_evidence_items": 1,
+  "schema_version": "0.4"
+}

@@ -63,7 +63,7 @@ The raw metric vector is authoritative. Any aggregate score is derived only from
 
 **Objective:** turn the existing vertical slice and benchmark primitives into a complete offline workflow that can execute and compare deployments reproducibly.
 
-The pull-request sequence, contracts, tests, and quality gates for all v0.2 initiatives are defined in `R2_IMPLEMENTATION_PLAN.md`.
+The pull-request sequence, contracts, tests, and quality gates for all v0.2 initiatives are preserved in the internal implementation archive.
 
 #### R2.1 — Benchmark execution and resume (complete)
 
@@ -132,15 +132,15 @@ Completion evidence: R2-12 through R2-15 are implemented in `006519d`. The norma
 
 Implementation evidence: commits `5874792`, `23deef2`, and `5a38c63` provide pinned canonical local/CI gates, a pinned Bubblewrap-capable runner, runner-image-bound caches, fail-closed security capability checks, negative failure-propagation tests, bounded verification artifacts, clean-cache parity, CODEOWNERS, a live-settings verifier, and a non-publishing checksummed RC workflow. Local acceptance gates and RC package verification pass. GitHub Actions run `31255365813` passed all seven canonical jobs, including the uncached Package job. At that revision, R2.4 remained open until an authorized administrator recorded that the required checks, default-branch protection, and protected RC tag rules were active and the protected RC tag dry run passed.
 
-External closure evidence: on 2026-08-09, administrator `ns2switch` protected `main` with the nine current required jobs and the required review controls, activated separate restricted-creation and non-bypassable-immutability rulesets for `v*`, enabled the required repository security controls, and ran the fail-closed settings verifier successfully. CI run `31322660682` passed all nine required jobs on revision `b412953a08f3e2e26dff82c1aa0a729515496564`. Protected tag `v0.4.0-rc.1` references that revision and release-candidate run `31329216944` passed without publishing a production release. The downloaded package and secret-scan checksums verified independently. Exact settings, links, and hashes are recorded in `GITHUB_SETTINGS_ATTESTATION.md`. R2-18 and the R2.4 exit gate are complete without changing the preceding implementation evidence.
+External closure evidence: on 2026-08-09, administrator `ns2switch` protected `main` with the nine current required jobs and the required review controls, activated separate restricted-creation and non-bypassable-immutability rulesets for `v*`, enabled the required repository security controls, and ran the fail-closed settings verifier successfully. CI run `31322660682` passed all nine required jobs on revision `b412953a08f3e2e26dff82c1aa0a729515496564`. Protected tag `v0.4.0-rc.1` references that revision and release-candidate run `31329216944` passed without publishing a production release. The downloaded package and secret-scan checksums verified independently. Exact settings, links, and hashes remain preserved in the internal governance archive. R2-18 and the R2.4 exit gate are complete without changing the preceding implementation evidence.
 
 ### v0.3 — Runner and protocol hardening
 
 **Objective:** make process isolation, protocol handling, and artifact integrity robust enough for untrusted deployment implementations.
 
-The pull-request sequence, contract decisions, tests, risks, and release gates for R3.1 through R3.3 are defined in `R3_IMPLEMENTATION_PLAN.md`.
+The pull-request sequence, contract decisions, tests, risks, and release gates for R3.1 through R3.3 are preserved in the internal implementation archive.
 
-Current state: R3 is complete. Commits `f0f6119`, `dbfce2c`, and `2d34517` implement the release and its CI compatibility corrections. The implementation revision passed all eight canonical GitHub Actions jobs in run `31305219082`; exact local gates, artifact hashes, limitations, and ADR status are recorded in `R3_COMPLETION_EVIDENCE.md`. R2 evidence remained unchanged at R3 closure; the later R2.4 external-enforcement closure is recorded independently and does not alter this R3 evidence. R4 was completed subsequently and does not alter this R3 evidence.
+Current state: R3 is complete. Commits `f0f6119`, `dbfce2c`, and `2d34517` implement the release and its CI compatibility corrections. The implementation revision passed all eight canonical GitHub Actions jobs in run `31305219082`; exact local gates, artifact hashes, limitations, and ADR status remain preserved in the internal completion archive. R2 evidence remained unchanged at R3 closure; the later R2.4 external-enforcement closure is recorded independently and does not alter this R3 evidence. R4 was completed subsequently and does not alter this R3 evidence.
 
 #### R3.1 — Isolation backends and resource enforcement
 
@@ -176,7 +176,7 @@ Current state: R3 is complete. Commits `f0f6119`, `dbfce2c`, and `2d34517` imple
 
 **Objective:** improve validity, coverage, and reviewability of the benchmark itself.
 
-Current state: R4 is complete. Implementation revision `f9559a6` provides schema 0.6 contracts, expanded episode coverage, nine independent content-addressed approvals, statistical policy, contributor safety, explicit topologies, controlled equivalence, topology metrics, controlled paired reduction, CLI reporting, and the 108-cell E2E gate. All nine canonical GitHub Actions jobs passed in run `31321445726`; exact commands, artifact hashes, limitations, and ADR status are recorded in `R4_COMPLETION_EVIDENCE.md`. R2 and R3 completion evidence remain unchanged; the later R2.4 external-enforcement closure is recorded independently. R5 was completed subsequently and does not alter this R4 evidence.
+Current state: R4 is complete. Implementation revision `f9559a6` provides schema 0.6 contracts, expanded episode coverage, nine independent content-addressed approvals, statistical policy, contributor safety, explicit topologies, controlled equivalence, topology metrics, controlled paired reduction, CLI reporting, and the 108-cell E2E gate. All nine canonical GitHub Actions jobs passed in run `31321445726`; exact commands, artifact hashes, limitations, and ADR status remain preserved in the internal completion archive. R2 and R3 completion evidence remain unchanged; the later R2.4 external-enforcement closure is recorded independently. R5 was completed subsequently and does not alter this R4 evidence.
 
 #### R4.1 — Episode coverage expansion
 
@@ -229,9 +229,9 @@ Current state: R4 is complete. Implementation revision `f9559a6` provides schema
 
 **Objective:** expand diagnosis without requesting private reasoning or making unsupported causal claims.
 
-The governed pull-request sequence, contracts, tests, risks, and release gates for R5.1 through R5.3 are defined in `R5_IMPLEMENTATION_PLAN.md`.
+The governed pull-request sequence, contracts, tests, risks, and release gates for R5.1 through R5.3 are preserved in the internal implementation archive.
 
-Current state: R5 is complete. Evidence revision `e22e71b` implements schema 0.7 diagnosis contracts, the bounded taxonomy and compiled registry, exact typed attribution, deterministic recurrence, bottleneck and controlled-contribution analysis, content-addressed JSON/static-HTML bundles, offline verification, CLI integration, and the dedicated CI gate. All ten GitHub Actions jobs passed in run `31343374320`; exact local gates, artifact hashes, limitations, and ADR status are recorded in `R5_COMPLETION_EVIDENCE.md`. R2, R3, and R4 completion evidence remains unchanged. The former R2.4 external-enforcement caveat remains closed by its separate administrator attestation. R6 was completed subsequently and does not alter this R5 evidence.
+Current state: R5 is complete. Evidence revision `e22e71b` implements schema 0.7 diagnosis contracts, the bounded taxonomy and compiled registry, exact typed attribution, deterministic recurrence, bottleneck and controlled-contribution analysis, content-addressed JSON/static-HTML bundles, offline verification, CLI integration, and the dedicated CI gate. All ten GitHub Actions jobs passed in run `31343374320`; exact local gates, artifact hashes, limitations, and ADR status remain preserved in the internal completion archive. R2, R3, and R4 completion evidence remains unchanged. The former R2.4 external-enforcement caveat remains closed by its separate administrator attestation. R6 was completed subsequently and does not alter this R5 evidence.
 
 #### R5.1 — Versioned taxonomy and attribution
 
@@ -262,7 +262,7 @@ Completion evidence: the 108-cell matrix completed without failed, pending, or n
 
 **Objective:** make improvement hypotheses reproducible from artifact registration through human-approved validation.
 
-The governed pull-request sequence, contracts, security boundaries, tests, migration, rollback, and release gates for R6.1 through R6.4 are defined in `R6_IMPLEMENTATION_PLAN.md`. R6 is complete. Runtime revision `079bf45` implements schema 0.8 contracts, the canonical benchmark-backed experiment service, lifecycle and review controls, prompt/configuration analysis, reporting, offline verification, and the dedicated CI gate. Governance revision `aacf27c` makes `Controlled improvement` a required protected-branch check. All eleven GitHub Actions jobs passed in run `31376156815`; exact local gates, artifact hashes, package evidence, limitations, and ADR status are recorded in `R6_COMPLETION_EVIDENCE.md`. R2 through R5 completion evidence remains unchanged; subsequent R7 completion evidence is recorded separately.
+The governed pull-request sequence, contracts, security boundaries, tests, migration, rollback, and release gates for R6.1 through R6.4 are preserved in the internal implementation archive. R6 is complete. Runtime revision `079bf45` implements schema 0.8 contracts, the canonical benchmark-backed experiment service, lifecycle and review controls, prompt/configuration analysis, reporting, offline verification, and the dedicated CI gate. Governance revision `aacf27c` makes `Controlled improvement` a required protected-branch check. All eleven GitHub Actions jobs passed in run `31376156815`; exact local gates, artifact hashes, package evidence, limitations, and ADR status remain preserved in the internal completion archive. R2 through R5 completion evidence remains unchanged; subsequent R7 completion evidence is recorded separately.
 
 #### R6.1 — Artifact registry and safe diffs
 
@@ -330,7 +330,7 @@ observable run failures
 
 **Objective:** add local analytical capabilities and external integrations without coupling them to the domain model or the scored MVP path.
 
-The governed pull-request sequence, contracts, security boundaries, compatibility strategy, tests, migration, rollback, and release gates for R7.1 through R7.3 are defined in `R7_IMPLEMENTATION_PLAN.md`. R7 is complete; exact implementation, package, protected-branch, and GitHub Actions evidence is recorded in `R7_COMPLETION_EVIDENCE.md`. R2 through R6 remain complete with their recorded evidence.
+The governed pull-request sequence, contracts, security boundaries, compatibility strategy, tests, migration, rollback, and release gates for R7.1 through R7.3 are preserved in the internal implementation archive. R7 is complete; exact implementation, package, protected-branch, and GitHub Actions evidence remains preserved in the internal completion archive. R2 through R6 remain complete with their recorded evidence.
 
 #### R7.1 — Artifact-grounded local search
 
@@ -359,7 +359,7 @@ The governed pull-request sequence, contracts, security boundaries, compatibilit
 
 **Objective:** extend the completed R7 connector foundation so equivalent HuntEval deployments can be authored with multiple agent frameworks while preserving one process-neutral protocol, runner-mediated scored tools, topology semantics, budgets, provenance, and reports.
 
-The coordinated pre-R8 sequence is defined in `PRE_R8_CONNECTOR_IMPLEMENTATION_PLAN.md`; the detailed v0.7.1 requirements and evidence-based milestone statuses are defined in `V071_FRAMEWORK_CONNECTOR_PLAN.md`. This release addition does not reopen R7 or change its completion evidence. Focused local implementations exist, but v0.7.1 remains incomplete until every release criterion has closure evidence.
+The coordinated pre-R8 sequence and detailed v0.7.1 requirements remain preserved in the internal implementation archive. This release addition does not reopen R7 or change its completion evidence. Focused local implementations exist, but v0.7.1 remains incomplete until every release criterion has closure evidence.
 
 - retain CrewAI as the existing compatibility baseline;
 - add LangGraph, AutoGen AgentChat, and Google ADK/A2A connectors through optional out-of-core Python packages;
@@ -376,7 +376,7 @@ The coordinated pre-R8 sequence is defined in `PRE_R8_CONNECTOR_IMPLEMENTATION_P
 
 **Objective:** add secure, auditable access to authorized read-only observations from commercial threat-hunting platforms without granting evaluated deployments unrestricted network access or changing pre-v1.0 scoring boundaries.
 
-The coordinated pre-R8 sequence is defined in `PRE_R8_CONNECTOR_IMPLEMENTATION_PLAN.md`; the detailed v0.7.2 requirements and evidence-based milestone statuses are defined in `V072_COMMERCIAL_CONNECTOR_PLAN.md`. Deterministic offline catalogs, replay, the bounded network worker, secret framing, and finite vendor adapters exist, but external egress certification, authorized live conformance, and v0.7.2 closure remain incomplete. v0.7.2 follows v0.7.1. Its interfaces must satisfy their release gate before entering the v1.0 stable freeze set; while they remain pending, roadmap governance may permit other R8 work only if those interfaces are excluded explicitly.
+The coordinated pre-R8 sequence and detailed v0.7.2 requirements remain preserved in the internal implementation archive. Deterministic offline catalogs, replay, the bounded network worker, secret framing, and finite vendor adapters exist, but external egress certification, authorized live conformance, and v0.7.2 closure remain incomplete. v0.7.2 follows v0.7.1. Its interfaces must satisfy their release gate before entering the v1.0 stable freeze set; while they remain pending, roadmap governance may permit other R8 work only if those interfaces are excluded explicitly.
 
 - implement a supervised, runner-owned, deny-by-default network worker with a finite versioned operation catalog;
 - keep credentials as opaque runtime references and exclude secret values and raw tenant identifiers from artifacts;
@@ -392,7 +392,7 @@ The coordinated pre-R8 sequence is defined in `PRE_R8_CONNECTOR_IMPLEMENTATION_P
 
 **Objective:** freeze and audit the interfaces intended for v1.0.
 
-The governed implementation sequence, compatibility and security boundaries, review requirements, pull-request order, migration and rollback behavior, and exact release gates are defined in `R8_IMPLEMENTATION_PLAN.md`. On 2026-08-11, roadmap governance authorized R8-00 inventory and freeze-policy work while v0.7.1 and v0.7.2 remain pending. R8-00 is in progress; their pending interfaces are excluded from the stable freeze set, neither pre-R8 milestone is completed by this decision, and R8 closure still requires the release dependencies to be satisfied or revised explicitly.
+The governed R8 implementation sequence, compatibility and security boundaries, review requirements, pull-request order, migration and rollback behavior, and exact release gates remain preserved in the internal implementation archive. On 2026-08-11, roadmap governance authorized R8 work while v0.7.1 and v0.7.2 remain pending, excluded their pending interfaces from the stable freeze set, and revised the dependency so those separate preview releases no longer block closure of the R8 core candidate. This does not complete either connector milestone or broaden its support status. R8-00 through R8-05 are complete; R8 remains open pending independent security and reproducibility reviews and a final evidence-bound candidate.
 
 - publish a protocol and schema compatibility matrix;
 - provide migrations or explicit rejection behavior for older artifacts;
@@ -443,7 +443,7 @@ v0.7 complete extension foundation
 explicit roadmap governance
   -> v0.8 R8-00 inventory work (pending interfaces excluded)
 
-v0.2 through v0.7.2 exit criteria, or an explicit dependency revision
+v0.2 through v0.7 complete; v0.7.1 and v0.7.2 pending interfaces excluded by explicit dependency revision
   -> v0.8 release-candidate closure
        -> v1.0 stable platform
 ```
@@ -482,6 +482,6 @@ Every roadmap initiative must be delivered through a small reviewable pull reque
 12. rollback behavior;
 13. known limitations.
 
-The completed R4, R5, R6, and R7 implementation plans address these requirements for their initiatives. `R7_COMPLETION_EVIDENCE.md` records the exact R7 closure evidence and known limitations. The in-progress v0.7.1, v0.7.2, and R8-00 work applies the same governance requirements without making a completion claim for any of those milestones.
+The completed R4, R5, R6, and R7 implementation records address these requirements for their initiatives and preserve exact closure evidence and known limitations in the internal archive. The in-progress v0.7.1, v0.7.2, and R8-00 work applies the same governance requirements without making a completion claim for any of those milestones.
 
 An initiative is not complete while any required quality gate fails. Scope changes must update this roadmap and the corresponding implementation plan before implementation begins.

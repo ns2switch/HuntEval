@@ -17,7 +17,9 @@ use super::{
     },
 };
 
-const MAX_MANIFEST_BYTES: u64 = 1024 * 1024;
+// The 324-cell R8 corpus produces a measured 1,065,207-byte diagnostic
+// inventory. Keep the reader bounded while allowing that reviewed matrix.
+const MAX_MANIFEST_BYTES: u64 = 2 * 1024 * 1024;
 const MAX_ARTIFACT_BYTES: u64 = 64 * 1024 * 1024;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize)]

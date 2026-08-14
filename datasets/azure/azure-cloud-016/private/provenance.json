@@ -1,0 +1,7 @@
+{
+  "episode_id": "azure-cloud-016",
+  "private_ground_truth_sha256": "aee3a82a2eb6626f743327d5bd3970951b614aeb8e34e89a4a3a5a3f7c2fa24c",
+  "private_reference_query_sha256": "a8f6f8ba4a4caa0666583251c523d5d928f7b9529885b46fcd071491403ce0c9",
+  "review_status": "pending_independent_review",
+  "schema_version": "1.0"
+}

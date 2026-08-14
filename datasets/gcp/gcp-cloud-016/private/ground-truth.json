@@ -1,0 +1,62 @@
+{
+  "acceptable_conclusions": [
+    "The correlated control-plane sequence supports a malicious cloud activity finding."
+  ],
+  "acceptable_submission_statuses": [
+    "confirmed_malicious_activity",
+    "suspicious_activity"
+  ],
+  "episode_id": "gcp-cloud-016",
+  "expected_attack_path": [
+    "evt-0010",
+    "evt-0012",
+    "evt-0014",
+    "evt-0016",
+    "evt-0018"
+  ],
+  "expected_attack_techniques": [
+    "T1078.004",
+    "T1530"
+  ],
+  "expected_timeline_windows": [
+    {
+      "earliest": "2026-02-12T00:45:00Z",
+      "event_id": "evt-0010",
+      "latest": "2026-02-12T00:45:00Z"
+    },
+    {
+      "earliest": "2026-02-12T00:55:00Z",
+      "event_id": "evt-0012",
+      "latest": "2026-02-12T00:55:00Z"
+    },
+    {
+      "earliest": "2026-02-12T01:05:00Z",
+      "event_id": "evt-0014",
+      "latest": "2026-02-12T01:05:00Z"
+    },
+    {
+      "earliest": "2026-02-12T01:15:00Z",
+      "event_id": "evt-0016",
+      "latest": "2026-02-12T01:15:00Z"
+    },
+    {
+      "earliest": "2026-02-12T01:25:00Z",
+      "event_id": "evt-0018",
+      "latest": "2026-02-12T01:25:00Z"
+    }
+  ],
+  "malicious_entity_ids": [
+    "gcp-principal-investigation",
+    "gcp:CloudAuditLogs:resource-001",
+    "gcp:CloudStorage:resource-001"
+  ],
+  "malicious_event_ids": [
+    "evt-0010",
+    "evt-0012",
+    "evt-0014",
+    "evt-0016",
+    "evt-0018"
+  ],
+  "minimum_evidence_items": 5,
+  "schema_version": "0.4"
+}

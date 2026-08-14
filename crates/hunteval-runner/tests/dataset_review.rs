@@ -126,3 +126,30 @@ fn canonical_r4_episode_reviews_bind_every_approved_artifact()
     }
     Ok(())
 }
+
+#[test]
+fn approved_review_becomes_stale_after_any_reviewed_private_change()
+-> Result<(), Box<dyn std::error::Error>> {
+    let workspace = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+    let source = workspace.join("datasets/aws/aws-iam-004");
+    let policy = fs::read(workspace.join("policies/dataset-review-v1.json"))?;
+    for relative in ["private/ground-truth.json", "private/reference-query.sql"] {
+        let temporary = tempfile::tempdir()?;
+        let episode = temporary.path().join("aws-iam-004");
+        copy_tree(&source, &episode)?;
+        assert_eq!(
+            validate_dataset_review(&episode, &policy)?.status,
+            DatasetReviewValidationStatus::Approved
+        );
+        let path = episode.join(relative);
+        let mut changed = fs::read(&path)?;
+        changed.extend_from_slice(b" ");
+        fs::write(path, changed)?;
+        assert_eq!(
+            validate_dataset_review(&episode, &policy)?.status,
+            DatasetReviewValidationStatus::Stale,
+            "{relative}"
+        );
+    }
+    Ok(())
+}

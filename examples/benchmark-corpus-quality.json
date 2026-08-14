@@ -1,0 +1,681 @@
+{
+  "composition": {
+    "attack_path_length_distribution": {
+      "0": 9,
+      "2": 6,
+      "3": 9,
+      "4": 9,
+      "5": 18,
+      "6": 3
+    },
+    "attack_technique_aggregate": {
+      "T1078": 15,
+      "T1078.004": 24,
+      "T1098": 15,
+      "T1098.001": 3,
+      "T1098.003": 9,
+      "T1098.006": 3,
+      "T1136.003": 3,
+      "T1530": 6,
+      "T1555.006": 6
+    },
+    "benign_episodes": 9,
+    "category_balance": {
+      "administrative_activity_review": 3,
+      "automation_activity_review": 3,
+      "boundary_data_activity": 3,
+      "boundary_role_activity": 3,
+      "container_control_review": 3,
+      "credential_activity_review": 3,
+      "credential_persistence_review": 3,
+      "cross_boundary_identity_attack": 3,
+      "identity_activity_review": 3,
+      "identity_and_access": 1,
+      "identity_compromise": 2,
+      "key_usage_review": 3,
+      "multi_stage_identity_attack": 3,
+      "permission_change_review": 3,
+      "persistence_credential_creation": 3,
+      "privilege_escalation": 3,
+      "secret_access_review": 3,
+      "serverless_control_review": 3,
+      "storage_access_review": 3
+    },
+    "cloud_service_coverage": {
+      "AKS": 1,
+      "AzureActivity": 18,
+      "AzureFunctions": 1,
+      "CloudAuditLogs": 18,
+      "CloudFunctions": 1,
+      "CloudKMS": 2,
+      "CloudRun": 1,
+      "CloudStorage": 2,
+      "CloudTrail": 18,
+      "EKS": 1,
+      "EntraID": 16,
+      "GKE": 1,
+      "IAM": 33,
+      "KMS": 2,
+      "KeyVault": 3,
+      "Lambda": 1,
+      "ManagedIdentity": 2,
+      "Organizations": 1,
+      "RBAC": 12,
+      "S3": 2,
+      "STS": 13,
+      "SecretManager": 1,
+      "SecretsManager": 1,
+      "ServiceAccountCredentials": 1,
+      "ServiceAccounts": 11,
+      "StorageAccounts": 2
+    },
+    "cross_boundary_episodes": 16,
+    "difficulty_balance": {
+      "advanced": 12,
+      "intermediate": 21,
+      "introductory": 12,
+      "unavailable": 9
+    },
+    "entity_count_distribution": {
+      "0": 9,
+      "2": 15,
+      "3": 9,
+      "4": 11,
+      "5": 1,
+      "6": 6,
+      "7": 3
+    },
+    "episode_count": 54,
+    "event_count_distribution": {
+      "10": 1,
+      "16": 12,
+      "28": 12,
+      "40": 12,
+      "6": 11,
+      "8": 6
+    },
+    "malicious_episodes": 45,
+    "multi_stage_episodes": 30,
+    "provider_balance": {
+      "aws": 18,
+      "azure": 18,
+      "gcp": 18
+    },
+    "telemetry_table_coverage": {
+      "aws_cloudtrail": 18,
+      "azure_activity": 18,
+      "gcp_audit": 18
+    },
+    "timeline_duration_minutes_distribution": {
+      "135": 12,
+      "30": 12,
+      "390": 12,
+      "5": 11,
+      "7": 6,
+      "75": 1
+    }
+  },
+  "corpus_id": "cloud-expanded-r8",
+  "execution_evidence": {
+    "benchmark_definition_sha256": "4af0c31393dae83b2e9d4bb843c4c129f08e1f61e7f41fb327904cfee27d40b8",
+    "benchmark_report_sha256": "f92ebe5b29a157236491f8ecfc2623e9cc9f4b6ab071aa0923ab12a963c7b9de",
+    "exact_revision_ci_rerun_required": true,
+    "matrix_elapsed_wall_seconds": null,
+    "matrix_jobs": 2,
+    "measurement_environment": "not_recorded_by_analyzer"
+  },
+  "limitations": [
+    "The corpus is deterministic synthetic cloud control-plane data.",
+    "It does not represent production SIEM execution or universal SOC performance.",
+    "The three reference deployments are scripted baselines, not commercial-product benchmarks.",
+    "Topology attribution remains topology-dependent.",
+    "Unavailable metrics are not inferred or imputed.",
+    "New episodes are not release-eligible before independent content-addressed review."
+  ],
+  "reference_matrix": {
+    "cell_statuses": {
+      "completed": 324
+    },
+    "discrimination_findings": [
+      "The scripted reference deployments produce identical raw metric outcomes for broad episode groups.",
+      "All new malicious episodes currently share one reference-outcome signature because the frozen scripted baselines do not recover their evidence.",
+      "This is recorded as a benchmark-review finding; reference deployments were not tuned to private answers."
+    ],
+    "distinct_reference_outcome_signatures": 5,
+    "expected_cells": 324,
+    "identical_metric_vector_groups": [
+      [
+        "aws-cloud-007",
+        "aws-cloud-008",
+        "azure-cloud-007",
+        "azure-cloud-008",
+        "gcp-cloud-007",
+        "gcp-cloud-008"
+      ],
+      [
+        "aws-cloud-009",
+        "aws-cloud-010",
+        "aws-cloud-011",
+        "aws-cloud-012",
+        "aws-cloud-013",
+        "aws-cloud-014",
+        "aws-cloud-015",
+        "aws-cloud-016",
+        "aws-cloud-017",
+        "aws-cloud-018",
+        "azure-cloud-009",
+        "azure-cloud-010",
+        "azure-cloud-011",
+        "azure-cloud-012",
+        "azure-cloud-013",
+        "azure-cloud-014",
+        "azure-cloud-015",
+        "azure-cloud-016",
+        "azure-cloud-017",
+        "azure-cloud-018",
+        "gcp-cloud-009",
+        "gcp-cloud-010",
+        "gcp-cloud-011",
+        "gcp-cloud-012",
+        "gcp-cloud-013",
+        "gcp-cloud-014",
+        "gcp-cloud-015",
+        "gcp-cloud-016",
+        "gcp-cloud-017",
+        "gcp-cloud-018"
+      ],
+      [
+        "aws-iam-002",
+        "aws-iam-003",
+        "aws-iam-005",
+        "aws-iam-006",
+        "azure-iam-001",
+        "azure-iam-002",
+        "azure-iam-003",
+        "azure-iam-005",
+        "azure-iam-006",
+        "gcp-iam-001",
+        "gcp-iam-002",
+        "gcp-iam-003",
+        "gcp-iam-005",
+        "gcp-iam-006"
+      ],
+      [
+        "aws-iam-004",
+        "azure-iam-004",
+        "gcp-iam-004"
+      ]
+    ],
+    "metric_variance_by_reference_deployment": {
+      "single-agent-scripted": {
+        "attack_path_precision": {
+          "mean": 0.4444444444444444,
+          "observations": 108,
+          "population_variance": 0.24691358024691357
+        },
+        "attack_path_recall": {
+          "mean": 0.4444444444444444,
+          "observations": 108,
+          "population_variance": 0.24691358024691357
+        },
+        "conclusion_correctness": {
+          "mean": 0.16666666666666666,
+          "observations": 72,
+          "population_variance": 0.1388888888888889
+        },
+        "duplicate_tool_work": {
+          "mean": 0.0,
+          "observations": 108,
+          "population_variance": 0.0
+        },
+        "entity_precision": {
+          "mean": 0.4444444444444444,
+          "observations": 108,
+          "population_variance": 0.24691358024691357
+        },
+        "entity_recall": {
+          "mean": 0.3148148148148148,
+          "observations": 108,
+          "population_variance": 0.15089163237311384
+        },
+        "event_precision": {
+          "mean": 0.4444444444444444,
+          "observations": 108,
+          "population_variance": 0.24691358024691357
+        },
+        "event_recall": {
+          "mean": 0.4444444444444444,
+          "observations": 108,
+          "population_variance": 0.24691358024691357
+        },
+        "evidence_entity_coverage": {
+          "mean": 0.3148148148148148,
+          "observations": 108,
+          "population_variance": 0.15089163237311384
+        },
+        "evidence_event_coverage": {
+          "mean": 0.4444444444444444,
+          "observations": 108,
+          "population_variance": 0.24691358024691357
+        },
+        "evidence_grounding": {
+          "mean": 1.0,
+          "observations": 30,
+          "population_variance": 0.0
+        },
+        "evidence_sufficiency": {
+          "mean": 0.2777777777777778,
+          "observations": 108,
+          "population_variance": 0.2006172839506173
+        },
+        "measured_duration_utilization": {
+          "mean": 0.0007207561728395062,
+          "observations": 108,
+          "population_variance": 3.871319992188691e-08
+        },
+        "provenance_validity": {
+          "mean": 1.0,
+          "observations": 30,
+          "population_variance": 0.0
+        },
+        "task_completion": {
+          "mean": 1.0,
+          "observations": 108,
+          "population_variance": 0.0
+        },
+        "technique_precision": {
+          "mean": 0.4444444444444444,
+          "observations": 108,
+          "population_variance": 0.24691358024691357
+        },
+        "technique_recall": {
+          "mean": 0.3055555555555556,
+          "observations": 108,
+          "population_variance": 0.1427469135802469
+        },
+        "tool_call_utilization": {
+          "mean": 0.08095238095238094,
+          "observations": 108,
+          "population_variance": 0.0001814058956916101
+        }
+      },
+      "supervisor-specialist-scripted": {
+        "attack_path_precision": {
+          "mean": 0.4444444444444444,
+          "observations": 108,
+          "population_variance": 0.24691358024691357
+        },
+        "attack_path_recall": {
+          "mean": 0.4444444444444444,
+          "observations": 108,
+          "population_variance": 0.24691358024691357
+        },
+        "conclusion_correctness": {
+          "mean": 0.16666666666666666,
+          "observations": 72,
+          "population_variance": 0.1388888888888889
+        },
+        "duplicate_tool_work": {
+          "mean": 0.0,
+          "observations": 108,
+          "population_variance": 0.0
+        },
+        "entity_precision": {
+          "mean": 0.4444444444444444,
+          "observations": 108,
+          "population_variance": 0.24691358024691357
+        },
+        "entity_recall": {
+          "mean": 0.3148148148148148,
+          "observations": 108,
+          "population_variance": 0.15089163237311384
+        },
+        "event_precision": {
+          "mean": 0.4444444444444444,
+          "observations": 108,
+          "population_variance": 0.24691358024691357
+        },
+        "event_recall": {
+          "mean": 0.4444444444444444,
+          "observations": 108,
+          "population_variance": 0.24691358024691357
+        },
+        "evidence_entity_coverage": {
+          "mean": 0.3148148148148148,
+          "observations": 108,
+          "population_variance": 0.15089163237311384
+        },
+        "evidence_event_coverage": {
+          "mean": 0.4444444444444444,
+          "observations": 108,
+          "population_variance": 0.24691358024691357
+        },
+        "evidence_grounding": {
+          "mean": 1.0,
+          "observations": 30,
+          "population_variance": 0.0
+        },
+        "evidence_sufficiency": {
+          "mean": 0.2777777777777778,
+          "observations": 108,
+          "population_variance": 0.2006172839506173
+        },
+        "measured_duration_utilization": {
+          "mean": 0.000707201646090535,
+          "observations": 108,
+          "population_variance": 2.9327851657098344e-08
+        },
+        "provenance_validity": {
+          "mean": 1.0,
+          "observations": 30,
+          "population_variance": 0.0
+        },
+        "task_completion": {
+          "mean": 1.0,
+          "observations": 108,
+          "population_variance": 0.0
+        },
+        "technique_precision": {
+          "mean": 0.4444444444444444,
+          "observations": 108,
+          "population_variance": 0.24691358024691357
+        },
+        "technique_recall": {
+          "mean": 0.3055555555555556,
+          "observations": 108,
+          "population_variance": 0.1427469135802469
+        },
+        "tool_call_utilization": {
+          "mean": 0.08095238095238094,
+          "observations": 108,
+          "population_variance": 0.0001814058956916101
+        }
+      },
+      "two-agent-scripted": {
+        "attack_path_precision": {
+          "mean": 0.4444444444444444,
+          "observations": 108,
+          "population_variance": 0.24691358024691357
+        },
+        "attack_path_recall": {
+          "mean": 0.4444444444444444,
+          "observations": 108,
+          "population_variance": 0.24691358024691357
+        },
+        "conclusion_correctness": {
+          "mean": 0.16666666666666666,
+          "observations": 72,
+          "population_variance": 0.1388888888888889
+        },
+        "duplicate_tool_work": {
+          "mean": 0.0,
+          "observations": 108,
+          "population_variance": 0.0
+        },
+        "entity_precision": {
+          "mean": 0.4444444444444444,
+          "observations": 108,
+          "population_variance": 0.24691358024691357
+        },
+        "entity_recall": {
+          "mean": 0.3148148148148148,
+          "observations": 108,
+          "population_variance": 0.15089163237311384
+        },
+        "event_precision": {
+          "mean": 0.4444444444444444,
+          "observations": 108,
+          "population_variance": 0.24691358024691357
+        },
+        "event_recall": {
+          "mean": 0.4444444444444444,
+          "observations": 108,
+          "population_variance": 0.24691358024691357
+        },
+        "evidence_entity_coverage": {
+          "mean": 0.3148148148148148,
+          "observations": 108,
+          "population_variance": 0.15089163237311384
+        },
+        "evidence_event_coverage": {
+          "mean": 0.4444444444444444,
+          "observations": 108,
+          "population_variance": 0.24691358024691357
+        },
+        "evidence_grounding": {
+          "mean": 1.0,
+          "observations": 30,
+          "population_variance": 0.0
+        },
+        "evidence_sufficiency": {
+          "mean": 0.2777777777777778,
+          "observations": 108,
+          "population_variance": 0.2006172839506173
+        },
+        "measured_duration_utilization": {
+          "mean": 0.0007102880658436214,
+          "observations": 108,
+          "population_variance": 2.5761639697539335e-08
+        },
+        "provenance_validity": {
+          "mean": 1.0,
+          "observations": 30,
+          "population_variance": 0.0
+        },
+        "task_completion": {
+          "mean": 1.0,
+          "observations": 108,
+          "population_variance": 0.0
+        },
+        "technique_precision": {
+          "mean": 0.4444444444444444,
+          "observations": 108,
+          "population_variance": 0.24691358024691357
+        },
+        "technique_recall": {
+          "mean": 0.3055555555555556,
+          "observations": 108,
+          "population_variance": 0.1427469135802469
+        },
+        "tool_call_utilization": {
+          "mean": 0.08095238095238094,
+          "observations": 108,
+          "population_variance": 0.0001814058956916101
+        }
+      }
+    },
+    "near_identical_mean_metric_pairs": [
+      {
+        "episodes": [
+          "aws-cloud-007",
+          "aws-iam-004"
+        ],
+        "rms_distance": 0.007636035483212132
+      },
+      {
+        "episodes": [
+          "aws-cloud-007",
+          "azure-iam-004"
+        ],
+        "rms_distance": 0.007636035483212132
+      },
+      {
+        "episodes": [
+          "aws-cloud-007",
+          "gcp-iam-004"
+        ],
+        "rms_distance": 0.007636035483212132
+      },
+      {
+        "episodes": [
+          "aws-cloud-008",
+          "aws-iam-004"
+        ],
+        "rms_distance": 0.007636035483212132
+      },
+      {
+        "episodes": [
+          "aws-cloud-008",
+          "azure-iam-004"
+        ],
+        "rms_distance": 0.007636035483212132
+      },
+      {
+        "episodes": [
+          "aws-cloud-008",
+          "gcp-iam-004"
+        ],
+        "rms_distance": 0.007636035483212132
+      },
+      {
+        "episodes": [
+          "aws-iam-004",
+          "azure-cloud-007"
+        ],
+        "rms_distance": 0.007636035483212132
+      },
+      {
+        "episodes": [
+          "aws-iam-004",
+          "azure-cloud-008"
+        ],
+        "rms_distance": 0.007636035483212132
+      },
+      {
+        "episodes": [
+          "aws-iam-004",
+          "gcp-cloud-007"
+        ],
+        "rms_distance": 0.007636035483212132
+      },
+      {
+        "episodes": [
+          "aws-iam-004",
+          "gcp-cloud-008"
+        ],
+        "rms_distance": 0.007636035483212132
+      },
+      {
+        "episodes": [
+          "azure-cloud-007",
+          "azure-iam-004"
+        ],
+        "rms_distance": 0.007636035483212132
+      },
+      {
+        "episodes": [
+          "azure-cloud-007",
+          "gcp-iam-004"
+        ],
+        "rms_distance": 0.007636035483212132
+      },
+      {
+        "episodes": [
+          "azure-cloud-008",
+          "azure-iam-004"
+        ],
+        "rms_distance": 0.007636035483212132
+      },
+      {
+        "episodes": [
+          "azure-cloud-008",
+          "gcp-iam-004"
+        ],
+        "rms_distance": 0.007636035483212132
+      },
+      {
+        "episodes": [
+          "azure-iam-004",
+          "gcp-cloud-007"
+        ],
+        "rms_distance": 0.007636035483212132
+      },
+      {
+        "episodes": [
+          "azure-iam-004",
+          "gcp-cloud-008"
+        ],
+        "rms_distance": 0.007636035483212132
+      },
+      {
+        "episodes": [
+          "gcp-cloud-007",
+          "gcp-iam-004"
+        ],
+        "rms_distance": 0.007636035483212132
+      },
+      {
+        "episodes": [
+          "gcp-cloud-008",
+          "gcp-iam-004"
+        ],
+        "rms_distance": 0.007636035483212132
+      }
+    ],
+    "observed_cells": 324,
+    "potentially_redundant_episodes": [
+      "aws-cloud-007",
+      "aws-cloud-008",
+      "aws-cloud-009",
+      "aws-cloud-010",
+      "aws-cloud-011",
+      "aws-cloud-012",
+      "aws-cloud-013",
+      "aws-cloud-014",
+      "aws-cloud-015",
+      "aws-cloud-016",
+      "aws-cloud-017",
+      "aws-cloud-018",
+      "aws-iam-002",
+      "aws-iam-003",
+      "aws-iam-004",
+      "aws-iam-005",
+      "aws-iam-006",
+      "azure-cloud-007",
+      "azure-cloud-008",
+      "azure-cloud-009",
+      "azure-cloud-010",
+      "azure-cloud-011",
+      "azure-cloud-012",
+      "azure-cloud-013",
+      "azure-cloud-014",
+      "azure-cloud-015",
+      "azure-cloud-016",
+      "azure-cloud-017",
+      "azure-cloud-018",
+      "azure-iam-001",
+      "azure-iam-002",
+      "azure-iam-003",
+      "azure-iam-004",
+      "azure-iam-005",
+      "azure-iam-006",
+      "gcp-cloud-007",
+      "gcp-cloud-008",
+      "gcp-cloud-009",
+      "gcp-cloud-010",
+      "gcp-cloud-011",
+      "gcp-cloud-012",
+      "gcp-cloud-013",
+      "gcp-cloud-014",
+      "gcp-cloud-015",
+      "gcp-cloud-016",
+      "gcp-cloud-017",
+      "gcp-cloud-018",
+      "gcp-iam-001",
+      "gcp-iam-002",
+      "gcp-iam-003",
+      "gcp-iam-004",
+      "gcp-iam-005",
+      "gcp-iam-006"
+    ],
+    "redundancy_interpretation": "Flagged groups require individual review. No episode is removed automatically, and similar scripted-baseline outcomes do not prove equivalent investigation content."
+  },
+  "reference_recovery": {
+    "expanded_episodes_checked": 36,
+    "passed": 36,
+    "private_queries_published": false,
+    "rate": 1.0
+  },
+  "schema_version": "1.0",
+  "status": "pending_independent_review"
+}

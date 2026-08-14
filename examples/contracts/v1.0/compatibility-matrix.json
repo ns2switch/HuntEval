@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "matrix_id": "r8-v1-candidate",
-  "inventory_sha256": "002eb890ba8a28b1baef4a6b773c48a49f576582209e841881b12b23b3f4abf8",
+  "inventory_sha256": "66dd9ca9d147249435f47ef26219768c0d7e5f2b2bb8dad5cad8055ee6c8c1f8",
   "baseline_revision": "4ac1ab77218e40ebb9f9bb4297d6e02fa6462f16",
   "rules": [
     {
@@ -86,11 +86,11 @@
         {
           "interface_id": "platform.macos-aarch64",
           "version": "aarch64-apple-darwin",
-          "fixture_sha256": "3f02dc15d9aaa26d0dd8ce50b7e8e7cee12b22b36f8c8fa6026f774d63a306af"
+          "fixture_sha256": "c5eb7aa55f6b0eb6671cf5b6d5415a32f119fee926e13228e4ec7b3b0dd7123c"
         }
       ],
       "status": "preview",
-      "rejection_reason": "native_ci_pending",
+      "rejection_reason": "scored_execution_unavailable",
       "limitations": [
         "Package preview only; scored execution and sandbox capability are unavailable."
       ]
@@ -101,11 +101,11 @@
         {
           "interface_id": "platform.macos-x86_64",
           "version": "x86_64-apple-darwin",
-          "fixture_sha256": "3f02dc15d9aaa26d0dd8ce50b7e8e7cee12b22b36f8c8fa6026f774d63a306af"
+          "fixture_sha256": "c5eb7aa55f6b0eb6671cf5b6d5415a32f119fee926e13228e4ec7b3b0dd7123c"
         }
       ],
       "status": "preview",
-      "rejection_reason": "native_ci_pending",
+      "rejection_reason": "scored_execution_unavailable",
       "limitations": [
         "Package preview only; scored execution and sandbox capability are unavailable."
       ]
@@ -131,11 +131,11 @@
         {
           "interface_id": "platform.windows-x86_64",
           "version": "x86_64-pc-windows-msvc",
-          "fixture_sha256": "3f02dc15d9aaa26d0dd8ce50b7e8e7cee12b22b36f8c8fa6026f774d63a306af"
+          "fixture_sha256": "c5eb7aa55f6b0eb6671cf5b6d5415a32f119fee926e13228e4ec7b3b0dd7123c"
         }
       ],
       "status": "preview",
-      "rejection_reason": "native_ci_pending",
+      "rejection_reason": "scored_execution_unavailable",
       "limitations": [
         "Package preview only; scored execution and sandbox capability are unavailable."
       ]

@@ -1,0 +1,22 @@
+{
+  "content_hashes": {
+    "public_classification": "2d51ada44498a9760b326fbef89d8c3cd08059fbe8874a23e3fe81c42a89a276",
+    "public_manifest": "7b7202e7967dca981220a2be83270ef965faced485fbc718ce3239fda229986e",
+    "public_telemetry": "30a32d7bb15c6da9647033d6fa3986ba67c8f1ebb59d4dfefbc4da6b324e657a",
+    "source_events": "6a531e3f16c32483f9202da9973fb2ed553da8f1be43d64797508e1152f440f2"
+  },
+  "episode_id": "gcp-cloud-009",
+  "event_volume_tier": "small",
+  "generation_seed": 7009,
+  "generator": "hunteval-fixture-tool",
+  "generator_version": "0.1.0",
+  "provider": "gcp",
+  "schema_version": "1.0",
+  "services": [
+    "CloudAuditLogs",
+    "IAM",
+    "ServiceAccounts"
+  ],
+  "source_template_sha256": "8336fc1f013f1f671d0875ebba96406fbf7b7173865680a2bb6280b5d5dd1375",
+  "toolchain": "rust-1.93.1"
+}

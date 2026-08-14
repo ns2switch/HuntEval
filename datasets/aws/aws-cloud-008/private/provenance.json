@@ -1,0 +1,7 @@
+{
+  "episode_id": "aws-cloud-008",
+  "private_ground_truth_sha256": "efc63ff39c3a6e998fddf30305e39bc4cad08e2b97c9fed086508725ad6ff596",
+  "private_reference_query_sha256": "29cc9e245a1b50d09be3f82e95afee039dcae03b85139566269ce6de8539f966",
+  "review_status": "pending_independent_review",
+  "schema_version": "1.0"
+}

@@ -1,4 +1,4 @@
-use std::{collections::BTreeMap, fs, io, path::Path};
+use std::{collections::BTreeMap, fs, fs::File, io, path::Path};
 
 use hunteval_domain::{FinalSubmission, RunId, SchemaVersion, Sha256Digest};
 use hunteval_protocol::{ProtocolEnvelope, ProtocolPayload, TrajectoryRecorder};
@@ -58,6 +58,18 @@ fn verification_detects_tampering_and_generation_rejects_source_mutation()
         generate_run_diagnosis(&run, &run.join("diagnosis")),
         Err(DiagnosticGenerationError::UnsafeOutput)
     ));
+    Ok(())
+}
+
+#[test]
+fn verification_rejects_a_manifest_above_the_expanded_corpus_bound()
+-> Result<(), Box<dyn std::error::Error>> {
+    let root = tempfile::tempdir()?;
+    File::create(root.path().join("diagnostic-bundle-manifest.json"))?
+        .set_len(2 * 1024 * 1024 + 1)?;
+    let result = verify_diagnostic_bundle(root.path());
+    assert_eq!(result.status, DiagnosticVerificationStatus::Invalid);
+    assert_eq!(result.reasons, ["manifest_unavailable"]);
     Ok(())
 }
 

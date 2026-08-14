@@ -14,4 +14,4 @@ The maintainers will acknowledge a complete report, assess severity, coordinate 
 
 The evaluated deployment, its output, retrieved documents, generated SQL, contributed datasets, and archive contents are untrusted. HuntEval must fail closed when it cannot enforce the configured ground-truth, filesystem, network, process, or tool-execution boundary.
 
-CI security gates require Bubblewrap and cargo-deny at their pinned versions. A missing host capability is a failure, not a skipped test. Release-candidate workflows have read-only repository permission and cannot publish a production release. Operational controls and incident rollback are defined in `docs/GITHUB_OPERATIONS.md`.
+CI security gates require Bubblewrap and cargo-deny at their pinned versions. A missing host capability is a failure, not a skipped test. Release-candidate workflows have read-only repository permission and cannot publish a production release. Operational controls and incident rollback are maintained in the private project operations record.

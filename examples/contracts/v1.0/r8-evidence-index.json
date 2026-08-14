@@ -1,14 +1,14 @@
 {
   "schema_version": "1.0",
-  "revision": "4ac1ab77218e40ebb9f9bb4297d6e02fa6462f16",
-  "pre_r8_dependency": "pending",
+  "revision": "47cf61de0ad2845b4af789a51ce409457f917bed",
+  "pre_r8_dependency": "revised",
   "milestones": {
-    "r8-00": "implemented",
-    "r8-01": "implemented",
-    "r8-02": "implemented",
-    "r8-03": "implemented",
-    "r8-04": "implemented",
-    "r8-05": "implemented",
+    "r8-00": "complete",
+    "r8-01": "complete",
+    "r8-02": "complete",
+    "r8-03": "complete",
+    "r8-04": "complete",
+    "r8-05": "complete",
     "r8-06": "blocked",
     "r8-07": "blocked",
     "r8-08": "in_progress",
@@ -19,23 +19,23 @@
   "security_review": "pending",
   "reproducibility_review": "pending",
   "github": {
-    "status": "pending",
-    "run_url": null,
-    "required_checks": []
+    "status": "passed",
+    "run_url": "https://github.com/ns2switch/HuntEval/actions/runs/31520408340",
+    "required_checks": ["Adversarial protocol", "Benchmark science", "Commercial connector replay", "Controlled improvement", "Documentation", "End-to-end", "Evidence-backed diagnosis", "Framework connectors", "Knowledge and extensions", "Package", "Policy", "Quality", "R8 compatibility", "R8 supply chain", "Security", "Tests", "Upstream framework conformance"]
   },
-  "candidate_rehearsal": "pending",
+  "candidate_rehearsal": "passed",
   "native_targets": {
-    "x86_64-unknown-linux-gnu": {"status": "pending", "run_url": null, "artifact_hashes": []},
-    "x86_64-apple-darwin": {"status": "pending", "run_url": null, "artifact_hashes": []},
-    "aarch64-apple-darwin": {"status": "pending", "run_url": null, "artifact_hashes": []},
-    "x86_64-pc-windows-msvc": {"status": "pending", "run_url": null, "artifact_hashes": []}
+    "x86_64-unknown-linux-gnu": {"status": "passed", "run_url": "https://github.com/ns2switch/HuntEval/actions/runs/31522997192/job/93884455109", "artifact_hashes": ["718af6e1733f9288794920fcf712c6fe2d27c2083a23cde7c0c2c8e750ad1a91", "78027874dfec55ba492a9b4abecc79a73e5cc926514b6807cffb2d9685b28ab3", "417575f9151380abb621fad98ae8ab54076bf64c41642ca62f5a32012183f8e9"]},
+    "x86_64-apple-darwin": {"status": "passed", "run_url": "https://github.com/ns2switch/HuntEval/actions/runs/31522997192/job/93884455258", "artifact_hashes": ["dd991f244b4e91b0865d7aa498b461d2fa969f3bb6083253de53988d2c6d5611", "8d371a4ae474be3e02160f0075bf23697f6720fce0cc7bdaba556e6996708605", "42a5c6f172d25ccac2da8c160b1556255921ee1b65ba59374b975e9ed409ca79"]},
+    "aarch64-apple-darwin": {"status": "passed", "run_url": "https://github.com/ns2switch/HuntEval/actions/runs/31522997192/job/93884454975", "artifact_hashes": ["6336b0a5ce082ea6bbe02a540e7458ce35df26212a03cf6e22a03723801f7690", "c99f6e99c9aef5258eb56e8c89ab03bf5f4a8abf380c0b66754f393b5417b095", "1dec5bc46a99fcd7d1e2d760a8b7b0a644872ad16da44ec8bf0ae35c2ef47dda"]},
+    "x86_64-pc-windows-msvc": {"status": "passed", "run_url": "https://github.com/ns2switch/HuntEval/actions/runs/31522997192/job/93884455025", "artifact_hashes": ["5a8c1a1523a16f59d9b16a9997f7cbb1655c899a26fd8f8311ca65c8e7e8314b", "31b9416d0437853a3aba92257224fa4cf53292db5e8df525df4cc4189059b367", "827e800f1588334b45b087024a312b4940c8ea2aa160124c82ad64746b971f6c"]}
   },
   "production_published": false,
-  "artifacts": [],
+  "artifacts": ["718af6e1733f9288794920fcf712c6fe2d27c2083a23cde7c0c2c8e750ad1a91", "78027874dfec55ba492a9b4abecc79a73e5cc926514b6807cffb2d9685b28ab3", "dd991f244b4e91b0865d7aa498b461d2fa969f3bb6083253de53988d2c6d5611", "8d371a4ae474be3e02160f0075bf23697f6720fce0cc7bdaba556e6996708605", "6336b0a5ce082ea6bbe02a540e7458ce35df26212a03cf6e22a03723801f7690", "c99f6e99c9aef5258eb56e8c89ab03bf5f4a8abf380c0b66754f393b5417b095", "5a8c1a1523a16f59d9b16a9997f7cbb1655c899a26fd8f8311ca65c8e7e8314b", "31b9416d0437853a3aba92257224fa4cf53292db5e8df525df4cc4189059b367"],
   "known_limitations": [
-    "v0.7.1 and v0.7.2 release closure remains pending.",
+    "v0.7.1 and v0.7.2 remain pending, excluded from the stable freeze set, and governed by separate release gates.",
     "Independent security and reproducibility reviews have not been performed.",
-    "Protected GitHub and immutable candidate rehearsal evidence is not available for this worktree.",
-    "macOS Intel, macOS Apple Silicon, and Windows x86_64 native package evidence remains pending."
+    "R8 cannot close until both independent reviews and the final evidence-bound candidate pass.",
+    "macOS Intel, macOS Apple Silicon, and Windows x86_64 remain package previews without scored-execution sandboxes."
   ]
 }

@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "inventory_id": "r8-migration-inventory",
-  "compatibility_matrix_sha256": "77b3db844e8ed2c5c28c39334d6f0f5d8d9f14fdb94e7a15e9f602cef9e6da2c",
+  "compatibility_matrix_sha256": "35690a0f4a3176f01042d2a6f4850d9659cb6e65ac1d66262c62a877630c8c87",
   "edges": [
     {
       "edge_id": "benchmark-manifest-0.3-to-0.4",

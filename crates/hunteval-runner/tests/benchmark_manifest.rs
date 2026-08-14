@@ -70,6 +70,10 @@ fn benchmark_manifest_adapts_v03_into_a_resolved_v04_definition()
     assert_eq!(definition.schema_version, SchemaVersion::new(0, 4));
     assert_eq!(definition.cell_count()?, 108);
     assert_eq!(definition.cells()?.len(), 108);
+
+    let expanded = resolve_benchmark(&root.join("examples/cloud-expanded-benchmark.yaml"), &root)?;
+    assert_eq!(expanded.cell_count()?, 324);
+    assert_eq!(expanded.cells()?.len(), 324);
     Ok(())
 }
 

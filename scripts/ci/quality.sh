@@ -13,6 +13,7 @@ run_policy() {
     ./scripts/check-source-size.sh
     find scripts -type f -name '*.sh' -print0 | xargs -0 -n1 bash -n
     python3 scripts/ci/test-github-settings.py
+    python3 scripts/ci/test-trivy-workflows.py
 }
 
 run_quality() {
